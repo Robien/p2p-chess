@@ -8,7 +8,7 @@ Comme personne d'autre n'a pris de notes des décisions arrêtées lors de la pr
 
 Je laisse le soin aux responsables Qualité de décider de la forme et du contenu de ce wiki.
 
-Rappel : réunion le 25/09 entre responsables Conception sur les besoins spécifiques en données pour chaque module.
+*Rappel : réunion le 25/09 entre responsables Conception sur les besoins spécifiques en données pour chaque module.*
 
 
 == Objectifs ==
