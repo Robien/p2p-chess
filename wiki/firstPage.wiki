@@ -38,7 +38,7 @@ Techniques :
 
 Organisationnelles :
   * Au cours (au début ?) de chaque séance les directeurs se réunissent pour faire le point.
-  * Chaque module informe *avant la séance* son directeur de sa progression et d'éventuelles requêtes vis-à-vis des autres modules.
+  * Chaque module informe *avant la séance* son directeur de sa progression et d'éventuelles requêtes auprès des autres modules et/ou du client.
   * Les responsables peuvent directement échanger entre eux. Leurs conclusions doivent être communiquées au sein du projet.
 
 Qualité :
