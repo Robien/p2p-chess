@@ -43,8 +43,24 @@ Organisationnelles :
 
 Qualité :
 
-*Les responsables Qualité doivent communiquer les résultats de leur réunion* (convention de nommage en particulier).
-
+  * Le code sera écrit en anglais dans un soucis d'uniformité. Pas de mélange de français et d'anglais. Anglais partout.
+  * Les conventions d'écriture seront communiqués à tous les étudiants lorsque les responsables qualité les auront mises au point mardi 25 septembre. Les responsables confronteront le résultat de leurs recherche mardi, et enverront par email des cheatsheets (anti-sèches) de 1 ou 2 pages résumant les règles à respecter pour la code Java, et pour le SVN.
+  * Les tests unitaires et les tests d'intégration seront fait avec JUnit vraisemblablement.
+  * Les rapports de projet sont à rendre par module, donc leur organisation matériel est interne à chaque module.
+  * le SVN sera configuré pour ignorer les fichiers .project (via le fichier .conf du SVN)
+Le chargé de TP a mis en garde contre les problèmes avec la case sur Google Docs (e.g. renommer une classe de MaClasse en maClasse créait un bug l'an dernier).
+  * La structure du SVN sera du type :
+/
+|_ src
+    |_module1
+    |_module2
+    |_module3
+    |_module4
+|_doc
+    |_module1
+    |_module2
+    |_module3
+    |_module4
 
 == Remarques ==
   * Le logiciel devra fonctionner sur les machines de la salle FB113.
