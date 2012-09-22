@@ -1,0 +1,48 @@
+#summary CR réunion globale du 18/09 (éléments).
+
+== Avant-propos ==
+
+Ceci est une première page pour le wiki.
+
+Comme personne d'autre n'a pris de notes des décisions arrêtées lors de la première séance, voici une mise au propre synthétique des miennes.
+
+Je laisse le soin aux responsables Qualité de décider de la forme et du contenu de ce wiki.
+
+
+== Objectifs ==
+
+Phase 1 : découpage du projet.
+  * 3 (+1) premières semaines : conception
+  * 5 (+1) suivantes : réalisation, testée
+  * 4 dernières : intégration
++ documentation (code et manuel)
++ rapports
++ études
+
+Objectifs immédiats :
+  # cas d'utilisation
+  # diagrammes de séquence (définir les interfaces)
+  # diagrammes de classes
+
+
+== Décisions ==
+Techniques :
+  * développement : Java
+  * IHM : SWING
+  * IDE : Netbeans
+  * dépôt : SVN géré par Google Code
+  * un package par module
+  * chaque module est libre du choix de son éditeur UML
+
+Organisationnelles :
+  * Au cours (au début ?) de chaque séance les directeurs se réunissent pour faire le point.
+  * Chaque module informe *avant la séance* son directeur de sa progression et d'éventuelles requêtes vis-à-vis des autres modules.
+  * Les responsables peuvent directement échanger entre eux. Leurs conclusions doivent être communiquées au sein du projet.
+
+Qualité :
+
+*Les responsables Qualité doivent communiquer les résultats de leur réunion* (convention de nommage en particulier).
+
+
+== Remarques ==
+  * Les rapports sont à rendre au format PDF.
