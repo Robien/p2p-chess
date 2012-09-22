@@ -45,4 +45,5 @@ Qualité :
 
 
 == Remarques ==
+  * Le logiciel devra fonctionner sur les machines de la salle FB113.
   * Les rapports sont à rendre au format PDF.
