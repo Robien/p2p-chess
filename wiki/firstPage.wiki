@@ -50,7 +50,7 @@ Qualité :
   * le SVN sera configuré pour ignorer les fichiers .project (via le fichier .conf du SVN)
 Le chargé de TP a mis en garde contre les problèmes avec la case sur Google Docs (e.g. renommer une classe de MaClasse en maClasse créait un bug l'an dernier).
   * La structure du SVN sera du type :
-/
+{{{/
 |_ src
     |_module1
     |_module2
@@ -60,7 +60,7 @@ Le chargé de TP a mis en garde contre les problèmes avec la case sur Google Do
     |_module1
     |_module2
     |_module3
-    |_module4
+    |_module4}}}
 
 == Remarques ==
   * Le logiciel devra fonctionner sur les machines de la salle FB113.
