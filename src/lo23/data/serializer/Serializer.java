@@ -1,5 +1,7 @@
 package lo23.data.serializer;
 
+import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.FileNotFoundException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

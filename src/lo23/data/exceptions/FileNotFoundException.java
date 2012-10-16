@@ -1,4 +1,4 @@
-package lo23.data.serializer;
+package lo23.data.exceptions;
 
 
 
