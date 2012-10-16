@@ -25,6 +25,8 @@ public class Profile implements Serializable {
     private Collection<Invitation> invitations;
     private Collection<Player> players;
     private ProfileManager profileManager;
+    
+    static public final int DEFAULT_AGE = 20;
 
     public Profile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
         this.profileId = profileId;

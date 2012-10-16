@@ -27,7 +27,7 @@ public class TestSerializer
      */
     static private void serializeProfile()
     {
-        Profile p = new Profile("test1", null, null, STATUS.INGAME, null, null);
+        Profile p = new Profile("test1", null, null, STATUS.INGAME, null, null, null, null, Profile.DEFAULT_AGE);
         try
         {
             Serializer.saveProfile(p);

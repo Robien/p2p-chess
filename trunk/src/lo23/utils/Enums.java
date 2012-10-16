@@ -1,15 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lo23.utils;
 
 /**
- *
- * @author khamidou
+ * This class contains every enumerations used in this project
  */
-public class Enums {
+public class Enums
+{
     public enum STATUS {OFFLINE, CONNECTED, INGAME};
     public enum COLOR {BLACK, WHITE};
+    public enum CONSTANT_TYPE {DRAW_ASKED, DRAW_ACCEPTED, SURRENDER, OUT_OF_TIME};
 }
