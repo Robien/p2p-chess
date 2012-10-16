@@ -5,6 +5,7 @@ import lo23.data.Profile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
+import lo23.utils.Enums.STATUS;
 
 /**
  * This class is used to test the Serializer class
@@ -26,7 +27,7 @@ public class TestSerializer
      */
     static private void serializeProfile()
     {
-        Profile p = new Profile("test1", null, null, Profile.STATUS.INGAME, null, null);
+        Profile p = new Profile("test1", null, null, STATUS.INGAME, null, null);
         try
         {
             Serializer.saveProfile(p);

@@ -5,18 +5,20 @@
 
 package lo23.data;
 
+import lo23.utils.Enums.COLOR;
+
 /**
  *
  * @author khamidou
  */
 public class Player {
-    public enum COLOR {BLACK, WHITE};
+
     private COLOR playerColor;
     private long time = 0;
     private long startTime = 0;
     private long endTime = 0;
     private long remainingTime = 0;
-
+    
     public Player(COLOR playerColor, long remainingTime) {
         this.playerColor = playerColor;
         this.remainingTime = remainingTime;
