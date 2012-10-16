@@ -1,36 +1,26 @@
 package lo23.data.managers;
 
 import java.util.ArrayList;
+import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
 import lo23.data.GamePiece;
+import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
-import lo23.data.Profile;
+import lo23.utils.Enums;
 
 /**
  * This interface is the one through each module should go for getting
  * and manipulating Game, Move and Message objects
  */
 public interface GameManagerInterface
-{
+{ 
     /**
-     * This method simply creates a game and returns it
-     * 
-     * @param localPlayer A reference to the local player
-     * @param remotePlayer A reference to the remote player
-     * 
-     * @return  A game object
+     * This method saves the current Game object
      */
-    public Game createGame(Profile localPlayer, Profile remotePlayer);
-    
-    /**
-     * This method saves a given game object to the filesystem
-     * 
-     * @param game The object to be saved
-     */
-    public void save(Game game);
+    public void save();
     
     /**
      * This method reads the filesystem in order to parse a Game object whom
@@ -53,12 +43,11 @@ public interface GameManagerInterface
     public Move createMove(Position to, GamePiece piece);
     
     /**
-     * This method sends a move to the remote player
+     * This method sends a move to the remote player of the current Game object
      * 
      * @param move The concerned Move object
-     * @param game The Game object that the concerned Move object belongs to
      */
-    public void sendMove(Move move, Game game);
+    public void sendMove(Move move);
     
     /**
      * This method triggers a UI animation corresponding to the given
@@ -66,9 +55,8 @@ public interface GameManagerInterface
      * (To be confirmed)
      * 
      * @param move The concerned Move object
-     * @param game The Game object that the Move object belongs to
      */
-    public void playMove(Move move, Game game);
+    public void playMove(Move move);
     
     /**
      * This method simply creates a Message object
@@ -83,9 +71,8 @@ public interface GameManagerInterface
      * This method sends a given Message object to the remote player
      * 
      * @param message The concerned Message object
-     * @param game The Game object that the Message object belongs to
      */
-    public void sendMessage(Message message, Game game);
+    public void sendMessage(Message message);
     
     /**
      * This method saves a given Message object to the filesystem
@@ -96,49 +83,75 @@ public interface GameManagerInterface
     
     /**
      * This method returns a history of several events that took place
-     * during a game whom identifier is passed as an argument
-     * 
-     * @param gameId The identifier of the concerned Game object
+     * during the current game
      * 
      * @return An ArrayList of Event objects
      */
-    public ArrayList<Event> getHistory(String gameId);
+    public ArrayList<Event> getHistory();
     
     /**
-     * This method propose a draw result to the remote player for a given
-     * Game object
+     * This method is invoked each time a Message is received by the local
+     * player.
      * 
-     * @param game The concerned Game object
+     * @param message The concerned message
      */
-    public void proposeDraw(Game game);
+    public void notifyChatMessage(Message message);
     
     /**
-     * This method accepts a draw proposal sent by the remote player
+     * This method is invoked when the user received an invitation and
+     * accept it; it will then create a Game object.
      * 
-     * @param game The concerned Game object
+     * @param invitation The received invitation
+     * 
+     * @return A Game object
      */
-    public void acceptDraw(Game game);
+    public Game createGame(Invitation invitation);
     
     /**
-     * This method notifies the remote player that the local player
-     * is giving up.
+     * This method creates a Constant object from a CONSTANT_TYPE type given
+     * as an argument
      * 
-     * @param game The concerned game
+     * @param constant The concerned CONSTANT_TYPE type
+     * 
+     * @return A Constant object
      */
-    public void giveUp(Game game);
+    public Constant createConstant(Enums.CONSTANT_TYPE constant);
     
     /**
-     * What's the aim of this method ?!
+     * This message sends a given Constant event to the remote player
      * 
-     * @param message
-     * @param game 
+     * @param constant The Constant object to be sent
      */
-    public void receivedMessage(Message message, Game game);
+    public void sendConstant(Constant constant);
     
     /**
-     * And what's the aim of this method also ?!
+     * This method is invoked each time the local player received a Constant
+     * message.
      * 
-     * @param game 
+     * @param constant The received object
      */
-    public void outOfTime(Game game);
+    public void notifyConstantMessage(Constant constant);
+    
+    /**
+     * This method writes out the given Constant object to the filesystem
+     * 
+     * @param constant The object to be written
+     */
+    public void saveConstant(Constant constant);
+    
+    /**
+     * This method is invoked when the current game is finished
+     */
+    public void notifyGameEnded();
+    
+    /**
+     * This method is invoked when the remove player, which has been sent an
+     * invitation, has accepted the invitation.
+     * 
+     * @param invitation The given invitation
+     * 
+     * @return A Game object
+     */
+    public Game notifiyGameStarted(Invitation invitation);
+    
 }
