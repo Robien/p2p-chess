@@ -1,8 +1,8 @@
 package lo23.data.serializer.tests;
 
 import lo23.data.Profile;
-import lo23.data.serializer.FileNotFoundException;
-import lo23.data.serializer.NoIdException;
+import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
 
 /**
