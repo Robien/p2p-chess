@@ -1,7 +1,6 @@
 package lo23.data.serializer;
 
-import lo23.data.exceptions.NoIdException;
-import lo23.data.exceptions.FileNotFoundException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import lo23.data.Profile;
+import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.FileNotFoundException;
 
 
 /**
@@ -71,7 +72,13 @@ public class Serializer
                 
                 return profile;
             }
-            catch(IOException | ClassNotFoundException expt)
+            catch(ClassNotFoundException expt)
+            {
+                System.out.println(expt.getMessage());
+                System.out.println(expt.getStackTrace());
+                return null;
+            }
+            catch(IOException expt)
             {
                 System.out.println(expt.getMessage());
                 System.out.println(expt.getStackTrace());
