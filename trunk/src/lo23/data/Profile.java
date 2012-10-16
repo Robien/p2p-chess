@@ -12,10 +12,9 @@ import java.io.Serializable;
  */
 public class Profile implements Serializable
 {
-    // Enumeration
     public enum STATUS {OFFLINE, CONNECTED, INGAME};
     
-    // Attributes
+    
     private String profileId;
     private String pseudo;
     private String password;
@@ -24,7 +23,7 @@ public class Profile implements Serializable
     private Image avatar;
     
     
-    // Constructor
+    
     public Profile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar)
     {
         this.profileId = profileId;
@@ -36,7 +35,7 @@ public class Profile implements Serializable
     }
     
     
-    // Methods
+
     public String getProfileId()
     {
         return profileId;
