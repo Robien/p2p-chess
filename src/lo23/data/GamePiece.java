@@ -12,14 +12,14 @@ import java.util.List;
  *
  * @author khamidou
  */
-public class GamePiece implements Serializable {
+public abstract class GamePiece implements Serializable {
 
     private boolean outOfBorder;
 
     public boolean isOutOfBorder() {
         return outOfBorder;
     }
-    public List<Position> getPossibleMoves() {
-        return null;
-    }
+    
+    public abstract List<Position> getPossibleMoves();
+
 }
