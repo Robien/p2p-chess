@@ -1,7 +1,7 @@
 package lo23.data.serializer.tests;
 
-import java.io.IOException;
 import lo23.data.Profile;
+import lo23.data.serializer.FileNotFoundException;
 import lo23.data.serializer.NoIdException;
 import lo23.data.serializer.Serializer;
 
@@ -13,6 +13,7 @@ public class TestSerializer
     static public void main(String[] args)
     {
         serializeProfile();
+        readProfile();
     }
     
     
@@ -27,9 +28,24 @@ public class TestSerializer
             Serializer.saveProfile(p);
             System.out.println("Serialization OK");
         }
-        catch(IOException | NoIdException expt)
+        catch(NoIdException expt)
         {
             System.out.println(expt.getMessage());
+        }
+    }
+    
+    
+    static private void readProfile()
+    {
+        try
+        {
+            Profile p = Serializer.readProfile("test1");
+            System.out.println("Object read: " + p);
+        }
+        catch (FileNotFoundException ex)
+        {
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace());
         }
     }
 }
