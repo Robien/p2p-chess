@@ -2,6 +2,7 @@ package lo23.data;
 
 import java.awt.Image;
 import java.io.Serializable;
+import lo23.utils.Enums.STATUS;
 
 
 /**
@@ -12,9 +13,6 @@ import java.io.Serializable;
  */
 public class Profile implements Serializable
 {
-    public enum STATUS {OFFLINE, CONNECTED, INGAME};
-    
-    
     private String profileId;
     private String pseudo;
     private String password;
