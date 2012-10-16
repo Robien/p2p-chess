@@ -1,10 +1,11 @@
 package lo23.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 
-public class Game
+public class Game implements Serializable
 {
     private String gameId;
     private Date start;
