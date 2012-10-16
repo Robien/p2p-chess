@@ -7,9 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import lo23.data.Game;
 import lo23.data.Profile;
-import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.NoIdException;
 
 
 /**
@@ -88,6 +89,80 @@ public class Serializer
         else
         {
             throw new FileNotFoundException("Couldn't find the file " + Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
+        }
+    }
+    
+    
+    /**
+     * This method serializes a given Game object to the correct path
+     * 
+     * @param game The object to serialize
+     * 
+     * @throws NoIdException  This exception is thrown if game argument doesn't have a correct gameId
+     */
+    static public void saveGame(Game game) throws NoIdException
+    {
+        // Checks the profileId attribute validity
+        if(game.getGameId() == null || game.getGameId().equals(""))
+        {
+            throw new NoIdException("The object you're trying to serialize handle a null or empty gameId attribute.");
+        }
+        
+        try
+        {
+            ObjectOutputStream out;
+            out = new ObjectOutputStream(new FileOutputStream(Constants.GAMES_PATH + game.getGameId() + Constants.GAME_SUFFIXE));
+            out.writeObject(game);
+            out.close();
+        }
+        catch(IOException expt)
+        {
+            System.out.println(expt.getMessage());
+            System.out.println(expt.getStackTrace());
+        }
+    }
+    
+    
+    /**
+     * This method tries to read a game whom id is given as a paramater
+     * 
+     * @param gameId The gameId for the expected profile
+     * 
+     * @return Either a Game object, either a null value if something went wrong (IOException or file not found)
+     * 
+     * @throws FileNotFoundException This exception is thrown when this method can't have access to an expected file
+     */
+    static public Game readGame(String gameId) throws FileNotFoundException
+    {
+        // Checks if the gameId associated file exists
+        
+        File gameFile = new File(Constants.GAMES_PATH + gameId + Constants.GAME_SUFFIXE);
+        if(gameFile.exists())
+        {
+            try
+            {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(gameFile));
+                Game game = (Game) in.readObject();
+                in.close();
+                
+                return game;
+            }
+            catch(ClassNotFoundException expt)
+            {
+                System.out.println(expt.getMessage());
+                System.out.println(expt.getStackTrace());
+                return null;
+            }
+            catch(IOException expt)
+            {
+                System.out.println(expt.getMessage());
+                System.out.println(expt.getStackTrace());
+                return null;
+            }
+        }
+        else
+        {
+            throw new FileNotFoundException("Couldn't find the file " + Constants.GAMES_PATH + gameId + Constants.GAME_SUFFIXE);
         }
     }
 }
