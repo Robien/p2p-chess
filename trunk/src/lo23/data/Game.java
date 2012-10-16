@@ -1,6 +1,7 @@
 package lo23.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -11,7 +12,8 @@ public class Game implements Serializable
     private Date start;
     private Date end;
     private float duration;     // Time in seconds
-    
+    private ArrayList<GamePiece> pieces;
+    private GamePiece[][] board;
 
     /**
      * Constructor
@@ -24,6 +26,7 @@ public class Game implements Serializable
         start = new Date();
         end = null;
         duration = 0;
+        board = new GamePiece[32][32];
     }
     
     
@@ -48,5 +51,14 @@ public class Game implements Serializable
     
     public void resume()
     {
+    }
+
+    public GamePiece getPieceAtXY(int x, int y)
+    {
+        if(x >= 0 && x < 32 && y >= 0 && y < 32) {
+            return board[x][y];
+        } else {
+            return null;
+        }
     }
 }
