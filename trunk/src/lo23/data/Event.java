@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author khamidou
  */
-public abstract class Event {
+public abstract class Event implements Serializable {
     private Date date;
 
     public Event() {
