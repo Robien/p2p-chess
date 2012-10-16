@@ -9,7 +9,7 @@ package lo23.data;
  *
  * @author khamidou
  */
-class Position {
+public class Position {
     private int x;
     private int y;
 
