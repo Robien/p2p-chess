@@ -32,6 +32,11 @@ public class MainWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 
         setContentPane(buildContentPanel());
+
+        //Test Ajout Timer
+        TimerPanel timerPanel = new TimerPanel();
+        this.getContentPane().add(timerPanel);
+
     }
 
     private JPanel buildContentPanel() {
