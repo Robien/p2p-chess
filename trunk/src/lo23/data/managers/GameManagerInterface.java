@@ -9,6 +9,7 @@ import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.utils.Enums;
 
@@ -33,13 +34,16 @@ public interface GameManagerInterface
      * 
      * @return Either a Game object, either null value
      */
-    public Game load(String gameId);
+    public Game load(String gameId) throws FileNotFoundException;
     
     /**
      * This methods creates a new Move object
      * 
      * @param to The created movement destination
      * @param piece The concerned GamePiece object
+     * 
+     * @throws FileNotFoundException Exception returned if the process could not
+     * read the targeted file
      * 
      * @return A Move object
      */
