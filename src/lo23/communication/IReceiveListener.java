@@ -1,5 +1,10 @@
 package lo23.communication;
 
+import lo23.data.Constant;
+import lo23.data.Invitation;
+import lo23.data.Move;
+import lo23.data.PublicProfile;
+
 /**
  * This interface allow to notify a receive message,
  * It needs to be implemented by the model.
