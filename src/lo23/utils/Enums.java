@@ -2,8 +2,6 @@ package lo23.utils;
 
 /**
  * This class contains every enumerations used in this project
- * 
- * @author stephan
  */
 public class Enums
 {
@@ -26,20 +24,8 @@ public class Enums
      * Value accepted and used by the Constant class
      */
     public enum CONSTANT_TYPE {
-        /**
-         *
-         */
         DRAW_ASKED,
-        /**
-         *
-         */
         DRAW_ACCEPTED,
-        /**
-         *
-         */
         SURRENDER,
-        /**
-         *
-         */
         OUT_OF_TIME};
 }
