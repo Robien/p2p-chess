@@ -1,16 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package lo23.data.managers;
 
+import java.awt.Image;
 import java.util.Collection;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums.STATUS;
 
 /**
- *
+ * Implementation of the PublicManagerInterface interface
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public class ProfileManager implements ProfileManagerInterface {
@@ -18,38 +16,42 @@ public class ProfileManager implements ProfileManagerInterface {
     private Profile currentProfile;
     private Collection<Profile> profiles;
 
-    public void createProfile(String pseudo) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
+        return new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
     }
 
-    public Profile createProfile(String pseudo, String password) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    @Override
     public Collection<Profile> getProfilesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public PublicProfile getPublicProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public boolean login(String pseudo, String password) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void saveProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Profile loadProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void receiveInvitation(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void sendInvitation(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
