@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
-import lo23.data.pieces.GamePiece;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
 
 /**
@@ -189,30 +190,9 @@ public interface GameManagerInterface
     public void notifyGameStarted(PublicProfile userProfile);
 
     /**
-     * Notify a chat message.
-     * (only when a game session is started)
-     * @param message the chat message
-     */
-    public void notifyChatMessage(Message message);
-
-    /**
      * Notify a movement of a piece.
      * (only when a game session is started)
      * @param move the movement of a piece
      */
     public void notifyMovement(Move move);
-
-
-    /**
-     * Notify a constant message.
-     * (only when a game session is started)
-     * @param constantType the constant
-     */
-    public void notifyConstantMessage(Constant constant);
-
-    /**
-     * Notify the end of the current game session.
-     * (only when a game session is started)
-     */
-    public void notifyGameEnded();
 }
