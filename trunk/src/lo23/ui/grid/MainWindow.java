@@ -8,12 +8,13 @@ package lo23.ui.grid;
  *
  * @author Karim
  */
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
@@ -36,11 +37,14 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel buildContentPanel() {
 
         // Grille
+        GamePanel gamePanel = new GamePanel();
         JPanel panel = new JPanel();
-        GridBagLayout gridbag = new GridBagLayout();
-        panel.setLayout(gridbag);
-
-
+        BorderLayout mainLayout = new BorderLayout();
+       
+        panel.setLayout(mainLayout);
+        
+        panel.add(gamePanel, mainLayout.CENTER);
+       
         return panel;
     }
 
