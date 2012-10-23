@@ -53,4 +53,16 @@ public class ProfileManager implements ProfileManagerInterface {
     public void sendInvitation(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public void notifyAddUser(PublicProfile userProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyInvitation(Invitation invitation) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyInvitationAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
