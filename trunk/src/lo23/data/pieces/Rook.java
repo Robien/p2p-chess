@@ -15,6 +15,15 @@ import lo23.data.Position;
  */
 public class Rook extends GamePiece {
 
+    /**
+     * Creates a new Rook object with a given position
+     * 
+     * @param position The position of the created object
+     */
+    public Rook(Position position) {
+        super(position);
+    }
+
     @Override
     public List<Position> getPossibleMoves() {
         throw new UnsupportedOperationException("Not supported yet.");
