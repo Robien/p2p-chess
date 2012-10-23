@@ -1,16 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package lo23.data.managers;
 
+import java.awt.Image;
 import java.util.Collection;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums.STATUS;
 
 /**
- *
+ * Interface for the ProfileManager class. This interface specialize in Profile management operations.
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public interface ProfileManagerInterface {
@@ -21,7 +19,7 @@ public interface ProfileManagerInterface {
      * @param password
      * @return
      */
-    public Profile createProfile(String pseudo, String password);
+    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age);
 
     /**
      *
@@ -80,24 +78,4 @@ public interface ProfileManagerInterface {
      * @return
      */
     //public Invitation createInvitation(PublicProfile guest, Color color, Time duration);
-
-
-    /**
-     * Notify the message receive in response to sendMulticast.
-     * @param userProfile the user who responded
-     */
-    public void notifyAddUser(PublicProfile userProfile);
-
-    /**
-     * Notify a invitation.
-     * @param invitation the invitation from a user
-     */
-    public void notifyInvitation(Invitation invitation);
-
-    /**
-     * Notify the response to a invitation.
-     * @param invitation the invitation from a user
-     * @param answer the answer of the invitation
-     */
-    public void notifyInvitationAnswer(Invitation invitation, boolean answer);
 }
