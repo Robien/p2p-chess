@@ -2,9 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package lo23.data;
+package lo23.data.managers;
 
 import java.util.Collection;
+import lo23.data.Invitation;
+import lo23.data.Profile;
+import lo23.data.PublicProfile;
 
 /**
  *

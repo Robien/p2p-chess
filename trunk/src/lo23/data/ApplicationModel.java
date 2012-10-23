@@ -5,6 +5,7 @@
 package lo23.data;
 
 import lo23.data.managers.GameManagerInterface;
+import lo23.data.managers.ProfileManagerInterface;
 
 /**
  *
