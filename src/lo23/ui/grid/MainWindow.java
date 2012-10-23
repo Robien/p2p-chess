@@ -33,9 +33,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         setContentPane(buildContentPanel());
 
-        //Test Ajout Timer
-        TimerPanel timerPanel = new TimerPanel();
-        this.getContentPane().add(timerPanel);
+ 
 
     }
 
@@ -49,6 +47,10 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.setLayout(mainLayout);
         
         panel.add(gamePanel, mainLayout.CENTER);
+
+        //Test Ajout Timer
+        TimerPanel timerPanel = new TimerPanel();
+        panel.add(timerPanel, mainLayout.SOUTH);
        
         return panel;
     }

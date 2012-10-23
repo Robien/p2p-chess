@@ -14,6 +14,7 @@ import javax.swing.Timer;
  */
 public class PlayerTimer {
 
+    TimerPanel localTimerPanel;
     private int delay = 1000; //milliseconds
     private Timer timer;
     private int currentTimer;
@@ -21,10 +22,12 @@ public class PlayerTimer {
 
     public PlayerTimer(final TimerPanel timerPanel) {
 
+        localTimerPanel = timerPanel;
+
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 currentTimer++;
-                timerPanel.setText(getText());
+                timerPanel.getLabel().setText(getText());
                 //System.out.println(getText());
             }
         };
@@ -41,9 +44,10 @@ public class PlayerTimer {
     public void stopTimer(){
         currentTimer = 0;
         timer.stop();
+        localTimerPanel.getLabel().setText(getText());
     }
 
-    public void breakTimer(){
+    public void pauseTimer(){
         timer.stop();
     }
 
