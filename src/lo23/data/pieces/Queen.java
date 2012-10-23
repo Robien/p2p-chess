@@ -14,6 +14,15 @@ import lo23.data.Position;
  * @author khamidou
  */
 public class Queen extends GamePiece {
+    
+    /**
+     * Creates a new Queen object with a given position
+     * 
+     * @param position The position of the created object
+     */
+    public Queen(Position position) {
+        super(position);
+    }
 
     @Override
     public List<Position> getPossibleMoves() {

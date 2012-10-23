@@ -10,6 +10,15 @@ import lo23.data.Position;
  */
 public class Bishop extends GamePiece {
 
+    /**
+     * Creates a new Bishop object with a given position
+     * 
+     * @param position The position of the created object
+     */
+    public Bishop(Position position) {
+        super(position);
+    }
+    
     @Override
     public List<Position> getPossibleMoves() {
         throw new UnsupportedOperationException("Not supported yet.");
