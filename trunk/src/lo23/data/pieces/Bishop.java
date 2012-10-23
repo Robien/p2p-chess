@@ -23,7 +23,11 @@ public class Bishop extends GamePiece {
     public Bishop(Position position, Player owner, Game game) {
         super(position, owner, game);
     }
-    
+
+/**
+ *
+ * @author Romain
+ */
     @Override
     public List<Position> getPossibleMoves() {
     //    throw new UnsupportedOperationException("Not supported yet.");
