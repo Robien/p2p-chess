@@ -2,6 +2,7 @@ package lo23.communication;
 
 import lo23.data.Constant;
 import lo23.data.Invitation;
+import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.PublicProfile;
 
@@ -42,7 +43,7 @@ public interface ISender {
      * (available only when a game session is started)
      * @param message the chat message
      */
-    public void sendChatMessage(String message);
+    public void sendChatMessage(Message message);
     
     /**
      * Send a movement of a piece.
