@@ -9,6 +9,7 @@ import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.CONSTANT_TYPE;
@@ -27,8 +28,8 @@ public class GameManager implements GameManagerInterface {
 
     
     @Override
-    public Game load(String gameId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Game load(String gameId) throws FileNotFoundException {
+        return Serializer.readGame(gameId);
     }
 
     @Override
