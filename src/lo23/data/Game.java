@@ -34,7 +34,7 @@ public class Game implements Serializable
         start = new Date();
         end = null;
         duration = 0;
-        board = new GamePiece[32][32];
+        board = new GamePiece[8][8];
         pieces = new ArrayList<GamePiece>();
         events = new ArrayList<Event>();
     }
@@ -81,7 +81,7 @@ public class Game implements Serializable
      */
     public GamePiece getPieceAtXY(int x, int y)
     {
-        if(x >= 0 && x < 32 && y >= 0 && y < 32) {
+        if(x >= 0 && x < 8 && y >= 0 && y < 8) {
             return board[x][y];
         } else {
             return null;
