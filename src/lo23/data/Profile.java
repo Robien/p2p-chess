@@ -3,6 +3,7 @@ package lo23.data;
 import java.awt.Image;
 import java.io.Serializable;
 import java.util.Collection;
+import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums.STATUS;
 
 /**

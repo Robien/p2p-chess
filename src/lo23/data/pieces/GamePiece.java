@@ -3,10 +3,11 @@
  * and open the template in the editor.
  */
 
-package lo23.data;
+package lo23.data.pieces;
 
 import java.io.Serializable;
 import java.util.List;
+import lo23.data.Position;
 
 /**
  *

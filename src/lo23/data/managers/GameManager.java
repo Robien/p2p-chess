@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
-import lo23.data.GamePiece;
+import lo23.data.pieces.GamePiece;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;

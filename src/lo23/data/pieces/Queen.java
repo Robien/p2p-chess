@@ -6,7 +6,6 @@
 package lo23.data.pieces;
 
 import java.util.List;
-import lo23.data.GamePiece;
 import lo23.data.Position;
 
 /**

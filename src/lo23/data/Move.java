@@ -1,5 +1,6 @@
 package lo23.data;
 
+import lo23.data.pieces.GamePiece;
 import java.io.Serializable;
 
 /**
