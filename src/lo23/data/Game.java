@@ -6,6 +6,10 @@ import java.util.Date;
 
 
 
+/**
+ *
+ * @author khamidou
+ */
 public class Game implements Serializable
 {
     private String gameId;
@@ -14,7 +18,9 @@ public class Game implements Serializable
     private float duration;     // Time in seconds
     private ArrayList<GamePiece> pieces;
     private GamePiece[][] board;
-
+    private Player localPlayer;
+    private Player remotePlayer;
+    
     /**
      * Constructor
      * 
@@ -28,7 +34,7 @@ public class Game implements Serializable
         duration = 0;
         board = new GamePiece[32][32];
     }
-    
+
     
     /**
      * Getter for the gameId attribute
@@ -41,18 +47,34 @@ public class Game implements Serializable
     }
     
     
+    /**
+     * start game
+     */
     public void start()
     {
     }
     
+    /**
+     * stop game
+     */
     public void stop()
     {
     }
     
+    /**
+     * resume game
+     */
     public void resume()
     {
     }
 
+    /**
+     *
+     * @param x x position on the board
+     * @param y y position on the board
+     * @return GamePiece at (x, y)
+     *
+     */
     public GamePiece getPieceAtXY(int x, int y)
     {
         if(x >= 0 && x < 32 && y >= 0 && y < 32) {
@@ -60,5 +82,21 @@ public class Game implements Serializable
         } else {
             return null;
         }
+    }
+
+    /**
+     *
+     * @return the object representing the local player
+     */
+    public Player getLocalPlayer() {
+        return localPlayer;
+    }
+
+    /**
+     *
+     * @return the object representing the local player
+     */
+    public Player getRemotePlayer() {
+        return remotePlayer;
     }
 }
