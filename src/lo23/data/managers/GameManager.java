@@ -1,6 +1,8 @@
 package lo23.data.managers;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
@@ -9,6 +11,8 @@ import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.NoIdException;
+import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
 
@@ -19,8 +23,8 @@ public class GameManager implements GameManagerInterface {
     
 
     @Override
-    public void save() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void save() throws NoIdException {
+        Serializer.saveGame(currentGame);
     }
 
     @Override
