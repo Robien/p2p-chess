@@ -21,7 +21,8 @@ public class Game implements Serializable
     private GamePiece[][] board;
     private Player localPlayer;
     private Player remotePlayer;
-    
+    private ArrayList<Event> events;
+
     /**
      * Constructor
      * 
@@ -34,6 +35,8 @@ public class Game implements Serializable
         end = null;
         duration = 0;
         board = new GamePiece[32][32];
+        pieces = new ArrayList<GamePiece>();
+        events = new ArrayList<Event>();
     }
 
     
@@ -99,5 +102,18 @@ public class Game implements Serializable
      */
     public Player getRemotePlayer() {
         return remotePlayer;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
+
+    public void pushEvent(Event e) {
+        events.add(e);
+    }
+
+    public void playMove(Move move) {
+        //FIXME: add the rest
+        events.add(move);
     }
 }
