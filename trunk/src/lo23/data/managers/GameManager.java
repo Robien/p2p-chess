@@ -49,7 +49,7 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public void playMove(Move move) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        currentGame.playMove(move);
     }
 
     @Override
