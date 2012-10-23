@@ -3,6 +3,7 @@ package lo23.communication;
 import lo23.communication.connection.ConnectionManager;
 import lo23.data.Constant;
 import lo23.data.Invitation;
+import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.PublicProfile;
 
@@ -36,6 +37,7 @@ public class ComManager implements ISender {
     
     @Override
     public void sendMulticast() {
+       // connectionManager.sendMulticast();
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -55,7 +57,7 @@ public class ComManager implements ISender {
     }
 
     @Override
-    public void sendChatMessage(String message) {
+    public void sendChatMessage(Message message) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
