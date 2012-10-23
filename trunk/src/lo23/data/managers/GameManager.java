@@ -1,8 +1,6 @@
 package lo23.data.managers;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
@@ -27,6 +25,7 @@ public class GameManager implements GameManagerInterface {
         Serializer.saveGame(currentGame);
     }
 
+    
     @Override
     public Game load(String gameId) {
         throw new UnsupportedOperationException("Not supported yet.");
