@@ -38,9 +38,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel()
         {
             @Override
-            public void paint(Graphics g) {// Grille
-                String homeDir = System.getProperty("user.dir");
-                File backgroundPath = new File(homeDir + "/backgroundLogin.jpg");
+            public void paint(Graphics g) {
+                String path = getClass().getClassLoader().getResource(".").getPath();
+                File backgroundPath = new File(path + "lo23/ui/resources/backgroundLogin.jpg");
                 try {
                     BufferedImage image = ImageIO.read(backgroundPath);
                     g.drawImage(image, 0, 0, null);
@@ -61,6 +61,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chess-P2P");
+        setPreferredSize(new java.awt.Dimension(380, 500));
 
         loginField.setText("Login");
         loginField.addActionListener(new java.awt.event.ActionListener() {
@@ -113,14 +114,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .add(25, 25, 25)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(loginField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(loginField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(connectBtn)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 159, Short.MAX_VALUE)
+                .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 117, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(loadProfileBtn)
-                    .add(registerBtn))
+                    .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(24, 24, 24))
         );
 
@@ -132,7 +133,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
