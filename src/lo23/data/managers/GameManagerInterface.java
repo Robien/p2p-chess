@@ -154,4 +154,17 @@ public interface GameManagerInterface
      */
     public Game notifiyGameStarted(Invitation invitation);
     
+    /**
+     * This method returns a list of ended games.
+     * 
+     * @return An ArrayList object of Game objects
+     */
+    public ArrayList<Game> getListStopGames();
+    
+    /**
+     * This method returns a list of started games.
+     * 
+     * @return An ArrayList object of Game objects
+     */
+    public ArrayList<Game> getListStartGames();
 }
