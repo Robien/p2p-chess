@@ -25,7 +25,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
     private void build() {
         setTitle("Chess P2P"); //On donne un titre à l'application
-        setSize(400, 300); //On donne une taille à notre fenêtre
+        setSize(1020, 750); //On donne une taille à notre fenêtre
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
@@ -40,12 +40,6 @@ public class MainWindow extends JFrame implements ActionListener {
         GridBagLayout gridbag = new GridBagLayout();
         panel.setLayout(gridbag);
 
-
-        // Titre
-        JLabel title = new JLabel("Bienvenue sur Chess P2P !!");
-        title.setHorizontalAlignment(JLabel.CENTER);
-        gridbag.setConstraints(title, modifyConstraint(GridBagConstraints.REMAINDER, 1, 2, 1));
-        panel.add(title);
 
         return panel;
     }
