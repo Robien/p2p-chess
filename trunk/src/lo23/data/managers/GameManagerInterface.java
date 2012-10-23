@@ -9,6 +9,7 @@ import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.NoIdException;
 import lo23.utils.Enums;
 
 /**
@@ -19,8 +20,10 @@ public interface GameManagerInterface
 { 
     /**
      * This method saves the current Game object
+     * 
+     * @throws NoIdException in case of a null or empty gameId value
      */
-    public void save();
+    public void save() throws NoIdException;
     
     /**
      * This method reads the filesystem in order to parse a Game object whom
