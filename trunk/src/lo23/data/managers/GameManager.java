@@ -13,6 +13,10 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 
 
 public class GameManager implements GameManagerInterface {
+    
+    private Game currentGame;
+    
+    
 
     @Override
     public void save() {
