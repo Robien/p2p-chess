@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -145,12 +146,15 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         // debug
             System.out.println("Vous avez cliqué sur connexion.");
             System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
+        
         // Appel de la methode de connexion
             //boolean ret = lo23.data.ProfileManager.login(getLoginField().getText(), getPasswordField().getText());
             
             //if (ret == false ) {
+//                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
                 
             //}
+            
     }//GEN-LAST:event_connectBtnActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
