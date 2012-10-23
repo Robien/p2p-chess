@@ -15,8 +15,6 @@ import lo23.utils.Enums;
 /**
  * This interface is the one through each module should go for getting
  * and manipulating Game, Move and Message objects
- * 
- * @author stephan
  */
 public interface GameManagerInterface
 { 
