@@ -181,4 +181,38 @@ public interface GameManagerInterface
      * @return The current game
      */
     public Game getCurrentGame();
+
+    /**
+     * Notify the start of a game session.
+     * @param userProfile the user who start the game session
+     */
+    public void notifyGameStarted(PublicProfile userProfile);
+
+    /**
+     * Notify a chat message.
+     * (only when a game session is started)
+     * @param message the chat message
+     */
+    public void notifyChatMessage(Message message);
+
+    /**
+     * Notify a movement of a piece.
+     * (only when a game session is started)
+     * @param move the movement of a piece
+     */
+    public void notifyMovement(Move move);
+
+
+    /**
+     * Notify a constant message.
+     * (only when a game session is started)
+     * @param constantType the constant
+     */
+    public void notifyConstantMessage(Constant constant);
+
+    /**
+     * Notify the end of the current game session.
+     * (only when a game session is started)
+     */
+    public void notifyGameEnded();
 }

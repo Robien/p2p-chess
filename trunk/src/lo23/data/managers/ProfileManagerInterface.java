@@ -80,4 +80,24 @@ public interface ProfileManagerInterface {
      * @return
      */
     //public Invitation createInvitation(PublicProfile guest, Color color, Time duration);
+
+
+    /**
+     * Notify the message receive in response to sendMulticast.
+     * @param userProfile the user who responded
+     */
+    public void notifyAddUser(PublicProfile userProfile);
+
+    /**
+     * Notify a invitation.
+     * @param invitation the invitation from a user
+     */
+    public void notifyInvitation(Invitation invitation);
+
+    /**
+     * Notify the response to a invitation.
+     * @param invitation the invitation from a user
+     * @param answer the answer of the invitation
+     */
+    public void notifyInvitationAnswer(Invitation invitation, boolean answer);
 }

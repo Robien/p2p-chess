@@ -5,6 +5,7 @@ import lo23.communication.ISender;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
+import lo23.data.PublicProfile;
 import lo23.data.pieces.GamePiece;
 import lo23.data.Invitation;
 import lo23.data.Message;
@@ -21,6 +22,7 @@ public class GameManager implements GameManagerInterface {
     private Game currentGame;
 
     // @khamidou FIXME: use injection dependency
+    // FIXME: use better name
     private ISender networkSender;
     
 
@@ -124,6 +126,14 @@ public class GameManager implements GameManagerInterface {
     @Override
     public Game getCurrentGame() {
         return this.currentGame;
+    }
+
+    public void notifyGameStarted(PublicProfile userProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyMovement(Move move) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
