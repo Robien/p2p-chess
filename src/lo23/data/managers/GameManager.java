@@ -1,6 +1,7 @@
 package lo23.data.managers;
 
 import java.util.ArrayList;
+import lo23.communication.ISender;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
@@ -18,7 +19,9 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 public class GameManager implements GameManagerInterface {
     
     private Game currentGame;
-    
+
+    // @khamidou FIXME: use injection dependency
+    private ISender networkSender;
     
 
     @Override
@@ -49,12 +52,13 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public Message createMessage(String content) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new Message(content, currentGame.getLocalPlayer(),
+                                    currentGame.getRemotePlayer());
     }
 
     @Override
     public void sendMessage(Message message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        networkSender.sendChatMessage(message);
     }
 
     @Override
