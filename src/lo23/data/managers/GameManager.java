@@ -34,7 +34,7 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public Move createMove(Position to, GamePiece piece) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       return new Move(piece.getPosition(), to, piece);
     }
 
     @Override
@@ -115,6 +115,11 @@ public class GameManager implements GameManagerInterface {
     @Override
     public ArrayList<Game> getListStartGames() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Game getCurrentGame() {
+        return this.currentGame;
     }
     
 }
