@@ -1,6 +1,10 @@
 package lo23.communication;
 
 import lo23.communication.connection.ConnectionManager;
+import lo23.data.Constant;
+import lo23.data.Invitation;
+import lo23.data.Move;
+import lo23.data.PublicProfile;
 
 /**
  * This is the main class of the communication module.
