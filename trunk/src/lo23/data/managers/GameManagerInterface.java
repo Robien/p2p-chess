@@ -174,4 +174,11 @@ public interface GameManagerInterface
      * @return An ArrayList object of Game objects
      */
     public ArrayList<Game> getListStartGames();
+    
+    /**
+     * This is a simple getter to the currentGame attribute
+     * 
+     * @return The current game
+     */
+    public Game getCurrentGame();
 }
