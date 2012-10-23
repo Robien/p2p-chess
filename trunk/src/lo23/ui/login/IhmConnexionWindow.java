@@ -53,7 +53,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
         ;
         loginField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         connectBtn = new javax.swing.JButton();
         loadProfileBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JButton();
