@@ -36,4 +36,13 @@ public class Player {
     public long getRemainingTime() {
         return remainingTime - time;
     }
+    
+    /**
+     * This method gives the current player's color
+     * 
+     * @return The current player's color
+     */
+    public COLOR getColor() {
+        return playerColor;
+    }
 }
