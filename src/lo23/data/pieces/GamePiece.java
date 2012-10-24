@@ -63,7 +63,66 @@ public abstract class GamePiece implements Serializable {
     public Player getOwner() {
         return owner;
     }
-    
+
+    /**
+     * This method return true if at x, y there is a piece and it's an enemy
+     * 
+     * @return true if enemy, false in oters cases
+     * @author Romain ui-gird
+     */
+    public boolean thereIsAnEnemyAt(int x, int y)
+    {
+        return getGame().getPieceAtXY(x, y) != null //there is a piece at x, y
+                &&
+                getGame().getPieceAtXY(x, y).getOwner().getColor() != getOwner().getColor(); //it's an enemy
+    }
+
+    /**
+     * This method return true if at x, y there no piece or an enemy one's
+     *
+     * @return true if it's an empty case or an enemy piece
+     * @author Romain ui-gird
+     */
+    public boolean isAValidMove(int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < 8 && y < 8 && getGame().getPieceAtXY(x, y) == null)
+        {
+            return true;
+        }
+        else
+        {
+            if (thereIsAnEnemyAt(x, y))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method add in list a new Position if it's a valid move /!\ care to return value
+     *
+     * @return true if there no obstacle (piece (friend of foe) or end of board)
+     * @author Romain ui-gird
+     */
+    public boolean addIfValid(List<Position> list, int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < 8 && y < 8 && getGame().getPieceAtXY(x, y) == null)
+        {
+            list.add(new Position(x, y));
+            return true;
+        }
+        else
+        {
+            if (thereIsAnEnemyAt(x, y))
+            {
+                list.add(new Position(x, y));
+            }
+            return false;
+        }
+
+    }
+
     public abstract List<Position> getPossibleMoves();
 
 }
