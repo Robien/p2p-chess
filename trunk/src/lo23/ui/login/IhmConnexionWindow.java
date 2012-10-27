@@ -24,6 +24,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     public IhmConnexionWindow() {
         initComponents();
         setResizable(false);
+        setSize(360, 500);
     }
 
     /**
@@ -52,6 +53,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         };
 
         jPanel1.setOpaque(false);
+        //jPanel1.setSize(300, 500);
         ;
         loginField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
@@ -61,7 +63,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chess-P2P");
-        setPreferredSize(new java.awt.Dimension(380, 500));
+        setPreferredSize(new java.awt.Dimension(500, 306));
 
         loginField.setText("Login");
         loginField.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +79,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             }
         });
 
+        connectBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         connectBtn.setText("Connect");
         connectBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,9 +87,13 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             }
         });
 
+        loadProfileBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
         loadProfileBtn.setText("Load Profile");
 
+        registerBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
         registerBtn.setText("Register");
+        registerBtn.setPreferredSize(new java.awt.Dimension(118, 29));
+        registerBtn.setSelected(true);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,12 +104,12 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(loginField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 38, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(registerBtn)))
+                        .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .add(20, 20, 20))
             .add(jPanel1Layout.createSequentialGroup()
                 .add(128, 128, 128)
@@ -118,7 +125,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                     .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 117, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 311, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
