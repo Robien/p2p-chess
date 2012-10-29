@@ -27,7 +27,7 @@ public class Bishop extends GamePiece
 
     /**
      *
-     * @author Romain
+     * @author Romain et Guilhem
      */
     @Override
     public List<Position> getPossibleMoves()
@@ -36,18 +36,18 @@ public class Bishop extends GamePiece
 
         ArrayList<Position> positions = new ArrayList<Position>();
 
-        boolean xpyp, xmyp, xpym, xmpm;
+        boolean xpyp, xmyp, xpym, xmym;
         xpyp = true; //can move x+ and y+ ?
         xmyp = true; //can move x- and y+ ?
         xpym = true; //can move x+ and y- ?
-        xmpm = true; //can move x- and y- ?
+        xmym = true; //can move x- and y- ?
 
         int x = getPosition().getX();
         int y = getPosition().getY();
 
         Game game = getGame();
 
-        for (int i = 0; i < 8 && (xpyp || xmyp || xpym || xmpm); i++)
+        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
         {
 
             if (xpyp && x + i < 8 && y + i < 8 && game.getPieceAtXY(x + i, y + i) == null)
@@ -89,7 +89,7 @@ public class Bishop extends GamePiece
                 xpym = false;
             }
 
-            if (xmpm && x - i >= 0 && y - i >= 8 && game.getPieceAtXY(x + i, y + i) == null)
+            if (xmym && x - i >= 0 && y - i >= 0 && game.getPieceAtXY(x - i, y - i) == null)
             {
                 positions.add(new Position(x - i, y - i));
             }
@@ -99,12 +99,14 @@ public class Bishop extends GamePiece
                 {
                     positions.add(new Position(x - i, y - i));
                 }
-                xmpm = false;
+                xmym = false;
             }
 
         }
 
         return positions;
     }
+
+  
 }
 
