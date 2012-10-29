@@ -1,5 +1,6 @@
 package lo23.data.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
 import lo23.data.Player;
@@ -24,7 +25,92 @@ public class Knight extends GamePiece {
     
     @Override
     public List<Position> getPossibleMoves() {
-        throw new UnsupportedOperationException("Not supported yet.");
+         //TODO : add echec and clean
+
+        ArrayList<Position> positions = new ArrayList<Position>();
+
+    
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+        //6 cases
+        
+            if (x + 1 < 8 && y + 2 < 8 && game.getPieceAtXY(x + 1, y + 2) == null)
+            {
+                positions.add(new Position(x + 1, y + 2));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x + 1, y + 2))
+                {
+                    positions.add(new Position(x + 1, y + 2));
+                }
+            }
+
+            if (x - 1 >= 0 && y + 2 < 8 && game.getPieceAtXY(x - 1, y + 2) == null)
+            {
+                positions.add(new Position(x - 1, y + 2));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x - 1, y + 2))
+                {
+                    positions.add(new Position(x - 1, y + 2));
+                }
+            }
+            
+            if (x - 2 >=0 && y + 1 < 8 && game.getPieceAtXY(x - 2, y + 1) == null)
+            {
+                positions.add(new Position(x - 2, y + 1));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x - 2, y + 1))
+                {
+                    positions.add(new Position(x - 2, y + 1));
+                }
+            }
+            
+            if (x + 2 < 8 && y + 1 < 8 && game.getPieceAtXY(x + 2, y + 1) == null)
+            {
+                positions.add(new Position(x + 2, y + 1));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x + 2, y + 1))
+                {
+                    positions.add(new Position(x + 1, y + 1));
+                }
+            }
+            
+            if (x - 2 >=0 && y - 1 >=0 && game.getPieceAtXY(x - 2, y - 1) == null)
+            {
+                positions.add(new Position(x - 2, y - 1));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x - 2, y - 1))
+                {
+                    positions.add(new Position(x - 2, y - 1));
+                }
+            }
+            
+            if (x + 2 < 8 && y - 1 >=0 && game.getPieceAtXY(x + 2, y - 1) == null)
+            {
+                positions.add(new Position(x + 2, y - 1));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x + 2, y - 1))
+                {
+                    positions.add(new Position(x + 2, y - 1));
+                }
+            }
+
+        return positions;    
     }
 
 }
