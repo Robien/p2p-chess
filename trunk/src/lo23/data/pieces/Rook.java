@@ -13,7 +13,7 @@ import lo23.data.Position;
 
 /**
  *
- * @author Romain et Guilhem
+ * @author Guilhem
  */
 public class Rook extends GamePiece {
 
@@ -88,7 +88,7 @@ public class Rook extends GamePiece {
                 yp = false;
             }
             
-                 if (ym && y - i >= 0 && game.getPieceAtXY(x, y - i) == null)
+            if (ym && y - i >= 0 && game.getPieceAtXY(x, y - i) == null)
             {
                 positions.add(new Position(x, y - i));
             }
