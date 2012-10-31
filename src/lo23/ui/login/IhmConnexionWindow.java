@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package lo23.ui.login;
 
 import java.awt.Graphics;
@@ -11,9 +7,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import lo23.data.managers.ProfileManager;
 
 /**
- *
+ * IhmConnexionWindow : interface de connexion (login) à l'application 
+ * Première fenetre de l'application
+ * 
+ * Le design a été créé via l'assistant design de netbeans
+ * 
  * @author marcrossi
  */
 public class IhmConnexionWindow extends javax.swing.JFrame {
@@ -152,17 +153,22 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
         // debug
-            System.out.println("Vous avez cliqué sur connexion.");
-            System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
-        
+        System.out.println("Vous avez cliqué sur connexion.");
+        System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
+
         // Appel de la methode de connexion
-            //boolean ret = lo23.data.ProfileManager.login(getLoginField().getText(), getPasswordField().getText());
-            
-            //if (ret == false ) {
-//                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
-                
-            //}
-            
+        ProfileManager profile = new ProfileManager();
+        try {
+            boolean ret = profile.login(getLoginField().getText(), getPasswordField().getText());
+            if (ret == false) {
+                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_connectBtnActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -203,15 +209,24 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             }
         });
     }
-    
+
+    /**
+     * Méthode retournant le champ "login" du formulaire
+     * 
+     * @return JTextField
+     */
     public JTextField getLoginField() {
         return loginField;
     }
 
+    /**
+     * Méthode retournant le champ "password" du formulaire
+     * 
+     * @return JTextField
+     */
     public JTextField getPasswordField() {
         return passwordField;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectBtn;
     private javax.swing.JPanel jPanel1;
