@@ -7,7 +7,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import lo23.communication.ComManager;
+import lo23.data.ApplicationModel;
+import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
+import lo23.data.managers.ProfileManagerInterface;
 
 /**
  * IhmConnexionWindow : interface de connexion (login) à l'application 
@@ -19,11 +23,14 @@ import lo23.data.managers.ProfileManager;
  */
 public class IhmConnexionWindow extends javax.swing.JFrame {
 
+    private IhmLoginModel ihmLoginModel;
+    
     /**
      * Creates new form IhmConnexionWindow
      */
-    public IhmConnexionWindow() {
+    public IhmConnexionWindow(IhmLoginModel ihmLoginModel) {
         initComponents();
+        this.ihmLoginModel = ihmLoginModel;
         setResizable(false);
         setSize(360, 500);
     }
@@ -157,13 +164,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
 
         // Appel de la methode de connexion
-        ProfileManager profile = new ProfileManager();
+        ProfileManagerInterface profile = ihmLoginModel.getApplicationModel().getPManager();
         try {
             boolean ret = profile.login(getLoginField().getText(), getPasswordField().getText());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
+                //INSTANTIATE LAUNCH GAME FRAME
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -205,7 +213,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IhmConnexionWindow().setVisible(true);
+                
+                //Instantiate DataManager 
+                ApplicationModel appModel = new ApplicationModel(new GameManager(),new ProfileManager(),new ComManager());
+                //Instantiate IhmLoginModel
+                IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
+                
+                
+                new IhmConnexionWindow(ihmLoginModel).setVisible(true);
             }
         });
     }
