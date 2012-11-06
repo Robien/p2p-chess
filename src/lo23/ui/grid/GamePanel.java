@@ -11,13 +11,9 @@ package lo23.ui.grid;
 
 
 import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.io.File;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -55,6 +51,7 @@ public class GamePanel extends JPanel {
                     add(label, constraints);
                } else {
                     String path = getClass().getClassLoader().getResource(".").getPath();
+                    System.out.println(path);
                     ImageIcon image = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
                     JLabel label = new JLabel("", image, JLabel.CENTER);
                     add(label, constraints);
