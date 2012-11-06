@@ -5,7 +5,7 @@ import lo23.data.Invitation;
 /**
  * This message is sent by distant user to answer InvitMsg.
  */
-public class AnswerMsg {
+public class AnswerMsg extends ConnectionMessage{
 
     private Invitation invitation;
 
