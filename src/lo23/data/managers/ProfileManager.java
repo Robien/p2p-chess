@@ -9,7 +9,9 @@ import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
+import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -31,34 +33,32 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public ArrayList<Profile> getProfilesList() {
+    public ArrayList<PublicProfile> createProfilesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
-    public boolean login(String pseudo, String password) {
+    public boolean connection(String pseudo, String password) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void saveProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void saveProfile() {
+        try {
+            Serializer.saveProfile(this.currentProfile);
+        } catch (NoIdException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public Profile loadProfile(String profileId) {
         try {
             this.currentProfile = Serializer.readProfile(profileId);
-
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
          return this.currentProfile;
-    }
-
-    @Override
-    public void receiveInvitation(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -75,6 +75,26 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     public void notifyInvitationAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyAddProfile(PublicProfile publicProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyInvitAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void exportProfile(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void importProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -4,6 +4,9 @@
  */
 package lo23.data;
 
+import java.util.Date;
+import lo23.utils.Enums.COLOR;
+
 /**
  *
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
@@ -13,12 +16,8 @@ public class NewInvitation extends Invitation {
     public NewInvitation(PublicProfile host, PublicProfile guest) {
         super(host, guest);
     }
-    /**
-     * Commenté car le type Color n'a pas encore été défini dans le package
-     * utils et car les types Time et date n'ont pas encore été choisis.
-     * @author Pierre-Alexandre FONTA et Louis PONTOISE
-     */
-    //private Color color;
-    //private Time duration;
-    //private Date date;
+
+    private COLOR color;
+    private long duration;
+    private Date date;
 }

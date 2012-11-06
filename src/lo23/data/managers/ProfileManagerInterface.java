@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -32,7 +33,7 @@ public interface ProfileManagerInterface {
      * Getter for the profiles list
      * @return the profiles list
      */
-    public ArrayList<Profile> getProfilesList();
+    public ArrayList<PublicProfile> createProfilesList();
 
     /**
      *
@@ -40,13 +41,12 @@ public interface ProfileManagerInterface {
      * @param password
      * @return
      */
-    public boolean login(String pseudo, String password);
+    public boolean connection(String pseudo, String password);
 
     /**
      *
-     * @param profileId
      */
-    public void saveProfile(String profileId);
+    public void saveProfile();
 
     /**
      *
@@ -57,25 +57,47 @@ public interface ProfileManagerInterface {
 
     /**
      *
-     * Utiliser à la place les setteurs de la classe Profile.
      * @param invitation
-     * @author Pierre-Alexandre FONTA et Louis PONTOISE
      */
-    //public void modifyProfile();
-    public void receiveInvitation(Invitation invitation);
+    public void notifyInvitation(Invitation invitation);
+
+    /**
+     *
+     * Utiliser à la place les setteurs de la classe Profile.
+     * @param guest 
+     * @param color 
+     * @param duration
+     */
+    public Invitation createInvitation(PublicProfile guest, COLOR color, long duration);
 
     /**
      *
      * @param invitation
      */
     public void sendInvitation(Invitation invitation);
+
     /**
-     * Commenté car le type Color n'a pas encore été défini dans le package
-     * utils et car le type Time n'a pas encore été choisi.
-     * @param guest
-     * @param color
-     * @param duration
-     * @return
+     *
+     * @param publicProfile
      */
-    //public Invitation createInvitation(PublicProfile guest, Color color, Time duration);
+    public void notifyAddProfile(PublicProfile publicProfile);
+
+    /**
+     *
+     * @param invitation
+     * @param answer
+     */
+    public void notifyInvitAnswer(Invitation invitation, boolean answer);
+
+    /**
+     *
+     * @param filePath
+     */
+    public void exportProfile(String filePath);
+
+    /**
+     *
+     * @param filePath
+     */
+    public void importProfile(String filePath);
 }
