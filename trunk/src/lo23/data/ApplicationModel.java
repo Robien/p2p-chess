@@ -32,7 +32,7 @@ public class ApplicationModel {
         return pManager;
     }
 
-    public ISender getISender() {
+    public ISender getSender() {
         return comManager;
     }
 }
