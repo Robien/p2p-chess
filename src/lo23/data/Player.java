@@ -5,6 +5,8 @@
 
 package lo23.data;
 
+import java.util.ArrayList;
+import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.King;
 import lo23.utils.Enums.COLOR;
 
@@ -19,10 +21,12 @@ public class Player {
     private long startTime = 0;
     private long endTime = 0;
     private long remainingTime = 0;
+    private ArrayList<GamePiece> pieces;
     
     public Player(COLOR playerColor, long remainingTime) {
         this.playerColor = playerColor;
         this.remainingTime = remainingTime;
+        this.pieces = new ArrayList<GamePiece>();
     }
    
     public void startTime() {
@@ -49,5 +53,14 @@ public class Player {
      */
     public COLOR getColor() {
         return playerColor;
+    }
+
+    /**
+     * Used by the Game constructor to provide to the Player
+     * a list of the gamepieces.
+     * @param pc piece to add
+     */
+    public void addPiece(GamePiece pc) {
+        pieces.add(pc);
     }
 }
