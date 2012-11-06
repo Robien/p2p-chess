@@ -4,6 +4,7 @@ import lo23.data.pieces.GamePiece;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import lo23.data.exceptions.IllegalMoveException;
 
 
 
@@ -112,9 +113,24 @@ public class Game implements Serializable
         events.add(e);
     }
 
-    public void playMove(Move move) {
+    public void playMove(Move move) throws IllegalMoveException {
         //FIXME: add the rest
-        //move.to.getX()
+        int xfrom = move.from.getX();
+        int yfrom = move.from.getY();
+        int xto = move.to.getX();
+        int yto = move.to.getY();
+
+        if(xfrom < 0 || xfrom > 7 || yfrom < 0 || yfrom > 7 ||
+           xto < 0 || xto > 7 || yto < 0 || yto > 7)
+            throw new IllegalMoveException();
+
+        GamePiece piece = board[xfrom][yfrom];
+        board[xfrom][yfrom] = null;
+
+        /*
+        if(board[xto][yto] != null)
+            piece
+         */
         events.add(move);
     }
 
