@@ -4,53 +4,52 @@
  */
 
 package lo23.ui.login.mockManager;
-import java.awt.Image;
-import java.util.Collection;
+import lo23.communication.ISender;
+import lo23.data.Constant;
 import lo23.data.Invitation;
-import lo23.data.Profile;
+import lo23.data.Message;
+import lo23.data.Move;
 import lo23.data.PublicProfile;
-import lo23.data.managers.ProfileManagerInterface;
-import lo23.utils.Enums.STATUS;
 
 /**
  *
  * @author lo23a009
  */
-public class ProfileManagerMock implements ProfileManagerInterface{
+public class CommManagerMock extends Manager implements ISender{
 
-    public ProfileManagerMock(ApplicationModel model){
+    public CommManagerMock(ApplicationModel model){
         super(model);
     }
 
-    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Collection<Profile> getProfilesList() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public PublicProfile getPublicProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public boolean login(String pseudo, String password) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void saveProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Profile loadProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void receiveInvitation(Invitation invitation) {
+    public void sendMulticast() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void sendInvitation(Invitation invitation) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendInvitationAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendGameStarted(PublicProfile userProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendChatMessage(Message message) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendMovement(Move move) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendConstantMessage(Constant constant) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendGameEnded() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
