@@ -76,7 +76,6 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
 
         // Send Datagramme
         try {
-            this.datagramSocket = new DatagramSocket();
             ByteArrayOutputStream b_out = new ByteArrayOutputStream();
             ObjectOutputStream o_out = null;
             try {
