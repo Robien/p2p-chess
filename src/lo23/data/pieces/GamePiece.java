@@ -46,7 +46,10 @@ public abstract class GamePiece implements Serializable {
     public Position getPosition() {
         return position;
     }
-    
+
+    public void movePiece(Position to) {
+        position = to;
+    }
     /**
      * This method returns the game where the current GamePiece is contained
      * 
