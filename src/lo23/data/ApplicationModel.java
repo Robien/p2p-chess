@@ -23,16 +23,16 @@ public class ApplicationModel {
         this.pManager = pManager;
         this.comManager = comManager;
     }
-
-    GameManagerInterface getGManager() {
+    
+    public GameManagerInterface getGManager() {
         return gManager;
     }
 
-    ProfileManagerInterface getPManager() {
+    public ProfileManagerInterface getPManager() {
         return pManager;
     }
 
-    ISender getISender() {
+    public ISender getISender() {
         return comManager;
     }
 }
