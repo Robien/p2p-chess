@@ -1,5 +1,6 @@
 package lo23.data.managers;
 
+import java.io.File;
 import java.util.ArrayList;
 import lo23.communication.ISender;
 import lo23.data.Constant;
@@ -13,6 +14,7 @@ import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.pieces.GamePiece;
+import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -116,7 +118,8 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public ArrayList<Game> getListStopGames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Game> gameList= getListAllGames();
+        return gameList;
     }
 
     @Override
@@ -139,4 +142,24 @@ public class GameManager implements GameManagerInterface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Override
+    public ArrayList<Game> getListAllGames(){
+            File games = new File(Constants.GAMES_PATH);
+        String[] fileList = games.list();
+        
+        ArrayList<Game> gameList= new ArrayList<Game>();
+        
+        for(int i=0; i<fileList.length;i++ ){
+            try{ 
+                //fileList[i] format is "gameId.game"
+                //So the string is split in order to have the gameId.
+                gameList.add(load(fileList[i].split(".")[0]) );
+            }
+            catch(FileNotFoundException expt ){
+                System.out.println(expt.getMessage());
+                System.out.println(expt.getStackTrace());
+            }            
+        }
+        return gameList;
+    }
 }
