@@ -5,7 +5,14 @@
 package lo23.ui.login;
 
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
@@ -17,7 +24,7 @@ import lo23.data.managers.ProfileManager;
  *
  * @author Esteban
  */
-public class IhmLoginModel {
+public class IhmLoginModel implements PropertyChangeListener{
     
     public static final String VIEW_PROFILE_RESPONSE = "view-profile-response";
     public static final String ADD_PLAYER_CONNECTED = "add-player-connected";
@@ -26,9 +33,11 @@ public class IhmLoginModel {
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
     
-    
+    private PropertyChangeSupport pcs;
+
     private ApplicationModel appModel;
-    private ArrayList<PublicProfile> listPlayers;
+
+    private PlayerModel listPlayers;
     private ArrayList<Game> listEndGames;
     private ArrayList<ResumeGame> listStopGames;
     
@@ -36,17 +45,20 @@ public class IhmLoginModel {
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
-        listPlayers = new ArrayList<PublicProfile>();
         listEndGames = new ArrayList<Game>();
         listStopGames = new ArrayList<ResumeGame>();
+
+        Object[][] donnees = {};
+        String[] entetes = {"Prénom", "Nom", "Status"};
+        listPlayers = new PlayerModel();
+        listPlayers.setDataVector(donnees, entetes);
+
+        pcs = new PropertyChangeSupport(this);
     }
-    
-    public void addUser2List(PublicProfile userProfile){
-        listPlayers.add(userProfile);
-    }
-    
-    public void remUser2List(PublicProfile userProfile){
-        listPlayers.remove(userProfile);
+
+    public void addPropertyChangeListener(PropertyChangeListener l){
+        if(pcs != null)
+            pcs.addPropertyChangeListener(l);
     }
     
     public void acceptInvitation(Invitation invit){
@@ -60,5 +72,50 @@ public class IhmLoginModel {
     public ApplicationModel getApplicationModel() {
         return appModel;
     }
-    
+
+    public PlayerModel getPlayerModel(){
+        return listPlayers;
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
+            listPlayers.addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
+            listPlayers.addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
+            listPlayers.addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
+            listPlayers.addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
+            listPlayers.removePlayer("remi");
+            listPlayers.removePlayer("gaetan");
+        }
+    }
+ 
+
+    private class PlayerModel extends DefaultTableModel {
+
+        public boolean isCellEditable(int r, int c) {
+            return false;
+        }
+
+        public Class getColumnClass(int columnIndex) {
+            Object o = getValueAt(0, columnIndex);
+
+            if (o == null) {
+                return Object.class;
+            } else {
+                return o.getClass();
+            }
+        }
+
+        public void addPlayer(String name, String firstname, ImageIcon ico) {
+            this.addRow(new Object[]{name, firstname, ico});
+        }
+
+        public void removePlayer(String id) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if (this.getValueAt(i, 0) == id) {
+                    this.removeRow(i);
+                    return;
+                }
+            }
+        }
+    }
 }

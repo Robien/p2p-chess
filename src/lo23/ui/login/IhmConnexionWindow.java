@@ -189,7 +189,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         // Appel de la methode de connexion
         ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
         try {
-            boolean ret = pmi.login(getLoginField().getText(), getPasswordField().getText());
+            boolean ret = pmi.connection(getLoginField().getText(), getPasswordField().getText());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
