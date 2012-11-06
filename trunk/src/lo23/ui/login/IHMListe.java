@@ -19,37 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IHMListe extends javax.swing.JFrame implements PropertyChangeListener {
 
-    private class PlayerModel extends DefaultTableModel {
-
-        public boolean isCellEditable(int r, int c) {
-            return false;
-        }
-
-        public Class getColumnClass(int columnIndex) {
-            Object o = getValueAt(0, columnIndex);
-
-            if (o == null) {
-                return Object.class;
-            } else {
-                return o.getClass();
-            }
-        }
-
-        public void addPlayer(String name, String firstname, ImageIcon ico) {
-            this.addRow(new Object[]{name, firstname, ico});
-        }
-
-        public void removePlayer(String id) {
-            for (int i = 0; i < this.getRowCount(); i++) {
-                if (this.getValueAt(i, 0) == id) {
-                    this.removeRow(i);
-                    return;
-                }
-            }
-        }
-    }
     
-    private PlayerModel listPlayers;
     private final IhmLoginModel model;
 
     /**
@@ -60,11 +30,8 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
 
         this.model = model;
 
-        Object[][] donnees = {};
-        String[] entetes = {"Prénom", "Nom", "Status"};
-        
-        listPlayers = new PlayerModel();
-        listPlayers.setDataVector(donnees, entetes);
+
+
         
         initComponents();
         this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
@@ -76,12 +43,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
        
-        listPlayers.addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
-        listPlayers.addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
-        listPlayers.addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
-        listPlayers.addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
-        listPlayers.removePlayer("remi");
-        listPlayers.removePlayer("gaetan");
+        
     }
 
     /**
@@ -106,7 +68,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 600));
 
-        tablePlayers.setModel(listPlayers);
+        tablePlayers.setModel(model.getPlayerModel());
         panelTablePlayers.setViewportView(tablePlayers);
 
         labelTable.setText("Liste des joueurs connectés");
@@ -159,22 +121,23 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelTablePlayers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelTable)
-                                .addGap(0, 49, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelInfos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelInfos)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(manageProfileBtn)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(182, 182, 182))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panelTablePlayers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labelTable)
+                                        .addGap(0, 49, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panelInfos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelInfos)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(manageProfileBtn)
+                                .addGap(0, 277, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(182, 182, 182))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
