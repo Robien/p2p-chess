@@ -136,7 +136,17 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public ArrayList<Game> getListStartGames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Game> gameList= getListAllGames();
+        ArrayList<Integer> indexList= new ArrayList<Integer>();
+        //EndGames have to be remove.
+        for(int i= 0 ; i<gameList.size();i++){
+            if(gameList.get(i).getEndDate()!=null ) //EndGame have an end Date.
+                indexList.add(i);
+        }
+        for(int i= 0 ; i<indexList.size();i++){
+            gameList.remove(i);
+        }
+        return gameList;
     }
 
     @Override
