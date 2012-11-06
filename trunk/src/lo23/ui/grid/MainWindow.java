@@ -48,7 +48,6 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.setLayout(mainLayout);
         
         panel.add(gamePanel, mainLayout.CENTER);
-        panel.add(chatPanel, mainLayout.LINE_END);
 
 
         //Test Ajout Timer
