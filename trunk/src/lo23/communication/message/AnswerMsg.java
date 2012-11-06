@@ -2,9 +2,13 @@ package lo23.communication.message;
 
 import lo23.data.Invitation;
 
+/**
+ * This message is sent by distant user to answer InvitMsg.
+ */
 public class AnswerMsg {
 
     private Invitation invitation;
+
     private boolean answer;
 
     /**
@@ -15,5 +19,21 @@ public class AnswerMsg {
     public AnswerMsg(Invitation invitation, boolean answer) {
         this.invitation = invitation;
         this.answer = answer;
+    }
+
+    public boolean isAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(boolean answer) {
+        this.answer = answer;
+    }
+
+    public Invitation getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(Invitation invitation) {
+        this.invitation = invitation;
     }
 }

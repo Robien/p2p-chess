@@ -1,7 +1,13 @@
 package lo23.communication.message;
 
+/**
+ * This message is sent while multicasting.
+ */
 public class MulticastInvit {
 
+    /**
+     * Contructor of the MulticastInvit.
+     */
     public MulticastInvit() {
     }
 }
