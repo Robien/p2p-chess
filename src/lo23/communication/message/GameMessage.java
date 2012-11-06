@@ -5,5 +5,5 @@ package lo23.communication.message;
  */
 public abstract class GameMessage extends Message {
 
-   
+
 }
