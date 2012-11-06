@@ -17,4 +17,25 @@ public abstract class Invitation {
         this.host = host;
         this.guest = guest;
     }
+    
+    
+    /**
+     * Getter for the host attribute
+     * 
+     * @return The host attribute
+     */
+    public PublicProfile getHost()
+    {
+        return host;
+    }
+    
+    /**
+     * Getter for the guest attribute
+     * 
+     * @return The guest attribute
+     */
+    public PublicProfile getGuest()
+    {
+        return guest;
+    }
 }
