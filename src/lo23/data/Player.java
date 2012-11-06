@@ -5,6 +5,7 @@
 
 package lo23.data;
 
+import lo23.data.pieces.King;
 import lo23.utils.Enums.COLOR;
 
 /**
@@ -36,7 +37,11 @@ public class Player {
     public long getRemainingTime() {
         return remainingTime - time;
     }
-    
+
+    public King getKing() {
+        return null;
+    }
+
     /**
      * This method gives the current player's color
      * 
