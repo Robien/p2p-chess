@@ -12,6 +12,9 @@ import lo23.data.PublicProfile;
  */
 public class ComManager implements ISender {
 
+    // TODO faire les classes Messages
+    // TODO finir les Handle
+    
     private PublicProfile currentUserProfile;
     private IReceiveListener receiveListener;
     private ConnectionManager connectionManager;
