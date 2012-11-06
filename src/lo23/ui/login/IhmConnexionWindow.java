@@ -15,6 +15,9 @@ import lo23.data.ApplicationModel;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
+import lo23.ui.login.mockManager.CommManagerMock;
+import lo23.ui.login.mockManager.GameManagerMock;
+import lo23.ui.login.mockManager.ProfileManagerMock;
 
 /**
  * IhmConnexionWindow_old : interface de connexion (login) à l'application
@@ -55,7 +58,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             public void run() {
 
                 //Instantiate DataManager
-                ApplicationModel appModel = new ApplicationModel(new GameManager(),new ProfileManager(),new ComManager());
+                ApplicationModel appModel = new ApplicationModel();
+                appModel.setComManager(new CommManagerMock(appModel));
+                appModel.setGameManager(new GameManagerMock((appModel)));
+                appModel.setProfileManager(new ProfileManagerMock(appModel));
                 //Instantiate IhmLoginModel
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
 
@@ -186,26 +192,25 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
 
         // Appel de la methode de connexion
+        ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
+        try {
+            boolean ret = pmi.login(getLoginField().getText(), getPasswordField().getText());
+            if (ret == false) {
+                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
+  
+                IHMListe listWindow = new IHMListe(ihmLoginModel);
+                this.setVisible(false);
+                this.dispose();
+                listWindow.setVisible(true);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 
-        // TODO à inserer si succes de connection
-        ProfileManagerInterface profile = ihmLoginModel.getApplicationModel().getPManager();
-        IHMListe listWindow = new IHMListe(ihmLoginModel);
-        this.setVisible(false);
-        this.dispose();
-        listWindow.setVisible(true);
+        }
+        
 
-//        try {
-//            boolean ret = profile.login(getLoginField().getText(), getPasswordField().getText());
-//            if (ret == false) {
-//                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
-//                //INSTANTIATE LAUNCH GAME FRAME
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-//
-//        }
 
 
     }
