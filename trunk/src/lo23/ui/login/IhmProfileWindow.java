@@ -16,115 +16,93 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Gaëtan Grégoire
+ * @author Gaëtan Grégoire & Clermont Rémi
  */
 public class IhmProfileWindow extends JFrame{
-
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-    private JLabel login;
-    private JLabel jLabel10;
-    private JLabel password;
-    private JLabel password_confirm;
-    private JLabel firstname;
-    private JLabel lastname;
-    private JLabel age;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
-    private JPasswordField jPasswordField1;
-    private JPasswordField jPasswordField2;
-    private JSeparator jSeparator1;
-    private JSeparator jSeparator2;
-    private JTextField login_field;
-    private JTextField jTextField10;
-    private JTextField jTextField11;
-    private JTextField jTextField12;
-    private JTextField jTextField13;
-    private JTextField jTextField14;
-    private JTextField jTextField9;
+    
+    private IhmLoginModel ihmLoginModel;
     
     /**
      * Creates new form IhmProfileWindow
      */
-    public IhmProfileWindow() {
+    public IhmProfileWindow(IhmLoginModel ihmLoginModel) {
         super();
-        build();
+        this.ihmLoginModel = ihmLoginModel;
+        initComponent();
     }
     
-    private void build() {
+    private void initComponent() {
         setTitle("Gestion du profil"); //On donne un titre à l'application
         setSize(400, 450); //On donne une taille à notre fenêtre
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 
-        setContentPane(buildContentPanel());
+        setContentPane(initContentPanel());
     }
     
-     private JPanel buildContentPanel() {
+     private JPanel initContentPanel() {
 
         JPanel panel = new JPanel();
         GroupLayout layout = new GroupLayout(panel);
         panel.setLayout(layout);
         
-        login = new JLabel();
+        JLabel login = new JLabel();
         login.setText("Login");
         
         
-        password = new JLabel();
+        JLabel password = new JLabel();
         password.setText("Mot de passe");
         
-        password_confirm = new JLabel();
-        password_confirm.setText("Ressaisissez votre mot de passe");
+        JLabel passwordConfirm = new JLabel();
+        passwordConfirm.setText("Ressaisissez votre mot de passe");
         
-        firstname = new JLabel();
-        firstname.setText("Nom");
+        JLabel firstName = new JLabel();
+        firstName.setText("Nom");
         
-        lastname = new JLabel();
-        lastname.setText("Prénom");
+        JLabel lastName = new JLabel();
+        lastName.setText("Prénom");
         
-        age = new JLabel();
+        JLabel age = new JLabel();
         age.setText("Âge");
         
-        login_field = new JTextField("1");
+        JTextField login_field = new JTextField("1");
         
         // The separators
-        jSeparator1 = new JSeparator();
-        jSeparator2 = new JSeparator();
+        JSeparator jSeparator1 = new JSeparator();
+        JSeparator jSeparator2 = new JSeparator();
         
-        jTextField9 = new JTextField("2");
-        jTextField10 = new JTextField("3");
-        jTextField11 = new JTextField("4");
+        JTextField jTextField9 = new JTextField("2");
+        JTextField jTextField10 = new JTextField("3");
+        JTextField jTextField11 = new JTextField("4");
         
-        jButton1 = new JButton();
+        JButton jButton1 = new JButton();
         jButton1.setText("Changer votre avatar");
 
         //JLabel lab = new JLabel(new ImageIcon("src\\votre_image.png")); 
         //lab.setBounds(0, 0, 270, 230); 
         ImageIcon userIcon = new ImageIcon("gaetan.jpg");
-        jLabel7 = new JLabel(userIcon);
+        JLabel jLabel7 = new JLabel(userIcon);
         
-        jPasswordField1 = new JPasswordField("5");
-        jPasswordField2 = new JPasswordField("67");
+        JPasswordField jPasswordField1 = new JPasswordField("5");
+        JPasswordField jPasswordField2 = new JPasswordField("67");
         
-        jLabel8 = new JLabel();
+        JLabel jLabel8 = new JLabel();
         jLabel8.setText("Parties gagnées");
-        jLabel9 = new JLabel();
+        JLabel jLabel9 = new JLabel();
         jLabel9.setText("Parties perdues");
         
-        jLabel10 = new JLabel();
+        JLabel jLabel10 = new JLabel();
         jLabel10.setText("Parties nulles");
         
-        jTextField12 = new JTextField("8");
-        jTextField13 = new JTextField("9");
-        jTextField14 = new JTextField("10");
+        JTextField jTextField12 = new JTextField("8");
+        JTextField jTextField13 = new JTextField("9");
+        JTextField jTextField14 = new JTextField("10");
         
-        jButton2 = new JButton();
+        JButton jButton2 = new JButton();
         jButton2.setText("Exporter le profil");
         
-        jButton3 = new JButton();
+        JButton jButton3 = new JButton();
         jButton3.setText("Appliquer");
         
         
@@ -147,9 +125,9 @@ public class IhmProfileWindow extends JFrame{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(login)
                             .addComponent(age)
-                            .addComponent(lastname)
-                            .addComponent(firstname)
-                            .addComponent(password_confirm)
+                            .addComponent(lastName)
+                            .addComponent(firstName)
+                            .addComponent(passwordConfirm)
                             .addComponent(password))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -191,15 +169,15 @@ public class IhmProfileWindow extends JFrame{
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(password_confirm)
+                    .addComponent(passwordConfirm)
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstname)
+                    .addComponent(firstName)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lastname)
+                    .addComponent(lastName)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
