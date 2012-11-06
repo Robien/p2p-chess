@@ -16,12 +16,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import lo23.communication.ComManager;
+import lo23.data.ApplicationModel;
 
 public class MainWindow extends JFrame implements ActionListener {
-
-    public MainWindow() {
+    ApplicationModel myModel;
+    
+    public MainWindow(ApplicationModel m) {
         super();
+        myModel = m;
         build();//On initialise notre fenêtre
+
     }
 
     private void build() {
@@ -32,10 +37,9 @@ public class MainWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 
         setContentPane(buildContentPanel());
-
- 
-
     }
+
+
 
     private JPanel buildContentPanel() {
 
@@ -54,7 +58,7 @@ public class MainWindow extends JFrame implements ActionListener {
         TimerPanel timerPanel = new TimerPanel();
         panel.add(timerPanel, mainLayout.SOUTH);
        //Chat panel
-        ChatPanel2 chatPanel = new ChatPanel2();
+        ChatPanel2 chatPanel = new ChatPanel2(myModel);
         panel.add(chatPanel, mainLayout.EAST);
        
         return panel;

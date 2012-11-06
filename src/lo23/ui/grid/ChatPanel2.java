@@ -4,6 +4,8 @@
  */
 package lo23.ui.grid;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -13,6 +15,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+import lo23.data.ApplicationModel;
+import lo23.data.Message;
 
 /**
  *
@@ -24,12 +28,14 @@ public class ChatPanel2 extends javax.swing.JPanel {
     Style defaultStyle;
     final Style localStyle;
     final DefaultStyledDocument doc;
+    ApplicationModel myModel;
 
     /**
      * Creates new form ChatPanel2
      */
-    public ChatPanel2() {
 
+        public ChatPanel2(ApplicationModel model) {
+        myModel = model;
         initComponents();
         sc = new StyleContext();
         doc = new DefaultStyledDocument(sc);
@@ -41,21 +47,21 @@ public class ChatPanel2 extends javax.swing.JPanel {
         StyleConstants.setFirstLineIndent(localStyle, 16);
         StyleConstants.setFontFamily(localStyle, "serif");
         StyleConstants.setFontSize(localStyle, 12);
-        // style pour le joueur distant
-/*
-         StyleConstants.setLeftIndent(remoteStyle, 16);
-         StyleConstants.setRightIndent(remoteStyle, 16);
-         StyleConstants.setFirstLineIndent(remoteStyle, 16);
-         StyleConstants.setFontFamily(remoteStyle, "serif");
-         StyleConstants.setFontSize(remoteStyle, 12);
-         // style pour le jeu
 
-         StyleConstants.setLeftIndent(gameStyle, 16);
-         StyleConstants.setRightIndent(gameStyle, 16);
-         StyleConstants.setFirstLineIndent(gameStyle, 16);
-         StyleConstants.setFontFamily(gameStyle, "serif");
-         StyleConstants.setFontSize(gameStyle, 12);
-         * */
+                // ajout d'un ecouteur de frappe du clavier sur le textField
+        jTextField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // teste si la touche pressé correspond à la touche entrée
+                if (e.getKeyCode() == 10) {
+                    // on simule le clic de souris comme si on avait cliqué
+                    // sur le bouton lui meme
+                        sendMsg(jTextField1.getText());
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -142,17 +148,32 @@ public class ChatPanel2 extends javax.swing.JPanel {
         System.out.println("test");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String val = jTextField1.getText();
-        if (!val.equals("")) { // if not null
+    private void sendMsg(String msg){
+       if (!msg.equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
             try {
+                // sending message to remote player
+                if(myModel == null)
+                       System.out.print("variable modele nulle");
+                else{
+                    Message m = myModel.getGManager().createMessage(msg);
+                    myModel.getGManager().sendMessage(m);
+                }
+
+                // printing on screen
                 doc2.insertString(doc2.getLength(), jTextField1.getText() + "\n", localStyle);
                 jTextField1.setText("");
+                jTextField1.setFocusable(true);
             } catch (BadLocationException ex) {
                 Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String val = jTextField1.getText();
+        sendMsg(val);
+
     }//GEN-LAST:event_jButton4ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
