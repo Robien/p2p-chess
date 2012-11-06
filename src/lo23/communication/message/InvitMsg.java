@@ -2,6 +2,9 @@ package lo23.communication.message;
 
 import lo23.data.Invitation;
 
+/**
+ * This message is sent while inviting a distant user to play.
+ */
 public class InvitMsg extends ConnectionMessage {
 
     private Invitation invitation;
@@ -13,4 +16,13 @@ public class InvitMsg extends ConnectionMessage {
     public InvitMsg(Invitation invitation) {
         this.invitation = invitation;
     }
+    
+    public Invitation getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(Invitation invitation) {
+        this.invitation = invitation;
+    }
+
 }
