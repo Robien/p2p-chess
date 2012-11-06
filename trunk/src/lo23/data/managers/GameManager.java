@@ -131,7 +131,18 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public ArrayList<Game> getListStopGames() {
         ArrayList<Game> gameList= getListAllGames();
+        ArrayList<Integer> indexList= new ArrayList<Integer>();
+        //StartGames have to be remove.
+        for(int i= 0 ; i<gameList.size();i++){
+            if(gameList.get(i).getEndDate()==null ){ //StartGame doesn't have an end Date.
+                indexList.add(i);
+            }
+        }
+        for(int i= 0 ; i<indexList.size();i++){
+            gameList.remove(i);
+        }
         return gameList;
+    
     }
 
     @Override
@@ -140,8 +151,9 @@ public class GameManager extends Manager implements GameManagerInterface {
         ArrayList<Integer> indexList= new ArrayList<Integer>();
         //EndGames have to be remove.
         for(int i= 0 ; i<gameList.size();i++){
-            if(gameList.get(i).getEndDate()!=null ) //EndGame have an end Date.
+            if(gameList.get(i).getEndDate()!=null ){ //EndGame have an end Date.
                 indexList.add(i);
+            }
         }
         for(int i= 0 ; i<indexList.size();i++){
             gameList.remove(i);
