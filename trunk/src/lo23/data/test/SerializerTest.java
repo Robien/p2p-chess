@@ -1,4 +1,4 @@
-package lo23.data.serializer.tests;
+package lo23.data.test;
 
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
@@ -12,7 +12,7 @@ import lo23.utils.Enums.STATUS;
 /**
  * This class is used to test the Serializer class
  */
-public class TestSerializer
+public class SerializerTest
 {
     static public void main(String[] args)
     {
