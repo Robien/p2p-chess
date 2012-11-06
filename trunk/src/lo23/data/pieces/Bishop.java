@@ -89,7 +89,7 @@ public class Bishop extends GamePiece
                 xpym = false;
             }
 
-            if (xmym && x - i >= 0 && y - i >= 0 && game.getPieceAtXY(x - i, y - i) == null)
+              if (xmym && x - i >= 0 && y - i >= 0 && game.getPieceAtXY(x - i, y - i) == null)
             {
                 positions.add(new Position(x - i, y - i));
             }
