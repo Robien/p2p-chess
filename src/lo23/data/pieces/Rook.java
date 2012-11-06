@@ -24,6 +24,9 @@ public class Rook extends GamePiece {
      * @param owner The current piece's owner
      * @param game The game containig the current piece
      */
+
+    private Boolean alreadyMoved = false;
+
     public Rook(Position position, Player owner, Game game) 
     {
         super(position, owner, game);

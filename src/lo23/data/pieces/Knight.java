@@ -19,6 +19,10 @@ public class Knight extends GamePiece {
      * @param owner The current piece's owner
      * @param game The game containig the current piece
      */
+
+    private Boolean alreadyMoved = false;
+    private Boolean alreadyThreatened = false;
+
     public Knight(Position position, Player owner, Game game) {
         super(position, owner, game);
     }
