@@ -162,8 +162,8 @@ public class Profile implements Serializable {
     }
 
     /**
-     * Getter for the player's profile ID
-     * @return the player's profile ID
+     * Getter for the player's unique profile ID
+     * @return the player's unique profile ID
      */
     public String getProfileId() {
         return profileId;

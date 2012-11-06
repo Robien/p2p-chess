@@ -1,7 +1,7 @@
 package lo23.data.managers;
 
 import java.awt.Image;
-import java.util.Collection;
+import java.util.ArrayList;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
@@ -14,25 +14,25 @@ import lo23.utils.Enums.STATUS;
 public interface ProfileManagerInterface {
 
     /**
-     *
-     * @param pseudo
-     * @param password
-     * @return
+     * Generates a Profile with all the given information
+     * @param profileId the profile's unique identifier {@link Profile#getProfileId}
+     * @param pseudo the profile's pseudo
+     * @param password the profile's password
+     * @param status the profile's status
+     * @param ipAddress the profile's IP address
+     * @param avatar the profile's avatar
+     * @param name the profile's last name
+     * @param firstName the profile's first name
+     * @param age the profile's age
+     * @return the new Profile instance
      */
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age);
 
     /**
-     *
-     * @return
+     * Getter for the profiles list
+     * @return the profiles list
      */
-    public Collection<Profile> getProfilesList();
-
-    /**
-     *
-     * @param profileId
-     * @return
-     */
-    public PublicProfile getPublicProfile(String profileId);
+    public ArrayList<Profile> getProfilesList();
 
     /**
      *
