@@ -41,7 +41,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         // Grille
         GamePanel gamePanel = new GamePanel();
-        ChatPanel chatPanel = new ChatPanel();
+
         JPanel panel = new JPanel();
         BorderLayout mainLayout = new BorderLayout();
        
@@ -54,7 +54,9 @@ public class MainWindow extends JFrame implements ActionListener {
         //Test Ajout Timer
         TimerPanel timerPanel = new TimerPanel();
         panel.add(timerPanel, mainLayout.SOUTH);
-
+       //Chat panel
+        ChatPanel2 chatPanel = new ChatPanel2();
+        panel.add(chatPanel, mainLayout.EAST);
        
         return panel;
     }
