@@ -13,83 +13,77 @@ import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-
-
-
 /**
  *
  * @author pat
  */
 public class IHMListe extends javax.swing.JFrame implements PropertyChangeListener {
 
-    private DefaultTableModel listPlayers;
-    private final IhmLoginModel model;
-    
-    private void addPlayer(String name, String firstname, ImageIcon ico) {
-        listPlayers.addRow(new Object[]{name, firstname, ico});
-    }
+    private class PlayerModel extends DefaultTableModel {
 
-    private void removePlayer(String id) {
-        for (int i = 0; i < listPlayers.getRowCount(); i++) {
-            if (listPlayers.getValueAt(i, 0) == id) {
-                listPlayers.removeRow(i);
-                return;
+        public boolean isCellEditable(int r, int c) {
+            return false;
+        }
+
+        public Class getColumnClass(int columnIndex) {
+            Object o = getValueAt(0, columnIndex);
+
+            if (o == null) {
+                return Object.class;
+            } else {
+                return o.getClass();
+            }
+        }
+
+        public void addPlayer(String name, String firstname, ImageIcon ico) {
+            this.addRow(new Object[]{name, firstname, ico});
+        }
+
+        public void removePlayer(String id) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if (this.getValueAt(i, 0) == id) {
+                    this.removeRow(i);
+                    return;
+                }
             }
         }
     }
+    
+    private PlayerModel listPlayers;
+    private final IhmLoginModel model;
 
     /**
      * Creates new form IHMListe
      */
     public IHMListe(IhmLoginModel model) {
         // model.addPropertyChangeListener(this);
-        
+
         this.model = model;
-        
-        beforeInit();
-        initComponents();
-        afterInit();
-        
-        ImageIcon test = new ImageIcon("icon.gif");
-        
-        addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
-        addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
-        addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
-        addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
-        removePlayer("remi");
-        removePlayer("gaetan");
-    }
-        
-    private void beforeInit() {
+
         Object[][] donnees = {};
         String[] entetes = {"Prénom", "Nom", "Status"};
-        listPlayers = new DefaultTableModel() {
-            public boolean isCellEditable(int r, int c) {
-                return false;
-             }
-            public Class getColumnClass(int columnIndex) {
-                Object o = getValueAt(0, columnIndex);
-                if (o == null) {
-                    return Object.class;
-                } else {
-                    return o.getClass();
-                }
-            }
-        };
         
+        listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
         
-    }
-    
-    private void afterInit() {
-        tablePlayers.addMouseListener(new MouseAdapter() {
+        initComponents();
+
+        
+       tablePlayers.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 int num = tablePlayers.rowAtPoint(me.getPoint());
                 System.out.println(tablePlayers.getModel().getValueAt(num, 0));
             }
         });
+       
+        listPlayers.addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
+        listPlayers.addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
+        listPlayers.addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
+        listPlayers.addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
+        listPlayers.removePlayer("remi");
+        listPlayers.removePlayer("gaetan");
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,7 +236,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new IHMListe(null).setVisible(true);
-                
+
             }
         });
     }
