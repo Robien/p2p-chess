@@ -41,16 +41,20 @@ public class MainWindow extends JFrame implements ActionListener {
 
         // Grille
         GamePanel gamePanel = new GamePanel();
+        ChatPanel chatPanel = new ChatPanel();
         JPanel panel = new JPanel();
         BorderLayout mainLayout = new BorderLayout();
        
         panel.setLayout(mainLayout);
         
         panel.add(gamePanel, mainLayout.CENTER);
+        panel.add(chatPanel, mainLayout.LINE_END);
+
 
         //Test Ajout Timer
         TimerPanel timerPanel = new TimerPanel();
         panel.add(timerPanel, mainLayout.SOUTH);
+
        
         return panel;
     }
