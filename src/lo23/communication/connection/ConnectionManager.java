@@ -10,11 +10,11 @@ import java.net.MulticastSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.ComManager;
-import lo23.communication.handle.HandleReceiveMessage;
-import lo23.communication.handle.HandleSendMessage;
+import lo23.communication.handle.HandleMessage;
 import lo23.communication.handle.HandleServerConnection;
 import lo23.communication.handle.ReceivedConnectionListener;
 import lo23.communication.handle.ReceivedMessageListener;
@@ -36,13 +36,10 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
     // Server TCP
     private ServerSocket serverSocket;
     private HandleServerConnection serverConnection;
-    private HandleSendMessage serverSendMessage;
-    private HandleReceiveMessage serverReceiveMessage;
+    private HashMap<Socket, HandleMessage> serverHandleMessageMap;
    
-    // Main Client TCP
-    private Socket mainClientSocket;
-    private HandleSendMessage mainClientSendMessage;
-    private HandleReceiveMessage mainClientReceiveMessage;
+    // Client TCP
+    private HashMap<Socket, HandleMessage> clientHandleMessageMap;
 
     // Other
     // mettre les autres variables ici
@@ -54,7 +51,9 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
      */
     public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
-
+        serverHandleMessageMap = new HashMap<Socket, HandleMessage>();
+        clientHandleMessageMap = new HashMap<Socket, HandleMessage>();
+        
         try {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
@@ -120,6 +119,7 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
      */
     @Override
     public void receivedConnection(Socket clientSocket) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        HandleMessage handleMessage = new HandleMessage(clientSocket, this);
+        serverHandleMessageMap.put(clientSocket, handleMessage);
     }
 }
