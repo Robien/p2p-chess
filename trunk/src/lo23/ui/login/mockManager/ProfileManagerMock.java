@@ -35,7 +35,9 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     }
 
     public boolean login(String pseudo, String password) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(pseudo.equals("admin") && password.equals("admin"))
+            return true;
+        return false;
     }
 
     public void saveProfile(String profileId) {
