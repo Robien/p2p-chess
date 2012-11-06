@@ -1,9 +1,6 @@
 package lo23.communication.connection;
 
 import java.io.ByteArrayOutputStream;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import lo23.data.PublicProfile;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
@@ -12,43 +9,69 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.ComManager;
-import lo23.communication.message.MulticastInvit;
 import lo23.communication.handle.HandleReceiveMessage;
 import lo23.communication.handle.HandleSendMessage;
+import lo23.communication.handle.HandleServerConnection;
+import lo23.communication.handle.ReceivedConnectionListener;
+import lo23.communication.handle.ReceivedMessageListener;
+import lo23.communication.message.Message;
+import lo23.communication.message.MulticastInvit;
+import lo23.data.PublicProfile;
 
 /**
  * This class manage the socket connections.
  */
-public class ConnectionManager {
+public class ConnectionManager implements ReceivedConnectionListener, ReceivedMessageListener {
 
     private ComManager comManager;
     
+    // Multicast
     private MulticastSocket multicastSocket;
     private DatagramSocket datagramSocket;
     
+    // Server TCP
     private ServerSocket serverSocket;
+    private HandleServerConnection serverConnection;
     private HandleSendMessage serverSendMessage;
     private HandleReceiveMessage serverReceiveMessage;
+   
+    // Main Client TCP
+    private Socket mainClientSocket;
+    private HandleSendMessage mainClientSendMessage;
+    private HandleReceiveMessage mainClientReceiveMessage;
+
+    // Other
+    // mettre les autres variables ici
     
-    private Socket clientSocket;
     
-    public ConnectionManager(ComManager comManager) throws SocketException {
+    /**
+     * Constructor of ConnectionManager.
+     * @param comManager the comManager
+     */
+    public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
-        
+
         try {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
             datagramSocket = new DatagramSocket();
-            serverSocket = new ServerSocket(ConnectionParams.unicastPort); 
-            
+
+            serverSocket = new ServerSocket(ConnectionParams.unicastPort);
+            serverConnection = new HandleServerConnection(serverSocket, this);
+
         } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for the initialisation of the server sockets", ex);
         }
     }
-    
+
+    /**
+     * Mettre un commentaire.
+     */
     public void sendMulticast() {
 
         // Send Datagramme
@@ -88,5 +111,22 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Mettre un commentaire.
+     * @param socket
+     * @param message
+     */
+    @Override
+    public void receivedMessage(Socket socket, Message message) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
+    /**
+     * Mettre un commentaire.
+     * @param clientSocket
+     */
+    @Override
+    public void receivedConnection(Socket clientSocket) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
