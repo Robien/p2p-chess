@@ -75,32 +75,33 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public void notifyChatMessage(Message message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        currentGame.getEvents().add(message);
     }
 
     @Override
     public Game createGame(Invitation invitation) {
+        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Constant createConstant(CONSTANT_TYPE constant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Constant createConstant(CONSTANT_TYPE constant) {        
+        return new Constant(constant, currentGame.getRemotePlayer(), currentGame.getLocalPlayer());
     }
 
     @Override
     public void sendConstant(Constant constant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        networkSender.sendConstantMessage(constant);
     }
 
     @Override
     public void notifyConstantMessage(Constant constant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        currentGame.getEvents().add(constant);
     }
 
     @Override
     public void saveConstant(Constant constant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        currentGame.getEvents().add(constant);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class GameManager implements GameManagerInterface {
     }
 
     @Override
-    public Game notifiyGameStarted(Invitation invitation) {
+    public Game notifyGameStarted(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
