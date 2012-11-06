@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.ComManager;
 
+/**
+ * This class manage the socket connections.
+ */
 public class ConnectionManager {
 
     private ComManager comManager;
