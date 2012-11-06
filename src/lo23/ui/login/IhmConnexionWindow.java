@@ -1,19 +1,14 @@
 package lo23.ui.login;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
-import lo23.data.managers.GameManager;
-import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
@@ -198,8 +193,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
-  
                 IHMListe listWindow = new IHMListe(ihmLoginModel);
                 this.setVisible(false);
                 this.dispose();
@@ -207,12 +200,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-
         }
-        
-
-
-
     }
 
     /**
