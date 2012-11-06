@@ -144,6 +144,7 @@ public class King extends GamePiece {
                 }
             }
         return positions;
+
     }
 
 }

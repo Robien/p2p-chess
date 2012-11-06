@@ -1,6 +1,7 @@
 package lo23.data.pieces;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
 import lo23.data.Player;
@@ -124,5 +125,27 @@ public abstract class GamePiece implements Serializable {
     }
 
     public abstract List<Position> getPossibleMoves();
+
+
+    public boolean isOncheck()
+    {
+        ArrayList<GamePiece> gamePieces = getGame().getPieces();
+
+        for (int i = 0; i < gamePieces.size(); ++i)
+        {
+            GamePiece piece = gamePieces.get(i);
+            if (piece.getOwner() != getGame().getLocalPlayer())
+            {
+                List<Position> pos = piece.getPossibleMoves();
+                if (pos.contains(getPosition())) //TODO change to king's position
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+
+    }
 
 }
