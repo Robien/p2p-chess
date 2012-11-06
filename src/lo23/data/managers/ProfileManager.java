@@ -1,10 +1,14 @@
 package lo23.data.managers;
 
 import java.awt.Image;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -14,7 +18,10 @@ import lo23.utils.Enums.STATUS;
 public class ProfileManager implements ProfileManagerInterface {
 
     private Profile currentProfile;
-    private Collection<Profile> profiles;
+
+    public ProfileManager () {
+        this.currentProfile = null;
+    }
 
     @Override
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
@@ -22,15 +29,10 @@ public class ProfileManager implements ProfileManagerInterface {
     }
 
     @Override
-    public Collection<Profile> getProfilesList() {
+    public ArrayList<Profile> getProfilesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public PublicProfile getPublicProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     @Override
     public boolean login(String pseudo, String password) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -43,7 +45,13 @@ public class ProfileManager implements ProfileManagerInterface {
 
     @Override
     public Profile loadProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            this.currentProfile = Serializer.readProfile(profileId);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return this.currentProfile;
     }
 
     @Override
