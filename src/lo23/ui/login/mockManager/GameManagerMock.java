@@ -6,6 +6,7 @@
 package lo23.ui.login.mockManager;
 
 import java.util.ArrayList;
+import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
@@ -17,6 +18,7 @@ import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.managers.GameManagerInterface;
+import lo23.data.managers.Manager;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -24,7 +26,7 @@ import lo23.utils.Enums.CONSTANT_TYPE;
  *
  * @author lo23a009
  */
-public class GameManagerMock implements GameManagerInterface{
+public class GameManagerMock extends Manager implements GameManagerInterface{
 
     public GameManagerMock(ApplicationModel model){
         super(model);
@@ -115,6 +117,14 @@ public class GameManagerMock implements GameManagerInterface{
     }
 
     public void notifyMovement(Move move) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Game notifyGameStarted(Invitation invitation) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArrayList<Game> getListAllGames() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
