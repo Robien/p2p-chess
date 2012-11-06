@@ -114,6 +114,11 @@ public class Game implements Serializable
 
     public void playMove(Move move) {
         //FIXME: add the rest
+        //move.to.getX()
         events.add(move);
+    }
+
+    public ArrayList<GamePiece> getPieces() {
+        return pieces;
     }
 }
