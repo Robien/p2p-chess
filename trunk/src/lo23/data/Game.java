@@ -1,10 +1,10 @@
 package lo23.data;
 
-import lo23.data.pieces.GamePiece;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.pieces.GamePiece;
 
 
 
@@ -14,7 +14,7 @@ import lo23.data.exceptions.IllegalMoveException;
  */
 public class Game implements Serializable
 {
-    private String gameId;
+    private long gameId;
     private Date start;
     private Date end;
     private float duration;     // Time in seconds
@@ -26,12 +26,10 @@ public class Game implements Serializable
 
     /**
      * Constructor
-     * 
-     * @param id The identifier which will be associated to the created object
      */
-    public Game(String id)
+    public Game()
     {
-        gameId = id;
+        gameId = (new Date()).getTime();
         start = new Date();
         end = null;
         duration = 0;
@@ -46,7 +44,7 @@ public class Game implements Serializable
      * 
      * @return The gameId attribute
      */
-    public String getGameId()
+    public long getGameId()
     {
         return gameId;
     }

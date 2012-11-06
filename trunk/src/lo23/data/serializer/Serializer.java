@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import lo23.data.Game;
 import lo23.data.Profile;
 import lo23.data.exceptions.FileNotFoundException;
@@ -103,9 +104,9 @@ public class Serializer
     static public void saveGame(Game game) throws NoIdException
     {
         // Checks the profileId attribute validity
-        if(game.getGameId() == null || game.getGameId().equals(""))
+        if(game.getGameId() < 0 || game.getGameId() > (new Date()).getTime())
         {
-            throw new NoIdException("The object you're trying to serialize handle a null or empty gameId attribute.");
+            throw new NoIdException("The object you're trying to serialize handle an invalid gameId attribute.");
         }
         
         try
