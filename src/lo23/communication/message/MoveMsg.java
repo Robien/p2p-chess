@@ -1,5 +1,4 @@
 package lo23.communication.message;
-
 import lo23.data.Move;
 
 /**
