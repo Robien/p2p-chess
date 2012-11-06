@@ -1,4 +1,4 @@
-package lo23.data.test;
+package lo23.data.tests;
 
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
