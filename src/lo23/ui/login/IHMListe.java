@@ -13,6 +13,9 @@ import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
+
+
+
 /**
  *
  * @author pat
@@ -61,6 +64,9 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         Object[][] donnees = {};
         String[] entetes = {"Prénom", "Nom", "Status"};
         listPlayers = new DefaultTableModel() {
+            public boolean isCellEditable(int r, int c) {
+                return false;
+             }
             public Class getColumnClass(int columnIndex) {
                 Object o = getValueAt(0, columnIndex);
                 if (o == null) {
