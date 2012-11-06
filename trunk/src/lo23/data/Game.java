@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.pieces.Pawn;
+import lo23.utils.Enums;
 import lo23.data.pieces.GamePiece;
 
 
@@ -38,7 +40,40 @@ public class Game implements Serializable
         events = new ArrayList<Event>();
     }
 
-    
+    public void buildPieces() {
+        // white are at the bottom.
+        Player whitePlayer, blackPlayer;
+        if(localPlayer.getColor() == Enums.COLOR.BLACK) {
+            blackPlayer = localPlayer;
+            whitePlayer = remotePlayer;
+        } else {
+            whitePlayer = localPlayer;
+            blackPlayer = remotePlayer;
+        }
+
+        for(int i = 0; i < 8; i++) {
+            Pawn p = new Pawn(new Position(i, 1), whitePlayer, this);
+            Pawn p2 = new Pawn(new Position(i, 6), blackPlayer, this);
+
+            whitePlayer.addPiece(p);
+            blackPlayer.addPiece(p2);
+            pieces.add(p);
+            pieces.add(p2);
+        }
+
+
+    }
+
+    public void dumpBoard() {
+        for(int x = 0; x < 8; x++) {
+            for(int y = 0; y < 8; y++) {
+                System.out.print(getPieceAtXY(x, y).getClass().toString().charAt(0));
+            }
+            
+            System.out.println();
+        }
+    }
+
     /**
      * Getter for the gameId attribute
      * 
