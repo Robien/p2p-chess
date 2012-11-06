@@ -160,7 +160,7 @@ public interface GameManagerInterface
      * 
      * @return A Game object
      */
-    public Game notifiyGameStarted(Invitation invitation);
+    public Game notifyGameStarted(Invitation invitation);
     
     /**
      * This method returns a list of ended games.
