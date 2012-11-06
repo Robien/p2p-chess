@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
@@ -15,11 +16,12 @@ import lo23.utils.Enums.STATUS;
  * Implementation of the PublicManagerInterface interface
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
-public class ProfileManager implements ProfileManagerInterface {
+public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     private Profile currentProfile;
 
-    public ProfileManager () {
+    public ProfileManager (ApplicationModel app) {
+        super(app);
         this.currentProfile = null;
     }
 

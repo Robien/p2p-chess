@@ -1,9 +1,11 @@
 package lo23.data.serializer.tests;
 
+import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Profile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.managers.GameManager;
 import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.STATUS;
 
@@ -14,11 +16,16 @@ public class TestSerializer
 {
     static public void main(String[] args)
     {
-        serializeProfile();
+
+        ApplicationModel app = new ApplicationModel();
+
+        app.setGameManager(new GameManager(app));
+
+        /*serializeProfile();
         readProfile();
         
         serializeGame();
-        readGame();
+        readGame();*/
     }
     
     
