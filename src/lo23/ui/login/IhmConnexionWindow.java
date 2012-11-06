@@ -1,10 +1,12 @@
 package lo23.ui.login;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
@@ -57,7 +59,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
 
                // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
-                new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
+                new IhmConnexionWindow(ihmLoginModel).setVisible(true);
             }
         });
     }
@@ -108,6 +110,21 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         connectBtn = new javax.swing.JButton();
         loadProfileBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JButton();
+        
+        /** 
+         * Boutton de test (à supprimer) avec testBtnActionPerformed
+         */
+        JButton testBtn = new javax.swing.JButton();
+        testBtn.setText("Test Button");
+        testBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testBtnActionPerformed(evt);
+            }
+        });
+        
+        /**
+         * Fin boutton de test
+         */
 
         // Styles
         connectBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14));
@@ -163,7 +180,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                     .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(24, 24, 24))
         );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,6 +192,11 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         );
 
         return jPanel1;
+    }
+
+    private void testBtnActionPerformed(ActionEvent evt) {
+        // debug
+        System.out.println("Vous avez cliqué sur testBtn.");
     }
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
