@@ -69,7 +69,8 @@ public class TestSerializer
      */
     static private void serializeGame()
     {
-        Game g = new Game("test");
+        Game g = new Game();
+        
         try
         {
             Serializer.saveGame(g);
