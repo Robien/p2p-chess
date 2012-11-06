@@ -2,7 +2,10 @@ package lo23.data.managers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.communication.ISender;
+import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
@@ -12,6 +15,7 @@ import lo23.data.Move;
 import lo23.data.Position;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.serializer.Constants;
@@ -19,13 +23,17 @@ import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
 
-public class GameManager implements GameManagerInterface {
+public class GameManager extends Manager implements GameManagerInterface {
     
     private Game currentGame;
 
     // @khamidou FIXME: use injection dependency
     // FIXME: use better name
     private ISender networkSender;
+
+    public GameManager(ApplicationModel app) {
+        super(app);
+    }
     
 
     @Override
@@ -51,7 +59,11 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public void playMove(Move move) {
-        currentGame.playMove(move);
+        try {
+            currentGame.playMove(move);
+        } catch (IllegalMoveException ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

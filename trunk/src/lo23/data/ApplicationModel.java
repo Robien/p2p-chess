@@ -18,10 +18,7 @@ public class ApplicationModel {
     private ProfileManagerInterface pManager;
     private ISender comManager;
 
-    public ApplicationModel(GameManagerInterface gManager, ProfileManagerInterface pManager, ISender comManager) {
-        this.gManager = gManager;
-        this.pManager = pManager;
-        this.comManager = comManager;
+    public ApplicationModel() {
     }
     
     public GameManagerInterface getGManager() {
@@ -32,7 +29,19 @@ public class ApplicationModel {
         return pManager;
     }
 
-    public ISender getSender() {
+    public void setGameManager(GameManagerInterface gInt) {
+        gManager = gInt;
+    }
+
+    public void setProfileManager(ProfileManagerInterface pInt) {
+        pManager = pInt;
+    }
+
+    public ISender getComManager() {
         return comManager;
+    }
+
+    public void setComManager(ISender cInt) {
+        comManager = cInt;
     }
 }
