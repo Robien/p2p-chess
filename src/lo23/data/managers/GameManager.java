@@ -44,7 +44,7 @@ public class GameManager implements GameManagerInterface {
 
     @Override
     public void sendMove(Move move) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        networkSender.sendMovement(move);
     }
 
     @Override
