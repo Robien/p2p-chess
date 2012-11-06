@@ -5,11 +5,13 @@
 
 package lo23.ui.login.mockManager;
 import lo23.communication.ISender;
+import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.PublicProfile;
+import lo23.data.managers.Manager;
 
 /**
  *
