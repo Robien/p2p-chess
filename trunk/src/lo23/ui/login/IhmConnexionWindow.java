@@ -56,6 +56,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                     super.paint(g);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    super.paint(g);
                 }
             };
         };
@@ -71,7 +72,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chess-P2P");
-        setPreferredSize(new java.awt.Dimension(500, 306));
 
         loginField.setText("Login");
         loginField.addActionListener(new java.awt.event.ActionListener() {
@@ -220,6 +220,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
                 
                 
+               // new IhmConnexionWindow(ihmLoginModel).setVisible(true);
                 new IhmConnexionWindow(ihmLoginModel).setVisible(true);
             }
         });

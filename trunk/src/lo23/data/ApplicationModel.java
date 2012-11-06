@@ -18,7 +18,7 @@ public class ApplicationModel {
     private ProfileManagerInterface pManager;
     private ISender comManager;
 
-    ApplicationModel(GameManagerInterface gManager, ProfileManagerInterface pManager, ISender comManager) {
+    public ApplicationModel(GameManagerInterface gManager, ProfileManagerInterface pManager, ISender comManager) {
         this.gManager = gManager;
         this.pManager = pManager;
         this.comManager = comManager;
