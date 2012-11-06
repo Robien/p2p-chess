@@ -55,6 +55,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                     g.drawImage(image, 0, 0, null);
                     super.paint(g);
                 } catch (IOException e) {
+                    System.out.println("DEBUG : Image Non Chargee. URI: "+backgroundPath);
                     e.printStackTrace();
                     super.paint(g);
                 }
