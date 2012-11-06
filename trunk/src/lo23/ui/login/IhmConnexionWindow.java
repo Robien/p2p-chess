@@ -41,8 +41,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     public IhmConnexionWindow(IhmLoginModel ihmLoginModel) {
         initComponents();
         this.ihmLoginModel = ihmLoginModel;
-        setResizable(false);
         setSize(360, 500);
+        setResizable(false);
+        setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
     }
 
     /**
@@ -111,21 +112,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         loadProfileBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JButton();
         
-        /** 
-         * Boutton de test (à supprimer) avec testBtnActionPerformed
-         */
-        JButton testBtn = new javax.swing.JButton();
-        testBtn.setText("Test Button");
-        testBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testBtnActionPerformed(evt);
-            }
-        });
-        
-        /**
-         * Fin boutton de test
-         */
-
         // Styles
         connectBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14));
         connectBtn.setText("Connect");
@@ -194,29 +180,33 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         return jPanel1;
     }
 
-    private void testBtnActionPerformed(ActionEvent evt) {
-        // debug
-        System.out.println("Vous avez cliqué sur testBtn.");
-    }
-
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
         System.out.println("Vous avez cliqué sur connexion.");
         System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
 
         // Appel de la methode de connexion
+
+        // TODO à inserer si succes de connection
         ProfileManagerInterface profile = ihmLoginModel.getApplicationModel().getPManager();
-        try {
-            boolean ret = profile.login(getLoginField().getText(), getPasswordField().getText());
-            if (ret == false) {
-                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
-                //INSTANTIATE LAUNCH GAME FRAME
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-        }
+        IHMListe listWindow = new IHMListe(ihmLoginModel);
+        this.setVisible(false);
+        this.dispose();
+        listWindow.setVisible(true);
+
+//        try {
+//            boolean ret = profile.login(getLoginField().getText(), getPasswordField().getText());
+//            if (ret == false) {
+//                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Login succeeded", "Login succeeded", JOptionPane.OK_OPTION);
+//                //INSTANTIATE LAUNCH GAME FRAME
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+//
+//        }
+
 
     }
 
