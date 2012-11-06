@@ -1,18 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lo23.communication.message;
 
 /**
- *
- * @author penotvin
+ * This message is sent while someone chat with someone else.
  */
 public class MessageMsg extends GameMessage {
 
     private Message message;
 
+    /**
+    * Contructor of the MessageMsg.
+    */
     public MessageMsg(Message msg){
         this.message = msg;
     }
