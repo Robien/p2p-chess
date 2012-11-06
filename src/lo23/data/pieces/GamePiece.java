@@ -14,7 +14,7 @@ import lo23.data.Position;
 public abstract class GamePiece implements Serializable {
 
     private boolean outOfBorder;
-    private Position position;
+    protected Position position;
     private Player owner;
     private Game game;
     
