@@ -5,7 +5,7 @@ import lo23.data.Move;
 /**
  * This message is sent while a chess piece is moved.
  */
-public class MoveMsg {
+public class MoveMsg extends GameMessage {
 
     private Move move;
 
