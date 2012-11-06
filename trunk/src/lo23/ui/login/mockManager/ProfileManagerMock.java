@@ -5,10 +5,13 @@
 
 package lo23.ui.login.mockManager;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Collection;
+import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.utils.Enums.STATUS;
 
@@ -16,7 +19,7 @@ import lo23.utils.Enums.STATUS;
  *
  * @author lo23a009
  */
-public class ProfileManagerMock implements ProfileManagerInterface{
+public class ProfileManagerMock extends Manager implements ProfileManagerInterface{
 
     public ProfileManagerMock(ApplicationModel model){
         super(model);
@@ -26,9 +29,6 @@ public class ProfileManagerMock implements ProfileManagerInterface{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Collection<Profile> getProfilesList() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     public PublicProfile getPublicProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -51,6 +51,10 @@ public class ProfileManagerMock implements ProfileManagerInterface{
     }
 
     public void sendInvitation(Invitation invitation) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArrayList<Profile> getProfilesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
