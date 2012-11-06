@@ -137,4 +137,7 @@ public class Game implements Serializable
     public ArrayList<GamePiece> getPieces() {
         return pieces;
     }
+    public Date getEndDate() {
+        return end;
+    }
 }
