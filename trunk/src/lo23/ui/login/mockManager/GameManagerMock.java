@@ -26,6 +26,10 @@ import lo23.utils.Enums.CONSTANT_TYPE;
  */
 public class GameManagerMock implements GameManagerInterface{
 
+    public GameManagerMock(ApplicationModel model){
+        super(model);
+    }
+
     public void save() throws NoIdException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
