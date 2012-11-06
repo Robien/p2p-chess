@@ -59,7 +59,6 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         // model.addPropertyChangeListener(this);
 
         this.model = model;
-        this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
 
         Object[][] donnees = {};
         String[] entetes = {"Prénom", "Nom", "Status"};
@@ -68,7 +67,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         listPlayers.setDataVector(donnees, entetes);
         
         initComponents();
-
+        this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         
        tablePlayers.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
