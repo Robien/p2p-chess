@@ -13,6 +13,7 @@ import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
+import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -34,7 +35,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public boolean login(String pseudo, String password) {
+    public boolean connection(String pseudo, String password) {
         if(pseudo.equals("admin") && password.equals("admin"))
             return true;
         return false;
@@ -57,6 +58,38 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     }
 
     public ArrayList<Profile> getProfilesList() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArrayList<PublicProfile> createProfilesList() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void saveProfile() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyInvitation(Invitation invitation) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyAddProfile(PublicProfile publicProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void notifyInvitAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void exportProfile(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void importProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
