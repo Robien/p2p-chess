@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lo23.communication.ISender;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
@@ -26,10 +25,6 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 public class GameManager extends Manager implements GameManagerInterface {
     
     private Game currentGame;
-
-    // @khamidou FIXME: use injection dependency
-    // FIXME: use better name
-    private ISender networkSender;
 
     public GameManager(ApplicationModel app) {
         super(app);
@@ -54,7 +49,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendMove(Move move) {
-        networkSender.sendMovement(move);
+        getApplicationModel().getComManager().sendMovement(move);
     }
 
     @Override
@@ -74,7 +69,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendMessage(Message message) {
-        networkSender.sendChatMessage(message);
+        getApplicationModel().getComManager().sendChatMessage(message);
     }
 
     @Override
@@ -105,7 +100,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendConstant(Constant constant) {
-        networkSender.sendConstantMessage(constant);
+        getApplicationModel().getComManager().sendConstantMessage(constant);
     }
 
     @Override
