@@ -11,7 +11,10 @@ import lo23.data.Position;
  * @author  Guilhem
  */
 public class Pawn extends GamePiece {
-    
+
+
+     private boolean firstMove; // is the pawn never move ?
+
     /**
      * Creates a new Pawn object with a given position
      * 
@@ -21,6 +24,13 @@ public class Pawn extends GamePiece {
      */
     public Pawn(Position position, Player owner, Game game) {
         super(position, owner, game);
+            firstMove = true;
+    }
+
+    @Override
+        public void movePiece(Position to) {
+        super.position = to;
+        firstMove = false;
     }
 
     @Override
@@ -35,10 +45,11 @@ public class Pawn extends GamePiece {
 
         Game game = getGame();
 
+        if (getOwner().getColor() == getGame().getLocalPlayer().getColor())
+        {
         
-        
-        //first time (better to use a boolean)
-           if(y==1)
+
+           if(firstMove)
            {
                 //nobody (no a friend or an enemy) you can move
                 if (game.getPieceAtXY(x, y + 2) == null && !thereIsAnEnemyAt(x, y + 2))
@@ -70,7 +81,42 @@ public class Pawn extends GamePiece {
                     positions.add(new Position(x + 1, y + 1));
                 }
             
-        
+        }
+        else
+        {
+
+           if(firstMove)
+           {
+                //nobody (no a friend or an enemy) you can move
+                if (game.getPieceAtXY(x, y - 2) == null && !thereIsAnEnemyAt(x, y - 2))
+                {
+                    positions.add(new Position(x, y - 2));
+                }
+           }
+
+
+
+         // every cases, just one move possible
+
+           //nobody (no a friend or an enemy) you can move
+                 if (game.getPieceAtXY(x, y - 1) == null && !thereIsAnEnemyAt(x, y - 1))
+                {
+                    positions.add(new Position(x, y - 1));
+                }
+
+             //if you can kill someone
+                if (thereIsAnEnemyAt(x - 1, y - 1))
+                {
+
+                    positions.add(new Position(x - 1, y - 1));
+                }
+             //if you can kill someone  (2)
+                if (thereIsAnEnemyAt(x + 1, y - 1))
+                {
+
+                    positions.add(new Position(x + 1, y - 1));
+                }
+        }
 
         return positions;
     }
