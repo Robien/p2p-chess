@@ -6,7 +6,7 @@ import lo23.utils.Enums.STATUS;
 /**
  * This message is sent by distant client to asnwer MulticastInvit.
  */
-public class MulticastAnswer {
+public class MulticastAnswer extends ConnectionMessage{
 
     private PublicProfile guest;
 

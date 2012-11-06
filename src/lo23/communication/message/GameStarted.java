@@ -5,7 +5,7 @@ import lo23.data.PublicProfile;
 /**
  * This message is sent to notify the distant client that the game is started.
  */
-public class GameStarted {
+public class GameStarted extends ConnectionMessage{
 
     private PublicProfile guest;
 
