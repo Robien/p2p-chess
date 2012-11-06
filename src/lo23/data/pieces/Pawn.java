@@ -121,4 +121,11 @@ public class Pawn extends GamePiece {
         return positions;
     }
 
+    @Override
+public boolean isPawnTop()
+{
+    return (getPosition().getY() == 7 || getPosition().getY() == 0);
 }
+
+}
+

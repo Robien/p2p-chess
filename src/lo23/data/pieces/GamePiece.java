@@ -151,4 +151,9 @@ public abstract class GamePiece implements Serializable {
 
     }
 
+public boolean isPawnTop()
+{
+    return (false);
 }
+}
+
