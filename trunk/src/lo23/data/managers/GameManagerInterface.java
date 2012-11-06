@@ -177,6 +177,13 @@ public interface GameManagerInterface
     public ArrayList<Game> getListStartGames();
     
     /**
+     * This method returns a list of all games (started && Stop).
+     * 
+     * @return An ArrayList object of Game objects
+     */
+    public ArrayList<Game> getListAllGames();
+    
+    /**
      * This is a simple getter to the currentGame attribute
      * 
      * @return The current game
