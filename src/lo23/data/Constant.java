@@ -6,7 +6,7 @@ import lo23.utils.Enums;
  * This class is used for communication between two players.
  * Messages in this class are all messages that aren't Message or Move objects
  */
-public class Constant
+public class Constant extends Event
 {
     private Enums.CONSTANT_TYPE constant;
     private Player receiver;
