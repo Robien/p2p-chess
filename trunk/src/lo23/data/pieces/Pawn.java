@@ -121,6 +121,57 @@ public class Pawn extends GamePiece {
         return positions;
     }
 
+       @Override
+    public boolean isResponsableOfCheck(King king, Position from, Position to)
+    {
+        
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+        if (getOwner().getColor() == getGame().getLocalPlayer().getColor())
+        {
+ 
+     
+             //if you can kill someone 
+                if (isThereAnEnemyHere(x - 1, y + 1, to) && game.getPieceAtXY(x -1, y +1) == king)
+                {
+                    return true;
+                }
+             //if you can kill someone  (2)
+                if (isThereAnEnemyHere(x + 1, y + 1, to) && game.getPieceAtXY(x +1, y +1) == king)
+                {
+
+                    return true;
+                }
+            
+        }
+        else
+        {
+
+        
+             //if you can kill someone
+                if (isThereAnEnemyHere(x - 1, y - 1, to) && game.getPieceAtXY(x -1, y -1) == king)
+                {
+
+                    return true;
+                }
+             //if you can kill someone  (2)
+                if (isThereAnEnemyHere(x + 1, y - 1, to) && game.getPieceAtXY(x +1, y -1) == king)
+                {
+
+                    return true;
+                }
+        }
+
+        return false;   
+       }
+
+
+
+
     @Override
 public boolean isPawnTop()
 {

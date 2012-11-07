@@ -116,5 +116,90 @@ public class Knight extends GamePiece {
 
         return positions;    
     }
+   @Override
+    public boolean isResponsableOfCheck(King king, Position from, Position to)
+    {
 
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+        //6 cases
+
+            if (x + 1 < 8 && y + 2 < 8 && isThereSomebodyHere(x + 1, y + 2, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + 1, y + 2, to) && game.getPieceAtXY(x +1, y +2) == king)
+                {
+                    return true;
+                }
+            }
+
+            if (x - 1 >= 0 && y + 2 < 8 && isThereSomebodyHere(x - 1, y + 2, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - 1, y + 2, to) && game.getPieceAtXY(x - 1, y + 2) == king)
+                {
+                    return true;
+                }
+            }
+
+            if (x - 2 >=0 && y + 1 < 8 && isThereSomebodyHere(x - 2, y + 1, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - 2, y + 1, to) && game.getPieceAtXY(x - 2, y + 1) == king)
+                {
+                    return true;
+                }
+            }
+
+            if (x + 2 < 8 && y + 1 < 8 && isThereSomebodyHere(x + 2, y + 1, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + 2, y + 1, to) && game.getPieceAtXY(x + 2, y + 1) == king)
+                {
+                    return true;
+                }
+            }
+
+            if (x - 2 >=0 && y - 1 >=0 && isThereSomebodyHere(x - 2, y - 1, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - 2, y - 1, to) && game.getPieceAtXY(x - 2, y - 1) == king)
+                {
+                    return true;
+                }
+            }
+
+            if (x + 2 < 8 && y - 1 >=0 && isThereSomebodyHere(x + 2, y - 1, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + 2, y - 1, to) && game.getPieceAtXY(x +2, y -1) == king)
+                {
+                    return true;
+                }
+            }
+
+        return false;
+    }
 }
