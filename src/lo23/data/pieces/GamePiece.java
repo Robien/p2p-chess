@@ -82,7 +82,7 @@ public abstract class GamePiece implements Serializable {
     }
 
     /**
-     * This method return true if at x, y there no piece or an enemy one's
+     * This method return true if at x, y there no piece or an enemy one's. verify check too
      *
      * @return true if it's an empty case or an enemy piece
      * @author Romain ui-grid
@@ -91,13 +91,15 @@ public abstract class GamePiece implements Serializable {
     {
         if (x >= 0 && y >= 0 && x < 8 && y < 8 && getGame().getPieceAtXY(x, y) == null)
         {
-            return true;
+
+            return (!(isOnCheckWithAMove(getPosition(), new Position(x, y))));
+            
         }
         else
         {
             if (thereIsAnEnemyAt(x, y))
             {
-                return true;
+                 return (!(isOnCheckWithAMove(getPosition(), new Position(x, y))));
             }
         }
         return false;
@@ -113,12 +115,17 @@ public abstract class GamePiece implements Serializable {
     {
         if (x >= 0 && y >= 0 && x < 8 && y < 8 && getGame().getPieceAtXY(x, y) == null)
         {
-            list.add(new Position(x, y));
-            return true;
+             if (!(isOnCheckWithAMove(getPosition(), new Position(x, y))))
+             {
+              list.add(new Position(x, y));
+             }
+
+             return true;
+ 
         }
         else
         {
-            if (thereIsAnEnemyAt(x, y))
+            if (thereIsAnEnemyAt(x, y) && (!(isOnCheckWithAMove(getPosition(), new Position(x, y)))))
             {
                 list.add(new Position(x, y));
             }
