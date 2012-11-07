@@ -9,28 +9,31 @@ import java.util.logging.Logger;
 /**
  * This class handle the connection on the server.
  */
-public class HandleServerConnection implements Runnable {
+public class HandleServerConnection extends HandleRunnable {
 
     private ServerSocket serverSocket;
-    private ReceivedConnectionListener listener;
+    private ConnectionListener listener;
 
     /**
      * Constructor of HandleServerConnection.
+     *
      * @param serverSocket
-     * @param listener 
+     * @param listener
      */
-    public HandleServerConnection(ServerSocket serverSocket, ReceivedConnectionListener listener) {
+    public HandleServerConnection(ServerSocket serverSocket, ConnectionListener listener) {
         this.serverSocket = serverSocket;
         this.listener = listener;
     }
 
-   /**
-     * This method is launched when the Runnable is started.
+    /**
+     * This method is launched when the Thread is started.
      */
     @Override
     public void run() {
+        notifyStart();
         Socket clientSocket;
-        while (true) {
+        
+        while (getStart()) {
             try {
                 clientSocket = serverSocket.accept();
                 listener.receivedConnection(clientSocket);
@@ -39,4 +42,5 @@ public class HandleServerConnection implements Runnable {
             }
         }
     }
+
 }

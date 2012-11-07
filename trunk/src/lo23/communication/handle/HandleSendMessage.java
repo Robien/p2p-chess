@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lo23.communication.connection.ConnectionManager;
 import lo23.communication.message.Message;
 
 /**
@@ -23,7 +22,7 @@ public class HandleSendMessage {
         try {
             objectOutput = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for the initialisation", e);
+            Logger.getLogger(HandleSendMessage.class.getName()).log(Level.SEVERE, "Error for the initialisation", e);
         }
     }
 
@@ -35,18 +34,8 @@ public class HandleSendMessage {
         try {
             objectOutput.writeObject(message);
         } catch (IOException e) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for sending a message", e);
+            Logger.getLogger(HandleSendMessage.class.getName()).log(Level.SEVERE, "Error for sending a message", e);
         }
     }
-
-    /**
-     * Close the handle.
-     */
-    public void closeHandle() {
-        try {
-            objectOutput.close();
-        } catch (IOException e) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for closing the handle", e);
-        }
-    }
+    
 }

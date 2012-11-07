@@ -1,6 +1,5 @@
 package lo23.communication;
 
-import java.awt.Image;
 import lo23.communication.connection.ConnectionManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
@@ -8,7 +7,6 @@ import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.PublicProfile;
-import lo23.data.managers.GameManager;
 import lo23.data.managers.Manager;
 import lo23.ui.login.mockManager.*;
 import lo23.utils.Enums.STATUS;
