@@ -152,7 +152,7 @@ public abstract class GamePiece implements Serializable {
             if (piece.getOwner() != getGame().getLocalPlayer())
             {
                 List<Position> pos = piece.getPossibleMoves();
-                if (pos.contains(getPosition())) //TODO change to king's position
+                if (pos.contains(getOwner().getKing().getPosition()))
                 {
                     return true;
                 }
@@ -162,7 +162,27 @@ public abstract class GamePiece implements Serializable {
         return false;
 
     }
+    
+    public boolean isOnCheckWithAMove(Position from, Position to)
+    {
+        ArrayList<GamePiece> gamePieces = getGame().getPieces();
 
+        for (int i = 0; i < gamePieces.size(); ++i)
+        {
+            GamePiece piece = gamePieces.get(i);
+            if (piece.getOwner() != getGame().getLocalPlayer())
+            {
+
+                if (piece.isResponsableOfCheck(getOwner().getKing(), from, to)) //TODO change to king's position
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+
+    }
 public boolean isPawnTop()
 {
     return (false);
