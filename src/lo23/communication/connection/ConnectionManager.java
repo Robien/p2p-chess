@@ -14,10 +14,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.ComManager;
+import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
 import lo23.communication.handle.HandleServerConnection;
-import lo23.communication.handle.ReceivedConnectionListener;
-import lo23.communication.handle.ReceivedMessageListener;
 import lo23.communication.message.Message;
 import lo23.communication.message.MulticastInvit;
 import lo23.data.PublicProfile;
@@ -25,24 +24,21 @@ import lo23.data.PublicProfile;
 /**
  * This class manage the socket connections.
  */
-public class ConnectionManager implements ReceivedConnectionListener, ReceivedMessageListener {
+public class ConnectionManager implements ConnectionListener {
 
     private ComManager comManager;
     
-    // Multicast
-    private MulticastSocket multicastSocket;
-    private DatagramSocket datagramSocket;
+    // Multicast Socket
+    private MulticastSocket multicastSocket; //server
+    private DatagramSocket datagramSocket; //client
     
-    // Server TCP
+    // TCP
     private ServerSocket serverSocket;
     private HandleServerConnection serverConnection;
-    private HashMap<Socket, HandleMessage> serverHandleMessageMap;
-   
-    // Client TCP
-    private HashMap<Socket, HandleMessage> clientHandleMessageMap;
+    private HashMap<Socket, HandleMessage> handleMessageMap;
 
     // Other
-    // mettre les autres variables ici
+    private HashMap<InetAddress, Socket> socketDirectory;
     
     
     /**
@@ -51,8 +47,7 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
      */
     public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
-        serverHandleMessageMap = new HashMap<Socket, HandleMessage>();
-        clientHandleMessageMap = new HashMap<Socket, HandleMessage>();
+        handleMessageMap = new HashMap<Socket, HandleMessage>();
         
         try {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
@@ -61,6 +56,8 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
 
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
             serverConnection = new HandleServerConnection(serverSocket, this);
+            new Thread(serverConnection).start();
+            serverConnection.waitStarted();
 
         } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for the initialisation of the server sockets", ex);
@@ -104,22 +101,51 @@ public class ConnectionManager implements ReceivedConnectionListener, ReceivedMe
     }
 
     /**
+     * Ne pas toucher ici.
+     * @param socket socket
+     */
+    @Override
+    public void receivedConnection(Socket socket) {
+        HandleMessage handleMessage = new HandleMessage(socket, this);
+        handleMessage.startHandleReceive();
+        
+        socketDirectory.put(socket.getInetAddress(), socket);
+        handleMessageMap.put(socket, handleMessage);
+    }
+
+    /**
+     * Ne pas toucher ici.
+     * @param socket socket
+     */
+    @Override
+    public void closedConnection(Socket socket) {
+        if(!socket.isClosed()) {
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
+            }
+        }
+        
+        socketDirectory.remove(socket.getInetAddress());
+        handleMessageMap.remove(socket);
+    }
+    
+    /**
      * Mettre un commentaire.
      * @param socket
      * @param message
      */
     @Override
     public void receivedMessage(Socket socket, Message message) {
+        //Mini Exemple : répondre à la réception d'un message
+        // handleMessageMap.get(socket).send(new Message());
+        
+    }
+    
+    @Override
+    public void receivedUDPMessage(DatagramSocket socket, Message message) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * Mettre un commentaire.
-     * @param clientSocket
-     */
-    @Override
-    public void receivedConnection(Socket clientSocket) {
-        HandleMessage handleMessage = new HandleMessage(clientSocket, this);
-        serverHandleMessageMap.put(clientSocket, handleMessage);
-    }
 }
