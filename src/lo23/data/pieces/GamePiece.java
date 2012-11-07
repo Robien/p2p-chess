@@ -85,7 +85,7 @@ public abstract class GamePiece implements Serializable {
      * This method return true if at x, y there no piece or an enemy one's
      *
      * @return true if it's an empty case or an enemy piece
-     * @author Romain ui-gird
+     * @author Romain ui-grid
      */
     public boolean isAValidMove(int x, int y)
     {
@@ -107,7 +107,7 @@ public abstract class GamePiece implements Serializable {
      * This method add in list a new Position if it's a valid move /!\ care to return value
      *
      * @return true if there no obstacle (piece (friend of foe) or end of board)
-     * @author Romain ui-gird
+     * @author Romain ui-grid
      */
     public boolean addIfValid(List<Position> list, int x, int y)
     {
@@ -127,7 +127,19 @@ public abstract class GamePiece implements Serializable {
 
     }
 
+    public boolean isThereSomebodyHere(int x, int y, Position from, Position to)
+    {
+        return (game.getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y) && (!(to.getX() == x && to.getY() == y));
+    }
+
+    public boolean isThereAnEnemyHere(int x, int y, Position from)
+    {
+        return (thereIsAnEnemyAt(x, y)) && (!(from.getX() == x && from.getY() == y));
+    }
+
+
     public abstract List<Position> getPossibleMoves();
+    public abstract boolean isResponsableOfCheck(King king, Position from, Position to);
 
 
     public boolean isOncheck()

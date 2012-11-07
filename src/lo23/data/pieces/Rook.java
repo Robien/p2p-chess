@@ -108,5 +108,80 @@ public class Rook extends GamePiece {
 
         return positions;
     }
+    
+    @Override
+    public boolean isResponsableOfCheck(King king, Position from, Position to)
+    {
 
+        boolean xp, xm, yp, ym;
+        xp = true; //can move x+?
+        xm = true; //can move x-  ?
+        yp = true; //can move y+ ?
+        ym = true; //can move y- ?
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+        for (int i = 1; i < 8 && (xp || xm || yp || ym); i++)
+        {
+
+            if (xp && x + i < 8 && isThereSomebodyHere(x + i, y, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y, to) && game.getPieceAtXY(x + i, y) == king)
+                {
+                     return true;
+                }
+                xp = false;
+            }
+
+            if (xm && x - i >= 0 && isThereSomebodyHere(x - i, y, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y, to)&& game.getPieceAtXY(x - i, y) == king)
+                {
+                      return true;
+                }
+                xm = false;
+            }
+
+            if (yp  && y + i < 8 && isThereSomebodyHere(x, y + i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x, y + i, to)&& game.getPieceAtXY(x, y + i) == king)
+                {
+                    return true;
+                }
+                yp = false;
+            }
+
+            if (ym && y - i >= 0 && isThereSomebodyHere(x, y - i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x, y - i, to)&& game.getPieceAtXY(x , y - i) == king)
+                {
+                      return true;
+                }
+                ym = false;
+            }
+
+        }
+
+        return false;
+    
+    }
 }

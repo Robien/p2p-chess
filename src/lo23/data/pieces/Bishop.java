@@ -106,7 +106,86 @@ public class Bishop extends GamePiece
 
         return positions;
     }
+ /**
+     *
+     * @author Romain et Guilhem
+     */
+    @Override
+    public boolean isResponsableOfCheck(King king, Position from, Position to)
+    {
+        //TODO : add echec and clean
 
+
+        boolean xpyp, xmyp, xpym, xmym;
+        xpyp = true; //can move x+ and y+ ?
+        xmyp = true; //can move x- and y+ ?
+        xpym = true; //can move x+ and y- ?
+        xmym = true; //can move x- and y- ?
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
+        {
+
+            if (xpyp && x + i < 8 && y + i < 8 && (isThereSomebodyHere(x + i, y + i, from, to)))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                {
+                    return true;
+                }
+                xpyp = false;
+            }
+
+            if (xmyp && x - i >= 0 && y + i < 8 && isThereSomebodyHere(x - i, y + i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                {
+                    return true;
+                }
+                xmyp = false;
+            }
+
+            if (xpym && x + i < 8 && y - i >= 0 && isThereSomebodyHere(x + i, y - i, from, to))
+            {
+     
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y - i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                {
+                    return true;
+                }
+                xpym = false;
+            }
+
+              if (xmym && x - i >= 0 && y - i >= 0 && isThereSomebodyHere(x - i, y - i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y - i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                {
+                    return true;
+                }
+                xmym = false;
+            }
+
+        }
+
+        return false;
+    }
   
 }
 

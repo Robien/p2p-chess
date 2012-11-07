@@ -168,4 +168,141 @@ public class Queen extends GamePiece {
         return positions;
     }
 
+    @Override
+    public boolean isResponsableOfCheck(King king, Position from, Position to)
+    {
+
+        boolean xpyp, xmyp, xpym, xmym, xp, xm, yp, ym;
+        xpyp = true; //can move x+ and y+ ?
+        xmyp = true; //can move x- and y+ ?
+        xpym = true; //can move x+ and y- ?
+        xmym = true; //can move x- and y- ?
+        xp = true;   //can move x+ ?
+        xm = true;   //can move x- ?
+        yp = true;   //can move y+ ?
+        ym = true;   //can move y- ?
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+
+        Game game = getGame();
+
+
+
+        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
+        {
+
+            //moves in Bishop
+
+            if (xpyp && x + i < 8 && y + i < 8 && isThereSomebodyHere(x + i, y + i, from, to))
+            {
+        
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                {
+                    return true;
+                }
+                xpyp = false;
+            }
+
+            if (xmyp && x - i >= 0 && y + i < 8 && isThereSomebodyHere(x - i, y + i, from, to))
+            {
+  
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y + i, to) && game.getPieceAtXY(x - i, y + i) == king)
+                {
+                   return true;
+                }
+                xmyp = false;
+            }
+
+            if (xpym && x + i < 8 && y - i >= 0 && isThereSomebodyHere(x + i, y - i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y - i, to) && game.getPieceAtXY(x + i, y - i) == king)
+                {
+                    return true;
+                }
+                xpym = false;
+            }
+
+            if (xmym && x - i >= 0 && y - i >= 0 && isThereSomebodyHere(x - i, y - i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y - i, to) && game.getPieceAtXY(x - i, y - i) == king)
+                {
+                    return true;
+                }
+                xmym = false;
+            }
+
+
+            // and moves use in Rook
+
+           if (xp && x + i < 8 && isThereSomebodyHere(x + i, y, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x + i, y, to) && game.getPieceAtXY(x + i, y) == king)
+                {
+                   return true;
+                }
+                xp = false;
+            }
+
+            if (xm && x - i >= 0 && isThereSomebodyHere(x - i, y, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x - i, y, to) && game.getPieceAtXY(x - i, y) == king)
+                {
+                   return true;
+                }
+                xm = false;
+            }
+
+            if (yp  && y + i < 8 && isThereSomebodyHere(x, y + i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x, y + i, to) && game.getPieceAtXY(x, y + i) == king)
+                {
+                    return true;
+                }
+                yp = false;
+            }
+
+            if (ym && y - i >= 0 && isThereSomebodyHere(x, y - i, from, to))
+            {
+
+            }
+            else
+            {
+                if (isThereAnEnemyHere(x, y - i, to) && game.getPieceAtXY(x, y - i) == king)
+                {
+                     return true;
+                }
+                ym = false;
+            }
+
+        }
+
+        return false;
+    }
 }
