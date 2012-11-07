@@ -136,7 +136,7 @@ public abstract class GamePiece implements Serializable {
 
     public boolean isThereSomebodyHere(int x, int y, Position from, Position to)
     {
-        return (game.getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y) && (!(to.getX() == x && to.getY() == y));
+        return (getGame().getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y) && (!(to.getX() == x && to.getY() == y));
     }
 
     public boolean isThereAnEnemyHere(int x, int y, Position from)
