@@ -40,4 +40,11 @@ public class HandleMessage {
         handleSendMessage.send(message);
     }
     
+    /**
+     * Close the handleSendMessage and the handleReceiveMessage.
+     */
+    public void closeHandle() {
+        handleSendMessage.closeHandle();
+        handleReceiveMessage.closeHandle();
+    }
 }

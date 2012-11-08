@@ -58,7 +58,6 @@ public class ConnectionManager implements ConnectionListener {
             serverConnection = new HandleServerConnection(serverSocket, this);
             new Thread(serverConnection).start();
             serverConnection.waitStarted();
-
         } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for the initialisation of the server sockets", ex);
         }
@@ -119,6 +118,8 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public void closedConnection(Socket socket) {
+        handleMessageMap.get(socket).closeHandle();
+        
         if(!socket.isClosed()) {
             try {
                 socket.close();
@@ -148,4 +149,24 @@ public class ConnectionManager implements ConnectionListener {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    private void connect(InetAddress inetAddress) {
+        try {
+            Socket socket = new Socket(inetAddress, ConnectionParams.unicastPort);
+            HandleMessage handleMessage = new HandleMessage(socket, this);
+            handleMessage.startHandleReceive();
+            
+            socketDirectory.put(socket.getInetAddress(), socket);
+            handleMessageMap.put(socket, handleMessage);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error on connection", ex);
+        }
+    }
+    
+    private void disconnect(Socket socket) {
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.WARNING, "Error on disconnection", ex);
+        }
+    }
 }
