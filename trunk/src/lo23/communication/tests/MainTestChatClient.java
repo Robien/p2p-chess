@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lo23.communication.connection.ConnectionManager;
 import lo23.communication.connection.ConnectionParams;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
@@ -18,7 +19,6 @@ public class MainTestChatClient {
     // le client envoie 3 message puis se termine
     // Il envoie un message seulement au serveur
     // Il recoit également les messages du serveur
-    
     private static Socket socket;
     private static HandleMessage handleMessage;
     private static ConnectionListener connectionListener;
@@ -38,7 +38,7 @@ public class MainTestChatClient {
             Logger.getLogger(MainTestChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-         //Envoie des messages
+        //Envoie des messages
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < 3; i++) {
             String text = scanner.nextLine();
@@ -64,7 +64,15 @@ public class MainTestChatClient {
 
         @Override
         public void closedConnection(Socket socket) {
-            System.out.println("FIN");
+            handleMessage.closeHandle();
+
+            if (!socket.isClosed()) {
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
+                }
+            }
         }
 
         @Override

@@ -1,5 +1,6 @@
 package lo23.communication.handle;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -20,6 +21,7 @@ public class HandleReceiveMessage extends HandleRunnable {
 
     /**
      * Constructor of HandleReceiveMessage.
+     *
      * @param socket the socket concerned
      * @param listener the Listener which will be notified
      */
@@ -36,24 +38,32 @@ public class HandleReceiveMessage extends HandleRunnable {
         try {
             objectInput = new ObjectInputStream(socket.getInputStream());
             notifyStart();
-            
+
             while (getStart()) {
                 Message message = (Message) objectInput.readObject();
                 connListener.receivedMessage(socket, message);
             }
-
+        } catch (SocketException se) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);
+        } catch (EOFException ee) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed afar", ee);
         } catch (Exception e) {
-            // TODO mieux gerer les erreurs
-            connListener.closedConnection(socket);
-            //Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for the reception of a message", e);
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for the reception of a message", e);
         } finally {
             stopHandle();
-            try {
-                objectInput.close();
-            } catch (IOException ex) {
-                Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for closing the Handle", ex);
-            }
+            connListener.closedConnection(socket);
         }
     }
-    
+
+    /**
+     * Close the handle.
+     * ObjectInputStream
+     */
+    public void closeHandle() {
+        try {
+            objectInput.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for closing the Handle", ex);
+        }
+    }
 }

@@ -37,5 +37,16 @@ public class HandleSendMessage {
             Logger.getLogger(HandleSendMessage.class.getName()).log(Level.SEVERE, "Error for sending a message", e);
         }
     }
-    
+
+    /**
+     * Close the handle.
+     * ObjectOutputStream
+     */
+    public void closeHandle() {
+        try {
+            objectOutput.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for closing the Handle", ex);
+        }
+    }
 }

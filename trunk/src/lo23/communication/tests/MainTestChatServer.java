@@ -21,7 +21,6 @@ public class MainTestChatServer {
     // Le serveur tourne indéfiniment
     // Il envoie un message à tout les clients connectés
     // Il affiche tout les messages reçu de ces clients
-    
     private static ServerSocket serverSocket;
     private static HandleServerConnection serverConnection;
     private static HashMap<Socket, HandleMessage> handleMessageMap;
@@ -63,6 +62,8 @@ public class MainTestChatServer {
 
         @Override
         public void closedConnection(Socket socket) {
+            handleMessageMap.get(socket).closeHandle();
+
             if (!socket.isClosed()) {
                 try {
                     socket.close();
@@ -70,6 +71,7 @@ public class MainTestChatServer {
                     Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
                 }
             }
+
             handleMessageMap.remove(socket);
         }
 
