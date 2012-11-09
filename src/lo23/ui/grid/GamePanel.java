@@ -5,12 +5,14 @@
 package lo23.ui.grid;
 
 /**
- *
+ * TODO Changer le Path mettre les image dans /src et non pas /bin
  * @author Karim
  */
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
@@ -24,17 +26,18 @@ public class GamePanel extends JPanel {
         build();
     }
 
+    //TODO mettre les labels dans une liste 
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
 
     private void build() {
-        setSize(680, 500); //On donne une taille à notre fenêtre
+        setPreferredSize(new Dimension(GridConstants.SQUARE_SIZE*8,GridConstants.SQUARE_SIZE*8));
         setLayout(gameBoard);
         applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
         
-        constraints.fill = GridBagConstraints.CENTER;
-        constraints.anchor = GridBagConstraints.CENTER;
+//        constraints.fill = GridBagConstraints.CENTER;
+//        constraints.anchor = GridBagConstraints.CENTER;
         buildBoard(true);
 
         for (int i = 0; i < 8; i++) {
@@ -46,17 +49,32 @@ public class GamePanel extends JPanel {
                     String path = getClass().getClassLoader().getResource(".").getPath();
                     ImageIcon image = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
                     JLabel label = new JLabel("", image, JLabel.CENTER);
-                    add(label, constraints);
+                    add(label, constraints, -1);
                     
                 } else {
                     String path = getClass().getClassLoader().getResource(".").getPath();
-                    System.out.println(path);
                     ImageIcon image = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
                     JLabel label = new JLabel("", image, JLabel.CENTER);
-                    add(label, constraints);
+                    add(label, constraints, -1);
                 }
             }
         }
+
+    }
+    
+    public void addTexture(int x, int y){
+		
+    	//TODO corriger le sens de la grille
+    	constraints.insets = new Insets(0,0,0,0);
+    	constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+    	constraints.gridx = 7-x;
+		constraints.gridy = y;
+		
+        String path = getClass().getClassLoader().getResource(".").getPath();
+        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
+        JLabel squareBorder = new JLabel("", tower, JLabel.CENTER);
+        add(squareBorder, constraints, 1);
 
     }
     
@@ -69,7 +87,7 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < 8; i++){
                 constraints.gridx = i; 
                  String path = getClass().getClassLoader().getResource(".").getPath();
-                 System.out.println(path);
+                 //System.out.println(path);
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
                  JLabel label = new JLabel("", image, JLabel.CENTER);
                  add(label, constraints);
@@ -80,7 +98,7 @@ public class GamePanel extends JPanel {
             constraints.gridy = 7;
             
             String path = getClass().getClassLoader().getResource(".").getPath();
-            System.out.println(path);
+            //System.out.println(path);
             ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TB.png");
             JLabel towerRight = new JLabel("", tower, JLabel.CENTER);
             add(towerRight, constraints);
@@ -193,7 +211,6 @@ public class GamePanel extends JPanel {
             add(kingPieceB, constraints);
         }
     }
-    
     
     
     private class PiecesListener extends MouseAdapter {

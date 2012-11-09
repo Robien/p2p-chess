@@ -25,7 +25,7 @@ public class Main {
             public void run() {
                 myModel = new ApplicationModel();
                 myModel.setGameManager(new TMP_GameManager(myModel));
-                myModel.setProfileManager(new TMP_ProfileManager(myModel));
+//                myModel.setProfileManager(new TMP_ProfileManager(myModel));
 
                 MainWindow fenetre = new MainWindow(getModel());
                 fenetre.setVisible(true);
