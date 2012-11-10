@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
  *
  * @author mantonel
  */
+@SuppressWarnings("serial")
 public class TimerPanel extends JPanel {
 
     private PlayerTimer playerTimer;
@@ -38,7 +39,7 @@ public class TimerPanel extends JPanel {
         //setHorizontalTextPosition(SwingConstants.CENTER);
 
         timer = new JLabel();
-        timer.setText("0 : 0 : 0");
+        timer.setText("00 : 00 : 00");
         start = new JButton("Start");
         stop = new JButton("Stop");
         pause = new JButton("Pause");
