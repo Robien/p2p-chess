@@ -12,6 +12,10 @@ import java.beans.PropertyChangeListener;
 import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import lo23.data.ApplicationModel;
+import lo23.ui.login.mockManager.CommManagerMock;
+import lo23.ui.login.mockManager.GameManagerMock;
+import lo23.ui.login.mockManager.ProfileManagerMock;
 
 /**
  *
@@ -21,6 +25,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
 
     
     private final IhmLoginModel model;
+    static String TITLE = "Players list";
 
     /**
      * Creates new form IHMListe
@@ -30,11 +35,9 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
 
         this.model = model;
 
-
-
-        
         initComponents();
         this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+        this.setTitle(TITLE);
         
        tablePlayers.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -64,6 +67,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         labelInfos = new javax.swing.JLabel();
         manageProfileBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        javax.swing.JButton disconnectBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 600));
@@ -112,6 +116,13 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
 
         manageProfileBtn.setText("Gérer son profil");
 
+        disconnectBtn.setText("Disconnect");
+        disconnectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disconnectBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,7 +144,8 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                                     .addComponent(labelInfos)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(manageProfileBtn)
-                                .addGap(0, 277, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(disconnectBtn)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,7 +165,9 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(manageProfileBtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(manageProfileBtn)
+                    .addComponent(disconnectBtn))
                 .addContainerGap())
         );
 
@@ -167,6 +181,21 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
+        
+        this.dispose();
+        //Instantiate DataManager
+        ApplicationModel appModel = new ApplicationModel();
+        appModel.setComManager(new CommManagerMock(appModel));
+        appModel.setGameManager(new GameManagerMock((appModel)));
+        appModel.setProfileManager(new ProfileManagerMock(appModel));
+        //Instantiate IhmLoginModel
+        IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
+
+        // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
+        new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+    }//GEN-LAST:event_disconnectBtnActionPerformed
 
     /**
      * @param args the command line arguments
