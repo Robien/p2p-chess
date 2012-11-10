@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
@@ -31,6 +32,8 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     private javax.swing.JTextField loginField;
     private javax.swing.JTextField passwordField;
     private javax.swing.JButton registerBtn;
+    
+    static String TITLE = "Chess-P2P";
     // End of variables declaration
 
     /**
@@ -74,7 +77,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Chess-P2P");
+        setTitle(TITLE);
 
         // Ajout du Jpanel
         setContentPane(buildContentPanel());
@@ -183,8 +186,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
-        System.out.println("Vous avez cliqué sur connexion.");
-        System.out.println("valeur des champs : " + getLoginField().getText() + "   pass: " + getPasswordField().getText());
+        System.out.println("Login=" + getLoginField().getText() + " / Password= " + getPasswordField().getText());
 
         // Appel de la methode de connexion
         ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
@@ -218,5 +220,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     public JTextField getPasswordField() {
         return passwordField;
     }
+    
+    public JButton getConnectBtn() {
+        return connectBtn;
+    }
+    
     
 }
