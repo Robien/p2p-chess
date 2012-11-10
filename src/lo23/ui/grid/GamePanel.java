@@ -24,10 +24,14 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 
-	JLabel currentSelection = null; 
+	
+	String path = getClass().getClassLoader().getResource(".").getPath();
+    ImageIcon SquareBorder = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
+    JLabel currentSelection = new JLabel("", SquareBorder, JLabel.CENTER);
+    boolean isCurrentSelectionExist = false;
 	
     public GamePanel() {
-        super();
+    	super();
         build();
     }
 
@@ -40,27 +44,21 @@ public class GamePanel extends JPanel {
         setLayout(gameBoard);
         applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
+        buildBoard(true);
         
-//        constraints.fill = GridBagConstraints.CENTER;
-//        constraints.anchor = GridBagConstraints.CENTER;
-//        buildBoard(true);
-
+        ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
+        ImageIcon imageCaseN = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
+        
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 constraints.gridx = i;
                 constraints.gridy = j;
-                
                 if ((i + j) % 2 != 0) {
-                    String path = getClass().getClassLoader().getResource(".").getPath();
-                    ImageIcon image = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
-                    JLabel label = new JLabel("", image, JLabel.CENTER);
-                    add(label, constraints, -1);
-                    
+                	JLabel labelCaseB = new JLabel("", imageCaseB, JLabel.CENTER);
+                    add(labelCaseB, constraints, -1);
                 } else {
-                    String path = getClass().getClassLoader().getResource(".").getPath();
-                    ImageIcon image = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
-                    JLabel label = new JLabel("", image, JLabel.CENTER);
-                    add(label, constraints, -1);
+                	JLabel labelCaseN = new JLabel("", imageCaseN, JLabel.CENTER);
+                    add(labelCaseN, constraints, -1);
                 }
             }
         }
@@ -70,7 +68,7 @@ public class GamePanel extends JPanel {
     public void addTexture(int x, int y){
 		
     	//if a case is already selected, the former selection disapears
-    	if (currentSelection != null) {
+    	if (isCurrentSelectionExist) {
     		remove(currentSelection);
     		repaint();
     	}
@@ -80,11 +78,9 @@ public class GamePanel extends JPanel {
 		constraints.gridheight = 1;
     	constraints.gridx = 7-x;
 		constraints.gridy = y;
-		
-        String path = getClass().getClassLoader().getResource(".").getPath();
-        ImageIcon SquareBorder = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
-        currentSelection = new JLabel("", SquareBorder, JLabel.CENTER);
+
         add(currentSelection, constraints, 1);
+        isCurrentSelectionExist = true;
 
     }
     
@@ -96,7 +92,6 @@ public class GamePanel extends JPanel {
             constraints.gridy = 6;
             for (int i = 0; i < 8; i++){
                 constraints.gridx = i; 
-                 String path = getClass().getClassLoader().getResource(".").getPath();
                  //System.out.println(path);
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
                  JLabel label = new JLabel("", image, JLabel.CENTER);
@@ -107,7 +102,6 @@ public class GamePanel extends JPanel {
             constraints.gridx = 0;
             constraints.gridy = 7;
             
-            String path = getClass().getClassLoader().getResource(".").getPath();
             //System.out.println(path);
             ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TB.png");
             JLabel towerRight = new JLabel("", tower, JLabel.CENTER);
