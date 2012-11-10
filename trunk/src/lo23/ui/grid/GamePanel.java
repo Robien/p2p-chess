@@ -6,6 +6,7 @@ package lo23.ui.grid;
 
 /**
  * TODO Changer le Path mettre les image dans /src et non pas /bin
+ * @Karim : ajouter une variable à la fin du add pour désigner la priorité d'affichage sur la grille add(label, constraints, -1); sera dessous add(label, constraints, 1);
  * @author Karim
  */
 import java.awt.ComponentOrientation;
@@ -19,8 +20,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 
+	JLabel currentSelection = null; 
+	
     public GamePanel() {
         super();
         build();
@@ -64,6 +68,11 @@ public class GamePanel extends JPanel {
     
     public void addTexture(int x, int y){
 		
+    	//if a case is already selected, the former selection disapears
+    	if (currentSelection != null) {
+    		this.remove(currentSelection);
+    		this.repaint();
+    	}
     	//TODO corriger le sens de la grille
     	constraints.insets = new Insets(0,0,0,0);
     	constraints.gridwidth = 1;
@@ -73,8 +82,9 @@ public class GamePanel extends JPanel {
 		
         String path = getClass().getClassLoader().getResource(".").getPath();
         ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
-        JLabel squareBorder = new JLabel("", tower, JLabel.CENTER);
-        add(squareBorder, constraints, 1);
+        currentSelection = new JLabel("", tower, JLabel.CENTER);
+        
+        add(currentSelection, constraints, 1);
 
     }
     
