@@ -13,6 +13,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,7 +43,7 @@ public class GamePanel extends JPanel {
         
 //        constraints.fill = GridBagConstraints.CENTER;
 //        constraints.anchor = GridBagConstraints.CENTER;
-        buildBoard(true);
+//        buildBoard(true);
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -70,8 +71,8 @@ public class GamePanel extends JPanel {
 		
     	//if a case is already selected, the former selection disapears
     	if (currentSelection != null) {
-    		this.remove(currentSelection);
-    		this.repaint();
+    		remove(currentSelection);
+    		repaint();
     	}
     	//TODO corriger le sens de la grille
     	constraints.insets = new Insets(0,0,0,0);
@@ -81,9 +82,8 @@ public class GamePanel extends JPanel {
 		constraints.gridy = y;
 		
         String path = getClass().getClassLoader().getResource(".").getPath();
-        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
-        currentSelection = new JLabel("", tower, JLabel.CENTER);
-        
+        ImageIcon SquareBorder = new ImageIcon(path + "lo23/ui/resources/SquareBorder.png");
+        currentSelection = new JLabel("", SquareBorder, JLabel.CENTER);
         add(currentSelection, constraints, 1);
 
     }
@@ -100,7 +100,7 @@ public class GamePanel extends JPanel {
                  //System.out.println(path);
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
                  JLabel label = new JLabel("", image, JLabel.CENTER);
-                 add(label, constraints);
+                 add(label, constraints, 0);
             }
             
             //Add towers pieces to the board

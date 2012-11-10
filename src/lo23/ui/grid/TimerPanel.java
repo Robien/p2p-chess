@@ -34,18 +34,20 @@ public class TimerPanel extends JPanel {
     public TimerPanel() {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(100,100));
+        
         //setHorizontalTextPosition(SwingConstants.CENTER);
 
         timer = new JLabel();
+        timer.setText("0 : 0 : 0");
         start = new JButton("Start");
         stop = new JButton("Stop");
         pause = new JButton("Pause");
         recovery = new JButton("Recovery");
         add(timer, BorderLayout.NORTH);
-        add(start, BorderLayout.WEST);
-        add(stop, BorderLayout.EAST);
-        add(pause, BorderLayout.CENTER);
-        add(recovery, BorderLayout.SOUTH);
+//        add(start, BorderLayout.WEST);
+//        add(stop, BorderLayout.EAST);
+//        add(pause, BorderLayout.CENTER);
+//        add(recovery, BorderLayout.SOUTH);
 
         border = new LineBorder(new Color(255));
         this.setBorder(border);

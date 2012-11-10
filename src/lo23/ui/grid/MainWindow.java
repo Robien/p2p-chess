@@ -68,19 +68,18 @@ public class MainWindow extends JFrame implements ActionListener {
         
         //listener 
         gamePanel.addMouseListener(new MouseAdapter() {
-    	    public void mousePressed(MouseEvent mouseEvent) {
-    	        if ( SwingUtilities.isLeftMouseButton(mouseEvent) ) {
-    	        	//left button, main button
+    	    public void mouseReleased(MouseEvent mouseEvent) {
+    	        if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+    	        	//left button, main button, or mouseEvent.BUTTON1 == mouseEvent.getButton()
     	        	int x = mouseEvent.getX();
     	        	int y = mouseEvent.getY();
     	        	int xSquare = (x - x%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
     	        	int ySquare = (y - y%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
     	        	gamePanel.addTexture(xSquare, ySquare);
-    	        	
-    	        } else if(SwingUtilities.isMiddleMouseButton(mouseEvent) ) {
-    	        	//middle button
-    	        	
-    	        } else if(SwingUtilities.isRightMouseButton(mouseEvent)) {
+//    	        } else if(SwingUtilities.isMiddleMouseButton(mouseEvent) ) {
+//    	        	//middle button
+//    	        	
+//    	        } else if(SwingUtilities.isRightMouseButton(mouseEvent)) {
     	        	//right button
     	        	
     	        } 

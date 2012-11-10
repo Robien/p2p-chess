@@ -11,7 +11,7 @@ import lo23.data.ApplicationModel;
  *
  * @author Karim
  */
-public class Main {
+public class GridMain {
         static ApplicationModel myModel;
 
 
