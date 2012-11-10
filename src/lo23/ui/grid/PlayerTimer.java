@@ -18,7 +18,7 @@ public class PlayerTimer {
     private int delay = 1000; //milliseconds
     private Timer timer;
     private int currentTimer;
-    private int endOfTimer = 1000*60*20; //20mn
+    private int endOfTimer = 60*20; //20mn
 
     public PlayerTimer(final TimerPanel timerPanel) {
 
@@ -28,7 +28,6 @@ public class PlayerTimer {
             public void actionPerformed(ActionEvent evt) {
                 currentTimer++;
                 timerPanel.getLabel().setText(getText());
-                //System.out.println(getText());
             }
         };
 
@@ -63,6 +62,8 @@ public class PlayerTimer {
 
     public String getText(){
 
+    	if (currentTimer >= endOfTimer) return "No more time!";
+    	
         int hour = 0;
         int minute = 0;
         int second = 0;
@@ -81,7 +82,17 @@ public class PlayerTimer {
             minute = (currentTimer - second)/60;
         } else second = currentTimer;
 
-        return hour + " : " + minute + " : " + second;
+        String hoursDisplayed = String.valueOf(hour);
+        String minutesDisplayed = String.valueOf(minute);
+        String secondsDisplayed = String.valueOf(second);
+        
+        if (hour < 10) {hoursDisplayed = "0" + hour;}
+        
+        if (minute < 10) {minutesDisplayed = "0" + minute;}
+        
+        if (second < 10) {secondsDisplayed = "0" + second;}
+        
+        return hoursDisplayed + " : " + minutesDisplayed  + " : " +  secondsDisplayed;
     }
 
 
