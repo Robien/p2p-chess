@@ -6,7 +6,7 @@ package lo23.ui.grid;
 
 /**
  * TODO Changer le Path mettre les image dans /src et non pas /bin
- * @Karim : ajouter une variable à la fin du add pour désigner la priorité d'affichage sur la grille add(label, constraints, -1); sera dessous add(label, constraints, 1);
+ * @Karim : ajouter une variable a la fin du add pour designer la priorite d'affichage sur la grille add(label, constraints, -1); sera dessous add(label, constraints, 1);
  * @author Karim
  */
 import java.awt.ComponentOrientation;

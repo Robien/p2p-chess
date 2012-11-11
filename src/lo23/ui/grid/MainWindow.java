@@ -16,6 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,9 +32,13 @@ public class MainWindow extends JFrame implements ActionListener {
     
     public MainWindow(ApplicationModel m) {
         super();
+        
+        //Launch the Sound
+        Launch_Sound ls = new Launch_Sound();
+        
         myModel = m;
         build();//On initialise notre fenêtre
-
+ 
     }
 
     private void build() {
@@ -39,7 +47,7 @@ public class MainWindow extends JFrame implements ActionListener {
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
-
+ 
         setContentPane(buildContentPanel());
         
     }
@@ -84,9 +92,15 @@ public class MainWindow extends JFrame implements ActionListener {
     	        	
     	        } 
     	    }
+            
+            //Sound bouton
+            
+              
+            
+            
         });
 
-        //Test Ajout Timer, a� remplacer par profilPanel
+        //Test Ajout Timer, a remplacer par profilPanel
         constraints.gridwidth = 6;
 		constraints.gridheight = 1;
 		constraints.gridx = 1;
@@ -113,7 +127,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         ChatPanel2 chatPanel = new ChatPanel2(myModel);
         panel.add(chatPanel, constraints);
-       
+        
         return panel;
     }
 
