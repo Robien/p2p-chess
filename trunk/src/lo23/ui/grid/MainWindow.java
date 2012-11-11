@@ -75,7 +75,7 @@ public class MainWindow extends JFrame implements ActionListener {
     	        	int y = mouseEvent.getY();
     	        	int xSquare = (x - x%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
     	        	int ySquare = (y - y%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
-    	        	gamePanel.addTexture(xSquare, ySquare);
+    	        	gamePanel.receiveSelectedCase(xSquare, ySquare);
 //    	        } else if(SwingUtilities.isMiddleMouseButton(mouseEvent) ) {
 //    	        	//middle button
 //    	        	
