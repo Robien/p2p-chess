@@ -64,10 +64,12 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
+     * This function manage messages serialization.
+     * @param message to serialize
+     * @return : byte[] of the message
      */
-    public void sendMulticast() {
-       // Send Datagramme
+
+    private byte[] serialize(Message message){
        ByteArrayOutputStream b_out = new ByteArrayOutputStream();
        ObjectOutputStream o_out = null;
        try {
@@ -75,23 +77,33 @@ public class ConnectionManager implements ConnectionListener {
        } catch (IOException ex) {
            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
        }
-       PublicProfile Profile = this.comManager.getCurrentUserProfile();
-       // Message creation
-       MulticastInvit Message = new MulticastInvit(Profile);
+
        try {
            // Message serialization
-           o_out.writeObject(Message);
+           o_out.writeObject(message);
        } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the message serialization", ex);
        }
        byte[] b = b_out.toByteArray();
-       // Datagramme Creation
+
+       return b;
+    }
+
+    /**
+     * Function which allow us to warn every players on the network that there is a new connection.
+     */
+    public void sendMulticast() {
+       PublicProfile Profile = this.comManager.getCurrentUserProfile();
+       // Message creation
+       MulticastInvit Message = new MulticastInvit(Profile);
+       byte b[] = this.serialize(Message);
        DatagramPacket dgram = null;
        try {
            dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ConnectionParams.multicastAddress), ConnectionParams.multicastPort); // multicast
        } catch (UnknownHostException ex) {
        Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the datagramme creation", ex);
        }
+
        try {
            this.datagramSocket.send(dgram);
        } catch (IOException ex) {

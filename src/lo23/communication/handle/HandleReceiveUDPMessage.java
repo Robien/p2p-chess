@@ -1,11 +1,14 @@
 package lo23.communication.handle;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.communication.message.ConnectionMessage;
 
 /**
@@ -47,8 +50,11 @@ public class HandleReceiveUDPMessage extends HandleRunnable {
                 connListener.receivedUDPMessage(socket, message);
             }
         } catch (SocketException se) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);
+        } catch (EOFException ee) {
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed afar", ee);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for the reception of a message", e);
         } finally {
             try {
                 objectInput.close();
