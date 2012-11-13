@@ -50,8 +50,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     private HashMap<PublicProfile,Date> listProfileDate;
     private ArrayList<Game> listEndGames;
     private ArrayList<ResumeGame> listStopGames;
-    
-    
+    private IHMListe IHMList;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
@@ -72,7 +71,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(pcs != null)
             pcs.addPropertyChangeListener(l);
     }
-   public boolean openInvitationDialog(Invitation invit){ 
+    private boolean openInvitationDialog(Invitation invit){ 
         int response = 0;
         PublicProfile profile = invit.getGuest();
         response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getName());
@@ -80,9 +79,9 @@ public class IhmLoginModel implements PropertyChangeListener{
                return true; 
         else
                return false; 
-      }
+    }
     public void acceptInvitation(Invitation invit){
-   
+
         GameManagerInterface gameManager = appModel.getGManager();
         boolean response = openInvitationDialog(invit);
         if(response == true)
@@ -95,7 +94,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             //setVisible(true);
         }
     }
-    public COLOR chooseColorDialog() {
+    private COLOR chooseColorDialog() {
         COLOR color = COLOR.WHITE;
         String[] colorTab = {"WHITE", "BLACK"};
         int rang = JOptionPane.showOptionDialog(null,
