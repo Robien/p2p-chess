@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 
@@ -49,6 +50,14 @@ public abstract class GamePiece implements Serializable {
 
     public void movePiece(Position to) {
         position = to;
+        try
+        {
+            getGame().playMove(new Move(getPosition(), to, this));
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
     /**
      * This method returns the game where the current GamePiece is contained
@@ -134,17 +143,34 @@ public abstract class GamePiece implements Serializable {
 
     }
 
+     /**
+     * This method test si une piece est sur cette case, en prenant en compte un déplacement
+     *
+     * @return true si y'a une piece
+     * @author Romain ui-grid
+     */
     public boolean isThereSomebodyHere(int x, int y, Position from, Position to)
     {
         return (getGame().getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y) && (!(to.getX() == x && to.getY() == y));
     }
 
+      /**
+     * This method test si une piece enemis est sur cette case, en prenant en compte un déplacement
+     *
+     * @return true si y'a une piece enemis
+     * @author Romain ui-grid
+     */
     public boolean isThereAnEnemyHere(int x, int y, Position from)
     {
         return (thereIsAnEnemyAt(x, y)) && (!(from.getX() == x && from.getY() == y));
     }
 
-
+     /**
+     * This method test si une piece enemis est sur cette case, en prenant en compte un déplacement
+     *
+     * @return true si y'a une piece enemis
+     * @author Romain ui-grid
+     */
     public abstract List<Position> getPossibleMoves();
     public abstract boolean isResponsableOfCheck(King king, Position from, Position to);
 
