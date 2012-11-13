@@ -14,7 +14,7 @@ import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
-import lo23.utils.Configuration;
+//import lo23.utils.Configuration;
 import java.lang.Thread;
 import java.util.TimerTask;
 
@@ -57,7 +57,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         }
         
         this.timer = new Timer();
-        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
+//        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
     }
 
     @Override
