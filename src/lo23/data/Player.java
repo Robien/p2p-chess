@@ -67,7 +67,7 @@ public class Player {
     }
     
     
-    public void getProfileId(GamePiece pc) {
-        pieces.add(pc);
+    public String getProfileId() {
+        return profileId;
     }
 }
