@@ -32,8 +32,8 @@ public class Bishop extends GamePiece
     @Override
     public List<Position> getPossibleMoves()
     {
-        //TODO : add echec and clean
 
+        //le tableau de résultats
         ArrayList<Position> positions = new ArrayList<Position>();
 
         boolean xpyp, xmyp, xpym, xmym;
@@ -47,21 +47,32 @@ public class Bishop extends GamePiece
 
         Game game = getGame();
 
+        //on parcourt les 4 demi-diagonales en même temps
+        //on commence à 1 pour ne pas regarder la position même du cavalier
         for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
         {
 
+            //si on n'a pas dépassé la grille
+            //et si il n'y a pas de piece :
             if (xpyp && x + i < 8 && y + i < 8 && game.getPieceAtXY(x + i, y + i) == null)
             {
+                //c'est un coup possible
                 positions.add(new Position(x + i, y + i));
             }
             else
             {
+                //sinon, si c'est un enemis
                 if (thereIsAnEnemyAt(x + i, y + i))
                 {
+                    //c'est aussi un coup possible mais ...
                     positions.add(new Position(x + i, y + i));
                 }
+                // on arrete de vérifier ce sens
                 xpyp = false;
             }
+
+
+            //on fait pareil pour les 3 autres directions
 
             if (xmyp && x - i >= 0 && y + i < 8 && game.getPieceAtXY(x - i, y + i) == null)
             {
@@ -108,13 +119,14 @@ public class Bishop extends GamePiece
     }
  /**
      *
-     * @author Romain et Guilhem
+     * @author Romain
      */
     @Override
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
-        //TODO : add echec and clean
 
+        //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
+        // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
         boolean xpyp, xmyp, xpym, xmym;
         xpyp = true; //can move x+ and y+ ?

@@ -1,10 +1,12 @@
 package lo23.data.pieces;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.utils.Enums.COLOR;
 
 /**
  *
@@ -44,14 +46,14 @@ public class Pawn extends GamePiece {
         int y = getPosition().getY();
 
         Game game = getGame();
-
-        if (getOwner().getColor() == getGame().getLocalPlayer().getColor())
+    //test de la couleur pour trouver le sens de déplacement du pion
+        if (getOwner().getColor() == COLOR.WHITE)
         {
         
 
            if(firstMove)
            {
-                //nobody (no a friend or an enemy) you can move
+                //nobody (not a friend or an enemy) you can move
                 if (game.getPieceAtXY(x, y + 2) == null && !thereIsAnEnemyAt(x, y + 2))
                 {
                     positions.add(new Position(x, y + 2));
@@ -82,7 +84,7 @@ public class Pawn extends GamePiece {
                 }
             
         }
-        else
+        else //a black Pawn
         {
 
            if(firstMove)
@@ -124,14 +126,17 @@ public class Pawn extends GamePiece {
        @Override
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
-        
+                //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
+        // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
+
 
         int x = getPosition().getX();
         int y = getPosition().getY();
 
         Game game = getGame();
 
-        if (getOwner().getColor() == getGame().getLocalPlayer().getColor())
+        //test de la couleur pour trouver le sens de déplacement du pion
+        if (getOwner().getColor() == COLOR.WHITE)
         {
  
      
@@ -148,7 +153,7 @@ public class Pawn extends GamePiece {
                 }
             
         }
-        else
+        else //a black Pawn
         {
 
         

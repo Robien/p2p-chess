@@ -26,7 +26,7 @@ public class King extends GamePiece {
     @Override
     public List<Position> getPossibleMoves() 
     {
-           //TODO : add echec and clean
+   
 
         ArrayList<Position> positions = new ArrayList<Position>();
 
@@ -39,6 +39,8 @@ public class King extends GamePiece {
 //        xm = true;   //can move x- ?
 //        yp = true;   //can move y+ ?
 //        ym = true;   //can move y- ?
+
+        // on test les cases autours du roi
         
         int x = getPosition().getX();
         int y = getPosition().getY();
@@ -149,6 +151,11 @@ public class King extends GamePiece {
    @Override
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
+
+               //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
+        // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
+
+
               int x = getPosition().getX();
         int y = getPosition().getY();
 

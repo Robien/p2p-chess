@@ -49,6 +49,8 @@ public class Rook extends GamePiece {
 
         Game game = getGame();
 
+        //même fonctionement que le fou (bishop) mais en ligne droite
+
         for (int i = 1; i < 8 && (xp || xm || yp || ym); i++)
         {
 
@@ -112,6 +114,8 @@ public class Rook extends GamePiece {
     @Override
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
+        //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
+        // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
         boolean xp, xm, yp, ym;
         xp = true; //can move x+?
