@@ -28,6 +28,7 @@ import lo23.utils.Enums.CONSTANT_TYPE;
  */
 public class GameManagerMock extends Manager implements GameManagerInterface{
 
+    
     public GameManagerMock(ApplicationModel model){
         super(model);
     }
@@ -125,6 +126,11 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     }
 
     public ArrayList<Game> getListAllGames() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Game load(long gameId) throws FileNotFoundException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
