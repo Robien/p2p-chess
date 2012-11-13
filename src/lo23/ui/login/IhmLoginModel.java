@@ -15,13 +15,19 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
+import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
+import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.ProfileManager;
+import lo23.data.managers.ProfileManagerInterface;
+import lo23.utils.Enums;
+import lo23.utils.Enums.COLOR;
 
 /**
  *
@@ -66,13 +72,56 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(pcs != null)
             pcs.addPropertyChangeListener(l);
     }
-    
+   public boolean openInvitationDialog(Invitation invit){ 
+        int response = 0;
+        PublicProfile profile = invit.getGuest();
+        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getName());
+        if(response == 0)
+               return true; 
+        else
+               return false; 
+      }
     public void acceptInvitation(Invitation invit){
-        //TODO
+   
+        GameManagerInterface gameManager = appModel.getGManager();
+        boolean response = openInvitationDialog(invit);
+        if(response == true)
+        {
+            Game game = gameManager.createGame(invit);
+            //gameManager.load(game.getGameId());
+        }
+        else
+        {
+            //setVisible(true);
+        }
     }
-    
-    public void sendInvitation(PublicProfile user,Color col){
-        //TODO
+    public COLOR chooseColorDialog() {
+        COLOR color = COLOR.WHITE;
+        String[] colorTab = {"WHITE", "BLACK"};
+        int rang = JOptionPane.showOptionDialog(null,
+                "Please choose your color !",
+                "Choose Color Dialog",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorTab,
+                colorTab[0]);
+        if ("BLACK".equals(colorTab[rang])) {
+            color = COLOR.BLACK;
+        }
+        return color;
+    }
+    public void sendInvitation(String idUser,COLOR col){
+      
+        col = chooseColorDialog();
+        long time = System.currentTimeMillis();
+        //Instantiate DataManager
+        ProfileManagerInterface profileManager = appModel.getPManager();
+        //Instantiate profile and invitation
+        Profile profile = profileManager.loadProfile(idUser);
+        Invitation invit = profileManager.createInvitation(profile.getPublicProfile(), col, time);
+        //Send invitation
+        profileManager.sendInvitation(invit);     
     }
 
     public ApplicationModel getApplicationModel() {
