@@ -55,8 +55,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                 String id = (String)tablePlayers.getModel().getValueAt(0,num);
                 PublicProfile profileSelected = model.getRemoteProfile(id);
                 if(profileSelected != null){
-                    //new IhmProfileWindow(model,IhmProfileWindow.SEE,profileSelected);
-                    System.out.println("TODO Launch IHMProfileWindow");
+                    new IhmProfileWindow(model,IhmProfileWindow.READ,profileSelected);
                 }
                 else
                     JOptionPane.showMessageDialog(IHMListe.this, "User doesn't exist anymore", "User error", JOptionPane.ERROR_MESSAGE);
