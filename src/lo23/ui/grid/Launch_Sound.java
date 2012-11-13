@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package lo23.ui.grid;
 
@@ -12,7 +8,7 @@ import java.util.logging.Logger;
  *
  * @author guigou
  */
-public class Launch_Sound extends Thread implements Runnable{
+public class Launch_Sound implements Runnable{
         Thread a;
         Sound s;
         boolean enpause;
