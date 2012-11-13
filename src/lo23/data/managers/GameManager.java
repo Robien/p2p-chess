@@ -158,6 +158,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
+    @Deprecated
     public Game notifyGameStarted(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
