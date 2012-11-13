@@ -25,6 +25,7 @@ import lo23.data.Profile;
 public class IhmProfileWindow extends JFrame{
 
     private IhmLoginModel ihmLoginModel;
+    private PublicProfile publicProfile;
     
     public static final int MODIFY = 0;
     public static final int CREATE = 1;
@@ -41,6 +42,7 @@ public class IhmProfileWindow extends JFrame{
         super();
         this.ihmLoginModel = ihmLoginModel;
         this.status = status;
+        this.publicProfile = publicProfile;
         initComponent();
     }
 
@@ -164,11 +166,11 @@ public class IhmProfileWindow extends JFrame{
                 exportProfileButton.setVisible(false);
                 applyButton.setText("Revenir à la liste des parties");
                 
-                Profile publicProfile = ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile();
                 loginField.setText(publicProfile.getPseudo());
                 lastNameField.setText(publicProfile.getName());
                 firstNameField.setText(publicProfile.getFirstName());
                 ageField.setText(String.valueOf(publicProfile.getAge()));
+                //TODO avatard
                 
                 break;
             case CREATE :
@@ -311,16 +313,20 @@ public class IhmProfileWindow extends JFrame{
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
-                
+                //TODO set puis save
+                //Puis retour liste partie
                 break;
             case READ :
+                //retour liste partie
                 break;
             case CREATE :
-
+                //TODO createProfile
+                //Todo retour liste Partie
                 break;
         }
      }
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
+         //TODO : faire ca
          //open explorer to select the location
          final JFileChooser fc = new JFileChooser();
          int returnVal = fc.showOpenDialog(this);
