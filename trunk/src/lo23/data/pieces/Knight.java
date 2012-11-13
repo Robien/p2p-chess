@@ -29,7 +29,7 @@ public class Knight extends GamePiece {
     
     @Override
     public List<Position> getPossibleMoves() {
-         //TODO : add echec and clean
+  
 
         ArrayList<Position> positions = new ArrayList<Position>();
 
@@ -40,7 +40,7 @@ public class Knight extends GamePiece {
 
         Game game = getGame();
 
-        //6 cases
+        //test des 6 cases
         
             if (x + 1 < 8 && y + 2 < 8 && game.getPieceAtXY(x + 1, y + 2) == null)
             {
@@ -119,6 +119,9 @@ public class Knight extends GamePiece {
    @Override
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
+
+               //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
+        // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
 
         int x = getPosition().getX();
