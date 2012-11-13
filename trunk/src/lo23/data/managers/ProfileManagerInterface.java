@@ -14,6 +14,8 @@ import lo23.utils.Enums.STATUS;
  */
 public interface ProfileManagerInterface {
 
+    public Profile getCurrentProfile();
+
     /**
      * Generates a Profile with all the given information
      * @param profileId the profile's unique identifier {@link Profile#getProfileId}
@@ -36,20 +38,26 @@ public interface ProfileManagerInterface {
     public ArrayList<PublicProfile> createProfilesList();
 
     /**
-     *
-     * @param pseudo
-     * @param password
-     * @return
+     * Test if the given password is the
+     * @param profileId the profile's unique identifier {@link Profile#getProfileId}
+     * @param the profile's password
+     * @return true if password is the same as the profile's password
      */
-    public boolean connection(String pseudo, String password);
+    public boolean connection(String profileId, String password);
 
     /**
-     *
+     * Get PublicProfiles for the local Profiles
+     * @return the local PublicProfiles list
+     */
+    public ArrayList<PublicProfile> getLocalPublicProfiles();
+
+    /**
+     * Save the current profile on the local computer
      */
     public void saveProfile();
 
     /**
-     *
+     * Load a local profile from the local computer
      * @param profileId
      * @return
      */
@@ -90,14 +98,14 @@ public interface ProfileManagerInterface {
     public void notifyInvitAnswer(Invitation invitation, boolean answer);
 
     /**
-     *
-     * @param filePath
+     * Export the current Profile in a local file
+     * @param filePath desired path for the local export file
      */
     public void exportProfile(String filePath);
 
     /**
-     *
-     * @param filePath
+     * Import a Profile from a local file
+     * @param filePath path to the local file
      */
     public void importProfile(String filePath);
 }
