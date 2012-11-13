@@ -4,7 +4,7 @@
  */
 package lo23.ui.grid;
 
-import ui.grid.TMP_GameManager;
+//import ui.grid.TMP_GameManager;
 import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
@@ -38,7 +38,7 @@ public class GridMain {
                  *
                  */
                 myModel = new ApplicationModel();
-                myModel.setGameManager(new TMP_GameManager(myModel));
+   //             myModel.setGameManager(new TMP_GameManager(myModel));
              //  myModel.setProfileManager(new TMP_ProfileManager(myModel));
                 //TODO : comment a cause d'un problème de compil
 
