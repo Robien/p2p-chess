@@ -4,13 +4,21 @@
  */
 package lo23.ui.grid;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Element;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -27,6 +35,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
     StyleContext sc;
     Style defaultStyle;
     final Style localStyle;
+    final Style remoteStyle;
+    final Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
 
@@ -48,15 +58,28 @@ public class ChatPanel2 extends javax.swing.JPanel {
         StyleConstants.setFontFamily(localStyle, "serif");
         StyleConstants.setFontSize(localStyle, 12);
 
+
+        remoteStyle = jTextPane1.addStyle("remoteStyle", defaultStyle);
+        StyleConstants.setFontFamily(remoteStyle, "serif");
+        StyleConstants.setForeground(remoteStyle, Color.BLUE);
+      
+        gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
+        StyleConstants.setForeground(gameStyle, Color.RED);
+        StyleConstants.setFontSize(gameStyle, 25);
+
                 // ajout d'un ecouteur de frappe du clavier sur le textField
         jTextField1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 // teste si la touche pressé correspond à la touche entrée
                 if (e.getKeyCode() == 10) {
-                    // on simule le clic de souris comme si on avait cliqué
-                    // sur le bouton lui meme
+                    try {
+                        // sur le bouton lui meme
+                        // sur le bouton lui meme
                         sendMsg(jTextField1.getText());
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             }
@@ -94,6 +117,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
         jTextPane1.setBackground(new java.awt.Color(255, 255, 153));
         jTextPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextPane1.setEditable(false);
         jTextPane1.setToolTipText("");
         jTextPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextPane1.setMaximumSize(new java.awt.Dimension(6, 20));
@@ -147,32 +171,81 @@ public class ChatPanel2 extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         System.out.println("test");
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void sendMsg(String msg){
+    /**
+     * This function allows to display message that local player sent
+     * @param msg
+     * @throws BadLocationException
+     */
+    private void sendMsg(String msg) throws BadLocationException{
        if (!msg.equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
-            try {
+
                 // sending message to remote player
-                if(myModel == null)
-                       System.out.print("variable modele nulle");
-                else{
+             //   if(myModel == null)
+             //          System.out.print("variable modele nulle");
+             //   else{
+
+            
                     Message m = myModel.getGManager().createMessage(msg);
-                    myModel.getGManager().sendMessage(m);
-                }
+                   myModel.getGManager().sendMessage(m);
+
 
                 // printing on screen
-                doc2.insertString(doc2.getLength(), jTextField1.getText() + "\n", localStyle);
+                doc2.insertString(doc2.getLength(), "[Heure][NomPlayer] : " + jTextField1.getText() + "\n", localStyle);
                 jTextField1.setText("");
                 jTextField1.setFocusable(true);
-            } catch (BadLocationException ex) {
-                Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+
+                receivedMsg(new Message("test", null, null));
+
+        }
+    }
+    /**
+     * Fonction qui permet d'afficher un message envoyé par le joueur distant
+     * @param msg
+     * @throws BadLocationException
+     */
+    public void receivedMsg(Message msg) throws BadLocationException{
+       if (!msg.getContents().equals("")) { // if not null
+            StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
+
+            // printing on screen
+            doc2.insertString(doc2.getLength(), "[Heure][NomPlayer] : " + msg.getContents() + "\n", remoteStyle);
+        }
+    }
+
+    /**
+     * Fonction qui permet d'afficher un message par rapport au jeu
+     * @param msg
+     * @throws BadLocationException
+     */
+    public void gameMsg(Message msg) throws BadLocationException{
+       if (!msg.getContents().equals("")) { // if not null
+            StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
+
+                // sending message to remote player
+             //   if(myModel == null)
+             //          System.out.print("variable modele nulle");
+             //   else{
+               //     Message m = myModel.getGManager().createMessage(msg);
+               //     myModel.getGManager().sendMessage(m);
+
+
+
+                // printing on screen
+                doc2.insertString(doc2.getLength(), msg.getContents() + "\n", gameStyle);
+
+
         }
     }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String val = jTextField1.getText();
-        sendMsg(val);
+        try {
+            sendMsg(val);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton4ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
