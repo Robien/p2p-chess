@@ -56,7 +56,7 @@ public abstract class GamePiece implements Serializable {
         }
         catch(Exception e)
         {
-            
+            System.out.println("Erreur !");
         }
     }
     /**
