@@ -26,12 +26,13 @@ public class PlayerTimer {
 
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                currentTimer++;
+                currentTimer--;
                 timerPanel.getLabel().setText(getText());
             }
         };
-
-        currentTimer = 0;
+        
+        currentTimer = endOfTimer;
+        timerPanel.getLabel().setText(getText());
         timer = new Timer(delay, taskPerformer);
         startTimer();
     }
@@ -54,7 +55,6 @@ public class PlayerTimer {
         timer.start();
     }
     
-    //à test
     public void startAt(int s){
         currentTimer = s;
         timer.start();
@@ -62,7 +62,7 @@ public class PlayerTimer {
 
     public String getText(){
 
-    	if (currentTimer >= endOfTimer) return "No more time!";
+    	if (currentTimer <= 0) return "No more time!";
     	
         int hour = 0;
         int minute = 0;
