@@ -28,6 +28,7 @@ import lo23.communication.message.Message;
 import lo23.communication.message.MoveMsg;
 import lo23.communication.message.MulticastAnswer;
 import lo23.communication.message.MulticastInvit;
+import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Invitation;
 import lo23.data.Move;
@@ -351,8 +352,9 @@ public class ConnectionManager implements ConnectionListener {
        
         @Override
         public void run() {
+            ApplicationModel model = ConnectionManager.this.comManager.getApplicationModel();
             if (message instanceof InvitMsg) {
-      
+                
             } else if (message instanceof AnswerMsg) {
 
             } else if (message instanceof GameStarted) {            
