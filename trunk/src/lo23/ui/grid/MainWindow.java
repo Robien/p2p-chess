@@ -85,7 +85,7 @@ public class MainWindow extends JFrame implements ActionListener {
         //The panel is a grid of 6*8 squares
 
         //Grid
-        final GamePanel gamePanel = new GamePanel();
+        final GamePanel gamePanel = new GamePanel(myModel);
         constraints.insets = new Insets(0,0,0,0);
 		constraints.gridwidth = 4;
 		constraints.gridheight = 4;
