@@ -4,17 +4,13 @@
  */
 package lo23.ui.login;
 
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
@@ -22,12 +18,9 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
-import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.managers.GameManagerInterface;
-import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
-import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 
 /**
@@ -68,7 +61,8 @@ public class IhmLoginModel implements PropertyChangeListener{
         listEndGames.setDataVector(donnees, entetesGames);
 
         // test
-        listEndGames.addGame(new Date(), "toto", "WON");
+        JButton reviewGameBtn = new JButton("review");
+        listEndGames.addGame(new Date(), "toto", "WON", reviewGameBtn);
         // end test
 
        listProfileDate = new HashMap<PublicProfile,Date>();
@@ -96,7 +90,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(response == true)
         {
             Game game = gameManager.createGame(invit);
-            gameManager.load(game.getGameId());
+//            gameManager.load(game.getGameId());
         }
         else
         {
@@ -232,8 +226,18 @@ public class IhmLoginModel implements PropertyChangeListener{
             }
         }
 
-        public void addGame(Date date, String adversary, String result) {
-            this.addRow(new Object[]{date, adversary, result});
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            if (columnIndex==3) {
+                JButton button = new JButton("Review");
+                return button;
+            } else {
+                return super.getValueAt(rowIndex, columnIndex);
+            }
+        }
+
+        public void addGame(Date date, String adversary, String result, JButton reviewBtn) {
+            this.addRow(new Object[]{date, adversary, result, new JButton("toto")});
         }
 
 //        public void removePlayer(String id) {
