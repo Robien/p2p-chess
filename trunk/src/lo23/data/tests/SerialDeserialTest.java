@@ -9,6 +9,6 @@ package lo23.data.tests;
  *
  * @author khamidou
  */
-public class SerialDeserialTest {
-
+public class SerialDeserialTest extends TestInit {
+    
 }
