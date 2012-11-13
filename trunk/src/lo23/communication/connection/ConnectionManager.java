@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
@@ -208,6 +209,23 @@ public class ConnectionManager implements ConnectionListener {
         socketDirectory.put(socket.getInetAddress(), socket);
         handleMessageMap.put(socket, handleMessage);
     }
+    
+    /**
+     * Mettre un commentaire.
+     * @param inetAddress 
+     */
+    private synchronized void connect(InetAddress inetAddress) {
+        try {
+            Socket socket = new Socket(inetAddress, ConnectionParams.unicastPort);
+            HandleMessage handleMessage = new HandleMessage(socket, this);
+            handleMessage.startHandleReceive();
+
+            socketDirectory.put(socket.getInetAddress(), socket);
+            handleMessageMap.put(socket, handleMessage);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error on connection", ex);
+        }
+    }
 
     /**
      * Mettre un commentaire.
@@ -232,6 +250,18 @@ public class ConnectionManager implements ConnectionListener {
             socketSession = null;
         }
     }
+    
+    /**
+     * Mettre un commentaire.
+     * @param socket 
+     */
+    private void disconnect(Socket socket) {
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.WARNING, "Error on disconnection", ex);
+        }
+    }
 
     /**
      * Mettre un commentaire.
@@ -244,33 +274,33 @@ public class ConnectionManager implements ConnectionListener {
             InvitMsg invitMsg = (InvitMsg) message;
             //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
             invitationMap.put(socket, invitMsg.getInvitation());
+            notifyMessage(message);
+            //TODO réponse automatique si readInvitation = false;
             
         } else if (message instanceof AnswerMsg) {
-            this.comManager.getApplicationModel().getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             if (!((AnswerMsg) message).isAnswer()) {
                 disconnect(socket);
             }
+            notifyMessage(message);
             
-        } else if (message instanceof GameStarted) {
-            this.comManager.getApplicationModel().getGManager().notifyGameStarted(((GameStarted) message).getGuest());
-            
+        } else if (message instanceof GameStarted) {            
             readInvitation.set(false);
             socketSession = socket;
             disconnectOthers();
+            notifyMessage(message);
             
         } else if (message instanceof ChatMsg) {
-            this.comManager.getApplicationModel().getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
+            notifyMessage(message);
             
         } else if (message instanceof MoveMsg) {
-            this.comManager.getApplicationModel().getGManager().notifyMovement(((MoveMsg) message).getMove());
+            notifyMessage(message);
             
         } else if (message instanceof ConstantMsg) {
-            this.comManager.getApplicationModel().getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
+            notifyMessage(message);
             
         } else if (message instanceof GameEnded) {
-            this.comManager.getApplicationModel().getGManager().notifyGameEnded();
             disconnect(socketSession);
-            
+            notifyMessage(message);
         }
     }
 
@@ -286,30 +316,15 @@ public class ConnectionManager implements ConnectionListener {
 
     /**
      * Mettre un commentaire.
-     * @param inetAddress 
+     * @param message 
      */
-    private synchronized void connect(InetAddress inetAddress) {
-        try {
-            Socket socket = new Socket(inetAddress, ConnectionParams.unicastPort);
-            HandleMessage handleMessage = new HandleMessage(socket, this);
-            handleMessage.startHandleReceive();
-
-            socketDirectory.put(socket.getInetAddress(), socket);
-            handleMessageMap.put(socket, handleMessage);
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error on connection", ex);
-        }
+    private void notifyMessage(Message message) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
     }
-
-    /**
-     * Mettre un commentaire.
-     * @param socket 
-     */
-    private void disconnect(Socket socket) {
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.WARNING, "Error on disconnection", ex);
-        }
-    }
+    
 }
