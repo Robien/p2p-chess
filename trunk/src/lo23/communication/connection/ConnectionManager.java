@@ -354,21 +354,21 @@ public class ConnectionManager implements ConnectionListener {
         public void run() {
             ApplicationModel model = ConnectionManager.this.comManager.getApplicationModel();
             if (message instanceof InvitMsg) {
-                
+            
             } else if (message instanceof AnswerMsg) {
-
-            } else if (message instanceof GameStarted) {            
-
+                model.getPManager().notifyInvitAnswer(((AnswerMsg)message).getInvitation(), ((AnswerMsg)message).isAnswer());
+            } else if (message instanceof GameStarted) {
+                model.getGManager().notifyGameStarted(((GameStarted)message).getGuest());
             } else if (message instanceof ChatMsg) {
-
+                model.getGManager().notifyChatMessage(((ChatMsg)message).getMessage());
             } else if (message instanceof MoveMsg) {
-
+                model.getGManager().notifyMovement(((MoveMsg)message).getMove());
             } else if (message instanceof ConstantMsg) {
-
+                model.getGManager().notifyConstantMessage(((ConstantMsg)message).getConstant());
             } else if (message instanceof GameEnded) {
-
+                model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer) {
-                
+                model.getPManager().notifyAddProfile(((MulticastAnswer)message).getGuest());
             }
         }
    }
