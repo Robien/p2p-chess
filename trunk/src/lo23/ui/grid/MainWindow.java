@@ -49,7 +49,6 @@ public class MainWindow extends JFrame implements ActionListener {
        pendant_partie = new Launch_Sound();
        pendant_partie.play();
       
-
         myModel = m;
         build();//On initialise notre fenêtre
        
@@ -94,31 +93,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		constraints.gridy = 1;
         panel.add(gamePanel, constraints);
         
-        //listener 
-        gamePanel.addMouseListener(new MouseAdapter() {
-    	    public void mouseReleased(MouseEvent mouseEvent) {
-    	        if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
-    	        	//left button, main button, or mouseEvent.BUTTON1 == mouseEvent.getButton()
-    	        	int x = mouseEvent.getX();
-    	        	int y = mouseEvent.getY();
-    	        	int xSquare = (x - x%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
-    	        	int ySquare = (y - y%GridConstants.SQUARE_SIZE)/GridConstants.SQUARE_SIZE;
-    	        	gamePanel.receiveSelectedCase(xSquare, ySquare);
-//    	        } else if(SwingUtilities.isMiddleMouseButton(mouseEvent) ) {
-//    	        	//middle button
-//    	        	
-//    	        } else if(SwingUtilities.isRightMouseButton(mouseEvent)) {
-    	        	//right button
-    	        	
-    	        } 
-    	    }
-            
-            //Sound bouton
-            
-              
-            
-            
-        });
+
 
         //Test Ajout Timer, a remplacer par profilPanel
         constraints.gridwidth = 6;
