@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
+import lo23.communication.handle.HandleReceiveUDPMessage;
 import lo23.communication.handle.HandleSendMessageUDP;
 import lo23.communication.handle.HandleServerConnection;
 import lo23.communication.message.AnswerMsg;
@@ -41,6 +42,7 @@ public class ConnectionManager implements ConnectionListener {
     
     // Multicast Socket
     private MulticastSocket multicastSocket; //server
+    private HandleReceiveUDPMessage handleMulticast;
     private DatagramSocket datagramSocket; //client
     
     // TCP
@@ -67,6 +69,7 @@ public class ConnectionManager implements ConnectionListener {
         try {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
+            handleMulticast = new HandleReceiveUDPMessage(multicastSocket, this);
             datagramSocket = new DatagramSocket();
 
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
@@ -336,14 +339,37 @@ public class ConnectionManager implements ConnectionListener {
      * @param message 
      */
     private void notifyMessage(Message message) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        });
+        SwingUtilities.invokeLater(new NotifyMessageLater(message));
     }
     
-   
+    private class NotifyMessageLater implements Runnable {
+
+        private Message message;
+        
+        public NotifyMessageLater(Message message) {
+            this.message = message;
+        }
+       
+        @Override
+        public void run() {
+            if (message instanceof InvitMsg) {
+      
+            } else if (message instanceof AnswerMsg) {
+
+            } else if (message instanceof GameStarted) {            
+
+            } else if (message instanceof ChatMsg) {
+
+            } else if (message instanceof MoveMsg) {
+
+            } else if (message instanceof ConstantMsg) {
+
+            } else if (message instanceof GameEnded) {
+
+            } else if (message instanceof MulticastAnswer) {
+                
+            }
+        }
+   }
     
 }
