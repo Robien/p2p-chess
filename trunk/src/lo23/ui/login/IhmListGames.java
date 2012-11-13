@@ -33,6 +33,8 @@ public class IhmListGames extends javax.swing.JFrame {
     public IhmListGames(IhmLoginModel ihmLoginModel) {
         this.ihmLoginModel = ihmLoginModel;
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
     }
 
     /** This method is called from within the constructor to
@@ -67,13 +69,12 @@ public class IhmListGames extends javax.swing.JFrame {
 
         jLabel2.setText("Parties en cours (et adversaires connectés)");
 
-        endGamesTable.setAutoCreateRowSorter(true);
         endGamesTable.setModel(ihmLoginModel.getEndGameModel());
         endGamesTable.getColumn("").setCellRenderer(new JTableButtonRenderer());
+        endGamesTable.setAutoCreateRowSorter(true);
         endGamesTable.addMouseListener(new JTableButtonMouseListener(endGamesTable));
         jScrollPane3.setViewportView(endGamesTable);
 
-        stopGamesTable.setAutoCreateRowSorter(true);
         stopGamesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -85,6 +86,7 @@ public class IhmListGames extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        stopGamesTable.setAutoCreateRowSorter(true);
         jScrollPane1.setViewportView(stopGamesTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -94,12 +96,12 @@ public class IhmListGames extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
