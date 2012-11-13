@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.pieces.Bishop;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
 import lo23.data.pieces.GamePiece;
+import lo23.data.pieces.King;
+import lo23.data.pieces.Knight;
+import lo23.data.pieces.Queen;
+import lo23.data.pieces.Rook;
 
 
 
@@ -66,6 +71,68 @@ public class Game implements Serializable
             pieces.add(p2);
         }
 
+        // ROOOOOKS
+        Rook r1 = new Rook(new Position(0, 0), whitePlayer, this);
+        board[0][0] = r1;
+        Rook r2 = new Rook(new Position(7, 0), whitePlayer, this);
+        board[7][0] = r2;
+        whitePlayer.addPiece(r1);
+        whitePlayer.addPiece(r2);
+
+        Rook r3 = new Rook(new Position(0, 0), blackPlayer, this);
+        board[0][7] = r3;
+        Rook r4 = new Rook(new Position(7, 0), blackPlayer, this);
+        board[7][7] = r4;
+        blackPlayer.addPiece(r3);
+        blackPlayer.addPiece(r4);
+
+        // KNIGHTS
+        Knight k1 = new Knight(new Position(1, 0), whitePlayer, this);
+        board[1][0] = k1;
+        Knight k2 = new Knight(new Position(6, 0), whitePlayer, this);
+        board[6][0] = k2;
+        whitePlayer.addPiece(k1);
+        whitePlayer.addPiece(k2);
+
+        Knight k3 = new Knight(new Position(1, 7), blackPlayer, this);
+        board[1][7] = k3;
+        Knight k4 = new Knight(new Position(6, 7), blackPlayer, this);
+        board[6][7] = k4;
+        blackPlayer.addPiece(k3);
+        blackPlayer.addPiece(k4);
+
+        // Bishops
+        Bishop b1 = new Bishop(new Position(2, 0), whitePlayer, this);
+        board[2][0] = b1;
+        Bishop b2 = new Bishop(new Position(5, 0), whitePlayer, this);
+        board[5][0] = b2;
+        whitePlayer.addPiece(b1);
+        whitePlayer.addPiece(b2);
+
+        Bishop b3 = new Bishop(new Position(2, 7), blackPlayer, this);
+        board[2][7] = b3;
+        Bishop b4 = new Bishop(new Position(5, 7), blackPlayer, this);
+        board[5][7] = b4;
+        blackPlayer.addPiece(b3);
+        blackPlayer.addPiece(b4);
+
+        // Queen
+        Queen q1 = new Queen(new Position(3, 0), whitePlayer, this);
+        board[3][0] = q1;
+        whitePlayer.addPiece(q1);
+
+        Queen q2 = new Queen(new Position(3, 7), blackPlayer, this);
+        board[3][7] = q2;
+        blackPlayer.addPiece(q2);
+
+        // King
+        King ki1 = new King(new Position(4, 0), whitePlayer, this);
+        board[4][0] = ki1;
+        whitePlayer.addPiece(ki1);
+
+        King ki2 = new King(new Position(4, 7), blackPlayer, this);
+        board[4][7] = ki2;
+        blackPlayer.addPiece(ki2);
 
     }
 
