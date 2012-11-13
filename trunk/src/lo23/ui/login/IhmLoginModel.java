@@ -23,6 +23,7 @@ import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
@@ -80,14 +81,14 @@ public class IhmLoginModel implements PropertyChangeListener{
         else
                return false; 
     }
-    public void acceptInvitation(Invitation invit){
+    public void acceptInvitation(Invitation invit) throws FileNotFoundException{
 
         GameManagerInterface gameManager = appModel.getGManager();
         boolean response = openInvitationDialog(invit);
         if(response == true)
         {
             Game game = gameManager.createGame(invit);
-            //gameManager.load(game.getGameId());
+            gameManager.load(game.getGameId());
         }
         else
         {
