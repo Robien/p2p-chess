@@ -33,10 +33,9 @@ public interface ProfileManagerInterface {
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age);
 
     /**
-     * Getter for the profiles list
-     * @return the profiles list
+     * Start a periodic timer which discovers Profiles on the network every {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} milliseconds
      */
-    public ArrayList<PublicProfile> createProfilesList();
+    public void startProfilesDiscovery();
 
     /**
      * Try to log the user with the given profileId/password

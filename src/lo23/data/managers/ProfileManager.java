@@ -2,6 +2,7 @@ package lo23.data.managers;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
@@ -13,6 +14,9 @@ import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
+import lo23.utils.Configuration;
+import java.lang.Thread;
+import java.util.TimerTask;
 
 /**
  * Implementation of the PublicManagerInterface interface
@@ -21,6 +25,7 @@ import lo23.utils.Enums.STATUS;
 public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     private Profile currentProfile;
+    private Timer timer;
 
     public ProfileManager(ApplicationModel app) {
         super(app);
@@ -37,8 +42,22 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public ArrayList<PublicProfile> createProfilesList() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void startProfilesDiscovery() {
+        // internal class needed to use timer.schedule()
+        class Discoverer extends TimerTask {
+            private ApplicationModel am;
+
+            Discoverer (ApplicationModel am) {
+                this.am = am;
+            }
+
+            public void run() {
+                this.am.getComManager().sendMulticast();
+            }
+        }
+        
+        this.timer = new Timer();
+        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
     }
 
     @Override
