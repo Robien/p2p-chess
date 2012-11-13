@@ -35,6 +35,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import lo23.data.ApplicationModel;
+import lo23.data.Player;
+import ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
@@ -101,8 +103,14 @@ public class MainWindow extends JFrame implements ActionListener {
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 
-        TimerPanel timerPanel = new TimerPanel();
-        panel.add(timerPanel, constraints);
+        //TimerPanel timerPanel = new TimerPanel();
+        //panel.add(timerPanel, constraints);
+
+      //   PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+      // tmp :
+           PlayerPanel remotePlayerPanel = new PlayerPanel(myModel);
+           panel.add(remotePlayerPanel, constraints);
+
 
         //Test Ajout Timer
         constraints.gridwidth = 6;
@@ -110,8 +118,10 @@ public class MainWindow extends JFrame implements ActionListener {
 		constraints.gridx = 1;
 		constraints.gridy = 5;
 
-        TimerPanel timerPanel2 = new TimerPanel();
-        panel.add(timerPanel2, constraints);
+         //PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+         PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
+
+         panel.add(localPlayerPanel, constraints);
 
         //Chat panel
         constraints.insets = new Insets(50,50,0,0);
