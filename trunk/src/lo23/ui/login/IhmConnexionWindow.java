@@ -44,8 +44,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
      * Creates new form IhmConnexionWindow_old
      */
     public IhmConnexionWindow(IhmLoginModel ihmLoginModel) {
-        initComponents();
+        
         this.ihmLoginModel = ihmLoginModel;
+        initComponents();
         setSize(360, 500);
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
@@ -110,8 +111,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
         // Fields
         // Test --> TODO appeler la methode de datamanager getPublicProfiles
-        PublicProfile[] localProfiles = new PublicProfile[3];
-        loginCombo = new javax.swing.JComboBox(localProfiles);
+        PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
+        
+        loginCombo = new javax.swing.JComboBox(profilesList);
         passwordField = new javax.swing.JPasswordField();
         passwordField.setText("Password");
 
