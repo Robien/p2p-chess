@@ -35,7 +35,7 @@ public interface GameManagerInterface
      * 
      * @return Either a Game object, either null value
      */
-    public Game load(String gameId) throws FileNotFoundException;
+    public Game load(long gameId) throws FileNotFoundException;
     
     /**
      * This methods creates a new Move object

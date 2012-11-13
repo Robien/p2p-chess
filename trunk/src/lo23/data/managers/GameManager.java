@@ -41,7 +41,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     
     @Override
-    public Game load(String gameId) throws FileNotFoundException {
+    public Game load(long gameId) throws FileNotFoundException {
         return Serializer.readGame(gameId);
     }
 
@@ -192,7 +192,7 @@ public class GameManager extends Manager implements GameManagerInterface {
             try{ 
                 //fileList[i] format is "gameId.game"
                 //So the string is split in order to have the gameId.
-                gameList.add(load(fileList[i].split(".")[0]) );
+                gameList.add(load(Long.parseLong(fileList[i].split(".")[0])) );
             }
             catch(FileNotFoundException expt ){
                 System.out.println(expt.getMessage());
