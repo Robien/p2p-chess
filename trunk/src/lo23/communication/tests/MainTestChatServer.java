@@ -1,7 +1,6 @@
 package lo23.communication.tests;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -83,7 +82,7 @@ public class MainTestChatServer {
         }
 
         @Override
-        public void receivedUDPMessage(DatagramSocket socket, Message message) {
+        public void receivedUDPMessage(Message message) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

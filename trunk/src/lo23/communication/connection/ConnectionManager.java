@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,12 +48,12 @@ public class ConnectionManager implements ConnectionListener {
     // TCP
     private ServerSocket serverSocket;
     private HandleServerConnection serverConnection;
-    private HashMap<Socket, HandleMessage> handleMessageMap;
+    private ConcurrentHashMap<Socket, HandleMessage> handleMessageMap;
     // Other
-    private HashMap<InetAddress, Socket> socketDirectory;
+    private ConcurrentHashMap<InetAddress, Socket> socketDirectory;
     private AtomicBoolean readInvitation;
     private Socket socketSession;
-    private HashMap<Socket, Invitation> invitationMap;
+    private ConcurrentHashMap<Socket, Invitation> invitationMap;
 
     /**
      * Constructor of ConnectionManager.
@@ -60,7 +61,7 @@ public class ConnectionManager implements ConnectionListener {
      */
     public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
-        handleMessageMap = new HashMap<Socket, HandleMessage>();
+        handleMessageMap = new ConcurrentHashMap<Socket, HandleMessage>();
         readInvitation = new AtomicBoolean(true);
         socketSession = null;
 
@@ -280,9 +281,9 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
-     * @param socket
-     * @param message
+     * Method which be notified when we receive a message
+     * @param socket the socket which sended the message
+     * @param message the received message
      */
     @Override
     public synchronized void receivedMessage(Socket socket, final Message message) {
@@ -321,25 +322,27 @@ public class ConnectionManager implements ConnectionListener {
         } else if (message instanceof GameEnded) {
             disconnect(socketSession);
             notifyMessage(message);
+            
         }
     }
 
     /**
      * Function which manage received message.
-     * @param message : message received
+     * @param message message received
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {
         if (message instanceof MulticastInvit) {
-            this.replyMulticast();
+            replyMulticast();
         } else if (message instanceof MulticastAnswer) {
             notifyMessage(message);
         }
     }
 
     /**
-     * Mettre un commentaire.
-     * @param message 
+     * Notify messages to the Model in the swing thread.
+     * SwingUtilities.invokeLater
+     * @param message message received
      */
     private void notifyMessage(Message message) {
         SwingUtilities.invokeLater(new NotifyMessageLater(message));
