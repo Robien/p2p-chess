@@ -1,6 +1,5 @@
 package lo23.data.pieces;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
