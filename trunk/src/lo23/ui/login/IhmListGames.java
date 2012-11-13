@@ -28,13 +28,30 @@ import javax.swing.*;
 public class IhmListGames extends javax.swing.JFrame {
 
     private IhmLoginModel ihmLoginModel;
+    private IHMListe listPlayers;
     
     /** Creates new form IhmListGames */
-    public IhmListGames(IhmLoginModel ihmLoginModel) {
+    public IhmListGames(IhmLoginModel ihmLoginModel, IHMListe listPlayers) {
         this.ihmLoginModel = ihmLoginModel;
+        this.listPlayers = listPlayers;
+        
         initComponents();
+        
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+        
+        // Ajoute un listener sur ReviewGameBtn
+        ihmLoginModel.getReviewGameBtn().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewGameBtnActionPerformed(evt);
+            }
+        });
+        // Ajoute un listener sur ReviewGameBtn
+        ihmLoginModel.getContinueGameBtn().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continueGameBtnActionPerformed(evt);
+            }
+        });
     }
 
     /** This method is called from within the constructor to
@@ -46,7 +63,7 @@ public class IhmListGames extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        javax.swing.JButton previousBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -57,11 +74,11 @@ public class IhmListGames extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("My games");
 
-        jButton1.setText("Previous");
-        jButton1.setActionCommand("previousBtn");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        previousBtn.setText("Previous");
+        previousBtn.setActionCommand("previousBtn");
+        previousBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                previousBtnActionPerformed(evt);
             }
         });
 
@@ -75,17 +92,10 @@ public class IhmListGames extends javax.swing.JFrame {
         endGamesTable.addMouseListener(new JTableButtonMouseListener(endGamesTable));
         jScrollPane3.setViewportView(endGamesTable);
 
-        stopGamesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        stopGamesTable.setModel(ihmLoginModel.getStopGameModel());
+
+        stopGamesTable.getColumn("").setCellRenderer(new JTableButtonRenderer());
+        stopGamesTable.addMouseListener(new JTableButtonMouseListener(stopGamesTable));
         stopGamesTable.setAutoCreateRowSorter(true);
         jScrollPane1.setViewportView(stopGamesTable);
 
@@ -100,7 +110,7 @@ public class IhmListGames extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(previousBtn))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -116,16 +126,25 @@ public class IhmListGames extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(previousBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
+        this.dispose();
+        this.listPlayers.setEnabled(true);
+    }//GEN-LAST:event_previousBtnActionPerformed
+
+    private void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        System.out.println("click review game btn");
+    }    
+    
+    private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        System.out.println("click continue game btn");
+    }                                        
 
     /**
     * @param args the command line arguments
@@ -140,15 +159,14 @@ public class IhmListGames extends javax.swing.JFrame {
                 appModel.setProfileManager(new ProfileManagerMock(appModel));
                 //Instantiate IhmLoginModel
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-
-                new IhmListGames(ihmLoginModel).setVisible(true);
+                IHMListe listplayers = new IHMListe(ihmLoginModel);
+                new IhmListGames(ihmLoginModel, listplayers).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable endGamesTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
