@@ -42,6 +42,10 @@ public class TestCoupPossible {
 
         GamePiece piece = gm.getPieceAtXY(4, 0);
         piece.movePiece(new Position(3, 4));
+        if (gm.getPieceAtXY(3, 4) == null)
+        {
+            System.out.println("Le code des Data, c'est de la noix !");
+        }
 
 
         List<Position> possibleMoves = piece.getPossibleMoves();
