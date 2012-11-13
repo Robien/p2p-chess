@@ -23,11 +23,16 @@ import lo23.utils.Enums.STATUS;
  */
 public class ProfileManagerMock extends Manager implements ProfileManagerInterface{
 
-    private PublicProfile profileAdmin;
+    private Profile profileAdmin;
+    private Profile currProfil = null;
+    private ArrayList<Profile> profiles = new ArrayList<Profile>();
     
     public ProfileManagerMock(ApplicationModel model){
         super(model);
-        profileAdmin = new PublicProfile("1234","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Bob","Newman",25);
+        profileAdmin = new Profile("1234","admin","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Admin","Admin",25);
+        profiles.add(profileAdmin);
+        profiles.add(new Profile("1234","john","john",Enums.STATUS.CONNECTED,"127.0.0.1",null,"John","Smith",23));
+        
     }
 
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
@@ -93,21 +98,30 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     }
 
     @Override
-    public Profile getCurrentProfile() {
+    public Profile getCurrentProfile(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() {
-        ArrayList<PublicProfile> profiles = new ArrayList<PublicProfile>();
-        profiles.add(profileAdmin);
-        return profiles;
+        ArrayList<PublicProfile> profilesPublic = new ArrayList<PublicProfile>();
+        for(Profile p : profiles){
+            profilesPublic.add(p.getPublicProfile());
+        }
+        return profilesPublic;
     }
 
     @Override
-    public boolean connection(String profileId, String password) {
-        if(profileAdmin.getPseudo().equals("admin") && password.equals("admin"))
-            return true;
+    public boolean connection(String profileId, String password){
+        for(Profile p : profiles){
+            if(p.getProfileId().equals(profileId)){
+                currProfil = p;
+                break;
+            }
+        }
+        if(currProfil != null)
+            if(currProfil.getPassword().equals(password))
+                return true;
         return false;
     }
 
