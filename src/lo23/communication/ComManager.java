@@ -20,7 +20,6 @@ public class ComManager extends Manager implements ISender {
     // TODO finir les Handle
     
     private PublicProfile currentUserProfile;
-    private IReceiveListener receiveListener;
     private ConnectionManager connectionManager;
     
     /**
@@ -46,10 +45,6 @@ public class ComManager extends Manager implements ISender {
     
     public PublicProfile getCurrentUserProfile() {
         return currentUserProfile;
-    }
-    
-    public IReceiveListener getReceiveListener() {
-        return receiveListener;
     }
     
     @Override

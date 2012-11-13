@@ -374,5 +374,6 @@ public class ConnectionManager implements ConnectionListener {
                 model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
             }
         }
-    }
+   }
+    
 }
