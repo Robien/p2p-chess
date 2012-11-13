@@ -49,7 +49,7 @@ public abstract class GamePiece implements Serializable {
     }
 
     public void movePiece(Position to) {
-        position = to;
+
         try
         {
             getGame().playMove(new Move(getPosition(), to, this));
@@ -58,6 +58,8 @@ public abstract class GamePiece implements Serializable {
         {
             System.out.println("Erreur !");
         }
+        position = to;
+
     }
     /**
      * This method returns the game where the current GamePiece is contained
