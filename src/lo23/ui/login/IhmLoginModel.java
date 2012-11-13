@@ -172,6 +172,14 @@ public class IhmLoginModel implements PropertyChangeListener{
             }
         }
     }
+
+    PublicProfile getRemoteProfile(String id) {
+        for(PublicProfile p : listProfileDate.keySet()){
+            if(p.getProfileId().equals(id))
+                return p;
+        }
+        return null;
+    }
  
 
     private class PlayerModel extends DefaultTableModel {
