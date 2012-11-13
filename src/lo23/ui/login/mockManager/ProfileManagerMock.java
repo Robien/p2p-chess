@@ -99,7 +99,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public Profile getCurrentProfile(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        return currProfil;
     }
 
     @Override
