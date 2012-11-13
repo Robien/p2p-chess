@@ -4,14 +4,21 @@
  */
 package lo23.ui.login;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashSet;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lo23.data.ApplicationModel;
+import lo23.data.Game;
+import lo23.data.Invitation;
+import lo23.data.Profile;
+import lo23.data.PublicProfile;
+import lo23.data.managers.GameManagerInterface;
+import lo23.data.managers.ProfileManagerInterface;
 import lo23.data.ApplicationModel;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
@@ -23,6 +30,94 @@ import lo23.ui.login.mockManager.ProfileManagerMock;
  */
 public class IHMListe extends javax.swing.JFrame implements PropertyChangeListener {
 
+    private class PlayerModel extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int r, int c) {
+            return false;
+        }
+
+        @Override
+        public Class getColumnClass(int columnIndex) {
+            Object o = getValueAt(0, columnIndex);
+
+            if (o == null) {
+                return Object.class;
+            } else {
+                return o.getClass();
+            }
+        }
+
+        public void addPlayer(String name, String firstname, ImageIcon ico) {
+            this.addRow(new Object[]{name, firstname, ico});
+        }
+
+        public void removePlayer(String id) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if (this.getValueAt(i, 0) == id) {
+                    this.removeRow(i);
+                    return;
+                }
+            }
+        }
+    }
+
+    private Color chooseColorDialog() {
+        Color color = Color.WHITE;
+        String[] colorTab = {"WHITE", "BLACK"};
+        int rang = JOptionPane.showOptionDialog(null,
+                "Please choose your color !",
+                "Choose Color Dialog",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorTab,
+                colorTab[1]);
+        if ("BLACK".equals(colorTab[rang])) {
+            color = Color.BLACK;
+        }
+        //JOptionPane.showMessageDialog(null, "your choice is " + colorTab[rang], "color", JOptionPane.QUESTION_MESSAGE);
+        return color;
+    }
+    private void sendInvitation(String id_user, Color color) {
+        
+        color = chooseColorDialog();
+        long time = System.currentTimeMillis();
+        //Instantiate DataManager
+        ApplicationModel appModel = new ApplicationModel();
+        ProfileManagerInterface profileManager = appModel.getPManager();
+        //Instantiate profile and invitation
+        Profile profile = profileManager.loadProfile(id_user);
+        Invitation invit = null;
+        //invit = profileManager.createInvitation(profile, color, time);
+        //Send invitation
+        profileManager.sendInvitation(invit);  
+      
+    }
+    
+    private boolean openInvitationDialog(Invitation invit){ 
+        int response = 0;
+        PublicProfile profile = invit.getGuest();
+        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getName());
+        if(response == 0)
+               return true; 
+        else
+               return false; 
+      }
+    private void acceptInvitation(Invitation invit) {
+        ApplicationModel appModel = new ApplicationModel();
+        GameManagerInterface gameManager = appModel.getGManager();
+        if(openInvitationDialog(invit))
+        {
+            Game game = gameManager.createGame(invit);
+            // load(string ou long) ???
+            //gameManager.load(game.getGameId());
+        }
+        else
+        {
+            setVisible(false);
+        }
+    }
     
     private final IhmLoginModel model;
     static String TITLE = "Players list";
@@ -40,6 +135,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         this.setTitle(TITLE);
         
        tablePlayers.addMouseListener(new MouseAdapter() {
+           @Override
             public void mouseClicked(MouseEvent me) {
                 int num = tablePlayers.rowAtPoint(me.getPoint());
                 System.out.println(tablePlayers.getModel().getValueAt(num, 0));
@@ -80,6 +176,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         jTextField1.setEditable(false);
         jTextField1.setText("Nom du joueur");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
@@ -213,13 +310,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(IHMListe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(IHMListe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(IHMListe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(IHMListe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -227,7 +318,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IHMListe(null).setVisible(true);
+               new IHMListe(null).setVisible(true);
 
             }
         });
