@@ -12,14 +12,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.connection.ConnectionManager;
 import lo23.communication.connection.ConnectionParams;
+import lo23.communication.handle.HandleSendMessageUDP;
 import lo23.communication.message.Message;
 import lo23.communication.message.MulticastInvit;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums.STATUS;
 
 
 /**
@@ -28,48 +31,34 @@ import lo23.data.PublicProfile;
  */
 
 public class MainTestMulticast {
-    PublicProfile Profil_to_send = new PublicProfile();
 
-    // Multicast Socket
-    private MulticastSocket multicastSocket; //server
-    private DatagramSocket datagramSocket; //client
+    public static void main(String[] args) {
+        PublicProfile profile = new PublicProfile("1", "penotvin", STATUS.INGAME, "172.22.2.3", null,"PENOT","Vincent",22);
+        
+        MulticastInvit message = new MulticastInvit(profile);
+        MulticastSocket multicastSocket = null;
+        DatagramSocket datagramSocket = null;
 
-    public void sendMulticast() {
-       // Message creation
-       MulticastInvit Message = new MulticastInvit(this.Profil_to_send);
-       byte b[] = this.serialize(Message);
-       DatagramPacket dgram = null;
-       try {
-           dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ConnectionParams.multicastAddress), ConnectionParams.multicastPort); // multicast
-       } catch (UnknownHostException ex) {
-       Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the datagramme creation", ex);
-       }
+        try {
+            multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
+        } catch (IOException ex) {
+            Logger.getLogger(MainTestMulticast.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
+        } catch (IOException ex) {
+            Logger.getLogger(MainTestMulticast.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-       try {
-           this.datagramSocket.send(dgram);
-       } catch (IOException ex) {
-           Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error: Cannot sent datagramme on Multicast server", ex);
-       }
+        try {
+            datagramSocket = new DatagramSocket();
+        } catch (SocketException ex) {
+            Logger.getLogger(MainTestMulticast.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
+    handler.send(message);
+    
     }
 
-
-    private byte[] serialize(Message message){
-       ByteArrayOutputStream b_out = new ByteArrayOutputStream();
-       ObjectOutputStream o_out = null;
-       try {
-           o_out = new ObjectOutputStream(b_out);
-       } catch (IOException ex) {
-           Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-       }
-
-       try {
-           // Message serialization
-           o_out.writeObject(message);
-       } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the message serialization", ex);
-       }
-       byte[] b = b_out.toByteArray();
-
-       return b;
-    }
 }

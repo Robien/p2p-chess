@@ -25,6 +25,7 @@ import lo23.communication.message.GameStarted;
 import lo23.communication.message.InvitMsg;
 import lo23.communication.message.Message;
 import lo23.communication.message.MoveMsg;
+import lo23.communication.message.MulticastAnswer;
 import lo23.communication.message.MulticastInvit;
 import lo23.data.Constant;
 import lo23.data.Invitation;
@@ -89,6 +90,13 @@ public class ConnectionManager implements ConnectionListener {
         handler.send(message);
     }
 
+    public void replyMulticast() {
+       PublicProfile profile = this.comManager.getCurrentUserProfile();
+       MulticastAnswer message = new MulticastAnswer(profile);
+       HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
+       handler.send(message);
+    }
+    
     /**
      * Send a invitation to a user.
      * @param invitation the invitation from a user
@@ -310,8 +318,13 @@ public class ConnectionManager implements ConnectionListener {
      * @param message 
      */
     @Override
-    public synchronized void receivedUDPMessage(DatagramSocket socket, Message message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public synchronized void receivedUDPMessage(InetAddress socket, Message message) {
+        if (message instanceof MulticastInvit){
+            this.replyMulticast();
+        }
+        else if (message instanceof MulticastAnswer){
+            this.comManager.getApplicationModel().getPManager().notifyAddProfile(((MulticastAnswer)message).getGuest());
+        }
     }
 
     /**
