@@ -26,4 +26,20 @@ public class Message extends Event implements Serializable {
         return contents;
     }
 
+    public Player getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Player receiver) {
+        this.receiver = receiver;
+    }
+
+    public Player getSender() {
+        return sender;
+    }
+
+    public void setSender(Player sender) {
+        this.sender = sender;
+    }
+
 }
