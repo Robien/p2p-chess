@@ -134,26 +134,38 @@ public class ConnectionManager implements ConnectionListener {
             
             //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'aap distante)
             socketSession = socketDirectory.get(distantIpAddr);
-            
-            for(Invitation invit : invitationMap.values()){
-                AnswerMsg disconnectionMessage = new AnswerMsg(invit,false);
-                //envoyer a tout le monde en prenant les IP dans les invit
 
-                HashMap<InetAddress, Socket> copyOfServerSocketDirectory = new HashMap<InetAddress, Socket>();
-                copyOfServerSocketDirectory = socketDirectory; // copy necessaire pour ne pas modifier l'element sur lequel on travaille
-                for (Socket socket : copyOfServerSocketDirectory.values()){
-                    if(!socket.getInetAddress().equals(distantIpAddr)) {
-                        disconnect(socket);
-                    }
-                }
-            }
+            disconnectOthers();
             
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
-    
+
+    private void disconnectOthers(){
+        //Envoie d'une reponse négative à toute les demandes précédement reçues
+            for(Invitation invit : invitationMap.values()){
+                try {
+                    AnswerMsg disconnectionMessage = new AnswerMsg(invit, false);
+                    InetAddress distantIpAddrReceivedInvit = InetAddress.getByName(invit.getGuest().getIpAddress());
+
+                    //copy necessaire pour ne pas modifier l'element sur lequel on travaille
+                    HashMap<InetAddress, Socket> copyOfClientSocketDirectory = new HashMap<InetAddress, Socket>(socketDirectory);
+                    for (Socket socket : copyOfClientSocketDirectory.values()) {
+                        if (socket.getInetAddress().equals(distantIpAddrReceivedInvit)) {
+                            if(!socket.equals(socketSession)){
+                                HandleMessage handleMessageReceivedInvit = handleMessageMap.get(socket);
+                                handleMessageReceivedInvit.send(disconnectionMessage);
+                            }
+                        }
+                    }
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+    }
+
     /**
      * Send a chat message.
      * (available only when a game session is started)
@@ -249,45 +261,24 @@ public class ConnectionManager implements ConnectionListener {
         //TODO Attention il manque la fonction notifyInvitAnswer() elle a été remplacer par notifyGameStarted(invitation)
         
         if (message instanceof GameStarted) {
-            try {
+
                 this.comManager.getApplicationModel().getGManager().notifyGameStarted(((GameStarted)message).getGuest());
-                InetAddress distantServerIpAddr = InetAddress.getByName(((GameStarted)message).getGuest().getIpAddress());
-                //penser a mettre a jour l'app distante -> socketSession...
-                
-                //copy necessaire pour ne pas modifier l'element sur lequel on travaille
-                HashMap<InetAddress, Socket> copyOfClientSocketDirectory = new HashMap<InetAddress, Socket>(socketDirectory);
-                for (Socket tmpSocket : copyOfClientSocketDirectory.values()){
-                if(tmpSocket.getInetAddress().equals(distantServerIpAddr)) {
-                    socketSession = tmpSocket;
-                }
-            }
-                
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during GameStarted Sent", ex);
-            }
+                socketSession = socket;
+                disconnectOthers();
+
         }
         else if (message instanceof InvitMsg) {
-            try {
                 this.comManager.getApplicationModel().getPManager().notifyInvitation(((InvitMsg)message).getInvitation());
-                InetAddress distantServerIpAddr = InetAddress.getByName(((InvitMsg)message).getInvitation().getHost().getIpAddress());
-                Socket invitSock = null;
-                
-                 //copy necessaire pour ne pas modifier l'element sur lequel on travaille
-                HashMap<InetAddress, Socket> copyOfClientSocketDirectory = new HashMap<InetAddress, Socket>(socketDirectory);
-                for (Socket tmpSocket : copyOfClientSocketDirectory.values()){
-                    if(tmpSocket.getInetAddress().equals(distantServerIpAddr)) {
-                        invitSock = tmpSocket;
-                    }
-                }
                 
                 //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
-                invitationMap.put(invitSock, ((InvitMsg)message).getInvitation());
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                invitationMap.put(socket, ((InvitMsg)message).getInvitation());
+
         }
         else if (message instanceof AnswerMsg) {
             this.comManager.getApplicationModel().getPManager().notifyInvitAnswer(((AnswerMsg)message).getInvitation(), ((AnswerMsg)message).isAnswer());
+            if (!((AnswerMsg)message).isAnswer()) {
+                disconnect(socket);
+            }
                 
         }
         else if (message instanceof GameEnded) {
