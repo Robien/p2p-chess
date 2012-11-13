@@ -1,9 +1,6 @@
 package lo23.communication.connection;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -11,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.ComManager;
@@ -30,7 +28,6 @@ import lo23.communication.message.MulticastInvit;
 import lo23.data.Constant;
 import lo23.data.Invitation;
 import lo23.data.Move;
-import lo23.data.NewInvitation;
 import lo23.data.PublicProfile;
 
 /**
@@ -51,6 +48,7 @@ public class ConnectionManager implements ConnectionListener {
 
     // Other
     private HashMap<InetAddress, Socket> socketDirectory;
+    private AtomicBoolean readInvitation;
     private Socket socketSession;
     private HashMap<Socket, Invitation> invitationMap;
     
@@ -62,6 +60,7 @@ public class ConnectionManager implements ConnectionListener {
     public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
         handleMessageMap = new HashMap<Socket, HandleMessage>();
+        readInvitation = new AtomicBoolean(true);
         socketSession = null;
         
         try {
@@ -97,9 +96,9 @@ public class ConnectionManager implements ConnectionListener {
         PublicProfile guestProfile = invitation.getGuest();
         InvitMsg invitMsg = new InvitMsg(invitation);
         try {
-            InetAddress adress = InetAddress.getByName(guestProfile.getIpAddress());
-            connect(adress);
-            Socket socket = socketDirectory.get(adress);
+            InetAddress address = InetAddress.getByName(guestProfile.getIpAddress());
+            connect(address);
+            Socket socket = socketDirectory.get(address);
             HandleMessage handleMessage = handleMessageMap.get(socket);
             handleMessage.send(invitMsg); 
         } catch (UnknownHostException ex) {
@@ -221,7 +220,6 @@ public class ConnectionManager implements ConnectionListener {
     @Override
     public synchronized void closedConnection(Socket socket) {
         handleMessageMap.get(socket).closeHandle();
-        
         if(!socket.isClosed()) {
             try {
                 socket.close();
@@ -229,7 +227,6 @@ public class ConnectionManager implements ConnectionListener {
                 Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
             }
         }
-        
         socketDirectory.remove(socket.getInetAddress());
         handleMessageMap.remove(socket);
         
@@ -326,11 +323,12 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
     
-    private synchronized void disconnect(Socket socket) {
+    private void disconnect(Socket socket) {
         try {
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.WARNING, "Error on disconnection", ex);
         }
     }
+    
 }
