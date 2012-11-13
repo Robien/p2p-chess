@@ -11,10 +11,13 @@
 
 package lo23.ui.login;
 
+import javax.swing.table.TableCellRenderer;
 import lo23.data.ApplicationModel;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
+import javax.swing.*;
+
 
 /**
  *
@@ -64,6 +67,8 @@ public class IhmListGames extends javax.swing.JFrame {
 
         endGamesTable.setAutoCreateRowSorter(true);
         endGamesTable.setModel(ihmLoginModel.getEndGameModel());
+        endGamesTable.getColumn("").setCellRenderer(new JTableButtonRenderer());
+        endGamesTable.addMouseListener(new JTableButtonMouseListener(endGamesTable));
         jScrollPane3.setViewportView(endGamesTable);
 
         stopGamesTable.setAutoCreateRowSorter(true);
