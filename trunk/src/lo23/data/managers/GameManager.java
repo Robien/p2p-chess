@@ -12,7 +12,11 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
+
+import lo23.data.NewInvitation;
+
 import lo23.data.Player;
+
 import lo23.data.Position;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
@@ -93,6 +97,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public Game createGame(Invitation invitation) {
+
         /* FIXME: khamidou FIXME
          A LA MAIN
          */
@@ -192,7 +197,9 @@ public class GameManager extends Manager implements GameManagerInterface {
             try{ 
                 //fileList[i] format is "gameId.game"
                 //So the string is split in order to have the gameId.
-                gameList.add(load(Long.parseLong(fileList[i].split(".")[0])) );
+
+                Game tmp=load(Long.parseLong(fileList[i].split(".")[0]));                
+                gameList.add(tmp);
             }
             catch(FileNotFoundException expt ){
                 System.out.println(expt.getMessage());
