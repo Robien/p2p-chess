@@ -83,8 +83,9 @@ public class MainTestChatClient {
         }
 
         @Override
-        public void receivedUDPMessage(DatagramSocket socket, Message message) {
+        public void receivedUDPMessage(Message message) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
     }
 }
