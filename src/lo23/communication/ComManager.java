@@ -54,43 +54,42 @@ public class ComManager extends Manager implements ISender {
     
     @Override
     public void sendMulticast() {
-       // connectionManager.sendMulticast();
-        throw new UnsupportedOperationException("Not supported yet.");
+       connectionManager.sendMulticast();
     }
 
     @Override
     public void sendInvitation(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendInvitation(invitation);
     }
 
     @Override
     public void sendInvitationAnswer(Invitation invitation, boolean answer) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendInvitationAnswer(invitation, answer);
     }
 
     @Override
     public void sendGameStarted(PublicProfile userProfile) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendGameStarted(userProfile);
     }
 
     @Override
     public void sendChatMessage(Message message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendChatMessage(message);
     }
 
     @Override
     public void sendMovement(Move move) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendMovement(move);
     }
 
     @Override
     public void sendConstantMessage(Constant constant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendConstantMessage(constant);
     }
     
     @Override
     public void sendGameEnded() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        connectionManager.sendGameEnded();
     }
     
 }
