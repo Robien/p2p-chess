@@ -45,9 +45,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     public void startProfilesDiscovery() {
         // internal class needed to use timer.schedule()
         class Discoverer extends TimerTask {
+
             private ApplicationModel am;
 
-            Discoverer (ApplicationModel am) {
+            Discoverer(ApplicationModel am) {
                 this.am = am;
             }
 
@@ -55,7 +56,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
                 this.am.getComManager().sendMulticast();
             }
         }
-        
+
         this.timer = new Timer();
 //        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
     }
@@ -77,6 +78,19 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         } catch (FileNotFoundException ex) {
             return false;
         }
+    }
+
+    public ArrayList<PublicProfile> getLocalPublicProfiles() {
+        ArrayList<PublicProfile> publicProfiles = new ArrayList<PublicProfile>();
+        try {
+            for (String name : Serializer.getProfileIds()) {
+                publicProfiles.add(Serializer.readProfile(name).getPublicProfile());
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return publicProfiles;
+
     }
 
     @Override
@@ -132,10 +146,6 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     public void importProfile(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public ArrayList<PublicProfile> getLocalPublicProfiles() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
