@@ -190,6 +190,13 @@ public abstract class GamePiece implements Serializable {
         return false;
 
     }
+
+    boolean isCheckAndMat()
+    {
+        return getOwner().getKing().getPossibleMoves().isEmpty() && isOncheck();
+    }
+
+
 public boolean isPawnTop()
 {
     return (false);
