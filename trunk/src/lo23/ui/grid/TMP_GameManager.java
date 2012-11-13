@@ -72,7 +72,7 @@ public class TMP_GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendMessage(Message message) {
-        networkSender.sendChatMessage(message);
+        //networkSender.sendChatMessage(message);
     }
 
     @Override
