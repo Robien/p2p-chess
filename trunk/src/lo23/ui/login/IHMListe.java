@@ -120,7 +120,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
     }
     
     private final IhmLoginModel model;
-    static String TITLE = "Players list";
+    public static String TITLE = "Players list";
 
     /**
      * Creates new form IHMListe
