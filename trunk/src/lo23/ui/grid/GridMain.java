@@ -4,6 +4,7 @@
  */
 package lo23.ui.grid;
 
+import ui.grid.TMP_GameManager;
 import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
