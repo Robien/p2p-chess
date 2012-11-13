@@ -12,6 +12,7 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
+import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
@@ -20,6 +21,7 @@ import lo23.data.exceptions.NoIdException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
+import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
 
@@ -91,8 +93,14 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public Game createGame(Invitation invitation) {
-        
-        throw new UnsupportedOperationException("Not supported yet.");
+        /* FIXME: khamidou FIXME
+         A LA MAIN
+         */
+        Player p = new Player(COLOR.BLACK, 400);
+        Player p2 = new Player(COLOR.WHITE, 400);
+        currentGame = new Game(p, p2);
+        currentGame.buildPieces();
+        return currentGame;
     }
 
     @Override
