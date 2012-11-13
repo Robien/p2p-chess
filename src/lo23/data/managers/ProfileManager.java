@@ -27,6 +27,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         this.currentProfile = null;
     }
 
+    public Profile getCurrentProfile() {
+        return currentProfile;
+    }
+
     @Override
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
         return new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
@@ -95,6 +99,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     public void importProfile(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ArrayList<PublicProfile> getLocalPublicProfiles() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
