@@ -22,13 +22,13 @@ public class Player {
     private long endTime = 0;
     private long remainingTime = 0;
     private ArrayList<GamePiece> pieces;
-    private String profileId;
+    private PublicProfile publicProfile;
     
-    public Player(COLOR playerColor, long remainingTime, String ProfileId ) {
+    public Player(COLOR playerColor, long remainingTime, PublicProfile publicProfile ) {
         this.playerColor = playerColor;
         this.remainingTime = remainingTime;
         this.pieces = new ArrayList<GamePiece>();
-        this.profileId=ProfileId;
+        this.publicProfile=publicProfile;
     }
    
     public void startTime() {
@@ -67,7 +67,7 @@ public class Player {
     }
     
     
-    public String getProfileId() {
-        return profileId;
+    public PublicProfile getPublicProfile() {
+        return publicProfile;
     }
 }
