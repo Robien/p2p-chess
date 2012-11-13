@@ -89,6 +89,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="G&#xe9;rer son profil"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageProfileBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="disconnectBtn">
       <Properties>

@@ -42,6 +42,11 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         // model.addPropertyChangeListener(this);
 
         this.model = model;
+        
+        for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
+            PropertyChangeEvent evt = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
+            model.propertyChange(evt);
+        }
 
         initComponents();
         this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
@@ -89,6 +94,11 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         labelTable.setText("Liste des joueurs connectés");
 
         manageProfileBtn.setText("Gérer son profil");
+        manageProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageProfileBtnActionPerformed(evt);
+            }
+        });
 
         disconnectBtn.setText("Disconnect");
         disconnectBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +149,10 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         
         new IhmConnexionWindow(ihmLoginModel).setVisible(true);
     }//GEN-LAST:event_disconnectBtnActionPerformed
+
+    private void manageProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageProfileBtnActionPerformed
+        new IhmProfileWindow(model,IhmProfileWindow.MODIFY,null).setVisible(true);
+    }//GEN-LAST:event_manageProfileBtnActionPerformed
 
     /**
      * @param args the command line arguments
