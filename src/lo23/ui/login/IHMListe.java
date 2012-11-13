@@ -30,37 +30,6 @@ import lo23.ui.login.mockManager.ProfileManagerMock;
  */
 public class IHMListe extends javax.swing.JFrame implements PropertyChangeListener {
 
-    private class PlayerModel extends DefaultTableModel {
-
-        @Override
-        public boolean isCellEditable(int r, int c) {
-            return false;
-        }
-
-        @Override
-        public Class getColumnClass(int columnIndex) {
-            Object o = getValueAt(0, columnIndex);
-
-            if (o == null) {
-                return Object.class;
-            } else {
-                return o.getClass();
-            }
-        }
-
-        public void addPlayer(String name, String firstname, ImageIcon ico) {
-            this.addRow(new Object[]{name, firstname, ico});
-        }
-
-        public void removePlayer(String id) {
-            for (int i = 0; i < this.getRowCount(); i++) {
-                if (this.getValueAt(i, 0) == id) {
-                    this.removeRow(i);
-                    return;
-                }
-            }
-        }
-    }
 
     private Color chooseColorDialog() {
         Color color = Color.WHITE;
@@ -76,24 +45,10 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         if ("BLACK".equals(colorTab[rang])) {
             color = Color.BLACK;
         }
-        //JOptionPane.showMessageDialog(null, "your choice is " + colorTab[rang], "color", JOptionPane.QUESTION_MESSAGE);
         return color;
     }
-    private void sendInvitation(String id_user, Color color) {
-        
-        color = chooseColorDialog();
-        long time = System.currentTimeMillis();
-        //Instantiate DataManager
-        ApplicationModel appModel = new ApplicationModel();
-        ProfileManagerInterface profileManager = appModel.getPManager();
-        //Instantiate profile and invitation
-        Profile profile = profileManager.loadProfile(id_user);
-        Invitation invit = null;
-        //invit = profileManager.createInvitation(profile, color, time);
-        //Send invitation
-        profileManager.sendInvitation(invit);  
-      
-    }
+    
+    
     
     private boolean openInvitationDialog(Invitation invit){ 
         int response = 0;
@@ -104,20 +59,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         else
                return false; 
       }
-    private void acceptInvitation(Invitation invit) {
-        ApplicationModel appModel = new ApplicationModel();
-        GameManagerInterface gameManager = appModel.getGManager();
-        if(openInvitationDialog(invit))
-        {
-            Game game = gameManager.createGame(invit);
-            // load(string ou long) ???
-            //gameManager.load(game.getGameId());
-        }
-        else
-        {
-            setVisible(false);
-        }
-    }
+    
     
     private final IhmLoginModel model;
     public static String TITLE = "Players list";
