@@ -8,7 +8,8 @@ package lo23.ui.grid;
  *
  * @author Karim
  */
-
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -33,15 +34,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 
 import lo23.data.ApplicationModel;
 import lo23.data.Player;
-import ui.grid.PlayerPanel;
+import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
-     Launch_Sound pendant_partie;
-    
+    Launch_Sound pendant_partie;
+    boolean is_full_screen;
 
 
     public MainWindow(ApplicationModel m) {
@@ -62,15 +64,12 @@ public class MainWindow extends JFrame implements ActionListener {
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
-        
+        is_full_screen = false;
         setContentPane(buildContentPanel());
         
         	//this.setSize(new Dimension(400,400));
                
                 Menu();
-             
-         
-        
     }
     
     private JPanel buildContentPanel() {
@@ -155,7 +154,7 @@ public class MainWindow extends JFrame implements ActionListener {
         JMenu options=new JMenu("Options");
         JMenu son=new JMenu("Sound");
         JMenuItem new_game=new JMenuItem("New Game");
-        JMenuItem see_score=new JMenuItem("See the score");
+        JMenuItem full_screen=new JMenuItem("Full screen");
         
         JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("stop music");
         JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("play music");
@@ -164,9 +163,8 @@ public class MainWindow extends JFrame implements ActionListener {
         fichier.add(new_game);
         fichier.addSeparator();
         fichier.add(close);
-       
-        //options
-        options.add(see_score);
+         //options
+        options.add(full_screen);
                 
         //Radio buttons sound
          ButtonGroup bg = new ButtonGroup();
@@ -175,42 +173,56 @@ public class MainWindow extends JFrame implements ActionListener {
          bg.add(stop_music);
         
          play_music.setSelected(true);
-        
+       
          son.add(play_music);
          son.add(stop_music);
       
+       //accelerator
+        fichier.setMnemonic('F');
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
+        options.setMnemonic('O');
+        full_screen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8,0));
+       
+        
          //add in the Menu
-
         menu.add(fichier);
         menu.add(options);
         menu.add(son);
         this.setJMenuBar(menu); 
       
-       	
+      
         
         //Listeners
         Stop_music stopm=new Stop_music();
         stop_music.addActionListener(stopm); 
         
-         Play_music playm=new Play_music();
+        Play_music playm=new Play_music();
         play_music.addActionListener(playm); 
         
         Quit quit=new Quit();
         close.addActionListener(quit);
 
+        Full screen=new Full();
+        full_screen.addActionListener(screen);
+          
+    
+         
+       
        
  }
 
     private  class Quit implements ActionListener{
 
+        @Override
         public void actionPerformed(ActionEvent e)
             {
-            System.exit(0);
+                System.exit(0);
             } 
         }  
     
      private  class Stop_music implements ActionListener{
 
+         @Override
         public void actionPerformed(ActionEvent e)
             {
                  // pendant_partie.play();
@@ -220,10 +232,33 @@ public class MainWindow extends JFrame implements ActionListener {
      
       private  class Play_music implements ActionListener{
 
+          @Override
         public void actionPerformed(ActionEvent e)
             {
                  // pendant_partie.play();
-                  pendant_partie.play();
+                    pendant_partie.play();
+            } 
+        }
+      
+      private  class Full implements ActionListener{
+
+          @Override
+        public void actionPerformed(ActionEvent e)
+            {
+                if(is_full_screen == false)
+                {  
+                  Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+                  setLocation(0,0);
+                  setSize(tailleEcran);
+                  is_full_screen = true;
+                } 
+                else
+                {
+                  setSize(GridConstants.WINDOW_WIDTH, GridConstants.WINDOW_HEIGHT); //On donne une taille à notre fenêtre
+                  setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+                  is_full_screen = false;
+                }
             } 
         }  
+    
     }
