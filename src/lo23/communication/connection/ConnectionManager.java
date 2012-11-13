@@ -296,6 +296,15 @@ public class ConnectionManager implements ConnectionListener {
         else if (message instanceof GameEnded) {
             disconnect(socketSession);                
         }
+        else if (message instanceof ChatMsg){
+            this.comManager.getApplicationModel().getGManager().notifyChatMessage(((ChatMsg)message).getMessage());
+        }
+        else if(message instanceof MoveMsg){
+            this.comManager.getApplicationModel().getGManager().notifyMovement(((MoveMsg)message).getMove());
+        }
+        else if(message instanceof ConstantMsg){
+            this.comManager.getApplicationModel().getGManager().notifyConstantMessage(((ConstantMsg)message).getConstant());
+        }
         
     }
     
