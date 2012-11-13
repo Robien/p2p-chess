@@ -24,6 +24,8 @@ public class Player {
     private ArrayList<GamePiece> pieces;
     private PublicProfile publicProfile;
     
+    private King kingHandle = null; // getKing() is used a lot so we save a reference to it.
+
     public Player(COLOR playerColor, long remainingTime, PublicProfile publicProfile ) {
         this.playerColor = playerColor;
         this.remainingTime = remainingTime;
@@ -45,7 +47,7 @@ public class Player {
     }
 
     public King getKing() {
-        return null;
+        return kingHandle;
     }
 
     /**
@@ -64,6 +66,9 @@ public class Player {
      */
     public void addPiece(GamePiece pc) {
         pieces.add(pc);
+        if(pc instanceof King) {
+            kingHandle = (King) pc;
+        }
     }
     
     
