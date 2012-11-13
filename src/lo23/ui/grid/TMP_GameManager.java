@@ -41,7 +41,7 @@ public class TMP_GameManager extends Manager implements GameManagerInterface {
 
     
     @Override
-    public Game load(String gameId) throws FileNotFoundException {
+    public Game load(long gameId) throws FileNotFoundException {
         return Serializer.readGame(gameId);
     }
 
