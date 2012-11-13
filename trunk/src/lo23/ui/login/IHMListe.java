@@ -67,7 +67,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
     /**
      * Creates new form IHMListe
      */
-    public IHMListe(IhmLoginModel model) {
+    public IHMListe(final IhmLoginModel model) {
         // model.addPropertyChangeListener(this);
 
         this.model = model;
@@ -81,7 +81,14 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
            @Override
             public void mouseClicked(MouseEvent me) {
                 int num = tablePlayers.rowAtPoint(me.getPoint());
-                System.out.println(tablePlayers.getModel().getValueAt(num, 0));
+                String id = (String)tablePlayers.getModel().getValueAt(0,num);
+                PublicProfile profileSelected = model.getRemoteProfile(id);
+                if(profileSelected != null){
+                    //new IhmProfileWindow(model,IhmProfileWindow.SEE,profileSelected);
+                    System.out.println("TODO Launch IHMProfileWindow");
+                }
+                else
+                    JOptionPane.showMessageDialog(IHMListe.this, "User doesn't exist anymore", "User error", JOptionPane.ERROR_MESSAGE);
             }
         });
        
