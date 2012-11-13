@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
@@ -134,6 +133,7 @@ public class ConnectionManager implements ConnectionListener {
             handleMessage.send(message);
 
             //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'aap distante)
+            readInvitation.set(false);
             socketSession = socketDirectory.get(distantIpAddr);
             disconnectOthers();
         } catch (UnknownHostException ex) {
@@ -240,23 +240,21 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedMessage(Socket socket, final Message message) {
-        //Mini Exemple : répondre à la réception d'un message
-        // handleMessageMap.get(socket).send(new Message());
-
-        //TODO Attention il manque la fonction notifyInvitAnswer() elle a été remplacer par notifyGameStarted(invitation)
-
          if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
             invitationMap.put(socket, invitMsg.getInvitation());
-
+            
         } else if (message instanceof AnswerMsg) {
             this.comManager.getApplicationModel().getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             if (!((AnswerMsg) message).isAnswer()) {
                 disconnect(socket);
             }
+            
         } else if (message instanceof GameStarted) {
             this.comManager.getApplicationModel().getGManager().notifyGameStarted(((GameStarted) message).getGuest());
+            
+            readInvitation.set(false);
             socketSession = socket;
             disconnectOthers();
             
