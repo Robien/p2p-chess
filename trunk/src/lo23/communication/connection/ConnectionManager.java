@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
@@ -36,13 +37,16 @@ import lo23.data.PublicProfile;
 public class ConnectionManager implements ConnectionListener {
 
     private ComManager comManager;
+    
     // Multicast Socket
     private MulticastSocket multicastSocket; //server
     private DatagramSocket datagramSocket; //client
+    
     // TCP
     private ServerSocket serverSocket;
     private HandleServerConnection serverConnection;
     private HashMap<Socket, HandleMessage> handleMessageMap;
+
     // Other
     private HashMap<InetAddress, Socket> socketDirectory;
     private AtomicBoolean readInvitation;
@@ -74,7 +78,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Function which allow us to warn every players on the network that there is a new connection.
+     * Function which allow us to warn every players on the network that there
+     * is a new connection.
      */
     public void sendMulticast() {
         PublicProfile profile = this.comManager.getCurrentUserProfile();
@@ -130,9 +135,7 @@ public class ConnectionManager implements ConnectionListener {
 
             //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'aap distante)
             socketSession = socketDirectory.get(distantIpAddr);
-
             disconnectOthers();
-
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,27 +158,24 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Send a chat message.
-     * (available only when a game session is started)
+     * Send a chat message. (available only when a game session is started)
      * @param message the chat message
      */
     public void sendChatMessage(lo23.data.Message message) {
         ChatMsg chatMsg = new ChatMsg(message);
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(chatMsg);
-        // TODO receive
     }
 
     /**
-     * Send a movement of a piece.
-     * (available only when a game session is started)
+     * Send a movement of a piece. (available only when a game session is
+     * started)
      * @param move the movement of a piece
      */
     public void sendMovement(Move move) {
         MoveMsg moveMsg = new MoveMsg(move);
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(moveMsg);
-        // TODO receive
     }
 
     /**
@@ -186,34 +186,32 @@ public class ConnectionManager implements ConnectionListener {
         ConstantMsg constantMsg = new ConstantMsg(constant);
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(constantMsg);
-        // TODO receive
     }
 
     public void sendGameEnded() {
         GameEnded message = new GameEnded();
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(message);
-
+        readInvitation.set(true);
         socketSession = null;
     }
 
     /**
-     * Ne pas toucher ici.
+     * Mettre un commentaire.
      * @param socket socket
      */
     @Override
     public synchronized void receivedConnection(Socket socket) {
         HandleMessage handleMessage = new HandleMessage(socket, this);
         handleMessage.startHandleReceive();
-
+        
         socketDirectory.put(socket.getInetAddress(), socket);
         handleMessageMap.put(socket, handleMessage);
     }
 
     /**
-     * Ne pas toucher ici.
+     * Mettre un commentaire.
      * @param socket socket
-     * Gestion des erreurs réseaux
      */
     @Override
     public synchronized void closedConnection(Socket socket) {
@@ -230,6 +228,7 @@ public class ConnectionManager implements ConnectionListener {
 
         //On met a jour le socket lié a la session active
         if (socket.equals(socketSession)) {
+            readInvitation.set(true);
             socketSession = null;
         }
     }
@@ -240,47 +239,57 @@ public class ConnectionManager implements ConnectionListener {
      * @param message
      */
     @Override
-    public synchronized void receivedMessage(Socket socket, Message message) {
+    public synchronized void receivedMessage(Socket socket, final Message message) {
         //Mini Exemple : répondre à la réception d'un message
         // handleMessageMap.get(socket).send(new Message());
 
         //TODO Attention il manque la fonction notifyInvitAnswer() elle a été remplacer par notifyGameStarted(invitation)
 
-        if (message instanceof GameStarted) {
-
-            this.comManager.getApplicationModel().getGManager().notifyGameStarted(((GameStarted) message).getGuest());
-            socketSession = socket;
-            disconnectOthers();
-
-        } else if (message instanceof InvitMsg) {
-            this.comManager.getApplicationModel().getPManager().notifyInvitation(((InvitMsg) message).getInvitation());
-
+         if (message instanceof InvitMsg) {
+            InvitMsg invitMsg = (InvitMsg) message;
             //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
-            invitationMap.put(socket, ((InvitMsg) message).getInvitation());
+            invitationMap.put(socket, invitMsg.getInvitation());
 
         } else if (message instanceof AnswerMsg) {
             this.comManager.getApplicationModel().getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             if (!((AnswerMsg) message).isAnswer()) {
                 disconnect(socket);
             }
-
-        } else if (message instanceof GameEnded) {
-            disconnect(socketSession);
+        } else if (message instanceof GameStarted) {
+            this.comManager.getApplicationModel().getGManager().notifyGameStarted(((GameStarted) message).getGuest());
+            socketSession = socket;
+            disconnectOthers();
+            
         } else if (message instanceof ChatMsg) {
             this.comManager.getApplicationModel().getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
+            
         } else if (message instanceof MoveMsg) {
             this.comManager.getApplicationModel().getGManager().notifyMovement(((MoveMsg) message).getMove());
+            
         } else if (message instanceof ConstantMsg) {
             this.comManager.getApplicationModel().getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
+            
+        } else if (message instanceof GameEnded) {
+            this.comManager.getApplicationModel().getGManager().notifyGameEnded();
+            disconnect(socketSession);
+            
         }
-
     }
 
+    /**
+     * Mettre un commentaire.
+     * @param socket
+     * @param message 
+     */
     @Override
     public synchronized void receivedUDPMessage(DatagramSocket socket, Message message) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Mettre un commentaire.
+     * @param inetAddress 
+     */
     private synchronized void connect(InetAddress inetAddress) {
         try {
             Socket socket = new Socket(inetAddress, ConnectionParams.unicastPort);
@@ -294,6 +303,10 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
 
+    /**
+     * Mettre un commentaire.
+     * @param socket 
+     */
     private void disconnect(Socket socket) {
         try {
             socket.close();
