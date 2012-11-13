@@ -163,16 +163,10 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
 
     private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
         
+        IhmLoginModel ihmLoginModel = new IhmLoginModel(model.getApplicationModel());
+        
         this.dispose();
-        //Instantiate DataManager
-        ApplicationModel appModel = new ApplicationModel();
-        appModel.setComManager(new CommManagerMock(appModel));
-        appModel.setGameManager(new GameManagerMock((appModel)));
-        appModel.setProfileManager(new ProfileManagerMock(appModel));
-        //Instantiate IhmLoginModel
-        IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-
-        // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
+        
         new IhmConnexionWindow(ihmLoginModel).setVisible(true);
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
