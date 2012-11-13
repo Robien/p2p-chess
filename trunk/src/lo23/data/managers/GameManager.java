@@ -99,13 +99,36 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public Game createGame(Invitation invitation) {
 
-        /* FIXME: khamidou FIXME
+        /* à finir: gaumont Noé
          A LA MAIN
          */
-        Player p = new Player(COLOR.BLACK, 400, null);
-        Player p2 = new Player(COLOR.WHITE, 400, null);
-        currentGame = new Game(p, p2);
-        currentGame.buildPieces();
+        if (invitation instanceof NewInvitation){
+            Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
+            Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
+            
+            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
+                currentGame = new Game(guest, host);
+                currentGame.buildPieces();
+            }else{
+                currentGame = new Game(host, guest);
+                currentGame.buildPieces();
+            }
+            
+        }
+        else{
+            Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
+            Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
+            
+            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
+                currentGame = new Game(guest, host);
+                currentGame.buildPieces();
+            }else{
+                currentGame = new Game(host, guest);
+                currentGame.buildPieces();
+            }
+            
+            
+        }
         return currentGame;
     }
 
