@@ -66,7 +66,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 appModel.setProfileManager(new ProfileManagerMock(appModel));
                 //Instantiate IhmLoginModel
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-
+                
                // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
                 new IhmConnexionWindow(ihmLoginModel).setVisible(true);
             }

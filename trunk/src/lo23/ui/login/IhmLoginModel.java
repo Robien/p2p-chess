@@ -42,28 +42,37 @@ public class IhmLoginModel implements PropertyChangeListener{
     public static final String REQUEST_GAME_RESPONSE = "request-game-response";
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
-    
+
     private PropertyChangeSupport pcs;
 
     private ApplicationModel appModel;
 
     private PlayerModel listPlayers;
     private HashMap<PublicProfile,Date> listProfileDate;
-    private ArrayList<Game> listEndGames;
-    private ArrayList<ResumeGame> listStopGames;
+    private  GameModel listEndGames;
+//    private ArrayList<Game> listEndGames;
+//    private ArrayList<ResumeGame> listStopGames;
     private IHMListe IHMList;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
-        listEndGames = new ArrayList<Game>();
-        listStopGames = new ArrayList<ResumeGame>();
+//        listEndGames = new ArrayList<Game>();
+//        listStopGames = new ArrayList<ResumeGame>();
 
         Object[][] donnees = {};
         String[] entetes = {"id","Prénom", "Nom", "Status"};
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
 
-        listProfileDate = new HashMap<PublicProfile,Date>();
+        String[] entetesGames = {"Date","Adversary", "Result", ""};
+        listEndGames = new GameModel();
+        listEndGames.setDataVector(donnees, entetesGames);
+
+        // test
+        listEndGames.addGame(new Date(), "toto", "WON");
+        // end test
+
+       listProfileDate = new HashMap<PublicProfile,Date>();
 
         pcs = new PropertyChangeSupport(this);
     }
@@ -132,6 +141,10 @@ public class IhmLoginModel implements PropertyChangeListener{
         return listPlayers;
     }
 
+    public GameModel getEndGameModel() {
+        return listEndGames;
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
             PublicProfile profile = (PublicProfile)evt.getNewValue();
@@ -164,10 +177,12 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     private class PlayerModel extends DefaultTableModel {
 
+        @Override
         public boolean isCellEditable(int r, int c) {
             return false;
         }
 
+        @Override
         public Class getColumnClass(int columnIndex) {
             Object o = getValueAt(0, columnIndex);
 
@@ -190,5 +205,37 @@ public class IhmLoginModel implements PropertyChangeListener{
                 }
             }
         }
+    }
+
+    private class GameModel extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int r, int c) {
+            return false;
+        }
+
+        @Override
+        public Class getColumnClass(int columnIndex) {
+            Object o = getValueAt(0, columnIndex);
+
+            if (o == null) {
+                return Object.class;
+            } else {
+                return o.getClass();
+            }
+        }
+
+        public void addGame(Date date, String adversary, String result) {
+            this.addRow(new Object[]{date, adversary, result});
+        }
+
+//        public void removePlayer(String id) {
+//            for (int i = 0; i < this.getRowCount(); i++) {
+//                if (this.getValueAt(i, 0) == id) {
+//                    this.removeRow(i);
+//                    return;
+//                }
+//            }
+//        }
     }
 }
