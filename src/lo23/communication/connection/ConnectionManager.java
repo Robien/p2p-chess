@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import lo23.communication.ComManager;
 import lo23.communication.handle.ConnectionListener;
 import lo23.communication.handle.HandleMessage;
+import lo23.communication.handle.HandleSendMessageUDP;
 import lo23.communication.handle.HandleServerConnection;
 import lo23.communication.message.AnswerMsg;
 import lo23.communication.message.ChatMsg;
@@ -78,51 +79,14 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * This function manage messages serialization.
-     * @param message to serialize
-     * @return : byte[] of the message
-     */
-
-    private byte[] serialize(Message message){
-       ByteArrayOutputStream b_out = new ByteArrayOutputStream();
-       ObjectOutputStream o_out = null;
-       try {
-           o_out = new ObjectOutputStream(b_out);
-       } catch (IOException ex) {
-           Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-       }
-
-       try {
-           // Message serialization
-           o_out.writeObject(message);
-       } catch (IOException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the message serialization", ex);
-       }
-       byte[] b = b_out.toByteArray();
-
-       return b;
-    }
-
-    /**
      * Function which allow us to warn every players on the network that there is a new connection.
      */
     public void sendMulticast() {
-       PublicProfile Profile = this.comManager.getCurrentUserProfile();
+       PublicProfile profile = this.comManager.getCurrentUserProfile();
        // Message creation
-       MulticastInvit Message = new MulticastInvit(Profile);
-       byte b[] = this.serialize(Message);
-       DatagramPacket dgram = null;
-       try {
-           dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ConnectionParams.multicastAddress), ConnectionParams.multicastPort); // multicast
-       } catch (UnknownHostException ex) {
-       Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the datagramme creation", ex);
-       }
-
-       try {
-           this.datagramSocket.send(dgram);
-       } catch (IOException ex) {
-           Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error: Cannot sent datagramme on Multicast server", ex);
-       }
+       MulticastInvit message = new MulticastInvit(profile);
+       HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
+       handler.send(message);
     }
     
     /**
