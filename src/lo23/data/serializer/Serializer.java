@@ -129,7 +129,7 @@ public class Serializer
      * 
      * @param gameId The gameId for the expected profile
      * 
-     * @return Either a Game object, either a null value if something went wrong (IOException or file not found)
+     * @return Either a Game object, either a null value if something went wrong (IOException or class not found)
      * 
      * @throws FileNotFoundException This exception is thrown when this method can't have access to an expected file
      */
