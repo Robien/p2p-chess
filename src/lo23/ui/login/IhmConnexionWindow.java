@@ -110,9 +110,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
 
         // Fields
-        // Test --> TODO appeler la methode de datamanager getPublicProfiles
         PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
-        
         loginCombo = new javax.swing.JComboBox(profilesList);
         passwordField = new javax.swing.JPasswordField();
         passwordField.setText("Password");

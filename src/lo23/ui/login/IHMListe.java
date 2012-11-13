@@ -84,6 +84,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         labelTable = new javax.swing.JLabel();
         manageProfileBtn = new javax.swing.JButton();
         javax.swing.JButton disconnectBtn = new javax.swing.JButton();
+        reviewGamesBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 600));
@@ -107,6 +108,13 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
+        reviewGamesBtn.setText("Review games");
+        reviewGamesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reviewGamesBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,13 +122,15 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelTablePlayers, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(panelTablePlayers, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelTable)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(manageProfileBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(reviewGamesBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(disconnectBtn)))
                 .addContainerGap())
         );
@@ -134,7 +144,8 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manageProfileBtn)
-                    .addComponent(disconnectBtn))
+                    .addComponent(disconnectBtn)
+                    .addComponent(reviewGamesBtn))
                 .addContainerGap())
         );
 
@@ -154,6 +165,10 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         new IhmProfileWindow(model,IhmProfileWindow.MODIFY,null).setVisible(true);
     }//GEN-LAST:event_manageProfileBtnActionPerformed
 
+    private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
+        new IhmListGames(model).setVisible(true);
+    }//GEN-LAST:event_reviewGamesBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -161,6 +176,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JLabel labelTable;
     private javax.swing.JButton manageProfileBtn;
     private javax.swing.JScrollPane panelTablePlayers;
+    private javax.swing.JButton reviewGamesBtn;
     private javax.swing.JTable tablePlayers;
     // End of variables declaration//GEN-END:variables
 
