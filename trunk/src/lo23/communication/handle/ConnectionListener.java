@@ -1,6 +1,6 @@
 package lo23.communication.handle;
 
-import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import lo23.communication.message.Message;
 
@@ -34,5 +34,5 @@ public interface ConnectionListener {
      * @param socket the socket which receives the message
      * @param message the message
      */
-    public void receivedUDPMessage(DatagramSocket socket, Message message);
+    public void receivedUDPMessage(InetAddress socket, Message message);
 }
