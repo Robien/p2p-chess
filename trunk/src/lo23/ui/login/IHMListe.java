@@ -31,35 +31,6 @@ import lo23.ui.login.mockManager.ProfileManagerMock;
 public class IHMListe extends javax.swing.JFrame implements PropertyChangeListener {
 
 
-    private Color chooseColorDialog() {
-        Color color = Color.WHITE;
-        String[] colorTab = {"WHITE", "BLACK"};
-        int rang = JOptionPane.showOptionDialog(null,
-                "Please choose your color !",
-                "Choose Color Dialog",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                colorTab,
-                colorTab[1]);
-        if ("BLACK".equals(colorTab[rang])) {
-            color = Color.BLACK;
-        }
-        return color;
-    }
-    
-    
-    
-    private boolean openInvitationDialog(Invitation invit){ 
-        int response = 0;
-        PublicProfile profile = invit.getGuest();
-        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getName());
-        if(response == 0)
-               return true; 
-        else
-               return false; 
-      }
-    
     
     private final IhmLoginModel model;
     public static String TITLE = "Players list";
