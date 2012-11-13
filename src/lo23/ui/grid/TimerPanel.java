@@ -39,7 +39,7 @@ public class TimerPanel extends JPanel {
         //setHorizontalTextPosition(SwingConstants.CENTER);
 
         timer = new JLabel();
-        timer.setText("00 : 00 : 00");
+//        timer.setText("00 : 00 : 00");
         start = new JButton("Start");
         stop = new JButton("Stop");
         pause = new JButton("Pause");
