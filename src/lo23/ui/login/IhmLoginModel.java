@@ -42,30 +42,47 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     private PlayerModel listPlayers;
     private HashMap<PublicProfile,Date> listProfileDate;
-    private  GameModel listEndGames;
-//    private ArrayList<Game> listEndGames;
-//    private ArrayList<ResumeGame> listStopGames;
+    private  EndGameModel listEndGames;
+    private  StopGameModel listStopGames;
+    JButton reviewGameBtn;
+    JButton continueGameBtn;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
-//        listEndGames = new ArrayList<Game>();
-//        listStopGames = new ArrayList<ResumeGame>();
 
+        // Liste des joueurs présents
         Object[][] donnees = {};
         String[] entetes = {"id","Prénom", "Nom", "Status"};
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
 
-        String[] entetesGames = {"Date","Adversary", "Result", ""};
-        listEndGames = new GameModel();
-        listEndGames.setDataVector(donnees, entetesGames);
+        // Loste des parties terminées
+        String[] entetesEndGames = {"Date","Adversary", "Result", ""};
+        listEndGames = new EndGameModel();
+        listEndGames.setDataVector(donnees, entetesEndGames);
 
+        // Liste des parties en cours
+        String[] entetesStopGames = {"Date","Adversary", ""};
+        listStopGames = new StopGameModel();
+        listStopGames.setDataVector(donnees, entetesStopGames);
+        
         // test
-        JButton reviewGameBtn = new JButton("review");
-        listEndGames.addGame(new Date(), "toto", "WON", reviewGameBtn);
+        reviewGameBtn = new JButton("Review");
+        listEndGames.addGame(new Date(), "toto", "You won!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "sdfsd", "You lost!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "todfgto", "You won!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "tzzzzzzzoto", "You lost!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "tozazzaaaazazazto", "You won!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "tokikikikto", "You won!", reviewGameBtn);
+        
+        continueGameBtn = new JButton("Continue");
+        listStopGames.addGame(new Date(), "toto", continueGameBtn);
+        listStopGames.addGame(new Date(), "sdfsd", continueGameBtn);
+        listStopGames.addGame(new Date(), "todfgto", continueGameBtn);
+        listStopGames.addGame(new Date(), "tzzzzzzzoto", continueGameBtn);
         // end test
 
-       listProfileDate = new HashMap<PublicProfile,Date>();
+        listProfileDate = new HashMap<PublicProfile,Date>();
 
         pcs = new PropertyChangeSupport(this);
     }
@@ -134,8 +151,12 @@ public class IhmLoginModel implements PropertyChangeListener{
         return listPlayers;
     }
 
-    public GameModel getEndGameModel() {
+    public EndGameModel getEndGameModel() {
         return listEndGames;
+    }
+ 
+    public StopGameModel getStopGameModel() {
+        return listStopGames;
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
@@ -225,28 +246,32 @@ public class IhmLoginModel implements PropertyChangeListener{
                 return o.getClass();
             }
         }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            if (columnIndex==3) {
-                JButton button = new JButton("Review");
-                return button;
-            } else {
-                return super.getValueAt(rowIndex, columnIndex);
-            }
-        }
-
+    }
+    
+    private class EndGameModel extends GameModel {
         public void addGame(Date date, String adversary, String result, JButton reviewBtn) {
-            this.addRow(new Object[]{date, adversary, result, new JButton("toto")});
+            this.addRow(new Object[]{date, adversary, result, reviewBtn});
         }
-
-//        public void removePlayer(String id) {
-//            for (int i = 0; i < this.getRowCount(); i++) {
-//                if (this.getValueAt(i, 0) == id) {
-//                    this.removeRow(i);
-//                    return;
-//                }
-//            }
-//        }
+    } 
+    private class StopGameModel extends GameModel {
+        public void addGame(Date date, String adversary, JButton reviewBtn) {
+            this.addRow(new Object[]{date, adversary, reviewBtn});
+        }
+    } 
+    
+   
+    
+    /*
+     * Permet à la classe ihmListGame d'acceder au bouton review
+     */
+    public JButton getReviewGameBtn() {
+        return reviewGameBtn;
+    }
+    
+    /*
+     * Permet à la classe ihmListGame d'acceder au bouton continue
+     */
+    public JButton getContinueGameBtn() {
+        return continueGameBtn;
     }
 }

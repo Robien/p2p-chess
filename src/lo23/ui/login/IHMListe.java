@@ -166,7 +166,8 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
     }//GEN-LAST:event_manageProfileBtnActionPerformed
 
     private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
-        new IhmListGames(model).setVisible(true);
+        this.setEnabled(false);
+        new IhmListGames(model, this).setVisible(true);
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
     /**
