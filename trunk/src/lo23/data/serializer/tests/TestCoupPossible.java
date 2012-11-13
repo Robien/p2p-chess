@@ -38,10 +38,11 @@ public class TestCoupPossible {
         NewInvitation inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();
-        //gm.dumpBoard();
+        gm.dumpBoard();
 
         GamePiece piece = gm.getPieceAtXY(4, 0);
         piece.movePiece(new Position(3, 4));
+        gm.dumpBoard();
         if (gm.getPieceAtXY(3, 4) == null)
         {
             System.out.println("Le code des Data, c'est de la noix !");
