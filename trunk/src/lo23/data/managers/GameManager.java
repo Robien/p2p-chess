@@ -101,8 +101,8 @@ public class GameManager extends Manager implements GameManagerInterface {
         /* FIXME: khamidou FIXME
          A LA MAIN
          */
-        Player p = new Player(COLOR.BLACK, 400);
-        Player p2 = new Player(COLOR.WHITE, 400);
+        Player p = new Player(COLOR.BLACK, 400, "");
+        Player p2 = new Player(COLOR.WHITE, 400, "");
         currentGame = new Game(p, p2);
         currentGame.buildPieces();
         return currentGame;
@@ -207,5 +207,9 @@ public class GameManager extends Manager implements GameManagerInterface {
             }            
         }
         return gameList;
+    }
+
+    public GamePiece getPieceAtXY(int x, int y) {
+        return currentGame.getPieceAtXY(x, y);
     }
 }

@@ -5,13 +5,18 @@
 
 package lo23.data.serializer.tests;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
+import lo23.data.Move;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
+import lo23.data.Position;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums.COLOR;
@@ -30,8 +35,8 @@ public class TestInit {
 
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0);
-        Player p2 = new Player(COLOR.BLACK, 0);
+        Player p1 = new Player(COLOR.WHITE, 0, "");
+        Player p2 = new Player(COLOR.BLACK, 0, "");
 
         Profile pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
@@ -39,5 +44,15 @@ public class TestInit {
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();
         gm.dumpBoard();
+
+        Move m = new Move(new Position(0, 0), new Position(0, 2), gm.getPieceAtXY(0, 0));
+        try {
+            gm.playMove(m);
+        } catch (IllegalMoveException ex) {
+            Logger.getLogger(TestInit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(">>>> After Move <<<<<");
+        gm.dumpBoard();
+
     }
 }

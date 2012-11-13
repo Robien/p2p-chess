@@ -236,11 +236,8 @@ public class Game implements Serializable
 
         GamePiece piece = board[xfrom][yfrom];
         board[xfrom][yfrom] = null;
-
-        /*
-        if(board[xto][yto] != null)
-            piece
-         */
+        board[xto][yto] = piece;
+        
         events.add(move);
     }
 
