@@ -40,17 +40,14 @@ import lo23.data.PublicProfile;
 public class ConnectionManager implements ConnectionListener {
 
     private ComManager comManager;
-    
     // Multicast Socket
     private MulticastSocket multicastSocket; //server
     private HandleReceiveUDPMessage handleMulticast;
     private DatagramSocket datagramSocket; //client
-    
     // TCP
     private ServerSocket serverSocket;
     private HandleServerConnection serverConnection;
     private HashMap<Socket, HandleMessage> handleMessageMap;
-
     // Other
     private HashMap<InetAddress, Socket> socketDirectory;
     private AtomicBoolean readInvitation;
@@ -98,12 +95,12 @@ public class ConnectionManager implements ConnectionListener {
      */
 
     private void replyMulticast() {
-       PublicProfile profile = this.comManager.getCurrentUserProfile();
-       MulticastAnswer message = new MulticastAnswer(profile);
-       HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
-       handler.send(message);
+        PublicProfile profile = this.comManager.getCurrentUserProfile();
+        MulticastAnswer message = new MulticastAnswer(profile);
+        HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
+        handler.send(message);
     }
-    
+
     /**
      * Send a invitation to a user.
      * @param invitation the invitation from a user
@@ -224,11 +221,11 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedConnection(Socket socket) {
         HandleMessage handleMessage = new HandleMessage(socket, this);
         handleMessage.startHandleReceive();
-        
+
         socketDirectory.put(socket.getInetAddress(), socket);
         handleMessageMap.put(socket, handleMessage);
     }
-    
+
     /**
      * Mettre un commentaire.
      * @param inetAddress 
@@ -269,7 +266,7 @@ public class ConnectionManager implements ConnectionListener {
             socketSession = null;
         }
     }
-    
+
     /**
      * Mettre un commentaire.
      * @param socket 
@@ -289,38 +286,38 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedMessage(Socket socket, final Message message) {
-         if (message instanceof InvitMsg) {
+        if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             if (readInvitation.get()) {
                 invitationMap.put(socket, invitMsg.getInvitation());
                 notifyMessage(message);
             } else {
-                AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(),false);
+                AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(), false);
                 HandleMessage handleMessage = handleMessageMap.get(socket);
                 handleMessage.send(answerMsg);
             }
-            
+
         } else if (message instanceof AnswerMsg) {
             if (!((AnswerMsg) message).isAnswer()) {
                 disconnect(socket);
             }
             notifyMessage(message);
-            
-        } else if (message instanceof GameStarted) {            
+
+        } else if (message instanceof GameStarted) {
             readInvitation.set(false);
             socketSession = socket;
             disconnectOthers();
             notifyMessage(message);
-            
+
         } else if (message instanceof ChatMsg) {
             notifyMessage(message);
-            
+
         } else if (message instanceof MoveMsg) {
             notifyMessage(message);
-            
+
         } else if (message instanceof ConstantMsg) {
             notifyMessage(message);
-            
+
         } else if (message instanceof GameEnded) {
             disconnect(socketSession);
             notifyMessage(message);
@@ -333,10 +330,9 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {
-        if (message instanceof MulticastInvit){
+        if (message instanceof MulticastInvit) {
             this.replyMulticast();
-        }
-        else if (message instanceof MulticastAnswer){
+        } else if (message instanceof MulticastAnswer) {
             notifyMessage(message);
         }
     }
@@ -348,36 +344,35 @@ public class ConnectionManager implements ConnectionListener {
     private void notifyMessage(Message message) {
         SwingUtilities.invokeLater(new NotifyMessageLater(message));
     }
-    
+
     private class NotifyMessageLater implements Runnable {
 
         private Message message;
-        
+
         public NotifyMessageLater(Message message) {
             this.message = message;
         }
-       
+
         @Override
         public void run() {
             ApplicationModel model = ConnectionManager.this.comManager.getApplicationModel();
             if (message instanceof InvitMsg) {
-            
+                model.getPManager().notifyInvitation(((InvitMsg) message).getInvitation());
             } else if (message instanceof AnswerMsg) {
-                model.getPManager().notifyInvitAnswer(((AnswerMsg)message).getInvitation(), ((AnswerMsg)message).isAnswer());
+                model.getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             } else if (message instanceof GameStarted) {
-                model.getGManager().notifyGameStarted(((GameStarted)message).getGuest());
+                model.getGManager().notifyGameStarted(((GameStarted) message).getGuest());
             } else if (message instanceof ChatMsg) {
-                model.getGManager().notifyChatMessage(((ChatMsg)message).getMessage());
+                model.getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
             } else if (message instanceof MoveMsg) {
-                model.getGManager().notifyMovement(((MoveMsg)message).getMove());
+                model.getGManager().notifyMovement(((MoveMsg) message).getMove());
             } else if (message instanceof ConstantMsg) {
-                model.getGManager().notifyConstantMessage(((ConstantMsg)message).getConstant());
+                model.getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
             } else if (message instanceof GameEnded) {
                 model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer) {
-                model.getPManager().notifyAddProfile(((MulticastAnswer)message).getGuest());
+                model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
             }
         }
-   }
-    
+    }
 }
