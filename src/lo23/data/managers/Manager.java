@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lo23.data.managers;
 
 import lo23.data.ApplicationModel;
 
 /**
+ * This class is the main Manager for the data management
  *
  * @author khamidou
  */
@@ -19,6 +15,7 @@ public class Manager {
     public Manager(ApplicationModel app) {
         this.app = app;
     }
+
 
     public ApplicationModel getApplicationModel() {
         return app;

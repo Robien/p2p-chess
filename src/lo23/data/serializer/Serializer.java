@@ -133,7 +133,7 @@ public class Serializer
      * 
      * @throws FileNotFoundException This exception is thrown when this method can't have access to an expected file
      */
-    static public Game readGame(String gameId) throws FileNotFoundException
+    static public Game readGame(long gameId) throws FileNotFoundException
     {
         // Checks if the gameId associated file exists
         
