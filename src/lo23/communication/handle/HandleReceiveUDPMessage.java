@@ -26,7 +26,7 @@ public class HandleReceiveUDPMessage extends HandleRunnable {
      * @param socket the socket concerned
      * @param listener the Listener which will be notified
      */
-    public void HandleReceiveMessage(DatagramSocket socket, ConnectionListener connListener) {
+    public HandleReceiveUDPMessage (DatagramSocket socket, ConnectionListener connListener) {
         this.socket = socket;
         this.connListener = connListener;
     }
