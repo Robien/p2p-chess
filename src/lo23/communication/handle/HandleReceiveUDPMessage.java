@@ -47,7 +47,7 @@ public class HandleReceiveUDPMessage extends HandleRunnable {
                 ConnectionMessage message = (ConnectionMessage) o_in.readObject();
                 dgram.setLength(b.length); // must reset length field!
                 b_in.reset(); // reset so next read is from start of byte[] again
-                connListener.receivedUDPMessage(dgram.getAddress(), message);
+                connListener.receivedUDPMessage(message);
             }
         } catch (SocketException se) {
             Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);

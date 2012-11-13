@@ -34,5 +34,5 @@ public interface ConnectionListener {
      * @param socket the socket which receives the message
      * @param message the message
      */
-    public void receivedUDPMessage(InetAddress socket, Message message);
+    public void receivedUDPMessage(Message message);
 }

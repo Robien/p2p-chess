@@ -318,7 +318,7 @@ public class ConnectionManager implements ConnectionListener {
      * @param message 
      */
     @Override
-    public synchronized void receivedUDPMessage(InetAddress socket, Message message) {
+    public synchronized void receivedUDPMessage(Message message) {
         if (message instanceof MulticastInvit){
             this.replyMulticast();
         }
