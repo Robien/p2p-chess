@@ -282,13 +282,12 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedMessage(Socket socket, final Message message) {
          if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
-            //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
-            if(readInvitation.get()){
+            if (readInvitation.get()) {
                 invitationMap.put(socket, invitMsg.getInvitation());
-            notifyMessage(message);
+                notifyMessage(message);
             } else {
                 AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(),false);
-                HandleMessage handleMessage = new HandleMessage(socket, this);
+                HandleMessage handleMessage = handleMessageMap.get(socket);
                 handleMessage.send(answerMsg);
             }
             
