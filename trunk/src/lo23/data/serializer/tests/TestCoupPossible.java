@@ -30,23 +30,21 @@ public class TestCoupPossible {
 
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, "");
-        Player p2 = new Player(COLOR.BLACK, 0, "");
+        Player p1 = new Player(COLOR.WHITE, 0, null);
+        Player p2 = new Player(COLOR.BLACK, 0, null);
 
         Profile pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
         NewInvitation inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();
-        gm.dumpBoard();
+       // gm.dumpBoard();
 
         GamePiece piece = gm.getPieceAtXY(4, 0);
-        piece.movePiece(new Position(3, 4));
-        gm.dumpBoard();
-        if (gm.getPieceAtXY(3, 4) == null)
-        {
-            System.out.println("Le code des Data, c'est de la noix !");
-        }
+        piece.movePiece(new Position(3, 3));
+        gm.getPieceAtXY(5, 7).movePiece(new Position(5, 5));
+        piece = gm.getPieceAtXY(0, 0);
+        piece.movePiece(new Position(4, 3));
 
 
         List<Position> possibleMoves = piece.getPossibleMoves();

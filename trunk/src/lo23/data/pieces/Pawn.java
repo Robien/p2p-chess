@@ -128,7 +128,7 @@ public class Pawn extends GamePiece {
                 //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
-
+System.out.println(king.getPosition().getX() +  " - " + king.getPosition().getY());
         int x = getPosition().getX();
         int y = getPosition().getY();
 
