@@ -52,7 +52,6 @@ public class IhmLoginModel implements PropertyChangeListener{
     private  GameModel listEndGames;
 //    private ArrayList<Game> listEndGames;
 //    private ArrayList<ResumeGame> listStopGames;
-    private IHMListe IHMList;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
