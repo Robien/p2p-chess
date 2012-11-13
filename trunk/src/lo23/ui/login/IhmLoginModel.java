@@ -9,6 +9,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
@@ -38,6 +41,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     private ApplicationModel appModel;
 
     private PlayerModel listPlayers;
+    private HashMap<PublicProfile,Date> listProfileDate;
     private ArrayList<Game> listEndGames;
     private ArrayList<ResumeGame> listStopGames;
     
@@ -49,9 +53,11 @@ public class IhmLoginModel implements PropertyChangeListener{
         listStopGames = new ArrayList<ResumeGame>();
 
         Object[][] donnees = {};
-        String[] entetes = {"Prénom", "Nom", "Status"};
+        String[] entetes = {"id","Prénom", "Nom", "Status"};
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
+
+        listProfileDate = new HashMap<PublicProfile,Date>();
 
         pcs = new PropertyChangeSupport(this);
     }
@@ -79,12 +85,30 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
+            PublicProfile profile = (PublicProfile)evt.getNewValue();
+
+
+            listProfileDate.put(profile,new Date());
+
+            removeOldPlayers();
+            /*
             listPlayers.addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
             listPlayers.addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
             listPlayers.addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
             listPlayers.addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
             listPlayers.removePlayer("remi");
-            listPlayers.removePlayer("gaetan");
+            listPlayers.removePlayer("gaetan");*/
+        }
+    }
+
+    private void removeOldPlayers(){
+        Date now = new Date();
+        for(PublicProfile p : listProfileDate.keySet()){
+            Date currDate = listProfileDate.get(p);
+            if(now.getTime() - currDate.getTime() >= 30*1000){
+                listProfileDate.remove(p);
+                listPlayers.removePlayer(p.getProfileId());
+            }
         }
     }
  
