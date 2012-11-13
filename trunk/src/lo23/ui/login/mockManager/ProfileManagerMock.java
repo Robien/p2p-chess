@@ -13,6 +13,7 @@ import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
@@ -91,6 +92,18 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     public void importProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Profile getCurrentProfile() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ArrayList<PublicProfile> getLocalPublicProfiles() {
+        ArrayList<PublicProfile> profiles = new ArrayList<PublicProfile>();
+        profiles.add(new PublicProfile("1234","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Bob","Newman",25));
+        return profiles;
     }
 
 }
