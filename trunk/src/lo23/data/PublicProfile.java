@@ -189,4 +189,9 @@ public class PublicProfile implements Serializable {
     public void setStatus(STATUS status) {
         this.status = status;
     }
+    
+    @Override
+    public String toString() {
+        return this.getPseudo();
+    }
 }
