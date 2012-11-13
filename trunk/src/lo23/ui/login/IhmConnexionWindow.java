@@ -4,16 +4,20 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import lo23.data.ApplicationModel;
+import lo23.data.PublicProfile;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
+import lo23.utils.Enums.STATUS;
 
 /**
  * IhmConnexionWindow_old : interface de connexion (login) à l'application
@@ -29,10 +33,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     private javax.swing.JButton connectBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loadProfileBtn;
-    private javax.swing.JTextField loginField;
+    private javax.swing.JComboBox loginCombo;
     private javax.swing.JTextField passwordField;
     private javax.swing.JButton registerBtn;
-    
+
     static String TITLE = "Chess-P2P";
     // End of variables declaration
 
@@ -90,8 +94,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             // Création de l'image d'arrière plan
             @Override
             public void paint(Graphics g) {
-                String path = getClass().getClassLoader().getResource(".").getPath();
-                File backgroundPath = new File(path + "lo23/ui/resources/backgroundLogin.jpg");
+                URL backgroundPath = IhmConnexionWindow.class.getResource("/lo23/ui/resources/backgroundLogin.jpg");
                 try {
                     BufferedImage image = ImageIO.read(backgroundPath);
                     g.drawImage(image, 0, 0, null);
@@ -106,16 +109,17 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
 
         // Fields
-        loginField = new javax.swing.JTextField();
+        // Test --> TODO appeler la methode de datamanager getPublicProfiles
+        PublicProfile[] localProfiles = new PublicProfile[3];
+        loginCombo = new javax.swing.JComboBox(localProfiles);
         passwordField = new javax.swing.JPasswordField();
-        loginField.setText("Login");
         passwordField.setText("Password");
 
         // Buttons
         connectBtn = new javax.swing.JButton();
         loadProfileBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JButton();
-        
+
         // Styles
         connectBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14));
         connectBtn.setText("Connect");
@@ -142,7 +146,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 .add(15, 15, 15)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(loginField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel1Layout.createSequentialGroup()
@@ -160,7 +164,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .add(25, 25, 25)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(loginField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -186,12 +190,13 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
-        System.out.println("Login=" + getLoginField().getText() + " / Password= " + getPasswordField().getText());
+        System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + getPasswordField().getText());
 
         // Appel de la methode de connexion
         ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
         try {
-            boolean ret = pmi.connection(getLoginField().getText(), getPasswordField().getText());
+            PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
+            boolean ret = pmi.connection(selectedProfile.getProfileId(), getPasswordField().getText());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -209,8 +214,8 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
      * Méthode retournant le champ "login" du formulaire
      * @return JTextField
      */
-    public JTextField getLoginField() {
-        return loginField;
+    public JComboBox getLoginCombo() {
+        return loginCombo;
     }
 
     /**
@@ -220,10 +225,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     public JTextField getPasswordField() {
         return passwordField;
     }
-    
+
     public JButton getConnectBtn() {
         return connectBtn;
     }
-    
-    
+
+
 }
