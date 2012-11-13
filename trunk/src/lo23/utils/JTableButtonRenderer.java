@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package lo23.ui.login;
+package lo23.utils;
 
 import java.awt.Component;
 import javax.swing.JButton;
@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
 /**
- *
+ * Class utilisée afficher un un JButton dans une cellule d'un JTable
  * @author rossmarc
  */
 public class JTableButtonRenderer implements TableCellRenderer {

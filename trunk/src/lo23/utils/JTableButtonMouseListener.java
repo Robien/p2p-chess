@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package lo23.ui.login;
+package lo23.utils;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,7 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 
 /**
- *
+ * Class utilisée pour prendre en compte un click sur un bouton dans une cellule d'un JTable
+ * 
  * @author rossmarc
  */
 public class JTableButtonMouseListener extends MouseAdapter {
