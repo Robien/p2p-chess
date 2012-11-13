@@ -1,6 +1,7 @@
 package lo23.data.managers;
 
 import java.awt.Image;
+import lo23.data.exceptions.FileNotFoundException;
 import java.util.ArrayList;
 import lo23.data.Invitation;
 import lo23.data.Profile;
@@ -38,10 +39,10 @@ public interface ProfileManagerInterface {
     public ArrayList<PublicProfile> createProfilesList();
 
     /**
-     * Test if the given password is the
+     * Try to log the user with the given profileId/password
      * @param profileId the profile's unique identifier {@link Profile#getProfileId}
-     * @param the profile's password
-     * @return true if password is the same as the profile's password
+     * @param password the profile's password
+     * @return true if the connection succeeded
      */
     public boolean connection(String profileId, String password);
 

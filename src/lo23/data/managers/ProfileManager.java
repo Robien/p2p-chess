@@ -22,7 +22,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     private Profile currentProfile;
 
-    public ProfileManager (ApplicationModel app) {
+    public ProfileManager(ApplicationModel app) {
         super(app);
         this.currentProfile = null;
     }
@@ -40,10 +40,24 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     public ArrayList<PublicProfile> createProfilesList() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
-    public boolean connection(String pseudo, String password) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean connection(String profileId, String password) {
+        try {
+            Profile p = Serializer.readProfile(profileId);
+            if (p == null) {
+                return false;
+            } else {
+                if (!p.getPassword().equals(password)) {
+                    return false;
+                } else {
+                    this.currentProfile = p;
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            return false;
+        }
     }
 
     @Override
@@ -62,7 +76,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return this.currentProfile;
+        return this.currentProfile;
     }
 
     @Override
