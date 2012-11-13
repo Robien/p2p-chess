@@ -38,7 +38,8 @@ public class GridMain {
                  */
                 myModel = new ApplicationModel();
                 myModel.setGameManager(new TMP_GameManager(myModel));
-               myModel.setProfileManager(new TMP_ProfileManager(myModel));
+             //  myModel.setProfileManager(new TMP_ProfileManager(myModel));
+                //TODO : comment a cause d'un problème de compil
 
                //myModel.setComManager(new TMP_ComManager(null, myModel))
                 MainWindow fenetre = new MainWindow(getModel());
