@@ -11,30 +11,53 @@ import java.util.logging.Logger;
  *
  * @author guigou
  */
-public class Launch_Sound implements Runnable{
-      
+public class Launch_Sound extends Thread implements Runnable{
+        Thread a;
+        Sound s;
+        boolean enpause;
         public Launch_Sound()
         {
-          Thread a = new Thread(this);
-          a.start();
+          a = new Thread(this);
+          s = new Sound();
+          enpause=false;
         }
 
         
         public void run()
-        {     
-            String path = getClass().getClassLoader().getResource(".").getPath();
+        {    
+            while(true)
+            {
+                String path = getClass().getClassLoader().getResource(".").getPath();
+                try 
+                {
+                    s.readAudioFile(path + "lo23/ui/resources/pendant_partie.wav");
 
-             Sound application;  // = new Sound();
-              try 
-              {
-                  application = new Sound(path + "lo23/ui/resources/pendant_partie.mp3");
-                  application.play();
-               
-              } catch (Exception ex) 
-              {
-                  Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-              }
+
+                } catch (Exception ex) 
+                {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+             }
         }
+        
+        public void play()
+        {
+            if(enpause==false)
+            { 
+                a.start();
+            }
+            else
+            { 
+                a.resume();
+            }
+        }
+        public void pause()
+        {
+            enpause = true;
+            a.suspend();
+        }
+        
+                
         
 }   
 

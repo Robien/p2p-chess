@@ -1,47 +1,58 @@
 package lo23.ui.grid;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.DataLine.Info;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.AudioSystem;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+ 
+ 
+public class Sound
+{
+    static SourceDataLine source;
+    static int boucle =1;
+    static boolean lancer = false;
+    
+    public static void readAudioFile(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException
+    {
+        lancer = true;
+        while(boucle==1)
+        {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new File(fileName));
+        
+            AudioFormat format = ais.getFormat();
+            Info info = new Info(SourceDataLine.class, format);
+             source = (SourceDataLine)AudioSystem.getLine(info);
+            source.open(format);
+            source.start();
+           
 
-import javazoom.jl.player.advanced.*;
-import java.io.*;
-       
-        // MP3, WMA, MPEG, WAV compatible
-       
-        public class Sound {
-                public Sound(String path) throws Exception {
-                        InputStream in = (InputStream)new BufferedInputStream(new FileInputStream(new File(path)));
-                        player = new AdvancedPlayer(in);
-                }
-               
-                public Sound(String path,PlaybackListener listener) throws Exception {
-                        InputStream in = (InputStream)new BufferedInputStream(new FileInputStream(new File(path)));
-                        player = new AdvancedPlayer(in);
-                        player.setPlayBackListener(listener);
-                }
-               
-                public void play() throws Exception {
-                        if (player != null) {
-                                isPlaying = true;
-                                player.play();
-                        }
-                }
-               
-                public void play(int begin,int end) throws Exception {
-                        if (player != null) {
-                                isPlaying = true;
-                                player.play(begin,end);
-                        }
-                }
-               
-                public void stop() throws Exception {
-                        if (player != null) {
-                                isPlaying = false;
-                                player.stop();
-                        }
-                }
-               
-                public boolean isPlaying() {
-                        return isPlaying;
-                }
+            int read = 0;
+            byte[] audioData = new byte[16384];
 
-                private boolean isPlaying = false;
-                private AdvancedPlayer player = null;
+            while(read > -1)
+                {
+                read = ais.read(audioData, 0 , audioData.length);
+                if(read >= 0)
+                    source.write(audioData, 0, read);
+                }
+            source.drain();
+            source.close();
+            }
+      
+      }
+    
+    public void stop_sound()
+    {
+        if(lancer == true)
+        { 
+            System.out.println("entre dans stop sound");
+            source.drain();
+            source.close();
         }
+    }
+    
+}
