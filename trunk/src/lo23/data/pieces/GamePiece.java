@@ -191,9 +191,27 @@ public abstract class GamePiece implements Serializable {
 
     }
 
-    boolean isCheckAndMat()
+    public boolean isCheckAndMat()
     {
         return getOwner().getKing().getPossibleMoves().isEmpty() && isOncheck();
+    }
+
+
+
+    public List<Position> removeCheckingMove(List<Position> listPossibleMove)
+    {
+        List<Position> listFinal = new ArrayList<Position>();
+        int i = 0;
+        while (i < listPossibleMove.size())
+        {
+            if (!(isOnCheckWithAMove(getPosition(), listPossibleMove.get(i))))
+            {
+                listFinal.add(listPossibleMove.get(i));
+            }
+            i++;
+        }
+
+        return listFinal;
     }
 
 
