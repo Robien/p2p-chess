@@ -84,13 +84,12 @@ public class ConnectionManager implements ConnectionListener {
      */
     public void sendMulticast() {
         PublicProfile profile = this.comManager.getCurrentUserProfile();
-        // Message creation
         MulticastInvit message = new MulticastInvit(profile);
         HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
         handler.send(message);
     }
 
-    public void replyMulticast() {
+    private void replyMulticast() {
        PublicProfile profile = this.comManager.getCurrentUserProfile();
        MulticastAnswer message = new MulticastAnswer(profile);
        HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
@@ -323,7 +322,7 @@ public class ConnectionManager implements ConnectionListener {
             this.replyMulticast();
         }
         else if (message instanceof MulticastAnswer){
-            this.comManager.getApplicationModel().getPManager().notifyAddProfile(((MulticastAnswer)message).getGuest());
+            notifyMessage(message);
         }
     }
 
@@ -339,5 +338,7 @@ public class ConnectionManager implements ConnectionListener {
             }
         });
     }
+    
+   
     
 }
