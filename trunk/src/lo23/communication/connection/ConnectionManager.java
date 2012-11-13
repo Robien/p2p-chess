@@ -93,6 +93,10 @@ public class ConnectionManager implements ConnectionListener {
         handler.send(message);
     }
 
+    /**
+     * Function which answer to sendMultiCast()
+     */
+
     private void replyMulticast() {
        PublicProfile profile = this.comManager.getCurrentUserProfile();
        MulticastAnswer message = new MulticastAnswer(profile);
@@ -137,6 +141,10 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
 
+    /**
+     * TO DO
+     * @param userProfile
+     */
     public void sendGameStarted(PublicProfile userProfile) {
         try {
             GameStarted message = new GameStarted(userProfile);
@@ -320,9 +328,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
-     * @param socket
-     * @param message 
+     * Function which manage received message.
+     * @param message : message received
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {

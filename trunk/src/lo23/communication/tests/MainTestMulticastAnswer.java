@@ -30,11 +30,11 @@ import lo23.utils.Enums.STATUS;
  * @author Paco
  */
 
-public class MainTestMulticast {
+public class MainTestMulticastAnswer {
 
     public static void main(String[] args) {
-        PublicProfile profile = new PublicProfile("1", "penotvin", STATUS.INGAME, "172.22.2.3", null,"PENOT","Vincent",22);
-        
+        PublicProfile profile = new PublicProfile("2", "penotvin", STATUS.INGAME, "172.22.2.3", null,"PENOT","Vincent",22);
+
         MulticastInvit message = new MulticastInvit(profile);
         MulticastSocket multicastSocket = null;
         DatagramSocket datagramSocket = null;
@@ -58,7 +58,7 @@ public class MainTestMulticast {
 
         HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
         handler.send(message);
-    
+
     }
 
 }
