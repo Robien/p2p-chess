@@ -1,5 +1,6 @@
 package lo23.data.managers;
 
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -24,8 +25,8 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 
 public class GameManager extends Manager implements GameManagerInterface {
     
-    private Game currentGame;
-
+    private Game currentGame;   
+    
     public GameManager(ApplicationModel app) {
         super(app);
     }
@@ -69,17 +70,18 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendMessage(Message message) {
+        saveMessage(message);
         getApplicationModel().getComManager().sendChatMessage(message);
     }
 
     @Override
     public void saveMessage(Message message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        currentGame.pushEvent(message);
     }
 
     @Override
     public ArrayList<Event> getHistory() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return currentGame.getEvents();
     }
 
     @Override
