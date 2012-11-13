@@ -76,6 +76,7 @@ public class IHMListe extends javax.swing.JFrame implements PropertyChangeListen
         this.setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         this.setTitle(TITLE);
         
+       tablePlayers.removeColumn(tablePlayers.getColumn("id"));
        tablePlayers.addMouseListener(new MouseAdapter() {
            @Override
             public void mouseClicked(MouseEvent me) {
