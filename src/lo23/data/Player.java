@@ -22,11 +22,13 @@ public class Player {
     private long endTime = 0;
     private long remainingTime = 0;
     private ArrayList<GamePiece> pieces;
+    private String profileId;
     
-    public Player(COLOR playerColor, long remainingTime) {
+    public Player(COLOR playerColor, long remainingTime, String ProfileId ) {
         this.playerColor = playerColor;
         this.remainingTime = remainingTime;
         this.pieces = new ArrayList<GamePiece>();
+        this.profileId=ProfileId;
     }
    
     public void startTime() {
@@ -61,6 +63,11 @@ public class Player {
      * @param pc piece to add
      */
     public void addPiece(GamePiece pc) {
+        pieces.add(pc);
+    }
+    
+    
+    public void getProfileId(GamePiece pc) {
         pieces.add(pc);
     }
 }
