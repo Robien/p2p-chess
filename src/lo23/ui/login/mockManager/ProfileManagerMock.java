@@ -6,7 +6,6 @@
 package lo23.ui.login.mockManager;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Collection;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.Profile;
@@ -35,6 +34,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         
     }
 
+    @Override
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -49,6 +49,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Profile loadProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -57,6 +58,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void sendInvitation(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -69,30 +71,37 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void saveProfile() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void notifyInvitation(Invitation invitation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void notifyAddProfile(PublicProfile publicProfile) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void notifyInvitAnswer(Invitation invitation, boolean answer) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void exportProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void importProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -119,10 +128,17 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
                 break;
             }
         }
-        if(currProfil != null)
-            if(currProfil.getPassword().equals(password))
+        if(currProfil != null) {
+            if(currProfil.getPassword().equals(password)) {
                 return true;
+            }
+        }
         return false;
+    }
+
+    @Override
+    public void startProfilesDiscovery() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
