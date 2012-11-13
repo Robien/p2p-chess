@@ -23,8 +23,11 @@ import lo23.utils.Enums.STATUS;
  */
 public class ProfileManagerMock extends Manager implements ProfileManagerInterface{
 
+    private PublicProfile profileAdmin;
+    
     public ProfileManagerMock(ApplicationModel model){
         super(model);
+        profileAdmin = new PublicProfile("1234","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Bob","Newman",25);
     }
 
     public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
@@ -36,11 +39,6 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public boolean connection(String pseudo, String password) {
-        if(pseudo.equals("admin") && password.equals("admin"))
-            return true;
-        return false;
-    }
 
     public void saveProfile(String profileId) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -102,8 +100,15 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() {
         ArrayList<PublicProfile> profiles = new ArrayList<PublicProfile>();
-        profiles.add(new PublicProfile("1234","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Bob","Newman",25));
+        profiles.add(profileAdmin);
         return profiles;
+    }
+
+    @Override
+    public boolean connection(String profileId, String password) {
+        if(profileAdmin.getPseudo().equals("admin") && password.equals("admin"))
+            return true;
+        return false;
     }
 
 }
