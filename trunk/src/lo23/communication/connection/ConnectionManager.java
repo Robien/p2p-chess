@@ -280,9 +280,14 @@ public class ConnectionManager implements ConnectionListener {
          if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             //On stock les invitations reçus afin de pouvoir les libérer quand on lancera la partie
-            invitationMap.put(socket, invitMsg.getInvitation());
+            if(readInvitation.get()){
+                invitationMap.put(socket, invitMsg.getInvitation());
             notifyMessage(message);
-            //TODO réponse automatique si readInvitation = false;
+            } else {
+                AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(),false);
+                HandleMessage handleMessage = new HandleMessage(socket, this);
+                handleMessage.send(answerMsg);
+            }
             
         } else if (message instanceof AnswerMsg) {
             if (!((AnswerMsg) message).isAnswer()) {
