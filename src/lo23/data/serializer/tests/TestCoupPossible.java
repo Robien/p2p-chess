@@ -5,7 +5,6 @@
 
 package lo23.data.serializer.tests;
 
-import java.awt.Image;
 import java.util.List;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
@@ -41,6 +40,10 @@ public class TestCoupPossible {
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();
        // gm.dumpBoard();
+
+        
+        //maintenant, testons les coups possibles !
+
 
         GamePiece roi = gm.getPieceAtXY(4, 0);
         roi.movePiece(new Position(3, 3));
