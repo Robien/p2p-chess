@@ -266,7 +266,7 @@ public class GamePanel extends JPanel {
             constraints.gridx = 4;
             constraints.gridy = 0;
 
-            ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB2.png");
+            ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB.png");
             JLabel kingPieceB = new JLabel("", kingB, JLabel.CENTER);
             add(kingPieceB, constraints, 1);
             listOfPiece.put(new PositionOnBoard(3, 0), kingPieceB);
