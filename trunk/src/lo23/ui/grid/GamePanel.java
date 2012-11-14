@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -52,7 +54,8 @@ public class GamePanel extends JPanel {
     JLabel currentPieceSelected;
     PositionOnBoard currentPositionSelection;
  
-
+    
+   
     public GamePanel(ApplicationModel model) {
         super();
         model = myModel;
@@ -80,7 +83,7 @@ public class GamePanel extends JPanel {
 //    	        	
 //    	        } else if(SwingUtilities.isRightMouseButton(mouseEvent)) {
                     //right button
-
+    
                 }
             }
             //Sound bouton
@@ -263,7 +266,7 @@ public class GamePanel extends JPanel {
             constraints.gridx = 4;
             constraints.gridy = 0;
 
-            ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB.png");
+            ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB2.png");
             JLabel kingPieceB = new JLabel("", kingB, JLabel.CENTER);
             add(kingPieceB, constraints, 1);
             listOfPiece.put(new PositionOnBoard(3, 0), kingPieceB);
@@ -298,8 +301,11 @@ public class GamePanel extends JPanel {
             currentPositionSelection = newSelection;
             isCurrentSelectionOccupied = true;
             listOfSelection.get(currentPositionSelection).setVisible(true);
+          
         } else if (isCurrentSelectionOccupied) {
             //Move the piece
+            
+               
             constraints.gridx = 7 - x;
             constraints.gridy = y;
             //remove the former position
@@ -310,6 +316,13 @@ public class GamePanel extends JPanel {
             add(currentPieceSelected, constraints, 0);
             listOfSelection.get(newSelection).setVisible(false);
             isCurrentSelectionOccupied = false;
+           
+           
+                 Launch_Sound movement = new Launch_Sound("move_piece.wav");
+                 movement.play();
+            
+             
+            
         }
     }
      
