@@ -62,7 +62,7 @@ public class Bishop extends GamePiece
             else
             {
                 //sinon, si c'est un enemis
-                if (thereIsAnEnemyAt(x + i, y + i))
+                if (xpyp && thereIsAnEnemyAt(x + i, y + i))
                 {
                     //c'est aussi un coup possible mais ...
                     positions.add(new Position(x + i, y + i));
@@ -80,7 +80,7 @@ public class Bishop extends GamePiece
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y + i))
+                if (xmyp && thereIsAnEnemyAt(x - i, y + i))
                 {
                     positions.add(new Position(x - i, y + i));
                 }
@@ -93,7 +93,7 @@ public class Bishop extends GamePiece
             }
             else
             {
-                if (thereIsAnEnemyAt(x + i, y - i))
+                if (xpym && thereIsAnEnemyAt(x + i, y - i))
                 {
                     positions.add(new Position(x + i, y - i));
                 }
@@ -106,7 +106,7 @@ public class Bishop extends GamePiece
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y - i))
+                if (xmym && thereIsAnEnemyAt(x - i, y - i))
                 {
                     positions.add(new Position(x - i, y - i));
                 }
@@ -128,6 +128,14 @@ public class Bishop extends GamePiece
         //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
+        //System.out.println(to.getX() + " - " + to.getY());
+        
+        if (getPosition().getX() == to.getX() && getPosition().getY() == to.getY())
+        {
+            return false; //on est la piece qui vient d'être mangé !
+        }
+
+
         boolean xpyp, xmyp, xpym, xmym;
         xpyp = true; //can move x+ and y+ ?
         xmyp = true; //can move x- and y+ ?
@@ -142,13 +150,14 @@ public class Bishop extends GamePiece
         for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
         {
 
+
             if (xpyp && x + i < 8 && y + i < 8 && (isThereSomebodyHere(x + i, y + i, from, to)))
             {
 
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                if (xpyp && isThereAKingHere(x + i, y + i, from, to, king))
                 {
                     return true;
                 }
@@ -161,7 +170,7 @@ public class Bishop extends GamePiece
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                if (xmyp && isThereAKingHere(x - i, y + i, from, to, king))
                 {
                     return true;
                 }
@@ -170,11 +179,11 @@ public class Bishop extends GamePiece
 
             if (xpym && x + i < 8 && y - i >= 0 && isThereSomebodyHere(x + i, y - i, from, to))
             {
-     
+ 
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y - i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                if (xpym && isThereAKingHere(x + i, y - i, from, to, king))
                 {
                     return true;
                 }
@@ -183,12 +192,13 @@ public class Bishop extends GamePiece
 
               if (xmym && x - i >= 0 && y - i >= 0 && isThereSomebodyHere(x - i, y - i, from, to))
             {
-
+   
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y - i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                if (xmym && isThereAKingHere(x - i, y - i, from, to, king))
                 {
+                            
                     return true;
                 }
                 xmym = false;

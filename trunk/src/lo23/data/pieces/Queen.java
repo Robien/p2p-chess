@@ -63,7 +63,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x + i, y + i))
+                if (xpyp && thereIsAnEnemyAt(x + i, y + i))
                 {
                     positions.add(new Position(x + i, y + i));
                 }
@@ -76,7 +76,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y + i))
+                if (xmyp && thereIsAnEnemyAt(x - i, y + i))
                 {
                     positions.add(new Position(x - i, y + i));
                 }
@@ -89,7 +89,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x + i, y - i))
+                if (xpym && thereIsAnEnemyAt(x + i, y - i))
                 {
                     positions.add(new Position(x + i, y - i));
                 }
@@ -102,7 +102,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y - i))
+                if (xmym && thereIsAnEnemyAt(x - i, y - i))
                 {
                     positions.add(new Position(x - i, y - i));
                 }
@@ -118,7 +118,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x + i, y))
+                if (xp && thereIsAnEnemyAt(x + i, y))
                 {
                     positions.add(new Position(x + i, y));
                 }
@@ -131,7 +131,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y))
+                if (xm && thereIsAnEnemyAt(x - i, y))
                 {
                     positions.add(new Position(x - i, y));
                 }
@@ -144,7 +144,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x, y + i))
+                if (yp  && thereIsAnEnemyAt(x, y + i))
                 {
                     positions.add(new Position(x, y + i));
                 }
@@ -157,7 +157,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x, y - i))
+                if (ym && thereIsAnEnemyAt(x, y - i))
                 {
                     positions.add(new Position(x, y - i));
                 }
@@ -175,6 +175,12 @@ public class Queen extends GamePiece {
 
                 //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
+
+
+               if (getPosition().getX() == to.getX() && getPosition().getY() == to.getY())
+        {
+            return false; //on est la piece qui vient d'être mangé !
+        }
 
 
         boolean xpyp, xmyp, xpym, xmym, xp, xm, yp, ym;
@@ -205,7 +211,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y + i, to) && game.getPieceAtXY(x + i, y + i) == king)
+                if (xpyp && isThereAKingHere(x + i, y + i, from, to, king))
                 {
                     return true;
                 }
@@ -218,7 +224,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y + i, to) && game.getPieceAtXY(x - i, y + i) == king)
+                if (xmyp && isThereAKingHere(x - i, y + i, from, to, king))
                 {
                    return true;
                 }
@@ -231,7 +237,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y - i, to) && game.getPieceAtXY(x + i, y - i) == king)
+                if (xpym && isThereAKingHere(x + i, y - i, from, to, king))
                 {
                     return true;
                 }
@@ -244,7 +250,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y - i, to) && game.getPieceAtXY(x - i, y - i) == king)
+                if (xmym && isThereAKingHere(x - i, y - i, from, to, king))
                 {
                     return true;
                 }
@@ -260,7 +266,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y, to) && game.getPieceAtXY(x + i, y) == king)
+                if (xp &&isThereAKingHere(x + i, y, from, to, king))
                 {
                    return true;
                 }
@@ -273,7 +279,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y, to) && game.getPieceAtXY(x - i, y) == king)
+                if (xm && isThereAKingHere(x - i, y, from, to, king))
                 {
                    return true;
                 }
@@ -286,7 +292,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x, y + i, to) && game.getPieceAtXY(x, y + i) == king)
+                if (yp  && isThereAKingHere(x, y + i, from, to, king))
                 {
                     return true;
                 }
@@ -299,7 +305,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x, y - i, to) && game.getPieceAtXY(x, y - i) == king)
+                if (ym && isThereAKingHere(x, y - i, from, to, king))
                 {
                      return true;
                 }

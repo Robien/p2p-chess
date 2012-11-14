@@ -152,114 +152,118 @@ public class King extends GamePiece {
     public boolean isResponsableOfCheck(King king, Position from, Position to)
     {
 
+
+       //un roi ne peut pas mettre l'autre roi en échec !
+       return false;
+
                //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
 
-              int x = getPosition().getX();
-        int y = getPosition().getY();
-
-        Game game = getGame();
-
-           if(x + 1 < 8 && y + 1 < 8 && isThereSomebodyHere(x + 1, y + 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x + 1, y + 1, to) && game.getPieceAtXY(x + 1, y + 1) == king)
-                {
-                    return true;
-                }
-            }
-
-            if (x - 1 >= 0 && y + 1 < 8 && isThereSomebodyHere(x - 1, y + 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x - 1, y + 1, to) && game.getPieceAtXY(x - 1, y + 1) == king)
-                {
-                    return true;
-                }
-
-            }
-
-            if (x + 1 < 8 && y - 1 >= 0 && isThereSomebodyHere(x + 1, y - 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x + 1, y - 1, to) && game.getPieceAtXY(x + 1, y - 1) == king)
-                {
-                   return true;
-                }
-
-            }
-
-            if (x - 1 >= 0 && y - 1 >= 0 && isThereSomebodyHere(x - 1, y - 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x - 1, y - 1, to) && game.getPieceAtXY(x - 1, y - 1) == king)
-                {
-                 return true;
-                }
-            }
-
-
-            if (x + 1 < 8 && isThereSomebodyHere(x + 1, y, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x + 1, y, to) && game.getPieceAtXY(x + 1, y) == king)
-                {
-                   return true;
-                }
-            }
-
-            if (x - 1 >= 0 && isThereSomebodyHere(x - 1, y, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x - 1, y, to) && game.getPieceAtXY(x - 1, y) == king)
-                {
-                   return true;
-                }
-            }
-
-            if (y + 1 < 8 && isThereSomebodyHere(x, y + 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x, y + 1, to) && game.getPieceAtXY(x, y + 1) == king)
-                {
-                   return true;
-                }
-            }
-
-            if (y - 1 >= 0 && isThereSomebodyHere(x, y - 1, from, to))
-            {
-
-            }
-            else
-            {
-                if (isThereAnEnemyHere(x, y - 1, to) && game.getPieceAtXY(x, y + 1) == king)
-                {
-                   return true;
-                }
-            }
-        return false;
+//              int x = getPosition().getX();
+//        int y = getPosition().getY();
+//
+//        Game game = getGame();
+//
+//           if(x + 1 < 8 && y + 1 < 8 && isThereSomebodyHere(x + 1, y + 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x + 1, y + 1, to) && game.getPieceAtXY(x + 1, y + 1) == king)
+//                {
+//                    return true;
+//                }
+//            }
+//
+//            if (x - 1 >= 0 && y + 1 < 8 && isThereSomebodyHere(x - 1, y + 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x - 1, y + 1, to) && game.getPieceAtXY(x - 1, y + 1) == king)
+//                {
+//                    return true;
+//                }
+//
+//            }
+//
+//            if (x + 1 < 8 && y - 1 >= 0 && isThereSomebodyHere(x + 1, y - 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x + 1, y - 1, to) && game.getPieceAtXY(x + 1, y - 1) == king)
+//                {
+//                   return true;
+//                }
+//
+//            }
+//
+//            if (x - 1 >= 0 && y - 1 >= 0 && isThereSomebodyHere(x - 1, y - 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x - 1, y - 1, to) && game.getPieceAtXY(x - 1, y - 1) == king)
+//                {
+//                 return true;
+//                }
+//            }
+//
+//
+//            if (x + 1 < 8 && isThereSomebodyHere(x + 1, y, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x + 1, y, to) && game.getPieceAtXY(x + 1, y) == king)
+//                {
+//                   return true;
+//                }
+//            }
+//
+//            if (x - 1 >= 0 && isThereSomebodyHere(x - 1, y, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x - 1, y, to) && game.getPieceAtXY(x - 1, y) == king)
+//                {
+//                   return true;
+//                }
+//            }
+//
+//            if (y + 1 < 8 && isThereSomebodyHere(x, y + 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x, y + 1, to) && game.getPieceAtXY(x, y + 1) == king)
+//                {
+//                   return true;
+//                }
+//            }
+//
+//            if (y - 1 >= 0 && isThereSomebodyHere(x, y - 1, from, to))
+//            {
+//
+//            }
+//            else
+//            {
+//                if (isThereAnEnemyHere(x, y - 1, to) && game.getPieceAtXY(x, y + 1) == king)
+//                {
+//                   return true;
+//                }
+//            }
+//        return false;
 
    }
 }

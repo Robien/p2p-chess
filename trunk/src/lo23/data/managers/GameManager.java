@@ -106,13 +106,13 @@ public class GameManager extends Manager implements GameManagerInterface {
             Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
             Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
             
-            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
+//            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
                 currentGame = new Game(guest, host);
                 currentGame.buildPieces();
-            }else{
-                currentGame = new Game(host, guest);
-                currentGame.buildPieces();
-            }
+  //          }else{
+    //            currentGame = new Game(host, guest);
+      //          currentGame.buildPieces();
+        //    }
             
         }
         else{
