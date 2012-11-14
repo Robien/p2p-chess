@@ -5,6 +5,7 @@
 
 package lo23.data.serializer.tests;
 
+import java.awt.Image;
 import java.util.List;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
@@ -12,6 +13,7 @@ import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
+import lo23.data.PublicProfile;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.pieces.GamePiece;
@@ -30,8 +32,8 @@ public class TestCoupPossible {
 
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, null);
-        Player p2 = new Player(COLOR.BLACK, 0, null);
+        Player p1 = new Player(COLOR.WHITE, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress",null, "dupont", "robert", 12));
+        Player p2 = new Player(COLOR.BLACK, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress", null, "dupont", "robert2", 12));
 
         Profile pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
@@ -40,15 +42,20 @@ public class TestCoupPossible {
         gm.buildPieces();
        // gm.dumpBoard();
 
-        GamePiece piece = gm.getPieceAtXY(4, 0);
-        piece.movePiece(new Position(3, 3));
-        gm.getPieceAtXY(5, 7).movePiece(new Position(5, 5));
-        piece = gm.getPieceAtXY(0, 0);
-        piece.movePiece(new Position(4, 3));
+        GamePiece roi = gm.getPieceAtXY(4, 0);
+        roi.movePiece(new Position(3, 3));
+        //System.out.println(piece.getOwner().getColor());
+         GamePiece fou = gm.getPieceAtXY(5, 7);
+         fou.movePiece(new Position(5, 5));
+       GamePiece piece = gm.getPieceAtXY(0, 0);
+        piece.movePiece(new Position(5, 4));
 
+//System.out.println(roi.isOncheck());
+        
 
         List<Position> possibleMoves = piece.getPossibleMoves();
         possibleMoves = piece.removeCheckingMove(possibleMoves);
+
         TestCoupPossible test = new TestCoupPossible();
         test.dumpBoardAndList(possibleMoves, gm);
 

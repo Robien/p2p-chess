@@ -70,6 +70,18 @@ public class Player {
             kingHandle = (King) pc;
         }
     }
+
+
+
+      /**
+     * getter of pieces
+     *
+     * @autor : romain ui grid
+     */
+    public ArrayList<GamePiece> getPieces()
+    {
+        return pieces;
+    }
     
     
     public PublicProfile getPublicProfile() {

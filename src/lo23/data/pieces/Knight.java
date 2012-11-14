@@ -123,6 +123,10 @@ public class Knight extends GamePiece {
                //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
+         if (getPosition().getX() == to.getX() && getPosition().getY() == to.getY())
+        {
+            return false; //on est la piece qui vient d'être mangé !
+        }
 
         int x = getPosition().getX();
         int y = getPosition().getY();
@@ -137,7 +141,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + 1, y + 2, to) && game.getPieceAtXY(x +1, y +2) == king)
+                if (isThereAKingHere(x + 1, y + 2, from, to, king))
                 {
                     return true;
                 }
@@ -149,7 +153,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - 1, y + 2, to) && game.getPieceAtXY(x - 1, y + 2) == king)
+                if (isThereAKingHere(x - 1, y + 2, from, to, king))
                 {
                     return true;
                 }
@@ -161,7 +165,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - 2, y + 1, to) && game.getPieceAtXY(x - 2, y + 1) == king)
+                if (isThereAKingHere(x - 2, y + 1, from, to, king))
                 {
                     return true;
                 }
@@ -173,7 +177,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + 2, y + 1, to) && game.getPieceAtXY(x + 2, y + 1) == king)
+                if (isThereAKingHere(x + 2, y + 1, from, to, king))
                 {
                     return true;
                 }
@@ -185,7 +189,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - 2, y - 1, to) && game.getPieceAtXY(x - 2, y - 1) == king)
+                if (isThereAKingHere(x - 2, y - 1, from, to, king))
                 {
                     return true;
                 }
@@ -197,7 +201,7 @@ public class Knight extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + 2, y - 1, to) && game.getPieceAtXY(x +2, y -1) == king)
+                if (isThereAKingHere(x + 2, y - 1, from, to, king))
                 {
                     return true;
                 }

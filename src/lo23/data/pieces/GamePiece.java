@@ -148,12 +148,12 @@ public abstract class GamePiece implements Serializable {
      /**
      * This method test si une piece est sur cette case, en prenant en compte un déplacement
      *
-     * @return true si y'a une piece
+     * @return true si il n'y a pas de piece !!!
      * @author Romain ui-grid
      */
     public boolean isThereSomebodyHere(int x, int y, Position from, Position to)
     {
-        return (getGame().getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y) && (!(to.getX() == x && to.getY() == y));
+        return (((getGame().getPieceAtXY(x , y) == null) || (from.getX() == x && from.getY() == y)) && (!(to.getX() == x && to.getY() == y)));
     }
 
       /**
@@ -162,10 +162,23 @@ public abstract class GamePiece implements Serializable {
      * @return true si y'a une piece enemis
      * @author Romain ui-grid
      */
-    public boolean isThereAnEnemyHere(int x, int y, Position from)
+    public boolean isThereAnEnemyHere(int x, int y, Position from, Position to)
     {
-        return (thereIsAnEnemyAt(x, y)) && (!(from.getX() == x && from.getY() == y));
+        return ((thereIsAnEnemyAt(x, y)) && (!(from.getX() == x && from.getY() == y))) || (to.getX() == x && to.getY() == y);
     }
+
+    
+      /**
+     * This method test si le roi est sur la case x, y en prenant en compte un déplacement
+     *
+     * @return true si y'a le roi sur la case
+     * @author Romain ui-grid
+     */
+    public boolean isThereAKingHere(int x, int y, Position from, Position to, King king)
+    {
+        return (getGame().getPieceAtXY(x, y) == king) || (to.getX() == x && to.getY() == y  && getGame().getPieceAtXY(from.getX(), from.getY()) == king);
+    }
+
 
      /**
      * This method test si une piece enemis est sur cette case, en prenant en compte un déplacement
@@ -179,19 +192,33 @@ public abstract class GamePiece implements Serializable {
 
     public boolean isOncheck()
     {
-        ArrayList<GamePiece> gamePieces = getGame().getPieces();
+        
+
+        Player player = getOwner();
+        if (player == getGame().getLocalPlayer())
+        {
+            player = getGame().getRemotePlayer();
+        }
+        else
+        {
+            player = getGame().getLocalPlayer();
+        }
+
+        ArrayList<GamePiece> gamePieces = player.getPieces();
+
 
         for (int i = 0; i < gamePieces.size(); ++i)
         {
             GamePiece piece = gamePieces.get(i);
-            if (piece.getOwner() != getGame().getLocalPlayer())
-            {
-                List<Position> pos = piece.getPossibleMoves();
-                if (pos.contains(getOwner().getKing().getPosition()))
+
+                //List<Position> pos = piece.getPossibleMoves();
+             //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
+                if (piece.isResponsableOfCheck(getOwner().getKing(), new Position(10, 10), new Position(10, 10)))
                 {
+                    
                     return true;
                 }
-            }
+            
 
         }
         return false;
@@ -200,19 +227,27 @@ public abstract class GamePiece implements Serializable {
     
     public boolean isOnCheckWithAMove(Position from, Position to)
     {
-        ArrayList<GamePiece> gamePieces = getGame().getPieces();
+        Player player = getOwner();
+        if (player == getGame().getLocalPlayer())
+        {
+            player = getGame().getRemotePlayer();
+        }
+        else
+        {
+            player = getGame().getLocalPlayer();
+        }
+
+        ArrayList<GamePiece> gamePieces = player.getPieces();
 
         for (int i = 0; i < gamePieces.size(); ++i)
         {
             GamePiece piece = gamePieces.get(i);
-            if (piece.getOwner() != getGame().getLocalPlayer())
-            {
-
+          
                 if (piece.isResponsableOfCheck(getOwner().getKing(), from, to)) //TODO change to king's position
                 {
+                    System.out.println("déplacement en " + to.getX() + " - " + to.getY() +" pas possible à cause du " + piece.getClass().getSimpleName());
                     return true;
                 }
-            }
 
         }
         return false;
@@ -245,7 +280,7 @@ public abstract class GamePiece implements Serializable {
 
 public boolean isPawnTop()
 {
-    return (false);
+    return false;
 }
 }
 

@@ -60,7 +60,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x + i, y))
+                if (xp && thereIsAnEnemyAt(x + i, y))
                 {
                     positions.add(new Position(x + i, y));
                 }
@@ -73,7 +73,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x - i, y))
+                if (xm && thereIsAnEnemyAt(x - i, y))
                 {
                     positions.add(new Position(x - i, y));
                 }
@@ -86,7 +86,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x, y + i))
+                if (yp  && thereIsAnEnemyAt(x, y + i))
                 {
                     positions.add(new Position(x, y + i));
                 }
@@ -99,7 +99,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (thereIsAnEnemyAt(x, y - i))
+                if (ym && thereIsAnEnemyAt(x, y - i))
                 {
                     positions.add(new Position(x, y - i));
                 }
@@ -116,6 +116,12 @@ public class Rook extends GamePiece {
     {
         //même fonctionnement que pour getPosibleMove, mais on ne vérifie pas les échecs et on ne regarde que si le roi est en échec.
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
+
+               if (getPosition().getX() == to.getX() && getPosition().getY() == to.getY())
+        {
+            return false; //on est la piece qui vient d'être mangé !
+        }
+
 
         boolean xp, xm, yp, ym;
         xp = true; //can move x+?
@@ -137,7 +143,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x + i, y, to) && game.getPieceAtXY(x + i, y) == king)
+                if (xp && isThereAKingHere(x + i, y , from, to, king))
                 {
                      return true;
                 }
@@ -150,7 +156,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x - i, y, to)&& game.getPieceAtXY(x - i, y) == king)
+                if (xm && isThereAKingHere(x - i, y - 1, from, to, king))
                 {
                       return true;
                 }
@@ -163,7 +169,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x, y + i, to)&& game.getPieceAtXY(x, y + i) == king)
+                if (yp  && isThereAKingHere(x, y + i, from, to, king))
                 {
                     return true;
                 }
@@ -176,7 +182,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (isThereAnEnemyHere(x, y - i, to)&& game.getPieceAtXY(x , y - i) == king)
+                if (ym && isThereAKingHere(x, y - i, from, to, king))
                 {
                       return true;
                 }
