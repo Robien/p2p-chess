@@ -12,6 +12,7 @@ package lo23.ui.grid;
  * add(label, constraints, 1);
  * @author Karim
  */
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -39,17 +40,19 @@ import lo23.data.pieces.GamePiece;
 public class GamePanel extends JPanel {
 	
 	private ApplicationModel myModel;
-    private HashMap<PositionOnBoard, JLabel> listOfPiece = new HashMap<PositionOnBoard, JLabel>();
+    
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
-    
-    private HashMap<PositionOnBoard, JLabel> listOfSelection = new HashMap<PositionOnBoard, JLabel>();
-    private HashMap<PositionOnBoard, JLabel> listOfSquare = new HashMap<PositionOnBoard, JLabel>();
-    
+      
     private String path = getClass().getClassLoader().getResource(".").getPath();
     private ImageIcon squareBorder = new ImageIcon(path + "lo23/ui/resources/squareBorder.png");
     private ImageIcon filledSquare = new ImageIcon(path + "lo23/ui/resources/PossibleSquare.png");
-    //JLabel currentSelection = new JLabel("", squareBorder, JLabel.CENTER);
+    
+	//hashmap with JLabel and their positions
+    private HashMap<PositionOnBoard, JLabel> listOfPiece = new HashMap<PositionOnBoard, JLabel>();
+    private HashMap<PositionOnBoard, JLabel> listOfSelection = new HashMap<PositionOnBoard, JLabel>();
+    private HashMap<PositionOnBoard, JLabel> listOfSquare = new HashMap<PositionOnBoard, JLabel>();
+    
     private boolean isCurrentSelectionExist = false;
     private boolean isCurrentSelectionOccupied = false;
     private JLabel currentPieceSelected;
@@ -86,12 +89,61 @@ public class GamePanel extends JPanel {
     
                 }
             }
-            //Sound bouton
         });
         buildBoard(true);
     }
+    
+    private void receiveSelectedCase(int x, int y) {
+        //if a case is already selected, the former selection disapears
+        if (isCurrentSelectionExist) {
+            listOfSelection.get(currentPositionSelection).setVisible(false);
+            repaint();
+        }
+        
+        //TODO corriger le sens de la grille
+        constraints.insets = new Insets(0, 0, 0, 0);
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = 7 - x;
+        constraints.gridy = y;
 
-   
+        isCurrentSelectionExist = true;
+
+        PositionOnBoard newSelection = new PositionOnBoard(7 - x, y);
+        //GamePiece currentPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(x, y); 
+        //showPossiblesMoves(currentPiece);
+        
+        if (listOfPiece.get(newSelection) != null) {
+            //save the current position
+            currentPieceSelected = listOfPiece.get(newSelection);
+            currentPositionSelection = newSelection;
+            isCurrentSelectionOccupied = true;
+            listOfSelection.get(currentPositionSelection).setVisible(true);
+          
+        } else if (isCurrentSelectionOccupied) {
+            //Move the piece
+            constraints.gridx = 7 - x;
+            constraints.gridy = y;
+            
+            //if the target is black piece
+//            if (currentPiece.getOwner().getColor().equals(Color.BLACK)) {
+//            	listOfPiece.remove(currentPositionSelection);
+//            	
+//            }
+            //remove the former position
+            listOfPiece.remove(currentPositionSelection);
+            //add the new position
+            listOfPiece.put(newSelection, currentPieceSelected);
+            //update the display
+            add(currentPieceSelected, constraints, 0);
+            isCurrentSelectionOccupied = false;
+            
+            //sound
+            new Launch_Sound("move_piece.wav").play(); 
+            
+        }
+    }
+
 
     private void buildBoard(boolean playerIsWhite) {
         ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
@@ -273,53 +325,7 @@ public class GamePanel extends JPanel {
 
         }
     }
-    
-     private void receiveSelectedCase(int x, int y) {
-        //if a case is already selected, the former selection disapears
-        if (isCurrentSelectionExist) {
-            listOfSelection.get(currentPositionSelection).setVisible(false);
-            repaint();
-        }
-        //TODO corriger le sens de la grille
-        constraints.insets = new Insets(0, 0, 0, 0);
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = 7 - x;
-        constraints.gridy = y;
 
-        //add(currentSelection, constraints, 1);
-        isCurrentSelectionExist = true;
-
-        PositionOnBoard newSelection = new PositionOnBoard(7 - x, y);
-       // GamePiece currentPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(7 - x, y); 
-       // showPossiblesMoves(currentPiece);
-        
-        
-        if (listOfPiece.get(newSelection) != null) {
-            //save the current position
-            currentPieceSelected = listOfPiece.get(newSelection);
-            currentPositionSelection = newSelection;
-            isCurrentSelectionOccupied = true;
-            listOfSelection.get(currentPositionSelection).setVisible(true);
-          
-        } else if (isCurrentSelectionOccupied) {
-            //Move the piece
-            
-               
-            constraints.gridx = 7 - x;
-            constraints.gridy = y;
-            //remove the former position
-            listOfPiece.remove(currentPositionSelection);
-            //add the new position
-            listOfPiece.put(newSelection, currentPieceSelected);
-            //update the display
-            add(currentPieceSelected, constraints, 0);
-            isCurrentSelectionOccupied = false;
-           
-            new Launch_Sound("move_piece.wav").play(); 
-            
-        }
-    }
      
 //    private void showPossiblesMoves(GamePiece piece){
 //       // List<Position> cases = piece.getPossibleMoves();
