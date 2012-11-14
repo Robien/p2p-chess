@@ -12,8 +12,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.PopupMenu;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -28,8 +30,10 @@ import javax.swing.SwingUtilities;import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,17 +46,19 @@ import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
-    Launch_Sound pendant_partie;
+    Launch_Sound during_party;
     boolean is_full_screen;
 
-
+     
     public MainWindow(ApplicationModel m) {
         super();
             
         //Launch the Sound
-       pendant_partie = new Launch_Sound();
-       pendant_partie.play();
+       during_party = new Launch_Sound("chess.wav");
+       during_party.play();
       
+      
+    
         myModel = m;
         build();//On initialise notre fenêtre
        
@@ -60,12 +66,18 @@ public class MainWindow extends JFrame implements ActionListener {
 
     private void build() {
         setTitle("Chess P2P"); //On donne un titre à l'application
+       
         setSize(GridConstants.WINDOW_WIDTH, GridConstants.WINDOW_HEIGHT); //On donne une taille à notre fenêtre
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
         is_full_screen = false;
         setContentPane(buildContentPanel());
+         
+        
+      
+      
+        
         
         	//this.setSize(new Dimension(400,400));
                
@@ -78,7 +90,10 @@ public class MainWindow extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel.setLayout(gridBagLayout);
-
+ 
+//        String path = getClass().getClassLoader().getResource(".").getPath();
+//        panel.add(new JLabel(new ImageIcon(path + "lo23/ui/resources/chess.jpg")));  
+//  
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -181,7 +196,7 @@ public class MainWindow extends JFrame implements ActionListener {
         fichier.setMnemonic('F');
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
         options.setMnemonic('O');
-        full_screen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8,0));
+        full_screen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11,0));
        
         
          //add in the Menu
@@ -225,8 +240,8 @@ public class MainWindow extends JFrame implements ActionListener {
          @Override
         public void actionPerformed(ActionEvent e)
             {
-                 // pendant_partie.play();
-                  pendant_partie.pause();
+                 
+                  during_party.pause();
             } 
         }  
      
@@ -235,8 +250,8 @@ public class MainWindow extends JFrame implements ActionListener {
           @Override
         public void actionPerformed(ActionEvent e)
             {
-                 // pendant_partie.play();
-                    pendant_partie.play();
+                 
+                    during_party.play();
             } 
         }
       
@@ -250,7 +265,7 @@ public class MainWindow extends JFrame implements ActionListener {
                   Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
                   setLocation(0,0);
                   setSize(tailleEcran);
-                  is_full_screen = true;
+                  is_full_screen = true;  
                 } 
                 else
                 {
