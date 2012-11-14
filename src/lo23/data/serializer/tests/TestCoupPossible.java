@@ -56,8 +56,8 @@ public class TestCoupPossible {
 //System.out.println(roi.isOncheck());
         
 
-        List<Position> possibleMoves = piece.getPossibleMoves();
-        possibleMoves = piece.removeCheckingMove(possibleMoves);
+        List<Position> possibleMoves = piece.getPossibleMovesWithCheck();
+//        possibleMoves = piece.removeCheckingMove(possibleMoves);
 
         TestCoupPossible test = new TestCoupPossible();
         test.dumpBoardAndList(possibleMoves, gm);

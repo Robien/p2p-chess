@@ -181,12 +181,22 @@ public abstract class GamePiece implements Serializable {
 
 
      /**
-     * This method test si une piece enemis est sur cette case, en prenant en compte un déplacement
+     * This method return the list of possible move without checking check state
      *
-     * @return true si y'a une piece enemis
+     * @return the list
      * @author Romain ui-grid
      */
     public abstract List<Position> getPossibleMoves();
+
+    public List<Position> getPossibleMovesWithCheck()
+    {
+        List<Position> list = getPossibleMoves();
+        list = removeCheckingMove(list);
+        return list;
+    }
+
+
+
     public abstract boolean isResponsableOfCheck(King king, Position from, Position to);
 
 
