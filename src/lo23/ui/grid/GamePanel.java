@@ -37,7 +37,8 @@ import lo23.data.pieces.GamePiece;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
-    ApplicationModel myModel;
+	
+	private ApplicationModel myModel;
     private HashMap<PositionOnBoard, JLabel> listOfPiece = new HashMap<PositionOnBoard, JLabel>();
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
@@ -45,15 +46,14 @@ public class GamePanel extends JPanel {
     private HashMap<PositionOnBoard, JLabel> listOfSelection = new HashMap<PositionOnBoard, JLabel>();
     private HashMap<PositionOnBoard, JLabel> listOfSquare = new HashMap<PositionOnBoard, JLabel>();
     
-    String path = getClass().getClassLoader().getResource(".").getPath();
-    ImageIcon squareBorder = new ImageIcon(path + "lo23/ui/resources/squareBorder.png");
-    ImageIcon filledSquare = new ImageIcon(path + "lo23/ui/resources/PossibleSquare.png");
+    private String path = getClass().getClassLoader().getResource(".").getPath();
+    private ImageIcon squareBorder = new ImageIcon(path + "lo23/ui/resources/squareBorder.png");
+    private ImageIcon filledSquare = new ImageIcon(path + "lo23/ui/resources/PossibleSquare.png");
     //JLabel currentSelection = new JLabel("", squareBorder, JLabel.CENTER);
-    boolean isCurrentSelectionExist = false;
-    boolean isCurrentSelectionOccupied = false;
-    JLabel currentPieceSelected;
-    PositionOnBoard currentPositionSelection;
- 
+    private boolean isCurrentSelectionExist = false;
+    private boolean isCurrentSelectionOccupied = false;
+    private JLabel currentPieceSelected;
+    private PositionOnBoard currentPositionSelection;
     
    
     public GamePanel(ApplicationModel model) {
@@ -181,7 +181,7 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new PositionOnBoard(5, 7), bishopLeft);
 
             //Add queen pieces to the board
-            constraints.gridx = 3;
+            constraints.gridx = 4;
             constraints.gridy = 7;
 
             ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QW.png");
@@ -190,7 +190,7 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new PositionOnBoard(4, 7), queenPiece);
 
             //Add king pieces to the board
-            constraints.gridx = 4;
+            constraints.gridx = 3;
             constraints.gridy = 7;
 
             ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKW.png");
@@ -254,7 +254,7 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new PositionOnBoard(5, 0), bishopLeftB);
 
             //Add queen pieces to the board
-            constraints.gridx = 3;
+            constraints.gridx = 4;
             constraints.gridy = 0;
 
             ImageIcon queenB = new ImageIcon(path + "lo23/ui/resources/QB.png");
@@ -263,7 +263,7 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new PositionOnBoard(4, 0), queenPieceB);
 
             //Add king pieces to the board
-            constraints.gridx = 4;
+            constraints.gridx = 3;
             constraints.gridy = 0;
 
             ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB.png");
@@ -314,14 +314,9 @@ public class GamePanel extends JPanel {
             listOfPiece.put(newSelection, currentPieceSelected);
             //update the display
             add(currentPieceSelected, constraints, 0);
-            listOfSelection.get(newSelection).setVisible(false);
             isCurrentSelectionOccupied = false;
            
-           
-                 Launch_Sound movement = new Launch_Sound("move_piece.wav");
-                 movement.play();
-            
-             
+            new Launch_Sound("move_piece.wav").play(); 
             
         }
     }

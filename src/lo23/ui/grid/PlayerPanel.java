@@ -9,7 +9,7 @@
  * Created on 13 nov. 2012, 15:14:55
  */
 
-package ui.grid;
+package lo23.ui.grid;
 
 import java.awt.Image;
 import lo23.data.ApplicationModel;
