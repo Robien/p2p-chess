@@ -30,7 +30,7 @@ public class Sound
         
             AudioFormat format = ais.getFormat();
             Info info = new Info(SourceDataLine.class, format);
-             source = (SourceDataLine)AudioSystem.getLine(info);
+            source = (SourceDataLine)AudioSystem.getLine(info);
             source.open(format);
             source.start();
            
@@ -56,7 +56,8 @@ public class Sound
         { 
             System.out.println("entre dans stop sound");
             source.drain();
-            source.close();
+          //  source.close();
+          
         }
     }
     
