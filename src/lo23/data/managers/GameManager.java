@@ -20,6 +20,7 @@ import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.NoIdException;
@@ -103,36 +104,46 @@ public class GameManager extends Manager implements GameManagerInterface {
          A LA MAIN
          */
         if (invitation instanceof NewInvitation){
+            /*
             Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
             Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
-
-
+            currentGame = new Game(guest, host);
+            currentGame.buildPieces();
+            */
+            NewInvitation I = (NewInvitation) invitation;
+            COLOR guestColor;
+            if (I.getColor()==COLOR.BLACK){
+                guestColor=COLOR.WHITE;
+            }else{
+                guestColor=COLOR.BLACK;
+            }
             //hey ! j'ai commenté tes lignes qui faisait foirer tout nos test !
             //préviens moi si tu le remet et dit moi comment le faire marcher !
             //Romain de ui grid (et Karim de Data ...)
-
-//            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
-                currentGame = new Game(guest, host);
-                currentGame.buildPieces();
-  //          }else{
-    //            currentGame = new Game(host, guest);
-      //          currentGame.buildPieces();
-        //    }
             
-        }
-        else{
-            Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
-            Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
-            
-            if(guest.getPublicProfile().getProfileId().equals(getApplicationModel().getPManager().getCurrentProfile().getProfileId())){
-                currentGame = new Game(guest, host);
+            // Il faut que currentProfile ait une valeur!!!
+            // remplacer "" par getApplicationModel().getPManager().getCurrentProfile().getProfileId()
+            if(invitation.getGuest().getProfileId().equals("")){ // Il faut etre connecté
+                // guest=local
+                Player local = new Player(guestColor,I.getDuration(), invitation.getGuest());
+                Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
+                currentGame = new Game(local, remote);
                 currentGame.buildPieces();
             }else{
-                currentGame = new Game(host, guest);
+                
+                // guest = remote
+                Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
+                Player remote = new Player(guestColor,I.getDuration(), invitation.getGuest());
+                currentGame = new Game(local, remote);
                 currentGame.buildPieces();
             }
             
-            
+        }
+        else{
+            //Il s'agit d'un resume game
+            ResumeGame I = (ResumeGame) invitation;
+            currentGame=I.getGame();
+            currentGame.swapPlayer(); // Il faut inverser local et remote player
         }
         return currentGame;
     }
