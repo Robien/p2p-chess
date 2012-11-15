@@ -22,8 +22,6 @@ public class Noise
      public  void readAudioFile(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException
     {
      
-        lancer = true;
-      
            
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File(fileName));
         
@@ -49,14 +47,5 @@ public class Noise
       }
     
     
-    public void stop_sound()
-    {
-        if(lancer == true)
-        { 
-            System.out.println("entre dans stop sound");
-            source.drain();
-            source.close();
-        }
-    }
     
 }
