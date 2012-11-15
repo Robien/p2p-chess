@@ -47,14 +47,14 @@ public class Launch_Sound extends Thread implements Runnable{
                     
                     if(sound.equals("chess.wav"))
                     {
-                         System.out.println("son en boucle");
+                        // System.out.println("son en boucle");
                          this.s.readAudioFile(path + "lo23/ui/resources/" + sound);
                          
                     }
                     else
                     {
-                        System.out.println("son court");
-                        n.readAudioFile(path + "lo23/ui/resources/" + sound);
+                       // System.out.println("son court");
+                        this.n.readAudioFile(path + "lo23/ui/resources/" + sound);
                     }
 
                 } catch (Exception ex) 
@@ -81,13 +81,7 @@ public class Launch_Sound extends Thread implements Runnable{
             a.suspend();
         }
     
-    @Override
-        public void interrupt() {
-        //super.interrupt();
-       
-            n.stop_sound(); // Fermeture du flux si l'interruption n'a pas fonctionné.
-        
-    }
+   
         
                 
         
