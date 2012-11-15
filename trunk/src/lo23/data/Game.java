@@ -247,4 +247,10 @@ public class Game implements Serializable
     public Date getEndDate() {
         return end;
     }
+    
+    public void swapPlayer(){
+        Player tmp= localPlayer;
+        localPlayer=remotePlayer;
+        remotePlayer=localPlayer;       
+    }
 }

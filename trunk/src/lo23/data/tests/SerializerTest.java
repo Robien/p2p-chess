@@ -20,7 +20,7 @@ public class SerializerTest
         ApplicationModel app = new ApplicationModel();
 
         app.setGameManager(new GameManager(app));
-
+        
         serializeProfile();
         readProfile();
     }

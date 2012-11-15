@@ -15,9 +15,22 @@ public class NewInvitation extends Invitation {
 
     public NewInvitation(PublicProfile host, PublicProfile guest) {
         super(host, guest);
+        date=new Date();
     }
 
     private COLOR color;
     private long duration;
     private Date date;
+    
+    public COLOR getColor(){
+        return color;
+    }
+    
+    public Date getDate(){
+        return date;
+    }
+    
+    public long getDuration(){
+        return duration;
+    }
 }

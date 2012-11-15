@@ -35,8 +35,8 @@ public class TestInit {
 
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, "");
-        Player p2 = new Player(COLOR.BLACK, 0, "");
+        Player p1 = new Player(COLOR.WHITE, 0, null);
+        Player p2 = new Player(COLOR.BLACK, 0, null);
 
         Profile pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
