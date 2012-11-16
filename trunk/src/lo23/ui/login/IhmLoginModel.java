@@ -7,6 +7,7 @@ package lo23.ui.login;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
@@ -19,8 +20,10 @@ import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.ProfileManagerInterface;
+import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.utils.Enums.COLOR;
 
 /**
@@ -44,8 +47,8 @@ public class IhmLoginModel implements PropertyChangeListener{
     private HashMap<PublicProfile,Date> listProfileDate;
     private  EndGameModel listEndGames;
     private  StopGameModel listStopGames;
-    JButton reviewGameBtn;
-    JButton continueGameBtn;
+    ArrayList<JButton> listContinueGameBtn;
+    ArrayList<JButton> listReviewGameBtn;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
@@ -60,31 +63,47 @@ public class IhmLoginModel implements PropertyChangeListener{
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
         listEndGames.setDataVector(donnees, entetesEndGames);
-
+        listReviewGameBtn = new ArrayList<JButton>();
+        
         // Liste des parties en cours
         String[] entetesStopGames = {"Date","Adversary", ""};
         listStopGames = new StopGameModel();
         listStopGames.setDataVector(donnees, entetesStopGames);
-        
+        listContinueGameBtn = new ArrayList<JButton>();
+                
         // test
-        reviewGameBtn = new JButton("Review");
-        listEndGames.addGame(new Date(), "toto", "You won!", reviewGameBtn);
-        listEndGames.addGame(new Date(), "sdfsd", "You lost!", reviewGameBtn);
-        listEndGames.addGame(new Date(), "todfgto", "You won!", reviewGameBtn);
-        listEndGames.addGame(new Date(), "tzzzzzzzoto", "You lost!", reviewGameBtn);
-        listEndGames.addGame(new Date(), "tozazzaaaazazazto", "You won!", reviewGameBtn);
-        listEndGames.addGame(new Date(), "tokikikikto", "You won!", reviewGameBtn);
+        listEndGames.addGame(new Date(), "id=5", "You won!", 5);
+        listEndGames.addGame(new Date(), "id=10", "You lost!", 10);
+        listEndGames.addGame(new Date(), "id=10", "You lost!", 4);
+        listEndGames.addGame(new Date(), "todfgto", "You won!", 3);
+        listEndGames.addGame(new Date(), "tzzzzzzzoto", "You lost!", 1);
+        listEndGames.addGame(new Date(), "tozazzaaaazazazto", "You won!", 40);
+        listEndGames.addGame(new Date(), "tokikikikto", "You won!", 56);
         
-        continueGameBtn = new JButton("Continue");
-        listStopGames.addGame(new Date(), "toto", continueGameBtn);
-        listStopGames.addGame(new Date(), "sdfsd", continueGameBtn);
-        listStopGames.addGame(new Date(), "todfgto", continueGameBtn);
-        listStopGames.addGame(new Date(), "tzzzzzzzoto", continueGameBtn);
+        listStopGames.addGame(new Date(), "toto", 1);
+        listStopGames.addGame(new Date(), "sdfsd", 2);
+        listStopGames.addGame(new Date(), "todfgto", 3);
+        listStopGames.addGame(new Date(), "tzzzzzzzoto", 4);
+        
         // end test
+        // A décommenter après implementation correcte coté gameManager
+//        GameManager gameManager = new GameManager(appModel);
+//        ArrayList<Game> stopGames = gameManager.getListStopGames();
+//        for (Game game : stopGames ) {
+//            listStopGames.addGame(game.getEndDate(), game.getRemotePlayer().toString(), continueGameBtn.putClientProperty("id", "5"));
+//        }
+//        
+//        ArrayList<Game> endGames = gameManager.getListEndGames();
+//        for (Game game : endGames ) {
+//            listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().toString(), game.getWinner(), continueGameBtn);
+//        }
 
         listProfileDate = new HashMap<PublicProfile,Date>();
 
         pcs = new PropertyChangeSupport(this);
+        
+        
+
     }
 
     public void addPropertyChangeListener(PropertyChangeListener l){
@@ -249,29 +268,34 @@ public class IhmLoginModel implements PropertyChangeListener{
     }
     
     private class EndGameModel extends GameModel {
-        public void addGame(Date date, String adversary, String result, JButton reviewBtn) {
-            this.addRow(new Object[]{date, adversary, result, reviewBtn});
+        public void addGame(Date date, String adversary, String result, Integer id) {
+            JButton btn = new JButton("Review");
+            btn.putClientProperty("id", id);
+            listReviewGameBtn.add(btn);
+            this.addRow(new Object[]{date, adversary, result, btn});
         }
     } 
     private class StopGameModel extends GameModel {
-        public void addGame(Date date, String adversary, JButton reviewBtn) {
-            this.addRow(new Object[]{date, adversary, reviewBtn});
+        public void addGame(Date date, String adversary, Integer id) {
+            JButton btn = new JButton("Continue");
+            btn.putClientProperty("id", id);
+            listContinueGameBtn.add(btn);
+            this.addRow(new Object[]{date, adversary, btn});
         }
     } 
     
-   
-    
+
     /*
-     * Permet à la classe ihmListGame d'acceder au bouton review
+     * Permet à la classe ihmListGame d'acceder aux boutons review
      */
-    public JButton getReviewGameBtn() {
-        return reviewGameBtn;
+    public ArrayList<JButton> getListReviewGameBtn() {
+        return listReviewGameBtn;
     }
     
     /*
-     * Permet à la classe ihmListGame d'acceder au bouton continue
+     * Permet à la classe ihmListGame d'acceder aux boutons continue
      */
-    public JButton getContinueGameBtn() {
-        return continueGameBtn;
+    public ArrayList<JButton> getListContinueGameBtn() {
+        return listContinueGameBtn;
     }
 }
