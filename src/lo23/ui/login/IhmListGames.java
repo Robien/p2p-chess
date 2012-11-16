@@ -11,6 +11,7 @@
 
 package lo23.ui.login;
 
+import java.util.ArrayList;
 import lo23.utils.JTableButtonMouseListener;
 import lo23.utils.JTableButtonRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -40,18 +41,25 @@ public class IhmListGames extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         
-        // Ajoute un listener sur ReviewGameBtn
-        ihmLoginModel.getReviewGameBtn().addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reviewGameBtnActionPerformed(evt);
-            }
-        });
-        // Ajoute un listener sur ReviewGameBtn
-        ihmLoginModel.getContinueGameBtn().addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                continueGameBtnActionPerformed(evt);
-            }
-        });
+        // Ajoute un listener sur tous les ReviewGameBtn
+        ArrayList<JButton> listReviewBtn = ihmLoginModel.getListReviewGameBtn();
+        for (JButton btn : listReviewBtn) {
+            btn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    reviewGameBtnActionPerformed(evt);
+                }
+            });
+        }
+        
+        // Ajoute un listener sur tous les ContinueGameBtn
+        ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
+        for (JButton btn : listContinueBtn) {
+            btn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    continueGameBtnActionPerformed(evt);
+                }
+            });
+        }
     }
 
     /** This method is called from within the constructor to
@@ -138,12 +146,18 @@ public class IhmListGames extends javax.swing.JFrame {
         this.listPlayers.setEnabled(true);
     }//GEN-LAST:event_previousBtnActionPerformed
 
-    private void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        System.out.println("click review game btn");
+    public void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        int id;
+        JButton btn = (JButton) evt.getSource();
+        id = (Integer) btn.getClientProperty("id");
+        System.out.println("click review game btn avec comme id = " + id);
     }    
     
-    private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        System.out.println("click continue game btn");
+    private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        int id;
+        JButton btn = (JButton) evt.getSource();
+        id = (Integer) btn.getClientProperty("id");
+        System.out.println("click continue game btn avec comme id = " + id);
     }                                        
 
     /**

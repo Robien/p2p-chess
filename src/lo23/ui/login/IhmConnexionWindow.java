@@ -86,6 +86,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
         // Ajout du Jpanel
         setContentPane(buildContentPanel());
+        
+        // set connectBtn comme bouton par défaut (répond à la touche ENTER)
+        this.getRootPane().setDefaultButton(connectBtn); 
     }
 
     private JPanel buildContentPanel() {
