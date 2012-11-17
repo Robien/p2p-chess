@@ -5,6 +5,10 @@
 package lo23.ui.login;
 
 import java.awt.event.ActionEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -19,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import lo23.data.PublicProfile;
 import lo23.data.Profile;
+import javax.imageio.ImageIO;
 import lo23.utils.Enums;
 import java.util.UUID;
 
@@ -38,6 +43,7 @@ public class IhmProfileWindow extends JFrame{
     private JTextField firstNameField = new JTextField();
     private JTextField lastNameField = new JTextField();
     private JTextField ageField = new JTextField();
+    private JLabel profileImage = new JLabel();
     
     public static final int MODIFY = 0;
     public static final int CREATE = 1;
@@ -138,12 +144,17 @@ public class IhmProfileWindow extends JFrame{
         JSeparator jSeparator1 = new JSeparator();
         JSeparator jSeparator2 = new JSeparator();
    
-        //TODO image operationnel
-        JButton changeImageButton = new JButton();
+        JButton changeImageButton = new JButton();	
         
+        // Listener
+        changeImageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeImagePerformed(evt);
+            }
+        });
         
-        ImageIcon userIcon = new ImageIcon("gaetan.jpg");
-        JLabel profileImage = new JLabel(userIcon);
+        //ImageIcon userIcon = new ImageIcon();
+        //JLabel profileImage = new JLabel(userIcon);
         
          //STATISTIC PART
         JLabel gamesWonLabel = new JLabel();
@@ -165,7 +176,6 @@ public class IhmProfileWindow extends JFrame{
         
         switch(status){
             case MODIFY :
-                //TODO define text from profile Image
                 loginField.setEditable(true);
                 lastNameField.setEditable(true);
                 firstNameField.setEditable(true);
@@ -181,12 +191,20 @@ public class IhmProfileWindow extends JFrame{
                 
                 applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
-                //TODO : avatar profile
+                //TODO : change Image in ImageIcon in data
+                /**try{
+                    profileImage.setIcon(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar());
+                    profileImage.repaint();
+                    profileImage.setText("");
+                }catch (Exception e1) {
+                    // Image Inconnue
+                    profileImage.setIcon(null);
+                    profileImage.setText("Image Inconnue");
+                }*/
                 
                 
                 break;
             case READ :
-                //TODO define text from profile Image
                 loginField.setEditable(false);
                 lastNameField.setEditable(false);
                 firstNameField.setEditable(false);
@@ -198,13 +216,21 @@ public class IhmProfileWindow extends JFrame{
                 changeImageButton.setVisible(false);
                 setSize(400, 450); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
-                //applyButton.setText("Revenir à la liste des parties");
                 
                 loginField.setText(publicProfile.getPseudo());
                 lastNameField.setText(publicProfile.getName());
                 firstNameField.setText(publicProfile.getFirstName());
                 ageField.setText(String.valueOf(publicProfile.getAge()));
-                //TODO avatard
+                //TODO : change Image in ImageIcon in data
+                /**try{
+                    profileImage.setIcon(publicProfile.getAvatar());
+                    profileImage.repaint();
+                    profileImage.setText("");
+                }catch (Exception e1) {
+                    // Image Inconnue
+                    profileImage.setIcon(null);
+                    profileImage.setText("Image Inconnue");
+                }*/
                 
                 break;
             case CREATE :
@@ -227,12 +253,6 @@ public class IhmProfileWindow extends JFrame{
                 changeImageButton.setText("Selectionnez votre avatar");
                 break;
         }
-
-        
-       
-        
-
-
 
         //LAYOUT PART
         layout.setHorizontalGroup(
@@ -335,6 +355,33 @@ public class IhmProfileWindow extends JFrame{
         );
         return panel;
     }
+ 
+     //Change image
+     private void changeImagePerformed(java.awt.event.ActionEvent evt) {
+        JFileChooser fc = new JFileChooser();
+        int n = fc.showOpenDialog(this);
+        //Si valide appele le modèle
+        if(n==JFileChooser.APPROVE_OPTION){
+                String path = fc.getSelectedFile().getAbsolutePath();
+                try {
+                    BufferedImage image= ImageIO.read(new File(path));
+                    //Redimentionne l'image
+                    if((image.getHeight()>100||image.getWidth()>140)&&image.getHeight()<200&&image.getWidth()<280)  image=scale(image,0.75);
+                    else if((image.getHeight()>200||image.getWidth()>280)&&image.getHeight()<300&&image.getWidth()<400)  image=scale(image,0.50);
+                    else if((image.getHeight()>300||image.getWidth()>400)) {
+                        image=scale(image,0.25);
+                    }
+                    ImageIcon icon = new ImageIcon(image);
+                    profileImage.setIcon(icon);
+                    profileImage.repaint();
+                    profileImage.setText("");
+                }catch (Exception e1) {
+                    // Image Inconnue
+                    profileImage.setIcon(null);
+                    profileImage.setText("Image Inconnue");
+                }	
+        }
+     }
      
      private String RandomStringUUID() {
         // Creating a random UUID (Universally unique identifier).
@@ -344,7 +391,6 @@ public class IhmProfileWindow extends JFrame{
         return randomUUIDString;
     }
      
-     //TODO actionListener pour les deux bouttons : switch
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
@@ -392,4 +438,20 @@ public class IhmProfileWindow extends JFrame{
         } // end for
         return b;
     }
+     
+    /** Effectue une homothétie de l'image.
+     * 
+     * @param bi l'image.
+     * @param scaleValue la valeur de l'homothétie.
+     * @return une image réduite ou agrandie.
+     * 
+     */public static BufferedImage scale(BufferedImage bi, double scaleValue) {
+            AffineTransform tx = new AffineTransform();
+            tx.scale(scaleValue, scaleValue);
+            AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_BILINEAR);
+            BufferedImage biNew = new BufferedImage( (int) (bi.getWidth() * scaleValue),
+                    (int) (bi.getHeight() * scaleValue),
+                    bi.getType());
+            return op.filter(bi, biNew);
+    } 
 }
