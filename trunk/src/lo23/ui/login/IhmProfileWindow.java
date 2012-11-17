@@ -128,10 +128,28 @@ public class IhmProfileWindow extends JFrame{
    
         //TODO image operationnel
         JButton changeImageButton = new JButton();
-        changeImageButton.setText("Changer votre avatar");
+        
         
         ImageIcon userIcon = new ImageIcon("gaetan.jpg");
         JLabel profileImage = new JLabel(userIcon);
+        
+         //STATISTIC PART
+        JLabel gamesWonLabel = new JLabel();
+        gamesWonLabel.setText("Parties gagnées");
+        JLabel gamesLostLabel = new JLabel();
+        gamesLostLabel.setText("Parties perdues");
+
+        JLabel gamesDrawLabel = new JLabel();
+        gamesDrawLabel.setText("Parties nulles");
+
+        //TODO : from statistic profile
+        JTextField gamesWonField = new JTextField("8");
+        JTextField gamesLostField = new JTextField("9");
+        JTextField gamesDrawField = new JTextField("10");
+        
+        gamesWonField.setEditable(false);
+        gamesLostField.setEditable(false);
+        gamesDrawField.setEditable(false);
         
         switch(status){
             case MODIFY :
@@ -146,6 +164,7 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setText(currentProfile.getName());
                 firstNameField.setText(currentProfile.getFirstName());
                 ageField.setText(String.valueOf(currentProfile.getAge()));
+                changeImageButton.setText("Changer votre avatar");
                 //TODO : avatar profile
                 
                 
@@ -178,30 +197,23 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setEditable(true);
                 firstNameField.setEditable(true);
                 ageField.setEditable(true);
-                setSize(400, 450); //On donne une taille à notre fenêtre
+                setSize(400, 350); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
                 applyButton.setText("Valider l'inscription");
+                gamesWonLabel.setVisible(false);
+                gamesLostLabel.setVisible(false);
+                gamesDrawLabel.setVisible(false);
+                gamesWonField.setVisible(false);
+                gamesLostField.setVisible(false);
+                gamesDrawField.setVisible(false);
+                jSeparator1.setVisible(false);
+                jSeparator2.setVisible(false);
+                changeImageButton.setText("Selectionnez votre avatar");
                 break;
         }
 
         
-        //STATISTIC PART
-        JLabel gamesWonLabel = new JLabel();
-        gamesWonLabel.setText("Parties gagnées");
-        JLabel gamesLostLabel = new JLabel();
-        gamesLostLabel.setText("Parties perdues");
-
-        JLabel gamesDrawLabel = new JLabel();
-        gamesDrawLabel.setText("Parties nulles");
-
-        //TODO : from statistic profile
-        JTextField gamesWonField = new JTextField("8");
-        JTextField gamesLostField = new JTextField("9");
-        JTextField gamesDrawField = new JTextField("10");
-        
-        gamesWonField.setEditable(false);
-        gamesLostField.setEditable(false);
-        gamesDrawField.setEditable(false);
+       
         
 
 
