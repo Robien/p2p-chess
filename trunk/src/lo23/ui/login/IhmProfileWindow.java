@@ -44,6 +44,7 @@ public class IhmProfileWindow extends JFrame{
         this.status = status;
         this.publicProfile = publicProfile;
         initComponent();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void initComponent() {
@@ -129,8 +130,6 @@ public class IhmProfileWindow extends JFrame{
         JButton changeImageButton = new JButton();
         changeImageButton.setText("Changer votre avatar");
         
-        //JLabel lab = new JLabel(new ImageIcon("src\\votre_image.png"));
-        //lab.setBounds(0, 0, 270, 230);
         ImageIcon userIcon = new ImageIcon("gaetan.jpg");
         JLabel profileImage = new JLabel(userIcon);
         
