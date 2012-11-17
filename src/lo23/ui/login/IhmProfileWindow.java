@@ -5,6 +5,7 @@
 package lo23.ui.login;
 
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,6 +27,13 @@ public class IhmProfileWindow extends JFrame{
 
     private IhmLoginModel ihmLoginModel;
     private PublicProfile publicProfile;
+    
+    private JTextField loginField = new JTextField();
+    private JPasswordField jPasswordField1 = new JPasswordField();
+    private JPasswordField jPasswordField2 = new JPasswordField();
+    private JTextField firstNameField = new JTextField();
+    private JTextField lastNameField = new JTextField();
+    private JTextField ageField = new JTextField();
     
     public static final int MODIFY = 0;
     public static final int CREATE = 1;
@@ -82,27 +90,27 @@ public class IhmProfileWindow extends JFrame{
         //PROFILE INFORMATION PART
         JLabel login = new JLabel();
         login.setText("Login");
-        JTextField loginField = new JTextField();
+        
 
         JLabel password = new JLabel();
         password.setText("Mot de passe");
-        JPasswordField jPasswordField1 = new JPasswordField();
+        
 
         JLabel passwordConfirm = new JLabel();
         passwordConfirm.setText("Ressaisissez votre mot de passe");
-        JPasswordField jPasswordField2 = new JPasswordField();
+        
 
         JLabel firstName = new JLabel();
         firstName.setText("Nom");
-        JTextField firstNameField = new JTextField();
+        
         
         JLabel lastName = new JLabel();
         lastName.setText("Prénom");
-        JTextField lastNameField = new JTextField();
+        
 
         JLabel age = new JLabel();
         age.setText("Âge");
-        JTextField ageField = new JTextField();
+        
         
         
         JButton exportProfileButton = new JButton();
@@ -164,6 +172,7 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setText(currentProfile.getName());
                 firstNameField.setText(currentProfile.getFirstName());
                 ageField.setText(String.valueOf(currentProfile.getAge()));
+                applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
                 //TODO : avatar profile
                 
@@ -324,8 +333,19 @@ public class IhmProfileWindow extends JFrame{
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
-                //TODO set puis save
-                //Puis retour liste partie
+                if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword()))){
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
+                //TODO Change char[] in profile
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getText());
+                //TODO Image
+                ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                }
+                else{
+                    System.out.println("Erreur");
+                }
                 break;
             case READ :
                 //retour liste partie
