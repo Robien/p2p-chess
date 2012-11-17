@@ -18,6 +18,7 @@ import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums.STATUS;
+import lo23.ui.login.IhmProfileWindow;
 
 /**
  * IhmConnexionWindow_old : interface de connexion (login) à l'application
@@ -139,6 +140,12 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
                 connectBtnActionPerformed(evt);
             }
         });
+        
+        registerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerBtnActionPerformed(evt);
+            }
+        });
 
         // Positionnement
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
@@ -212,6 +219,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
+     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
+         new IhmProfileWindow(ihmLoginModel,IhmProfileWindow.CREATE,null).setVisible(true);
+     }
 
     /**
      * Méthode retournant le champ "login" du formulaire
