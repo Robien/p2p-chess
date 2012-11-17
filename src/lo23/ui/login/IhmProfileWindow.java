@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lo23.data.PublicProfile;
 import lo23.data.Profile;
 
@@ -31,6 +32,7 @@ public class IhmProfileWindow extends JFrame{
     private JTextField loginField = new JTextField();
     private JPasswordField jPasswordField1 = new JPasswordField();
     private JPasswordField jPasswordField2 = new JPasswordField();
+    private JPasswordField jPasswordTestValidity = new JPasswordField("");
     private JTextField firstNameField = new JTextField();
     private JTextField lastNameField = new JTextField();
     private JTextField ageField = new JTextField();
@@ -161,7 +163,7 @@ public class IhmProfileWindow extends JFrame{
         
         switch(status){
             case MODIFY :
-                //TODO define text from profile
+                //TODO define text from profile Image
                 loginField.setEditable(true);
                 lastNameField.setEditable(true);
                 firstNameField.setEditable(true);
@@ -172,6 +174,9 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setText(currentProfile.getName());
                 firstNameField.setText(currentProfile.getFirstName());
                 ageField.setText(String.valueOf(currentProfile.getAge()));
+                jPasswordField1.setText(currentProfile.getPassword());
+                jPasswordField2.setText(currentProfile.getPassword());
+                
                 applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
                 //TODO : avatar profile
@@ -179,7 +184,7 @@ public class IhmProfileWindow extends JFrame{
                 
                 break;
             case READ :
-                //TODO define text from profile
+                //TODO define text from profile Image
                 loginField.setEditable(false);
                 lastNameField.setEditable(false);
                 firstNameField.setEditable(false);
@@ -333,18 +338,24 @@ public class IhmProfileWindow extends JFrame{
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
-                if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword()))){
-                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
-                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
-                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
-                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
-                //TODO Change char[] in profile
-                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getText());
-                //TODO Image
-                ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) && !Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
+                    if(!checkForDigit(ageField.getText())) {
+                        JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
+                        //TODO Change char[] in profile
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getText());
+                        //TODO Image and saveProfile OK.
+                        //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                        this.dispose();
+                    } 
                 }
                 else{
-                    System.out.println("Erreur");
+                    JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
             case READ :
@@ -362,4 +373,15 @@ public class IhmProfileWindow extends JFrame{
          final JFileChooser fc = new JFileChooser();
          int returnVal = fc.showOpenDialog(this);
      }
+     
+     private boolean checkForDigit(String s){
+        boolean b = true;
+        for (int i = 0; i < s.length(); i++){
+            if (Character.isDigit(s.toCharArray()[i])==false){
+                b = false;
+                break;
+            } // end if
+        } // end for
+        return b;
+    }
 }
