@@ -19,6 +19,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import lo23.data.PublicProfile;
 import lo23.data.Profile;
+import lo23.utils.Enums;
+import java.util.UUID;
 
 /**
  *
@@ -196,7 +198,7 @@ public class IhmProfileWindow extends JFrame{
                 changeImageButton.setVisible(false);
                 setSize(400, 450); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
-                applyButton.setText("Revenir à la liste des parties");
+                //applyButton.setText("Revenir à la liste des parties");
                 
                 loginField.setText(publicProfile.getPseudo());
                 lastNameField.setText(publicProfile.getName());
@@ -334,6 +336,14 @@ public class IhmProfileWindow extends JFrame{
         return panel;
     }
      
+     private String RandomStringUUID() {
+        // Creating a random UUID (Universally unique identifier).
+        //
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        return randomUUIDString;
+    }
+     
      //TODO actionListener pour les deux bouttons : switch
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
@@ -358,13 +368,11 @@ public class IhmProfileWindow extends JFrame{
                     JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
-            case READ :
-                //retour liste partie
-                break;
+
             case CREATE :
                 //TODO createProfile
                 //Todo retour liste Partie
-                break;
+                //parler avec le data manager pour voir leur méthode de création du fichier profil
         }
      }
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
