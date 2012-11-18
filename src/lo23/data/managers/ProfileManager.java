@@ -17,9 +17,11 @@ import lo23.utils.Enums.STATUS;
 import java.lang.Thread;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
+import lo23.data.NewInvitation;
 
 /**
  * Implementation of the PublicManagerInterface interface
+ *
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
@@ -121,6 +123,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         publish("addUser", userProfile);
     }
 
+    @Override
     public void notifyInvitation(Invitation invitation) {
         publish("invitation", invitation);
     }
@@ -129,22 +132,27 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new NewInvitation(color, duration, this.getCurrentProfile().getPublicProfile(), guest);
     }
 
+    @Override
     public void notifyAddProfile(PublicProfile publicProfile) {
         publish("addProfile", publicProfile);
     }
 
+    @Override
     public void notifyInvitAnswer(Invitation invitation, boolean answer) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void exportProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void importProfile(String filePath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

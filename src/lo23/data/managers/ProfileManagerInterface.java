@@ -10,7 +10,9 @@ import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
 /**
- * Interface for the ProfileManager class. This interface specialize in Profile management operations.
+ * Interface for the ProfileManager class. This interface specialize in Profile
+ * management operations.
+ *
  * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public interface ProfileManagerInterface {
@@ -19,7 +21,9 @@ public interface ProfileManagerInterface {
 
     /**
      * Generates a Profile with all the given information
-     * @param profileId the profile's unique identifier {@link Profile#getProfileId}
+     *
+     * @param profileId the profile's unique identifier
+     * {@link Profile#getProfileId}
      * @param pseudo the profile's pseudo
      * @param password the profile's password
      * @param status the profile's status
@@ -33,13 +37,16 @@ public interface ProfileManagerInterface {
     public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age);
 
     /**
-     * Start a periodic timer which discovers Profiles on the network every {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} milliseconds
+     * Start a periodic timer which discovers Profiles on the network every
+     * {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} milliseconds
      */
     public void startProfilesDiscovery();
 
     /**
      * Try to log the user with the given profileId/password
-     * @param profileId the profile's unique identifier {@link Profile#getProfileId}
+     *
+     * @param profileId the profile's unique identifier
+     * {@link Profile#getProfileId}
      * @param password the profile's password
      * @return true if the connection succeeded
      */
@@ -47,6 +54,7 @@ public interface ProfileManagerInterface {
 
     /**
      * Get PublicProfiles for the local Profiles
+     *
      * @return the local PublicProfiles list
      */
     public ArrayList<PublicProfile> getLocalPublicProfiles();
@@ -58,6 +66,7 @@ public interface ProfileManagerInterface {
 
     /**
      * Load a local profile from the local computer
+     *
      * @param profileId
      * @return
      */
@@ -70,10 +79,8 @@ public interface ProfileManagerInterface {
     public void notifyInvitation(Invitation invitation);
 
     /**
-     *
-     * Utiliser à la place les setteurs de la classe Profile.
-     * @param guest 
-     * @param color 
+     * @param guest
+     * @param color
      * @param duration
      */
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration);
@@ -99,12 +106,14 @@ public interface ProfileManagerInterface {
 
     /**
      * Export the current Profile in a local file
+     *
      * @param filePath desired path for the local export file
      */
     public void exportProfile(String filePath);
 
     /**
      * Import a Profile from a local file
+     *
      * @param filePath path to the local file
      */
     public void importProfile(String filePath);
