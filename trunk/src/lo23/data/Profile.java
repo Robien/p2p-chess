@@ -6,7 +6,8 @@ import javax.swing.ImageIcon;
 import lo23.utils.Enums.STATUS;
 
 /**
- * Profile is a player's profile. It contains all the information used to identify a player such as his pseudo and his status.
+ * Profile is a player's profile. It contains all the information used to
+ * identify a player such as his pseudo and his status.
  */
 public class Profile implements Serializable {
 
@@ -25,7 +26,9 @@ public class Profile implements Serializable {
     private int lostGame = 0;
 
     /**
-     * Constructor for the Profile class. Take all the information needed as arguments.
+     * Constructor for the Profile class. Take all the information needed as
+     * arguments.
+     *
      * @param profileId the unique profile identifier
      * @param pseudo the player's nickname
      * @param password the player's password
@@ -52,6 +55,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's age
+     *
      * @return the player's age
      */
     public int getAge() {
@@ -60,6 +64,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's age
+     *
      * @param age the player's new age
      */
     public void setAge(int age) {
@@ -68,6 +73,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's avatar
+     *
      * @return the player's avatar
      */
     public ImageIcon getAvatar() {
@@ -76,6 +82,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's avatar
+     *
      * @param avatar the new player's avatar
      */
     public void setAvatar(ImageIcon avatar) {
@@ -84,6 +91,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's firstname
+     *
      * @return the player's firstname
      */
     public String getFirstName() {
@@ -92,6 +100,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's firstname
+     *
      * @param firstName the player's new firstname
      */
     public void setFirstName(String firstName) {
@@ -100,6 +109,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's invitations
+     *
      * @return the player's invitations
      */
     public ArrayList<Invitation> getInvitations() {
@@ -108,6 +118,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's IP address
+     *
      * @return the player's IP address
      */
     public String getIpAddress() {
@@ -116,6 +127,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's IP address
+     *
      * @param ipAddress the player's new IP address
      */
     public void setIpAddress(String ipAddress) {
@@ -124,6 +136,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's lastname
+     *
      * @return the player's lastname
      */
     public String getName() {
@@ -132,6 +145,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's lastname
+     *
      * @param name the player's new lastname
      */
     public void setName(String name) {
@@ -140,6 +154,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's password
+     *
      * @return the player's password
      */
     public char[] getPassword() {
@@ -148,6 +163,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's password
+     *
      * @param password the player's new password
      */
     public void setPassword(char[] password) {
@@ -156,6 +172,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's players list
+     *
      * @return the player's players list
      */
     public ArrayList<Player> getPlayers() {
@@ -164,6 +181,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's unique profile ID
+     *
      * @return the player's unique profile ID
      */
     public String getProfileId() {
@@ -172,6 +190,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's unique profile ID
+     *
      * @param profileId the player's new unique profile ID
      */
     public void setProfileId(String profileId) {
@@ -180,6 +199,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's nickname
+     *
      * @return the player's nickname
      */
     public String getPseudo() {
@@ -188,6 +208,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's nickname
+     *
      * @param pseudo the player's new nickname
      */
     public void setPseudo(String pseudo) {
@@ -196,6 +217,7 @@ public class Profile implements Serializable {
 
     /**
      * Getter for the player's status
+     *
      * @return the player's status
      */
     public STATUS getStatus() {
@@ -204,6 +226,7 @@ public class Profile implements Serializable {
 
     /**
      * Setter for the player's status
+     *
      * @param status the player's new status
      */
     public void setStatus(STATUS status) {
@@ -225,9 +248,11 @@ public class Profile implements Serializable {
     public void setLostGame(int lostGame) {
         this.lostGame = lostGame;
     }
-    
+
     /**
-     * Getter for the player's PublicProfile (i.e. Profile without the password attribut)
+     * Getter for the player's PublicProfile (i.e. Profile without the password
+     * attribut)
+     *
      * @return the player's PublicProfile
      */
     public PublicProfile getPublicProfile() {

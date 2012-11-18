@@ -22,10 +22,10 @@ import lo23.data.NewInvitation;
 
 /**
  * Implementation of the PublicManagerInterface interface
- * 
- * TODO : commiter lo23.utils.Configuration
- * TODO : implémenter notifyInvitationAnswer
- * 
+ *
+ * TODO : commiter lo23.utils.Configuration TODO : implémenter
+ * notifyInvitationAnswer
+ *
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
 
@@ -128,7 +128,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     public void notifyInvitation(Invitation invitation) {
         publish("invitation", invitation);
     }
-    
+
     @Override
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
         return new NewInvitation(color, duration, this.getCurrentProfile().getPublicProfile(), guest);
