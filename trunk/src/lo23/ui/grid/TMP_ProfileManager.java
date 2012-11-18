@@ -13,7 +13,6 @@
 //
 ///**
 // * Implementation of the PublicManagerInterface interface
-// * @author Pierre-Alexandre FONTA et Louis PONTOISE
 // */
 //public class TMP_ProfileManager extends Manager implements ProfileManagerInterface {
 //

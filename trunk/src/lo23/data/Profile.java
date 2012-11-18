@@ -7,7 +7,6 @@ import lo23.utils.Enums.STATUS;
 
 /**
  * Profile is a player's profile. It contains all the information used to identify a player such as his pseudo and his status.
- * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public class Profile implements Serializable {
 
@@ -22,6 +21,8 @@ public class Profile implements Serializable {
     private int age;
     private ArrayList<Invitation> invitations;
     private ArrayList<Player> players;
+    private int wonGame = 0;
+    private int lostGame = 0;
 
     /**
      * Constructor for the Profile class. Take all the information needed as arguments.
@@ -209,11 +210,27 @@ public class Profile implements Serializable {
         this.status = status;
     }
 
+    public int getWonGame() {
+        return wonGame;
+    }
+
+    public void setWonGame(int wonGame) {
+        this.wonGame = wonGame;
+    }
+
+    public int getLostGame() {
+        return lostGame;
+    }
+
+    public void setLostGame(int lostGame) {
+        this.lostGame = lostGame;
+    }
+    
     /**
      * Getter for the player's PublicProfile (i.e. Profile without the password attribut)
      * @return the player's PublicProfile
      */
     public PublicProfile getPublicProfile() {
-        return new PublicProfile(this.profileId, this.pseudo, this.status, this.ipAddress, this.avatar, this.name, this.firstName, this.age);
+        return new PublicProfile(this.profileId, this.pseudo, this.status, this.ipAddress, this.avatar, this.name, this.firstName, this.age, this.wonGame, this.lostGame);
     }
 }
