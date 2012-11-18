@@ -22,7 +22,6 @@ import lo23.utils.Enums.STATUS;
 /**
  * Implementation of the PublicManagerInterface interface.
  *
- * TODO : commiter lo23.utils.Configuration.
  * TODO : implémenter notifyInvitAnswer.
  * TODO : absorption des exceptions du serializer ?
  *
