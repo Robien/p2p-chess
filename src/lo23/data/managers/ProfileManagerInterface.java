@@ -1,6 +1,5 @@
 package lo23.data.managers;
 
-import lo23.data.exceptions.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import lo23.data.Invitation;

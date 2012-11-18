@@ -1,24 +1,23 @@
 package lo23.data.managers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
+import lo23.data.NewInvitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
+import lo23.utils.Configuration;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
-//import lo23.utils.Configuration;
-import java.lang.Thread;
-import java.util.Arrays;
-import java.util.TimerTask;
-import javax.swing.ImageIcon;
-import lo23.data.NewInvitation;
 
 /**
  * Implementation of the PublicManagerInterface interface.
@@ -66,7 +65,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         }
 
         this.timer = new Timer();
-//        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
+        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
     }
 
     @Override
