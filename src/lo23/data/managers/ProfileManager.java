@@ -23,8 +23,9 @@ import lo23.data.NewInvitation;
 /**
  * Implementation of the PublicManagerInterface interface
  *
- * TODO : commiter lo23.utils.Configuration TODO : implémenter
- * notifyInvitationAnswer
+ * TODO : commiter lo23.utils.Configuration
+ * TODO : implémenter notifyInvitationAnswer
+ * TODO : absorbtion des exceptions du serializer ?
  *
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
@@ -146,7 +147,11 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void exportProfile(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Serializer.saveProfile(this.getCurrentProfile(), filePath);
+        } catch (NoIdException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
