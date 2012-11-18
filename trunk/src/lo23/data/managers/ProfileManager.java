@@ -22,8 +22,10 @@ import lo23.data.NewInvitation;
 
 /**
  * Implementation of the PublicManagerInterface interface
- *
- * @author Pierre-Alexandre FONTA et Louis PONTOISE
+ * 
+ * TODO : commiter lo23.utils.Configuration
+ * TODO : implémenter notifyInvitationAnswer
+ * 
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
 
@@ -56,6 +58,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
                 this.am = am;
             }
 
+            @Override
             public void run() {
                 this.am.getComManager().sendMulticast();
             }
@@ -84,6 +87,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         }
     }
 
+    @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() {
         ArrayList<PublicProfile> publicProfiles = new ArrayList<PublicProfile>();
         try {
@@ -94,7 +98,6 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return publicProfiles;
-
     }
 
     @Override
@@ -121,19 +124,11 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         getApplicationModel().getComManager().sendInvitation(invitation);
     }
 
-    public void notifyAddUser(PublicProfile userProfile) {
-        publish("addUser", userProfile);
-    }
-
     @Override
     public void notifyInvitation(Invitation invitation) {
         publish("invitation", invitation);
     }
-
-    public void notifyInvitationAnswer(Invitation invitation, boolean answer) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     @Override
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
         return new NewInvitation(color, duration, this.getCurrentProfile().getPublicProfile(), guest);
