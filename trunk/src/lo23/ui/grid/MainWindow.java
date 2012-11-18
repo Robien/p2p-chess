@@ -37,8 +37,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import lo23.data.ApplicationModel;
 import lo23.data.Player;
@@ -46,20 +50,19 @@ import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
-    Launch_Sound during_party;
-    boolean is_full_screen;
-
+    Launch_Sound during_party;    // launch the background sound
+    boolean is_full_screen;      //control if the screen is in full screen
      
     public MainWindow(ApplicationModel m) {
         super();
             
-        //Launch the Sound
+       //Launch the Sound
        during_party = new Launch_Sound("chess.wav");
        during_party.play();
-      
-      
-    
+   
+       
         myModel = m;
+        
         build();//On initialise notre fenêtre
        
     }
@@ -73,16 +76,10 @@ public class MainWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
         is_full_screen = false;
         setContentPane(buildContentPanel());
-         
-        
       
-      
-        
-        
-        	//this.setSize(new Dimension(400,400));
-               
-                Menu();
-    }
+        //create the Menu	 
+        Menu();
+     }
     
     private JPanel buildContentPanel() {
 
@@ -90,9 +87,8 @@ public class MainWindow extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel.setLayout(gridBagLayout);
- 
-//        String path = getClass().getClassLoader().getResource(".").getPath();
-//        panel.add(new JLabel(new ImageIcon(path + "lo23/ui/resources/chess.jpg")));  
+        
+     
 //  
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -165,24 +161,29 @@ public class MainWindow extends JFrame implements ActionListener {
     {
         
      	JMenuBar menu=new JMenuBar();
-        JMenu fichier=new JMenu("Fichier");
+        JMenu file=new JMenu("File");
         JMenu options=new JMenu("Options");
         JMenu son=new JMenu("Sound");
+        JMenu other=new JMenu("?");
         JMenuItem new_game=new JMenuItem("New Game");
         JMenuItem full_screen=new JMenuItem("Full screen");
-        
+        JMenuItem rules=new JMenuItem("Rules of chess");
+        JMenuItem about=new JMenuItem("About");
         JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("stop music");
         JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("play music");
         JMenuItem close=new JMenuItem("Quit");
         //fichier 
-        fichier.add(new_game);
-        fichier.addSeparator();
-        fichier.add(close);
+        file.add(new_game);
+        file.addSeparator();
+        file.add(close);
          //options
+        options.add(rules); 
+        options.addSeparator();
         options.add(full_screen);
-                
+      
+       
         //Radio buttons sound
-         ButtonGroup bg = new ButtonGroup();
+        ButtonGroup bg = new ButtonGroup();
         
          bg.add(play_music);
          bg.add(stop_music);
@@ -192,17 +193,21 @@ public class MainWindow extends JFrame implements ActionListener {
          son.add(play_music);
          son.add(stop_music);
       
+         //other
+        other.add(about);
        //accelerator
-        fichier.setMnemonic('F');
+        file.setMnemonic('F');
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
         options.setMnemonic('O');
         full_screen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11,0));
-       
+        son.setMnemonic('S');
         
-         //add in the Menu
-        menu.add(fichier);
+ 
+        //add in the Menu
+        menu.add(file);
         menu.add(options);
         menu.add(son);
+        menu.add(other);
         this.setJMenuBar(menu); 
       
       
@@ -221,9 +226,13 @@ public class MainWindow extends JFrame implements ActionListener {
         full_screen.addActionListener(screen);
           
     
-         
+        Rules rul=new Rules();
+        rules.addActionListener(rul);
+        
+        About ab=new About();
+        about.addActionListener(ab);
        
-       
+        
  }
 
     private  class Quit implements ActionListener{
@@ -255,11 +264,11 @@ public class MainWindow extends JFrame implements ActionListener {
             } 
         }
       
-      private  class Full implements ActionListener{
-
-          @Override
+      private  class Full implements ActionListener
+      {
+        @Override
         public void actionPerformed(ActionEvent e)
-            {
+        {
                 if(is_full_screen == false)
                 {  
                   Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -273,7 +282,49 @@ public class MainWindow extends JFrame implements ActionListener {
                   setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
                   is_full_screen = false;
                 }
-            } 
-        }  
-    
+        } 
+     
+      } 
+      private  class Rules extends JFrame implements ActionListener
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+            {
+               JOptionPane.showMessageDialog(this,
+            "For rules information, please follow this link below :"
+             + "\n" + "    http://en.wikipedia.org/wiki/Rules_of_chess", "Rules of Chess",
+            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/KW.png"));
+            }  
+      }
+      
+       private  class About extends JFrame implements ActionListener
+       {
+
+       @Override
+       public void actionPerformed(ActionEvent e)
+           {
+               JOptionPane.showMessageDialog(this,
+            "Game developed by UTC Students"
+             + "\n" + "        LO23 Project - 2012", "About",
+            JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/logo_utc.png"));
+           }
+       }
+       
+       
+       
+       
+     
+        
+        private static void setWindowsLook() 
+        {
+           LookAndFeel lf = UIManager.getLookAndFeel();
+          
+                try {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                } catch (        ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                 System.out.println("test");
+            
+        };
     }
