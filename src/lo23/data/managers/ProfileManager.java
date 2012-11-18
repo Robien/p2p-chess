@@ -114,15 +114,15 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void sendInvitation(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        getApplicationModel().getComManager().sendInvitation(invitation);
     }
 
     public void notifyAddUser(PublicProfile userProfile) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("addUser", userProfile);
     }
 
     public void notifyInvitation(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("invitation", invitation);
     }
 
     public void notifyInvitationAnswer(Invitation invitation, boolean answer) {
@@ -134,7 +134,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     public void notifyAddProfile(PublicProfile publicProfile) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("addProfile", publicProfile);
     }
 
     public void notifyInvitAnswer(Invitation invitation, boolean answer) {
