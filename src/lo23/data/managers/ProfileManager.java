@@ -1,6 +1,5 @@
 package lo23.data.managers;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -17,6 +16,7 @@ import lo23.utils.Enums.STATUS;
 //import lo23.utils.Configuration;
 import java.lang.Thread;
 import java.util.TimerTask;
+import javax.swing.ImageIcon;
 
 /**
  * Implementation of the PublicManagerInterface interface
@@ -37,7 +37,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
         return new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
     }
 

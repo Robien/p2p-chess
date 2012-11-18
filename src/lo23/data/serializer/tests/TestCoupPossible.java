@@ -34,8 +34,10 @@ public class TestCoupPossible {
         Player p1 = new Player(COLOR.WHITE, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress",null, "dupont", "robert", 12));
         Player p2 = new Player(COLOR.BLACK, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress", null, "dupont", "robert2", 12));
 
-        Profile pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
-        Profile pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
+        char[] fakePassword = {};
+        
+        Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
+        Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         NewInvitation inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();

@@ -34,8 +34,10 @@ public class GameManagerTest {
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
 
-        pHost = new Profile("", "host", "", Enums.STATUS.INGAME, "", null, "", "", 21);
-        pGuest = new Profile("", "host", "", Enums.STATUS.INGAME, "", null, "", "", 21);
+        char[] fakePassword = {};
+        
+        pHost = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+        pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
         inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
         gm = app.getGManager().createGame(inv);
         

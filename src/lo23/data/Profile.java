@@ -1,8 +1,8 @@
 package lo23.data;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -13,10 +13,10 @@ public class Profile implements Serializable {
 
     private String profileId;
     private String pseudo;
-    private String password;
+    private char[] password;
     private STATUS status;
     private String ipAddress;
-    private Image avatar;
+    private ImageIcon avatar;
     private String name;
     private String firstName;
     private int age;
@@ -35,7 +35,7 @@ public class Profile implements Serializable {
      * @param firstName the player's firstname
      * @param age the player's age
      */
-    public Profile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
+    public Profile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
         this.profileId = profileId;
         this.pseudo = pseudo;
         this.password = password;
@@ -69,7 +69,7 @@ public class Profile implements Serializable {
      * Getter for the player's avatar
      * @return the player's avatar
      */
-    public Image getAvatar() {
+    public ImageIcon getAvatar() {
         return avatar;
     }
 
@@ -77,7 +77,7 @@ public class Profile implements Serializable {
      * Setter for the player's avatar
      * @param avatar the new player's avatar
      */
-    public void setAvatar(Image avatar) {
+    public void setAvatar(ImageIcon avatar) {
         this.avatar = avatar;
     }
 
@@ -141,7 +141,7 @@ public class Profile implements Serializable {
      * Getter for the player's password
      * @return the player's password
      */
-    public String getPassword() {
+    public char[] getPassword() {
         return password;
     }
 
@@ -149,7 +149,7 @@ public class Profile implements Serializable {
      * Setter for the player's password
      * @param password the player's new password
      */
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         this.password = password;
     }
 
