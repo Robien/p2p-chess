@@ -103,14 +103,14 @@ public interface ProfileManagerInterface {
     public void notifyInvitAnswer(Invitation invitation, boolean answer);
 
     /**
-     * Export the current Profile in a local file
+     * Exports the current Profile in a local file
      *
      * @param filePath desired path for the local export file
      */
     public void exportProfile(String filePath);
 
     /**
-     * Import a Profile from a local file
+     * Imports a Profile from a local file and sets it as the current Profile
      *
      * @param filePath path to the local file
      */

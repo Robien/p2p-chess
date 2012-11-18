@@ -21,11 +21,11 @@ import javax.swing.ImageIcon;
 import lo23.data.NewInvitation;
 
 /**
- * Implementation of the PublicManagerInterface interface
+ * Implementation of the PublicManagerInterface interface.
  *
- * TODO : commiter lo23.utils.Configuration
- * TODO : implémenter notifyInvitationAnswer
- * TODO : absorbtion des exceptions du serializer ?
+ * TODO : commiter lo23.utils.Configuration.
+ * TODO : implémenter notifyInvitAnswer.
+ * TODO : absorption des exceptions du serializer ?
  *
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
@@ -156,6 +156,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void importProfile(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            this.currentProfile = Serializer.readProfile(this.getCurrentProfile().getProfileId(), filePath);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

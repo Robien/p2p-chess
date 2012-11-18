@@ -67,19 +67,22 @@ public class Serializer {
 
     /**
      * This method serializes a given Profile object to the correct path
-     * 
-     * @param profile
-     * 
-     * @throws NoIdException 
+     *
+     * @param profile The object to serialize
+     *
+     * @throws NoIdException This exception is thrown if profile argument
+     * doesn't have a correct profileId
      */
     static public void saveProfile(Profile profile) throws NoIdException {
         saveProfile(profile, Constants.PROFILES_PATH);
     }
 
     /**
-     * This method tries to read a profile whom id is given as a paramater
+     * This method tries to read a profile whom id and file paths are given as
+     * paramater
      *
      * @param profileId The profileId for the expected profile
+     * @param path The path from where the profile is read
      *
      * @return Either a Profil object, either a null value if something went
      * wrong (IOException or file not found)
@@ -87,10 +90,9 @@ public class Serializer {
      * @throws FileNotFoundException This exception is thrown when this method
      * can't have access to an expected file
      */
-    static public Profile readProfile(String profileId) throws FileNotFoundException {
+    static public Profile readProfile(String profileId, String path) throws FileNotFoundException {
         // Checks if the profileId associated file exists
-
-        File profileFile = new File(Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
+        File profileFile = new File(path + profileId + Constants.PROFILE_SUFFIXE);
         if (profileFile.exists()) {
             try {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(profileFile));
@@ -110,6 +112,21 @@ public class Serializer {
         } else {
             throw new FileNotFoundException("Couldn't find the file " + Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
         }
+    }
+
+    /**
+     * This method tries to read a profile whom id is given as a paramater
+     *
+     * @param profileId The profileId for the expected profile
+     *
+     * @return Either a Profil object, either a null value if something went
+     * wrong (IOException or file not found)
+     *
+     * @throws FileNotFoundException This exception is thrown when this method
+     * can't have access to an expected file
+     */
+    static public Profile readProfile(String profileId) throws FileNotFoundException {
+        return readProfile(profileId, Constants.PROFILES_PATH);
     }
 
     /**
