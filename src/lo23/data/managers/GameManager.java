@@ -170,7 +170,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyGameEnded() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("gameEnded", null);
     }
 
     @Override
@@ -219,12 +219,12 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyGameStarted(PublicProfile userProfile) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("gameStarted", userProfile);
     }
 
     @Override
     public void notifyMovement(Move move) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish("move", move);
     }
     
     @Override
