@@ -15,6 +15,7 @@ import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 //import lo23.utils.Configuration;
 import java.lang.Thread;
+import java.util.Arrays;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import lo23.data.NewInvitation;
@@ -34,6 +35,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         this.currentProfile = null;
     }
 
+    @Override
     public Profile getCurrentProfile() {
         return currentProfile;
     }
@@ -64,13 +66,13 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public boolean connection(String profileId, String password) {
+    public boolean connection(String profileId, char[] password) {
         try {
             Profile p = Serializer.readProfile(profileId);
             if (p == null) {
                 return false;
             } else {
-                if (!p.getPassword().equals(password)) {
+                if (!Arrays.equals(p.getPassword(), password)) {
                     return false;
                 } else {
                     this.currentProfile = p;

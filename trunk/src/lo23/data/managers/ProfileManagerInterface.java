@@ -50,7 +50,7 @@ public interface ProfileManagerInterface {
      * @param password the profile's password
      * @return true if the connection succeeded
      */
-    public boolean connection(String profileId, String password);
+    public boolean connection(String profileId, char[] password);
 
     /**
      * Get PublicProfiles for the local Profiles
