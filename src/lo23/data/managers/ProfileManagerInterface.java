@@ -12,8 +12,6 @@ import lo23.utils.Enums.STATUS;
 /**
  * Interface for the ProfileManager class. This interface specialize in Profile
  * management operations.
- *
- * @author Pierre-Alexandre FONTA et Louis PONTOISE
  */
 public interface ProfileManagerInterface {
 

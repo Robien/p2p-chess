@@ -6,8 +6,12 @@ import javax.swing.ImageIcon;
 import lo23.utils.Enums.STATUS;
 
 /**
- * PublicProfile is a copy of a Profile without the password attribute. Instances of PublicProfiles SHOULD BE generated using the Profile.getPublicProfile() method.
- * @author Pierre-Alexandre FONTA et Louis PONTOISE
+ * PublicProfile is a copy of a Profile without the password attribute.
+ * Instances of PublicProfiles SHOULD BE generated using the
+ * Profile.getPublicProfile() method.
+ *
+ * TODO : utilité des setteurs dans cette version non modifiable normalement ?
+ *
  */
 public class PublicProfile implements Serializable {
 
@@ -21,9 +25,14 @@ public class PublicProfile implements Serializable {
     private int age;
     private ArrayList<Invitation> invitations;
     private ArrayList<Player> players;
+    private int wonGame;
+    private int lostGame;
 
     /**
-     * Constructor for the PublicProfile class. This constructor SHOULD NOT be called directly. Instead the Profile.getPublicProfile() method SHOULD be used.
+     * Constructor for the PublicProfile class. This constructor SHOULD NOT be
+     * called directly. Instead the Profile.getPublicProfile() method SHOULD be
+     * used.
+     *
      * @param profileId the unique profile identifier
      * @param pseudo the player's nickname
      * @param status the player's status
@@ -33,7 +42,7 @@ public class PublicProfile implements Serializable {
      * @param firstName the player's firstname
      * @param age the player's age
      */
-    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
+    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age, int wonGame, int lostGame) {
         this.profileId = profileId;
         this.pseudo = pseudo;
         this.status = status;
@@ -42,12 +51,15 @@ public class PublicProfile implements Serializable {
         this.name = name;
         this.firstName = firstName;
         this.age = age;
+        this.wonGame = wonGame;
+        this.lostGame = lostGame;
         this.invitations = new ArrayList<Invitation>();
         this.players = new ArrayList<Player>();
     }
 
     /**
      * Getter for the player's age
+     *
      * @return the player's age
      */
     public int getAge() {
@@ -56,6 +68,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's age
+     *
      * @param age the player's new age
      */
     public void setAge(int age) {
@@ -64,6 +77,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's avatar
+     *
      * @return the player's avatar
      */
     public ImageIcon getAvatar() {
@@ -72,6 +86,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's avatar
+     *
      * @param avatar the new player's avatar
      */
     public void setAvatar(ImageIcon avatar) {
@@ -80,6 +95,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's firstname
+     *
      * @return the player's firstname
      */
     public String getFirstName() {
@@ -88,6 +104,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's firstname
+     *
      * @param firstName the player's new firstname
      */
     public void setFirstName(String firstName) {
@@ -96,6 +113,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's invitations
+     *
      * @return the player's invitations
      */
     public ArrayList<Invitation> getInvitations() {
@@ -104,6 +122,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's IP address
+     *
      * @return the player's IP address
      */
     public String getIpAddress() {
@@ -112,6 +131,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's IP address
+     *
      * @param ipAddress the player's new IP address
      */
     public void setIpAddress(String ipAddress) {
@@ -120,6 +140,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's lastname
+     *
      * @return the player's lastname
      */
     public String getName() {
@@ -128,6 +149,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's lastname
+     *
      * @param name the player's new lastname
      */
     public void setName(String name) {
@@ -136,6 +158,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's players list
+     *
      * @return the player's players list
      */
     public ArrayList<Player> getPlayers() {
@@ -144,6 +167,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's unique profile ID
+     *
      * @return the player's unique profile ID
      */
     public String getProfileId() {
@@ -152,6 +176,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's unique profile ID
+     *
      * @param profileId the player's new unique profile ID
      */
     public void setProfileId(String profileId) {
@@ -160,6 +185,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's nickname
+     *
      * @return the player's nickname
      */
     public String getPseudo() {
@@ -168,6 +194,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's nickname
+     *
      * @param pseudo the player's new nickname
      */
     public void setPseudo(String pseudo) {
@@ -176,6 +203,7 @@ public class PublicProfile implements Serializable {
 
     /**
      * Getter for the player's status
+     *
      * @return the player's status
      */
     public STATUS getStatus() {
@@ -184,12 +212,21 @@ public class PublicProfile implements Serializable {
 
     /**
      * Setter for the player's status
+     *
      * @param status the player's new status
      */
     public void setStatus(STATUS status) {
         this.status = status;
     }
-    
+
+    public int getWonGame() {
+        return wonGame;
+    }
+
+    public int getLostGame() {
+        return lostGame;
+    }
+
     @Override
     public String toString() {
         return this.getPseudo();
