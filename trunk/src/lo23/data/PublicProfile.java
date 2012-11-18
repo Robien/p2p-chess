@@ -1,8 +1,8 @@
 package lo23.data;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -15,7 +15,7 @@ public class PublicProfile implements Serializable {
     private String pseudo;
     private STATUS status;
     private String ipAddress;
-    private Image avatar;
+    private ImageIcon avatar;
     private String name;
     private String firstName;
     private int age;
@@ -33,7 +33,7 @@ public class PublicProfile implements Serializable {
      * @param firstName the player's firstname
      * @param age the player's age
      */
-    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
+    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
         this.profileId = profileId;
         this.pseudo = pseudo;
         this.status = status;
@@ -66,7 +66,7 @@ public class PublicProfile implements Serializable {
      * Getter for the player's avatar
      * @return the player's avatar
      */
-    public Image getAvatar() {
+    public ImageIcon getAvatar() {
         return avatar;
     }
 
@@ -74,7 +74,7 @@ public class PublicProfile implements Serializable {
      * Setter for the player's avatar
      * @param avatar the new player's avatar
      */
-    public void setAvatar(Image avatar) {
+    public void setAvatar(ImageIcon avatar) {
         this.avatar = avatar;
     }
 

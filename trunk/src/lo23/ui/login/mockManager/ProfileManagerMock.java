@@ -4,8 +4,8 @@
  */
 
 package lo23.ui.login.mockManager;
-import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.Profile;
@@ -28,14 +28,17 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     
     public ProfileManagerMock(ApplicationModel model){
         super(model);
-        profileAdmin = new Profile("1234","admin","admin",Enums.STATUS.CONNECTED,"127.0.0.1",null,"Admin","Admin",25);
+        
+        char[] passwordAdmin = "admin".toCharArray();
+        profileAdmin = new Profile("1234","admin",passwordAdmin,Enums.STATUS.CONNECTED,"127.0.0.1",null,"Admin","Admin",25);
         profiles.add(profileAdmin);
-        profiles.add(new Profile("1234","john","john",Enums.STATUS.CONNECTED,"127.0.0.1",null,"John","Smith",23));
+        char[] password = "john".toCharArray();
+        profiles.add(new Profile("1234","john",password,Enums.STATUS.CONNECTED,"127.0.0.1",null,"John","Smith",23));
         
     }
 
     @Override
-    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age) {
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

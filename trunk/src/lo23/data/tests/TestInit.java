@@ -41,8 +41,10 @@ public class TestInit {
         p1 = new Player(COLOR.WHITE, 0, null);
         p2 = new Player(COLOR.BLACK, 0, null);
 
-        pHost = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
-        pGuest = new Profile("", "host", "", STATUS.INGAME, "", null, "", "", 21);
+        char[] fakePassword = {};
+        
+        Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
+        Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
         gm = app.getGManager().createGame(inv);
         gm.buildPieces();

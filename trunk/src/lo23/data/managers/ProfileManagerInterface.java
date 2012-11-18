@@ -1,8 +1,8 @@
 package lo23.data.managers;
 
-import java.awt.Image;
 import lo23.data.exceptions.FileNotFoundException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
@@ -30,7 +30,7 @@ public interface ProfileManagerInterface {
      * @param age the profile's age
      * @return the new Profile instance
      */
-    public Profile createProfile(String profileId, String pseudo, String password, STATUS status, String ipAddress, Image avatar, String name, String firstName, int age);
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age);
 
     /**
      * Start a periodic timer which discovers Profiles on the network every {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} milliseconds
