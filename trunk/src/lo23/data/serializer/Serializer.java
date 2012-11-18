@@ -14,13 +14,14 @@ import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 
 /**
- * This is the util class used for every serialization
- * This class has to contain static methods and attributes only
+ * This is the util class used for every serialization This class has to contain
+ * static methods and attributes only
  */
 public class Serializer {
 
     /**
      * Get all the Profile IDs stored in {@link Constants.PROFILES_PATH}
+     *
      * @return the profile IDs
      */
     static public ArrayList<String> getProfileIds() {
@@ -39,13 +40,15 @@ public class Serializer {
     }
 
     /**
-     * This method serializes a given Profile object to the correct path
-     * 
+     * This method serializes a given Profile object to a given path
+     *
      * @param profile The object to serialize
-     * 
-     * @throws NoIdException  This exception is thrown if profile argument doesn't have a correct profileId
+     * @param path The path where the profile is serialized
+     *
+     * @throws NoIdException This exception is thrown if profile argument
+     * doesn't have a correct profileId
      */
-    static public void saveProfile(Profile profile) throws NoIdException {
+    static public void saveProfile(Profile profile, String path) throws NoIdException {
         // Checks the profileId attribute validity
         if (profile.getProfileId() == null || profile.getProfileId().equals("")) {
             throw new NoIdException("The object you're trying to serialize handle a null or empty profileId attribute.");
@@ -53,7 +56,7 @@ public class Serializer {
 
         try {
             ObjectOutputStream out;
-            out = new ObjectOutputStream(new FileOutputStream(Constants.PROFILES_PATH + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
+            out = new ObjectOutputStream(new FileOutputStream(path + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
             out.writeObject(profile);
             out.close();
         } catch (IOException expt) {
@@ -63,13 +66,26 @@ public class Serializer {
     }
 
     /**
+     * This method serializes a given Profile object to the correct path
+     * 
+     * @param profile
+     * 
+     * @throws NoIdException 
+     */
+    static public void saveProfile(Profile profile) throws NoIdException {
+        saveProfile(profile, Constants.PROFILES_PATH);
+    }
+
+    /**
      * This method tries to read a profile whom id is given as a paramater
-     * 
+     *
      * @param profileId The profileId for the expected profile
-     * 
-     * @return Either a Profil object, either a null value if something went wrong (IOException or file not found)
-     * 
-     * @throws FileNotFoundException This exception is thrown when this method can't have access to an expected file
+     *
+     * @return Either a Profil object, either a null value if something went
+     * wrong (IOException or file not found)
+     *
+     * @throws FileNotFoundException This exception is thrown when this method
+     * can't have access to an expected file
      */
     static public Profile readProfile(String profileId) throws FileNotFoundException {
         // Checks if the profileId associated file exists
@@ -98,10 +114,11 @@ public class Serializer {
 
     /**
      * This method serializes a given Game object to the correct path
-     * 
+     *
      * @param game The object to serialize
-     * 
-     * @throws NoIdException  This exception is thrown if game argument doesn't have a correct gameId
+     *
+     * @throws NoIdException This exception is thrown if game argument doesn't
+     * have a correct gameId
      */
     static public void saveGame(Game game) throws NoIdException {
         // Checks the profileId attribute validity
@@ -122,12 +139,14 @@ public class Serializer {
 
     /**
      * This method tries to read a game whom id is given as a paramater
-     * 
+     *
      * @param gameId The gameId for the expected profile
-     * 
-     * @return Either a Game object, either a null value if something went wrong (IOException or class not found)
-     * 
-     * @throws FileNotFoundException This exception is thrown when this method can't have access to an expected file
+     *
+     * @return Either a Game object, either a null value if something went wrong
+     * (IOException or class not found)
+     *
+     * @throws FileNotFoundException This exception is thrown when this method
+     * can't have access to an expected file
      */
     static public Game readGame(long gameId) throws FileNotFoundException {
         // Checks if the gameId associated file exists
