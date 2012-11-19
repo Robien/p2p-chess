@@ -75,7 +75,7 @@ public interface ProfileManagerInterface {
 
     /**
      * Notify the subscribed Managers about the invitation
-     * @param the invitation to be notified
+     * @param invitation the invitation to be notified
      */
     public void notifyInvitation(Invitation invitation);
 
@@ -90,20 +90,20 @@ public interface ProfileManagerInterface {
 
     /**
      * Send the given invitation via the ComManager
-     * @param the invitation to send
+     * @param invitation the invitation to send
      */
     public void sendInvitation(Invitation invitation);
 
     /**
      * Notify the subscribed Managers to add the given PublicProfile
-     * @param the new publicProfile to notify
+     * @param publicProfile the new publicProfile to notify
      */
     public void notifyAddProfile(PublicProfile publicProfile);
 
     /**
      * Notify the answer to an invitation to the subscribed Managers
-     * @param the invitation whose answer is to be notified
-     * @param the answer to the invitation which should be notified to the subscribed Managers
+     * @param invitation the invitation whose answer is to be notified
+     * @param answer the answer to the invitation which should be notified to the subscribed Managers
      */
     public void notifyInvitAnswer(Invitation invitation, boolean answer);
 
