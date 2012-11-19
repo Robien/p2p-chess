@@ -28,13 +28,16 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     
     public ProfileManagerMock(ApplicationModel model){
         super(model);
-        
         char[] passwordAdmin = "admin".toCharArray();
-        profileAdmin = new Profile("1234","admin",passwordAdmin,Enums.STATUS.CONNECTED,"127.0.0.1",null,"Admin","Admin",25);
+        profileAdmin = new Profile("1","admin",passwordAdmin,Enums.STATUS.CONNECTED,"127.0.0.1",null,"Admin","Admin",25);
+
         profiles.add(profileAdmin);
-        char[] password = "john".toCharArray();
-        profiles.add(new Profile("1234","john",password,Enums.STATUS.CONNECTED,"127.0.0.1",null,"John","Smith",23));
-        
+
+        profiles.add(new Profile("2","john","john".toCharArray(),Enums.STATUS.OFFLINE,"127.0.0.1",null,"Smith","John",23));
+        profiles.add(new Profile("3","dave","dave".toCharArray(),Enums.STATUS.CONNECTED,"127.0.0.1",null,"Dave","Dave",50));
+        profiles.add(new Profile("4","johnny","johnny".toCharArray(),Enums.STATUS.CONNECTED,"127.0.0.1",null,"Halliday","Johnny",80));
+        profiles.add(new Profile("5","mick","mick".toCharArray(),Enums.STATUS.OFFLINE,"127.0.0.1",null,"Mouse","Mickey",100));
+
     }
 
     @Override
