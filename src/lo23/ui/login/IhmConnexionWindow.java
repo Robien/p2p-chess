@@ -201,7 +201,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
-        System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + getPasswordField().getText());
+        System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + new String(getPasswordField().getPassword()));
 
         // Appel de la methode de connexion
         ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
