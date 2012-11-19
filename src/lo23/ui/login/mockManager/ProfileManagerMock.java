@@ -124,7 +124,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     }
 
     @Override
-    public boolean connection(String profileId, String password){
+    public boolean connection(String profileId, char[] password){
         for(Profile p : profiles){
             if(p.getProfileId().equals(profileId)){
                 currProfil = p;
