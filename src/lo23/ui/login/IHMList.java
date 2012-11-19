@@ -16,6 +16,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
 
 /**
@@ -70,8 +71,36 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     private void launchGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
         String id;
         JButton btn = (JButton) evt.getSource();
+        
         id = (String) btn.getClientProperty("id");
         System.out.println("click launch game btn avec comme id = " + id);
+        Enums.COLOR col = chooseColorDialog();
+        if(col != null){
+            System.out.println("Send invitation to id = "+id+" with color "+(col==Enums.COLOR.BLACK ? "Black" : "White"));
+            model.sendInvitation(id,col);
+            btn.setEnabled(false);
+        }
+    }
+    
+    
+    private Enums.COLOR chooseColorDialog() {
+        Enums.COLOR color = Enums.COLOR.WHITE;
+        String[] colorTab = {"WHITE", "BLACK"};
+        int rang = JOptionPane.showOptionDialog(null,
+                "Please choose your color !",
+                "Choose Color Dialog",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorTab,
+                colorTab[0]);
+        if(rang == -1) {
+            return null;
+        }
+        else if ("BLACK".equals(colorTab[rang])) {
+            color = Enums.COLOR.BLACK;
+        }
+        return color;
     }
 
     /**
