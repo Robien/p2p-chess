@@ -24,6 +24,7 @@ import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
@@ -142,25 +143,10 @@ public class IhmLoginModel implements PropertyChangeListener{
             //setVisible(true);
         }
     }
-    private COLOR chooseColorDialog() {
-        COLOR color = COLOR.WHITE;
-        String[] colorTab = {"WHITE", "BLACK"};
-        int rang = JOptionPane.showOptionDialog(null,
-                "Please choose your color !",
-                "Choose Color Dialog",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                colorTab,
-                colorTab[0]);
-        if ("BLACK".equals(colorTab[rang])) {
-            color = COLOR.BLACK;
-        }
-        return color;
-    }
-    public void sendInvitation(String idUser,COLOR col){
-      
-        col = chooseColorDialog();
+
+    
+    
+    public void sendInvitation(String idUser,Enums.COLOR col){
         long time = System.currentTimeMillis();
         //Instantiate DataManager
         ProfileManagerInterface profileManager = appModel.getPManager();
@@ -169,7 +155,6 @@ public class IhmLoginModel implements PropertyChangeListener{
         Invitation invit = profileManager.createInvitation(profile.getPublicProfile(), col, time);
         //Send invitation
         profileManager.sendInvitation(invit);  
-        
     }
 
     public ApplicationModel getApplicationModel() {
