@@ -49,16 +49,17 @@ public class IhmLoginModel implements PropertyChangeListener{
     private  StopGameModel listStopGames;
     ArrayList<JButton> listContinueGameBtn;
     ArrayList<JButton> listReviewGameBtn;
+    ArrayList<JButton> listPlayGameBtn;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
 
         // Liste des joueurs présents
         Object[][] donnees = {};
-        String[] entetes = {"id","Prénom", "Nom", "Status"};
+        String[] entetes = {"id", "Pseudo", "FistName", "Status",""};
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
-
+        listPlayGameBtn = new ArrayList<JButton>();
         // Loste des parties terminées
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
@@ -84,6 +85,9 @@ public class IhmLoginModel implements PropertyChangeListener{
         listStopGames.addGame(new Date(), "sdfsd", 2);
         listStopGames.addGame(new Date(), "todfgto", 3);
         listStopGames.addGame(new Date(), "tzzzzzzzoto", 4);
+        
+        listPlayers.addPlayer("1","Toto", "tata", null);
+        listPlayers.addPlayer("2","Titi", "tata", null);
         
         // end test
         // A décommenter après implementation correcte coté gameManager
@@ -113,7 +117,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     private boolean openInvitationDialog(Invitation invit){ 
         int response = 0;
         PublicProfile profile = invit.getGuest();
-        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getName());
+        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getPseudo());
         if(response == 0)
                return true; 
         else
@@ -126,7 +130,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(response == true)
         {
             Game game = gameManager.createGame(invit);
-//            gameManager.load(game.getGameId());
+            gameManager.load(game.getGameId());
         }
         else
         {
@@ -159,7 +163,8 @@ public class IhmLoginModel implements PropertyChangeListener{
         Profile profile = profileManager.loadProfile(idUser);
         Invitation invit = profileManager.createInvitation(profile.getPublicProfile(), col, time);
         //Send invitation
-        profileManager.sendInvitation(invit);     
+        profileManager.sendInvitation(invit);  
+        
     }
 
     public ApplicationModel getApplicationModel() {
@@ -234,8 +239,11 @@ public class IhmLoginModel implements PropertyChangeListener{
             }
         }
 
-        public void addPlayer(String name, String firstname, ImageIcon ico) {
-            this.addRow(new Object[]{name, firstname, ico});
+        public void addPlayer(String id,String pseudo, String firstname, ImageIcon ico) {
+            JButton btn = new JButton("Play");
+            btn.putClientProperty("id", id);
+            listPlayGameBtn.add(btn);
+            this.addRow(new Object[]{id, pseudo, firstname, ico, btn});
         }
 
         public void removePlayer(String id) {
@@ -283,7 +291,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             this.addRow(new Object[]{date, adversary, btn});
         }
     } 
-    
+  
 
     /*
      * Permet à la classe ihmListGame d'acceder aux boutons review
@@ -297,5 +305,9 @@ public class IhmLoginModel implements PropertyChangeListener{
      */
     public ArrayList<JButton> getListContinueGameBtn() {
         return listContinueGameBtn;
+    }
+    
+    public ArrayList<JButton> getListPlayGameBtn() {
+        return listPlayGameBtn;
     }
 }

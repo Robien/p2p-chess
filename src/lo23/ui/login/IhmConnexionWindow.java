@@ -211,7 +211,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
-                IHMListe listWindow = new IHMListe(ihmLoginModel);
+                IHMList listWindow = new IHMList(ihmLoginModel);
                 this.setVisible(false);
                 this.dispose();
                 listWindow.setVisible(true);

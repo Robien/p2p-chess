@@ -186,8 +186,8 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setText(currentProfile.getName());
                 firstNameField.setText(currentProfile.getFirstName());
                 ageField.setText(String.valueOf(currentProfile.getAge()));
-                jPasswordField1.setText(currentProfile.getPassword());
-                jPasswordField2.setText(currentProfile.getPassword());
+                jPasswordField1.setText(new String(currentProfile.getPassword()));
+                jPasswordField2.setText(new String(currentProfile.getPassword()));
                 
                 applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
