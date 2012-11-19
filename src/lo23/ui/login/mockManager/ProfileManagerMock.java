@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
+import lo23.data.NewInvitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.managers.Manager;
@@ -57,7 +58,12 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public Profile loadProfile(String profileId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        for(Profile p : profiles){
+            if(p.getProfileId().equals(profileId)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     public void receiveInvitation(Invitation invitation) {
@@ -66,7 +72,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public void sendInvitation(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Invitation send");
     }
 
     public ArrayList<Profile> getProfilesList() {
@@ -89,7 +95,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new NewInvitation(color,duration,currProfil.getPublicProfile(),guest);
     }
 
     @Override
