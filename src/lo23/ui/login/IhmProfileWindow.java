@@ -24,7 +24,6 @@ import javax.swing.JOptionPane;
 import lo23.data.PublicProfile;
 import lo23.data.Profile;
 import javax.imageio.ImageIO;
-import lo23.utils.Enums;
 import java.util.UUID;
 
 /**
@@ -44,6 +43,7 @@ public class IhmProfileWindow extends JFrame{
     private JTextField lastNameField = new JTextField();
     private JTextField ageField = new JTextField();
     private JLabel profileImage = new JLabel();
+    private ImageIcon icon;
     
     public static final int MODIFY = 0;
     public static final int CREATE = 1;
@@ -85,7 +85,7 @@ public class IhmProfileWindow extends JFrame{
         
         
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-        setResizable(false); //On interdit la redimensionnement de la fenêtre
+        setResizable(true); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 
         setContentPane(initContentPanel());
@@ -188,11 +188,9 @@ public class IhmProfileWindow extends JFrame{
                 ageField.setText(String.valueOf(currentProfile.getAge()));
                 jPasswordField1.setText(new String(currentProfile.getPassword()));
                 jPasswordField2.setText(new String(currentProfile.getPassword()));
-                
                 applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
-                //TODO : change Image in ImageIcon in data
-                /**try{
+                try{
                     profileImage.setIcon(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar());
                     profileImage.repaint();
                     profileImage.setText("");
@@ -200,7 +198,7 @@ public class IhmProfileWindow extends JFrame{
                     // Image Inconnue
                     profileImage.setIcon(null);
                     profileImage.setText("Image Inconnue");
-                }*/
+                }
                 
                 
                 break;
@@ -221,8 +219,7 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setText(publicProfile.getName());
                 firstNameField.setText(publicProfile.getFirstName());
                 ageField.setText(String.valueOf(publicProfile.getAge()));
-                //TODO : change Image in ImageIcon in data
-                /**try{
+                try{
                     profileImage.setIcon(publicProfile.getAvatar());
                     profileImage.repaint();
                     profileImage.setText("");
@@ -230,7 +227,7 @@ public class IhmProfileWindow extends JFrame{
                     // Image Inconnue
                     profileImage.setIcon(null);
                     profileImage.setText("Image Inconnue");
-                }*/
+                }
                 
                 break;
             case CREATE :
@@ -366,12 +363,15 @@ public class IhmProfileWindow extends JFrame{
                 try {
                     BufferedImage image= ImageIO.read(new File(path));
                     //Redimentionne l'image
-                    if((image.getHeight()>100||image.getWidth()>140)&&image.getHeight()<200&&image.getWidth()<280)  image=scale(image,0.75);
-                    else if((image.getHeight()>200||image.getWidth()>280)&&image.getHeight()<300&&image.getWidth()<400)  image=scale(image,0.50);
-                    else if((image.getHeight()>300||image.getWidth()>400)) {
-                        image=scale(image,0.25);
-                    }
-                    ImageIcon icon = new ImageIcon(image);
+                     double scaleValue;
+                     if(image.getHeight()>image.getWidth()){
+                         scaleValue = (double)180/(double)image.getHeight();
+                     }
+                     else{
+                         scaleValue = (double)180/(double)image.getWidth();
+                     }
+                    image = scale(image,scaleValue);
+                    icon = new ImageIcon(image);
                     profileImage.setIcon(icon);
                     profileImage.repaint();
                     profileImage.setText("");
@@ -403,9 +403,9 @@ public class IhmProfileWindow extends JFrame{
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
-                        //TODO Change char[] in profile
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
-                        //TODO Image and saveProfile OK.
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
+                        //TODO saveProfile OK.
                         //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
                         this.dispose();
                     } 
@@ -416,9 +416,22 @@ public class IhmProfileWindow extends JFrame{
                 break;
 
             case CREATE :
-                //TODO createProfile
-                //Todo retour liste Partie
-                //parler avec le data manager pour voir leur méthode de création du fichier profil
+                 if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) && !Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
+                    if(!checkForDigit(ageField.getText())) {
+                        JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        //TODO IpAdress and status
+                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, null, icon, lastNameField.getText(), firstNameField.getText(), READ);
+                        this.dispose();
+                        //Todo retour liste Partie avec connection
+                        //parler avec le data manager pour voir leur méthode de création du fichier profil
+                    }
+                 }
+                else{
+                    JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
         }
      }
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
