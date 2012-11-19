@@ -118,7 +118,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
         loginCombo = new javax.swing.JComboBox(profilesList);
         passwordField = new javax.swing.JPasswordField();
-        passwordField.setText("Password");
+        passwordField.setText("");
 
         // Buttons
         connectBtn = new javax.swing.JButton();
