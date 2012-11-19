@@ -54,6 +54,10 @@ public class GamePanel extends JPanel {
     private HashMap<PositionOnBoard, JLabel> listOfSelection = new HashMap<PositionOnBoard, JLabel>();
     private HashMap<PositionOnBoard, JLabel> listOfSquare = new HashMap<PositionOnBoard, JLabel>();
     
+    //ate piece
+    private JList<JLabel> blackAtePieces = new JList<JLabel>();
+    private JList<JLabel> whiteAtePieces = new JList<JLabel>();
+
     private boolean isCurrentSelectionExist = false;
     private boolean isCurrentSelectionOccupied = false;
     private JLabel currentPieceSelected;
@@ -206,7 +210,7 @@ public class GamePanel extends JPanel {
             constraints.gridy = 1;
 
             for (int i = 0; i < 8; i++){
-                constraints.gridx = i; 
+                 constraints.gridx = i; 
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
                  JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
                  add(pawnLabel, constraints, 1);
@@ -273,7 +277,17 @@ public class GamePanel extends JPanel {
             JLabel kingPieceB = new JLabel("", kingB, JLabel.CENTER);
             add(kingPieceB, constraints, 1);
             listOfPiece.put(new PositionOnBoard(3, 0), kingPieceB);
-
+            
+            //test for AtePieces
+            whiteAtePieces.add(kingPiece);
+            whiteAtePieces.add(queenPiece);
+            whiteAtePieces.add(bishopLeft);
+            whiteAtePieces.add(bishopRight);
+            
+            blackAtePieces.add(kingPieceB);
+            blackAtePieces.add(queenPieceB);
+            blackAtePieces.add(bishopLeftB);
+            blackAtePieces.add(bishopRightB);
         }
     }
 
@@ -347,6 +361,15 @@ public class GamePanel extends JPanel {
             }
         }
     }
+    
+    public JList<JLabel> getWhiteAtePieces(){
+    	return whiteAtePieces;
+    }
+    
+    public JList<JLabel> getBlackAtePieces(){
+    	return blackAtePieces;
+    }
+    
      
 //    private void showPossiblesMoves(GamePiece piece){
 //       // List<Position> cases = piece.getPossibleMoves();
