@@ -10,7 +10,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -28,7 +30,10 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     
     private final IhmLoginModel model;
+    private final ImageIcon pawnWhite = new ImageIcon(getClass().getResource("/lo23/ui/resources/PW.png"));
+    private final ImageIcon pawnBlack = new ImageIcon(getClass().getResource("/lo23/ui/resources/PB.png"));
     public static String TITLE = "Players list";
+    
    
     
     /**
@@ -85,7 +90,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     
     private Enums.COLOR chooseColorDialog() {
         Enums.COLOR color = Enums.COLOR.WHITE;
-        String[] colorTab = {"WHITE", "BLACK"};
+        Object[] colorTab = {pawnWhite,pawnBlack};
         int rang = JOptionPane.showOptionDialog(null,
                 "Please choose your color !",
                 "Choose Color Dialog",
@@ -97,7 +102,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         if(rang == -1) {
             return null;
         }
-        else if ("BLACK".equals(colorTab[rang])) {
+        else if (colorTab[rang].equals(pawnBlack)) {
             color = Enums.COLOR.BLACK;
         }
         return color;
