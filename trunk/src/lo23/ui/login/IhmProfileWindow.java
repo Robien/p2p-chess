@@ -215,6 +215,7 @@ public class IhmProfileWindow extends JFrame{
                 changeImageButton.setVisible(false);
                 setSize(400, 450); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
+                applyButton.setVisible(false);
                 
                 loginField.setText(publicProfile.getPseudo());
                 lastNameField.setText(publicProfile.getName());
