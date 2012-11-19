@@ -14,6 +14,10 @@ import lo23.utils.Enums.STATUS;
  */
 public interface ProfileManagerInterface {
 
+    /**
+     * Getter for the current profile
+     * @return the current profile
+     */
     public Profile getCurrentProfile();
 
     /**
@@ -35,7 +39,7 @@ public interface ProfileManagerInterface {
 
     /**
      * Start a periodic timer which discovers Profiles on the network every
-     * {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} milliseconds
+     * {@link Configuration#PROFILES_DISCOVERY_REFRESH_RATE} millisecond
      */
     public void startProfilesDiscovery();
 
@@ -65,39 +69,41 @@ public interface ProfileManagerInterface {
      * Load a local profile from the local computer
      *
      * @param profileId
-     * @return
+     * @return the local profile or null if there is an error with the loading of the profile
      */
     public Profile loadProfile(String profileId);
 
     /**
-     *
-     * @param invitation
+     * Notify the subscribed Managers about the invitation
+     * @param the invitation to be notified
      */
     public void notifyInvitation(Invitation invitation);
 
     /**
-     * @param guest
-     * @param color
-     * @param duration
+     * Create an invitation using the given information
+     * @param guest the public profil for the person being invited to play
+     * @param color the color suggested for the person being invited to play
+     * @param duration the duration of the game
+     * @return the invitation
      */
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration);
 
     /**
-     *
-     * @param invitation
+     * Send the given invitation via the ComManager
+     * @param the invitation to send
      */
     public void sendInvitation(Invitation invitation);
 
     /**
-     *
-     * @param publicProfile
+     * Notify the subscribed Managers to add the given PublicProfile
+     * @param the new publicProfile to notify
      */
     public void notifyAddProfile(PublicProfile publicProfile);
 
     /**
-     *
-     * @param invitation
-     * @param answer
+     * Notify the answer to an invitation to the subscribed Managers
+     * @param the invitation whose answer is to be notified
+     * @param the answer to the invitation which should be notified to the subscribed Managers
      */
     public void notifyInvitAnswer(Invitation invitation, boolean answer);
 
