@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.InetAddress;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -421,11 +422,19 @@ public class IhmProfileWindow extends JFrame{
                         JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
                     }
                     else{
-                        //TODO IpAdress and status
-                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, null, icon, lastNameField.getText(), firstNameField.getText(), READ);
+                        //IP
+                        InetAddress thisIp = null;
+                        try {
+                            thisIp =InetAddress.getLocalHost();
+                            System.out.println("IP:"+thisIp.getHostAddress());
+                        }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                        //TODO status
+                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), READ);
                         this.dispose();
                         //Todo retour liste Partie avec connection
-                        //parler avec le data manager pour voir leur méthode de création du fichier profil
                     }
                  }
                 else{
