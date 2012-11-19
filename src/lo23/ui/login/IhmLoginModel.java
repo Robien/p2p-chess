@@ -25,6 +25,7 @@ import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.utils.Enums.COLOR;
+import lo23.utils.Enums.STATUS;
 
 /**
  *
@@ -39,17 +40,20 @@ public class IhmLoginModel implements PropertyChangeListener{
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
 
-    private PropertyChangeSupport pcs;
+    private static final ImageIcon ONLINEICON = new ImageIcon("/Users/Esteban/NetBeansProjects/p2p-chess/trunk/src/lo23/ui/resources/status_online.png.png");
+    private static final ImageIcon OFFLINEICON = new ImageIcon("/Users/Esteban/NetBeansProjects/p2p-chess/trunk/src/lo23/ui/resources/status_offline.png");
+    
+    public PropertyChangeSupport pcs;
 
     private ApplicationModel appModel;
 
     private PlayerModel listPlayers;
     private HashMap<PublicProfile,Date> listProfileDate;
+    ArrayList<JButton> listPlayersLaunchBtn;
     private  EndGameModel listEndGames;
     private  StopGameModel listStopGames;
     ArrayList<JButton> listContinueGameBtn;
     ArrayList<JButton> listReviewGameBtn;
-    ArrayList<JButton> listPlayGameBtn;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
@@ -57,9 +61,11 @@ public class IhmLoginModel implements PropertyChangeListener{
         // Liste des joueurs présents
         Object[][] donnees = {};
         String[] entetes = {"id", "Pseudo", "FistName", "Status",""};
+
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
-        listPlayGameBtn = new ArrayList<JButton>();
+
+        listPlayersLaunchBtn = new ArrayList<JButton>();
         // Loste des parties terminées
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
@@ -86,8 +92,6 @@ public class IhmLoginModel implements PropertyChangeListener{
         listStopGames.addGame(new Date(), "todfgto", 3);
         listStopGames.addGame(new Date(), "tzzzzzzzoto", 4);
         
-        listPlayers.addPlayer("1","Toto", "tata", null);
-        listPlayers.addPlayer("2","Titi", "tata", null);
         
         // end test
         // A décommenter après implementation correcte coté gameManager
@@ -106,7 +110,8 @@ public class IhmLoginModel implements PropertyChangeListener{
 
         pcs = new PropertyChangeSupport(this);
         
-        
+        //TEST TO REMOVE
+        pcs.addPropertyChangeListener(this);
 
     }
 
@@ -187,8 +192,10 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
             PublicProfile profile = (PublicProfile)evt.getNewValue();
 
-
+            
             listProfileDate.put(profile,new Date());
+            listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
+            System.out.println("Player : "+profile.getPseudo()+" added");
 
             removeOldPlayers();
             /*
@@ -199,6 +206,14 @@ public class IhmLoginModel implements PropertyChangeListener{
             listPlayers.removePlayer("remi");
             listPlayers.removePlayer("gaetan");*/
         }
+    }
+    
+    private ImageIcon getIconStatus(PublicProfile profile){
+        if(profile.getStatus().equals(STATUS.CONNECTED)){
+            return ONLINEICON;
+        }
+        else
+            return OFFLINEICON;
     }
 
     private void removeOldPlayers(){
@@ -239,11 +254,11 @@ public class IhmLoginModel implements PropertyChangeListener{
             }
         }
 
-        public void addPlayer(String id,String pseudo, String firstname, ImageIcon ico) {
-            JButton btn = new JButton("Play");
+        public void addPlayer(String id,String name, String firstname, ImageIcon ico) {
+            JButton btn = new JButton("Send Invitation");
             btn.putClientProperty("id", id);
-            listPlayGameBtn.add(btn);
-            this.addRow(new Object[]{id, pseudo, firstname, ico, btn});
+            listPlayersLaunchBtn.add(btn);
+            this.addRow(new Object[]{id,name, firstname, ico,btn});
         }
 
         public void removePlayer(String id) {
@@ -307,7 +322,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         return listContinueGameBtn;
     }
     
-    public ArrayList<JButton> getListPlayGameBtn() {
-        return listPlayGameBtn;
+    public ArrayList<JButton> getListLaunchGameBtn() {
+        return  listPlayersLaunchBtn;
     }
 }
