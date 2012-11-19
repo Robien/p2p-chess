@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import lo23.data.ApplicationModel;
 import lo23.data.PublicProfile;
 import lo23.data.managers.ProfileManagerInterface;
@@ -35,7 +36,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loadProfileBtn;
     private javax.swing.JComboBox loginCombo;
-    private javax.swing.JTextField passwordField;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton registerBtn;
 
     static String TITLE = "Chess-P2P";
@@ -206,7 +207,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
         try {
             PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
-            boolean ret = pmi.connection(selectedProfile.getProfileId(), getPasswordField().getText());
+            boolean ret = pmi.connection(selectedProfile.getProfileId(), getPasswordField().getPassword());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -235,7 +236,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
      * Méthode retournant le champ "password" du formulaire
      * @return JTextField
      */
-    public JTextField getPasswordField() {
+    public JPasswordField getPasswordField() {
         return passwordField;
     }
 
