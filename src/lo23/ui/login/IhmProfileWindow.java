@@ -404,7 +404,7 @@ public class IhmProfileWindow extends JFrame{
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
                         //TODO Change char[] in profile
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getText());
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
                         //TODO Image and saveProfile OK.
                         //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
                         this.dispose();
