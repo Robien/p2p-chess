@@ -132,7 +132,9 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
             }
         }
         if(currProfil != null) {
-            if(currProfil.getPassword().equals(password)) {
+            System.out.println(new String(currProfil.getPassword()));
+            System.out.println(new String(password));
+            if((new String(currProfil.getPassword())).equals(new String(password))) {
                 return true;
             }
         }
