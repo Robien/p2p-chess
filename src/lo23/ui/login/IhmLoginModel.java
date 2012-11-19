@@ -41,8 +41,8 @@ public class IhmLoginModel implements PropertyChangeListener{
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
 
-    private static final ImageIcon ONLINEICON = new ImageIcon("/Users/Esteban/NetBeansProjects/p2p-chess/trunk/src/lo23/ui/resources/status_online.png.png");
-    private static final ImageIcon OFFLINEICON = new ImageIcon("/Users/Esteban/NetBeansProjects/p2p-chess/trunk/src/lo23/ui/resources/status_offline.png");
+    private final ImageIcon ONLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_online.png.png"));
+    private final ImageIcon OFFLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_offline.png"));
     
     public PropertyChangeSupport pcs;
 
