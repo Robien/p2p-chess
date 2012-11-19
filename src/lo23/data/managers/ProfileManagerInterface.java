@@ -82,8 +82,8 @@ public interface ProfileManagerInterface {
     /**
      * Create an invitation using the given information
      * @param guest the public profil for the person being invited to play
-     * @param color the color suggested for the person being invited to play
-     * @param duration the duration of the game
+     * @param color the color chosen by the host
+     * @param duration the duration of the game chosen by the host
      * @return the invitation
      */
     public Invitation createInvitation(PublicProfile guest, COLOR color, long duration);
