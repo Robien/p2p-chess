@@ -279,15 +279,25 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new PositionOnBoard(3, 0), kingPieceB);
             
             //test for AtePieces
-            whiteAtePieces.add(kingPiece);
-            whiteAtePieces.add(queenPiece);
-            whiteAtePieces.add(bishopLeft);
-            whiteAtePieces.add(bishopRight);
+            JLabel jB1 = new JLabel("", kingB, JLabel.CENTER);
+            JLabel jB2 = new JLabel("", queenB, JLabel.CENTER);
+            JLabel jB3 = new JLabel("", bishopB, JLabel.CENTER);
+            JLabel jB4 = new JLabel("", bishopB, JLabel.CENTER);
+
+            JLabel j1 = new JLabel("", kingB, JLabel.CENTER);
+            JLabel j2 = new JLabel("", queenB, JLabel.CENTER);
+            JLabel j3 = new JLabel("", bishopB, JLabel.CENTER);
+            JLabel j4 = new JLabel("", bishopB, JLabel.CENTER);
             
-            blackAtePieces.add(kingPieceB);
-            blackAtePieces.add(queenPieceB);
-            blackAtePieces.add(bishopLeftB);
-            blackAtePieces.add(bishopRightB);
+            whiteAtePieces.add(j1);
+            whiteAtePieces.add(j2);
+            whiteAtePieces.add(j3);
+            whiteAtePieces.add(j4);
+            
+            blackAtePieces.add(jB1);
+            blackAtePieces.add(jB2);
+            blackAtePieces.add(jB3);
+            blackAtePieces.add(jB4);
         }
     }
 
