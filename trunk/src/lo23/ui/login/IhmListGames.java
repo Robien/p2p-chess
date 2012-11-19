@@ -29,10 +29,10 @@ import javax.swing.*;
 public class IhmListGames extends javax.swing.JFrame {
 
     private IhmLoginModel ihmLoginModel;
-    private IHMListe listPlayers;
+    private IHMList listPlayers;
     
     /** Creates new form IhmListGames */
-    public IhmListGames(IhmLoginModel ihmLoginModel, IHMListe listPlayers) {
+    public IhmListGames(IhmLoginModel ihmLoginModel, IHMList listPlayers) {
         this.ihmLoginModel = ihmLoginModel;
         this.listPlayers = listPlayers;
         
@@ -173,7 +173,7 @@ public class IhmListGames extends javax.swing.JFrame {
                 appModel.setProfileManager(new ProfileManagerMock(appModel));
                 //Instantiate IhmLoginModel
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-                IHMListe listplayers = new IHMListe(ihmLoginModel);
+                IHMList listplayers = new IHMList(ihmLoginModel);
                 new IhmListGames(ihmLoginModel, listplayers).setVisible(true);
             }
         });
