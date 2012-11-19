@@ -111,7 +111,13 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     @Override
     public Profile loadProfile(String profileId) {
         try {
-            this.currentProfile = Serializer.readProfile(profileId);
+            Profile p = Serializer.readProfile(profileId);
+            if (p != null) {
+                this.currentProfile = p;
+            }
+            else {
+                System.out.println("Serializer a absorbé une exception concernant le chargement du profil.");
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,6 +146,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void notifyInvitAnswer(Invitation invitation, boolean answer) {
+        // publish("invitation-" + invitation.getHost().getProfileId() + "-" + invitation.getGuest().getProfileId() , publicProfile);
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -155,7 +162,13 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     @Override
     public void importProfile(String filePath) {
         try {
-            this.currentProfile = Serializer.readProfile(this.getCurrentProfile().getProfileId(), filePath);
+            Profile p = Serializer.readProfile(this.getCurrentProfile().getProfileId(), filePath);
+            if (p != null) {
+                this.currentProfile = p;
+            }
+            else {
+                System.out.println("Serializer a absorbé une exception concernant le chargement du profil.");
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
