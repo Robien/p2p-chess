@@ -25,6 +25,7 @@ import lo23.data.PublicProfile;
 import lo23.data.Profile;
 import javax.imageio.ImageIO;
 import java.util.UUID;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -92,8 +93,8 @@ public class IhmProfileWindow extends JFrame{
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
-
-        setContentPane(initContentPanel());
+        JScrollPane jsp = new JScrollPane(initContentPanel());
+        setContentPane(jsp);
     }
 
      private JPanel initContentPanel() {
