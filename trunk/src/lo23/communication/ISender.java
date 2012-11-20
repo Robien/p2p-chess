@@ -34,7 +34,7 @@ public interface ISender {
     
     /**
      * Start a game session with a user.
-     * @param userProfile the user who will be the oponent
+     * @param userProfile the user who will be the opponent
      */
     public void sendGameStarted(PublicProfile userProfile);
     

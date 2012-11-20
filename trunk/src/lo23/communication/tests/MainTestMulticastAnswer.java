@@ -5,21 +5,15 @@
 
 package lo23.communication.tests;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lo23.communication.connection.ConnectionManager;
 import lo23.communication.connection.ConnectionParams;
 import lo23.communication.handle.HandleSendMessageUDP;
-import lo23.communication.message.Message;
 import lo23.communication.message.MulticastInvit;
 import lo23.data.PublicProfile;
 import lo23.utils.Enums.STATUS;
@@ -33,7 +27,7 @@ import lo23.utils.Enums.STATUS;
 public class MainTestMulticastAnswer {
 
     public static void main(String[] args) {
-        PublicProfile profile = new PublicProfile("2", "penotvin", STATUS.INGAME, "172.22.2.3", null,"PENOT","Vincent",22);
+        PublicProfile profile = new PublicProfile("1", "penotVin", STATUS.INGAME, "172.25.23.139", null, "Vincent", "Penot", 23, 0, 0);
 
         MulticastInvit message = new MulticastInvit(profile);
         MulticastSocket multicastSocket = null;
