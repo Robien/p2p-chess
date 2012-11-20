@@ -35,23 +35,22 @@ public class GameManagerTest {
         app.setProfileManager(new ProfileManager(app));
 
         char[] fakePassword = {};
+        app.getPManager().createProfile("profileid","toto",fakePassword,Enums.STATUS.CONNECTED,"",null,"michel","titi",22);
+        if (app.getPManager().connection("profileid", fakePassword)){
+            pHost = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+            pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+            inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
+            gm = app.getGManager().createGame(inv);
         
-        pHost = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-        pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-        inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        gm = app.getGManager().createGame(inv);
-        
-        //
-        try {
-            app.getGManager().save();
-        } catch (NoIdException expt) {
-            System.out.println(expt.getMessage());
-            System.out.println(expt.getStackTrace());
+            //
+            try {
+                app.getGManager().save();            
+            } catch (NoIdException expt) {
+                System.out.println(expt.getMessage());
+                System.out.println(expt.getStackTrace());
+            }
         }
-        catch (Exception expt) {
-            System.out.println(expt.getMessage());
-            System.out.println(expt.getStackTrace());
-        }
-        
     }
-}
+        
+    };
+
