@@ -62,6 +62,8 @@ public class ConnectionManager implements ConnectionListener {
     public ConnectionManager(ComManager comManager) {
         this.comManager = comManager;
         handleMessageMap = new ConcurrentHashMap<Socket, HandleMessage>();
+        socketDirectory = new ConcurrentHashMap<InetAddress, Socket>();
+        invitationMap = new ConcurrentHashMap<Socket, Invitation>();
         readInvitation = new AtomicBoolean(true);
         socketSession = null;
 
@@ -89,17 +91,17 @@ public class ConnectionManager implements ConnectionListener {
         PublicProfile profile = this.comManager.getCurrentUserProfile();
         MulticastInvit message = new MulticastInvit(profile);
         HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
-        handler.send(message);
+        handler.sendMulticast(message);
     }
 
     /**
      * Function which answer to sendMultiCast().
      */
-    private void replyMulticast() {
+    private void replyMulticast(String ipAddress) {
         PublicProfile profile = this.comManager.getCurrentUserProfile();
         MulticastAnswer message = new MulticastAnswer(profile);
         HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
-        handler.send(message);
+        handler.send(message, ipAddress);
     }
 
     /**
@@ -338,7 +340,7 @@ public class ConnectionManager implements ConnectionListener {
     @Override
     public synchronized void receivedUDPMessage(Message message) {
         if (message instanceof MulticastInvit) {
-            replyMulticast();
+            replyMulticast(((MulticastInvit) message).getProfile().getIpAddress());
         } else if (message instanceof MulticastAnswer) {
             notifyMessage(message);
         }

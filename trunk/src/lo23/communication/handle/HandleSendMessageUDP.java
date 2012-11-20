@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.communication.connection.ConnectionManager;
@@ -56,19 +55,23 @@ public class HandleSendMessageUDP {
      * Send a message.
      * @param message the message
      */
-    public void send(Message message) {
-
-
-
-
+    public void send(Message message, String ipAddress) {
        byte b[] = this.serialize(message);
        DatagramPacket dgram = null;
        try {
-           dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ConnectionParams.multicastAddress), ConnectionParams.multicastPort); // multicast
+           dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ipAddress), ConnectionParams.multicastPort); // multicast
            socket.send(dgram);
-           System.out.print("msg envoi: "+message);
        } catch (Exception ex) {
        Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the datagramme creation", ex);
        }
     }
+    
+    /**
+     * Send a message in Multicast.
+     * @param message the message.
+     */
+    public void sendMulticast(Message message) {
+        send(message, ConnectionParams.multicastAddress);
+    }
+    
 }

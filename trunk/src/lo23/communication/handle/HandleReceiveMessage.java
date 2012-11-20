@@ -36,8 +36,8 @@ public class HandleReceiveMessage extends HandleRunnable {
     @Override
     public void run() {
         try {
-            objectInput = new ObjectInputStream(socket.getInputStream());
             notifyStart();
+            objectInput = new ObjectInputStream(socket.getInputStream());
 
             while (getStart()) {
                 Message message = (Message) objectInput.readObject();
