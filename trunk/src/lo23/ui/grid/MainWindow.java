@@ -31,14 +31,18 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
+import lo23.data.Player;
+import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
     Launch_Sound during_party;    // launch the background sound
     boolean is_full_screen;      //control if the screen is in full screen
+    Game game;
     static boolean noise_on;
-     
-    public MainWindow(ApplicationModel m) {
+    
+    public MainWindow(ApplicationModel m, Game gm) {
         super();
             
        //Launch the Sound
@@ -47,6 +51,7 @@ public class MainWindow extends JFrame implements ActionListener {
    
        
         myModel = m;
+        game = gm;
         
         build();//On initialise notre fenêtre
       
@@ -83,7 +88,7 @@ public class MainWindow extends JFrame implements ActionListener {
         //The panel is a grid of 6*8 squares
 
         //Grid
-        final GamePanel gamePanel = new GamePanel(myModel);
+        final GamePanel gamePanel = new GamePanel(myModel, game);
         constraints.insets = new Insets(0,0,0,0);
 		constraints.gridwidth = 4;
 		constraints.gridheight = 4;
