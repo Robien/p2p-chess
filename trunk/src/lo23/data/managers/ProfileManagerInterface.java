@@ -109,14 +109,13 @@ public interface ProfileManagerInterface {
 
     /**
      * Exports the current Profile in a local file
-     *
      * @param filePath desired path for the local export file
      */
     public void exportProfile(String filePath);
 
     /**
      * Imports a Profile from a local file and sets it as the current Profile
-     *
+     * This method SHOULD NOT BE called if there is already a current Profile
      * @param filePath path to the local file
      */
     public void importProfile(String filePath);
