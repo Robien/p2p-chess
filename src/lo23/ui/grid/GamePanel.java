@@ -84,20 +84,6 @@ public class GamePanel extends JPanel {
         });
         buildBoard(true);
     }
-
-    
-    private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
-        // Check if the case is selectionable with pieces color...
-    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-
-    private void showPossiblesMoves(GamePiece piece) {
-        colorPossibleCase(piece.getPossibleMovesWithCheck());
-    }
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
     	//if a case is already selected, the former selection disapears
@@ -170,6 +156,19 @@ public class GamePanel extends JPanel {
     	if (colorPiece.equals("black")){
     		blackAtePieces.add(atePiece);
     	} else whiteAtePieces.add(atePiece);
+    }
+    
+    private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
+        // Check if the case is selectionable with pieces color...
+    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+
+    private void showPossiblesMoves(GamePiece piece) {
+        colorPossibleCase(piece.getPossibleMovesWithCheck());
     }
 
     private void colorPossibleCase(List<Position> positions){
