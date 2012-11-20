@@ -56,6 +56,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     private  StopGameModel listStartGames;
     ArrayList<JButton> listContinueGameBtn;
     ArrayList<JButton> listReviewGameBtn;
+    ArrayList<JButton> listPlayGameBtn;
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
@@ -71,7 +72,7 @@ public class IhmLoginModel implements PropertyChangeListener{
 
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
-
+        listPlayGameBtn = new ArrayList<JButton>();
         listPlayersLaunchBtn = new ArrayList<JButton>();
 
         // Liste des parties terminées
@@ -222,9 +223,14 @@ public class IhmLoginModel implements PropertyChangeListener{
         }
 
         public void addPlayer(String id,String name, String firstname, ImageIcon ico) {
+            
             JButton btn = new JButton("Send Invitation");
             btn.putClientProperty("id", id);
             listPlayersLaunchBtn.add(btn);
+            if(ico == ONLINEICON)
+                btn.setEnabled(true);
+            else 
+                btn.setEnabled(false);
             this.addRow(new Object[]{id,name, firstname, ico,btn});
         }
 
