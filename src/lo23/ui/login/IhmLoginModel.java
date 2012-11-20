@@ -21,13 +21,11 @@ import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
-import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.utils.Enums;
-import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -100,7 +98,6 @@ public class IhmLoginModel implements PropertyChangeListener{
             listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId());
         }
         
-
         listProfileDate = new HashMap<PublicProfile,Date>();
 
         pcs = new PropertyChangeSupport(this);
