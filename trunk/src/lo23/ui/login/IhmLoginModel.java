@@ -22,6 +22,7 @@ import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
+import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.utils.Enums;
@@ -34,9 +35,9 @@ import lo23.utils.Enums.STATUS;
  */
 public class IhmLoginModel implements PropertyChangeListener{
     
-    public static final String VIEW_PROFILE_RESPONSE = "view-profile-response";
+    public static final String VIEW_PROFILE_RESPONSE = "view-profile-response";//DEPRECATED
     public static final String ADD_PLAYER_CONNECTED = "add-player-connected";
-    public static final String DELETE_PLAYER_DISCONNECTED = "delete-player-disconnected";
+    public static final String DELETE_PLAYER_DISCONNECTED = "delete-player-disconnected";//DEPRECATED
     public static final String REQUEST_GAME_RESPONSE = "request-game-response";
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
@@ -58,6 +59,11 @@ public class IhmLoginModel implements PropertyChangeListener{
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
+        
+        ((Manager)this.appModel.getPManager()).subscribe(this, INVIT_RECEIVE);
+        ((Manager)this.appModel.getPManager()).subscribe(this, INVIT_EXPIRED);
+        ((Manager)this.appModel.getPManager()).subscribe(this, ADD_PLAYER_CONNECTED);
+        ((Manager)this.appModel.getPManager()).subscribe(this, REQUEST_GAME_RESPONSE);
 
         // Liste des joueurs présents
         Object[][] donnees = {};
@@ -105,28 +111,11 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(pcs != null)
             pcs.addPropertyChangeListener(l);
     }
-    private boolean openInvitationDialog(Invitation invit){ 
-        int response = 0;
-        PublicProfile profile = invit.getGuest();
-        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getPseudo());
-        if(response == 0)
-               return true; 
-        else
-               return false; 
-    }
+    
     public void acceptInvitation(Invitation invit) throws FileNotFoundException{
-
         GameManagerInterface gameManager = appModel.getGManager();
-        boolean response = openInvitationDialog(invit);
-        if(response == true)
-        {
-            Game game = gameManager.createGame(invit);
-            gameManager.load(game.getGameId());
-        }
-        else
-        {
-            //setVisible(true);
-        }
+        Game game = gameManager.createGame(invit);
+        gameManager.load(game.getGameId());
     }
 
     
@@ -168,13 +157,16 @@ public class IhmLoginModel implements PropertyChangeListener{
             System.out.println("Player : "+profile.getPseudo()+" added");
 
             removeOldPlayers();
-            /*
-            listPlayers.addPlayer("patrick", "browne", new ImageIcon("/home/pat/icon.gif"));
-            listPlayers.addPlayer("mohamed", "lahlou", new ImageIcon("icon.gif"));
-            listPlayers.addPlayer("gaetan", "gregoire", new ImageIcon("icon.gif"));
-            listPlayers.addPlayer("remi", "clermont", new ImageIcon("icon.gif"));
-            listPlayers.removePlayer("remi");
-            listPlayers.removePlayer("gaetan");*/
+            
+        }
+        if(evt.getPropertyName().equals(INVIT_RECEIVE)){
+            pcs.firePropertyChange(INVIT_RECEIVE, evt.getOldValue(), evt.getNewValue());
+        }
+        if(evt.getPropertyName().equals(REQUEST_GAME_RESPONSE)){
+            pcs.firePropertyChange(REQUEST_GAME_RESPONSE, evt.getOldValue(), evt.getNewValue());
+        }
+        if(evt.getPropertyName().equals(INVIT_EXPIRED)){
+            pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
     }
     
@@ -203,6 +195,11 @@ public class IhmLoginModel implements PropertyChangeListener{
                 return p;
         }
         return null;
+    }
+
+    public void loadGame(Invitation invitation) throws FileNotFoundException {
+        Game game = appModel.getGManager().createGame(invitation);
+        appModel.getGManager().load(game.getGameId());
     }
  
 

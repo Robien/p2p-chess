@@ -10,6 +10,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,7 +19,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import lo23.data.Invitation;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
 
@@ -66,10 +70,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
            }
         });
         tablePlayers.getModel().addTableModelListener(this);
+        model.addPropertyChangeListener(this);
         
         //TEST
         for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
-            model.pcs.firePropertyChange(IhmLoginModel.ADD_PLAYER_CONNECTED, null, p);
+            PropertyChangeEvent pce = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
+            model.propertyChange(pce);
         }
     }
     
@@ -223,8 +229,49 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        System.out.println("property change");
-        System.out.println(pce.getPropertyName());
+        if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
+            Invitation invitation = (Invitation)pce.getNewValue();
+            boolean b = openInvitationDialog(invitation);
+            if(b){
+                try {
+                    model.acceptInvitation(invitation);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
+            boolean resp = (Boolean)pce.getOldValue();
+            Invitation invitation = (Invitation)pce.getNewValue();
+            if(resp){
+                try {
+                    model.loadGame(invitation);
+                    this.setVisible(false);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else{
+                PublicProfile guest = invitation.getGuest();
+                String idGuest = guest.getProfileId();
+                for(JButton btn : model.getListLaunchGameBtn()){
+                    if(btn.getClientProperty("id").equals(idGuest)){
+                        btn.setEnabled(true);
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    private boolean openInvitationDialog(Invitation invit){ 
+        int response = 0;
+        PublicProfile profile = invit.getGuest();
+        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation ?" + profile.getPseudo());
+        if(response == 0)
+               return true; 
+        else
+               return false; 
     }
 
     @Override
