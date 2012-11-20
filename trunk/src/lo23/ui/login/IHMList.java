@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -72,10 +73,16 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         tablePlayers.getModel().addTableModelListener(this);
         model.addPropertyChangeListener(this);
         
+        
         //TEST
-        for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
-            PropertyChangeEvent pce = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
-            model.propertyChange(pce);
+        try {
+           
+            for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
+                PropertyChangeEvent pce = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
+                model.propertyChange(pce);
+            }
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -88,8 +95,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         Enums.COLOR col = chooseColorDialog();
         if(col != null){
             System.out.println("Send invitation to id = "+id+" with color "+(col==Enums.COLOR.BLACK ? "Black" : "White"));
-            model.sendInvitation(id,col);
-            btn.setEnabled(false);
+            try {
+                model.sendInvitation(id,col);
+                btn.setEnabled(false);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
     
@@ -237,7 +248,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 if(b){
                     try {
                         model.acceptInvitation(invitation);
-                    } catch (FileNotFoundException ex) {
+                    } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -249,8 +260,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     try {
                         model.loadGame(invitation);
                         this.setVisible(false);
-                        new lo23.ui.grid.MainWindow(model.getApplicationModel());
-                    } catch (FileNotFoundException ex) {
+                        new lo23.ui.grid.MainWindow(model.getApplicationModel(),null);
+                    } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }

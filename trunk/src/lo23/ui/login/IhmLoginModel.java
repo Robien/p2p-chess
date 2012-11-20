@@ -7,6 +7,7 @@ package lo23.ui.login;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -114,7 +115,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             pcs.addPropertyChangeListener(l);
     }
     
-    public void acceptInvitation(Invitation invit) throws FileNotFoundException{
+    public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException{
         GameManagerInterface gameManager = appModel.getGManager();
         Game game = gameManager.createGame(invit);
         gameManager.load(game.getGameId());
@@ -122,7 +123,7 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     
     
-    public void sendInvitation(String idUser,Enums.COLOR col){
+    public void sendInvitation(String idUser,Enums.COLOR col) throws IOException, ClassNotFoundException, FileNotFoundException{
         long time = System.currentTimeMillis();
         //Instantiate DataManager
         ProfileManagerInterface profileManager = appModel.getPManager();
@@ -153,9 +154,15 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
             PublicProfile profile = (PublicProfile)evt.getNewValue();
 
+            PublicProfile p = getProfile(profile.getProfileId());
+            if(p == null){
+                listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
+                pcs.firePropertyChange(ADD_PLAYER_CONNECTED, null, p);
+                p = profile;
+            }
+            listProfileDate.put(p,new Date());
             
-            listProfileDate.put(profile,new Date());
-            listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
+            
             System.out.println("Player : "+profile.getPseudo()+" added");
 
             removeOldPlayers();
@@ -171,6 +178,15 @@ public class IhmLoginModel implements PropertyChangeListener{
             pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
     }
+    
+    public PublicProfile getProfile(String id){
+        for(PublicProfile p : listProfileDate.keySet()){
+            if(p.getProfileId().equals(id))
+                return p;
+        }
+        return null;
+    }
+    
     
     private ImageIcon getIconStatus(PublicProfile profile){
         if(profile.getStatus().equals(STATUS.CONNECTED)){
@@ -199,7 +215,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         return null;
     }
 
-    public void loadGame(Invitation invitation) throws FileNotFoundException {
+    public void loadGame(Invitation invitation) throws FileNotFoundException, IOException, ClassNotFoundException {
         Game game = appModel.getGManager().createGame(invitation);
         appModel.getGManager().load(game.getGameId());
     }
