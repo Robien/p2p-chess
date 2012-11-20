@@ -38,13 +38,17 @@ public class GameManagerTest {
         
         pHost = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
         pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-        inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
+        inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
         gm = app.getGManager().createGame(inv);
         
-        //marche pas à fixer
+        //
         try {
             app.getGManager().save();
         } catch (NoIdException expt) {
+            System.out.println(expt.getMessage());
+            System.out.println(expt.getStackTrace());
+        }
+        catch (Exception expt) {
             System.out.println(expt.getMessage());
             System.out.println(expt.getStackTrace());
         }
