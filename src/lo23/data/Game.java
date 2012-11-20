@@ -253,4 +253,32 @@ public class Game implements Serializable
         localPlayer=remotePlayer;
         remotePlayer=localPlayer;       
     }
+    
+    public Enums.PLAYER_RESULT isWinner(String profileid) throws Exception{
+      if( !(localPlayer.getPublicProfile().getProfileId().equals(profileid))
+           && !(remotePlayer.getPublicProfile().getProfileId().equals(profileid)) ){
+         throw new Exception("Data.game.isWinner : Mauvais Profileid!") ;
+      }
+      if(end==null){
+          return Enums.PLAYER_RESULT.NOT_FINISH;
+      }else{
+        for(int i=events.size()-1;i>=0;i--){
+          if( events.get(i) instanceof Constant ){
+              Constant C = (Constant)events.get(i);
+              switch (C.getConstant()){
+                      case DRAW_ACCEPTED : return Enums.PLAYER_RESULT.DRAW;
+                      case DRAW_ASKED : throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.") ;
+                      default : // OUT_OF_TIME ou SURRENDER
+                          if(C.getSender().getPublicProfile().getProfileId().equals(profileid) ){
+                            return Enums.PLAYER_RESULT.LOST;
+                          }else{
+                            return Enums.PLAYER_RESULT.WIN;
+                          }
+                          
+              }
+          }
+        }
+      throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.") ;
+      } 
+    }
 }
