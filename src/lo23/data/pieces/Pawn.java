@@ -25,13 +25,7 @@ public class Pawn extends GamePiece {
      */
     public Pawn(Position position, Player owner, Game game) {
         super(position, owner, game);
-            firstMove = true;
-    }
-
-    @Override
-        public void movePiece(Position to) {
-        super.position = to;
-        firstMove = false;
+            firstMove = false;
     }
 
     @Override
