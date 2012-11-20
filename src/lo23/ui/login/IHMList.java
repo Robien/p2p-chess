@@ -229,38 +229,43 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
-            Invitation invitation = (Invitation)pce.getNewValue();
-            boolean b = openInvitationDialog(invitation);
-            if(b){
-                try {
-                    model.acceptInvitation(invitation);
-                } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-        if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
-            boolean resp = (Boolean)pce.getOldValue();
-            Invitation invitation = (Invitation)pce.getNewValue();
-            if(resp){
-                try {
-                    model.loadGame(invitation);
-                    this.setVisible(false);
-                } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else{
-                PublicProfile guest = invitation.getGuest();
-                String idGuest = guest.getProfileId();
-                for(JButton btn : model.getListLaunchGameBtn()){
-                    if(btn.getClientProperty("id").equals(idGuest)){
-                        btn.setEnabled(true);
+        if(this.isVisible()){
+            if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
+                Invitation invitation = (Invitation)pce.getNewValue();
+                boolean b = openInvitationDialog(invitation);
+                if(b){
+                    try {
+                        model.acceptInvitation(invitation);
+                    } catch (FileNotFoundException ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
-            
+            if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
+                boolean resp = (Boolean)pce.getOldValue();
+                Invitation invitation = (Invitation)pce.getNewValue();
+                if(resp){
+                    try {
+                        model.loadGame(invitation);
+                        this.setVisible(false);
+                        new lo23.ui.grid.MainWindow(model.getApplicationModel());
+                    } catch (FileNotFoundException ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else{
+                    PublicProfile guest = invitation.getGuest();
+                    String idGuest = guest.getProfileId();
+                    for(JButton btn : model.getListLaunchGameBtn()){
+                        if(btn.getClientProperty("id").equals(idGuest)){
+                            btn.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }
+        if(pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)){
+            this.setVisible(true);
         }
     }
     

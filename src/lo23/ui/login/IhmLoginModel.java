@@ -41,6 +41,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     public static final String REQUEST_GAME_RESPONSE = "request-game-response";
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
+    public static final String GAME_ENDED = "game-ended";
 
     private final ImageIcon ONLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_online.png.png"));
     private final ImageIcon OFFLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_offline.png"));
