@@ -46,13 +46,13 @@ public class TestCoupPossible {
         //maintenant, testons les coups possibles !
 
 
-        GamePiece roi = gm.getPieceAtXY(4, 0);
-        roi.movePiece(new Position(5, 3));
+        //GamePiece roi = gm.getPieceAtXY(4, 0);
+        //roi.movePiece(new Position(5, 3));
         //System.out.println(piece.getOwner().getColor());
-         GamePiece fou = gm.getPieceAtXY(5, 7);
-         fou.movePiece(new Position(5, 5));
-       GamePiece piece = gm.getPieceAtXY(0, 0);
-        piece.movePiece(new Position(5, 4));
+         //GamePiece fou = gm.getPieceAtXY(5, 7);
+         //fou.movePiece(new Position(5, 5));
+       GamePiece piece = gm.getPieceAtXY(7, 7);
+        //piece.movePiece(new Position(5, 4));
 
 //System.out.println(roi.isOncheck());
         
