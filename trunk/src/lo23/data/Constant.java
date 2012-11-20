@@ -1,6 +1,7 @@
 package lo23.data;
 
 import lo23.utils.Enums;
+import lo23.utils.Enums.CONSTANT_TYPE;
 
 /**
  * This class is used for communication between two players.
@@ -24,5 +25,17 @@ public class Constant extends Event
         this.constant = constant;
         this.receiver = receiver;
         this.sender = sender;
+    }
+
+    public CONSTANT_TYPE getConstant() {
+        return constant;
+    }
+
+    public Player getReceiver() {
+        return receiver;
+    }
+
+    public Player getSender() {
+        return sender;
     }
 }
