@@ -48,21 +48,16 @@ public class Serializer {
      * @throws NoIdException This exception is thrown if profile argument
      * doesn't have a correct profileId
      */
-    static public void saveProfile(Profile profile, String path) throws NoIdException {
+    static public void saveProfile(Profile profile, String path) throws NoIdException, IOException {
         // Checks the profileId attribute validity
         if (profile.getProfileId() == null || profile.getProfileId().equals("")) {
             throw new NoIdException("The object you're trying to serialize handle a null or empty profileId attribute.");
         }
 
-        try {
-            ObjectOutputStream out;
-            out = new ObjectOutputStream(new FileOutputStream(path + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
-            out.writeObject(profile);
-            out.close();
-        } catch (IOException expt) {
-            System.out.println(expt.getMessage());
-            System.out.println(expt.getStackTrace());
-        }
+        ObjectOutputStream out;
+        out = new ObjectOutputStream(new FileOutputStream(path + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
+        out.writeObject(profile);
+        out.close();
     }
 
     /**
@@ -73,7 +68,7 @@ public class Serializer {
      * @throws NoIdException This exception is thrown if profile argument
      * doesn't have a correct profileId
      */
-    static public void saveProfile(Profile profile) throws NoIdException {
+    static public void saveProfile(Profile profile) throws NoIdException, IOException {
         saveProfile(profile, Constants.PROFILES_PATH);
     }
 
@@ -90,25 +85,16 @@ public class Serializer {
      * @throws FileNotFoundException This exception is thrown when this method
      * can't have access to an expected file
      */
-    static public Profile readProfile2(String filePath) throws FileNotFoundException {
+    static public Profile readProfile2(String filePath) throws FileNotFoundException, IOException, ClassNotFoundException {
         // Checks if the profileId associated file exists
         File profileFile = new File(filePath);
         if (profileFile.exists()) {
-            try {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(profileFile));
                 Profile profile = (Profile) in.readObject();
                 in.close();
 
                 return profile;
-            } catch (ClassNotFoundException expt) {
-                System.out.println(expt.getMessage());
-                System.out.println(expt.getStackTrace());
-                return null;
-            } catch (IOException expt) {
-                System.out.println(expt.getMessage());
-                System.out.println(expt.getStackTrace());
-                return null;
-            }
+   
         } else {
             throw new FileNotFoundException("Couldn't find the file " + filePath);
         }
@@ -125,7 +111,7 @@ public class Serializer {
      * @throws FileNotFoundException This exception is thrown when this method
      * can't have access to an expected file
      */
-    static public Profile readProfile(String profileId) throws FileNotFoundException {
+    static public Profile readProfile(String profileId) throws FileNotFoundException, IOException, ClassNotFoundException {
         return readProfile2(Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
     }
 
@@ -137,21 +123,16 @@ public class Serializer {
      * @throws NoIdException This exception is thrown if game argument doesn't
      * have a correct gameId
      */
-    static public void saveGame(Game game) throws NoIdException {
+    static public void saveGame(Game game) throws NoIdException, IOException {
         // Checks the profileId attribute validity
         if (game.getGameId() < 0 || game.getGameId() > (new Date()).getTime()) {
             throw new NoIdException("The object you're trying to serialize handle an invalid gameId attribute.");
         }
 
-        try {
-            ObjectOutputStream out;
-            out = new ObjectOutputStream(new FileOutputStream(Constants.GAMES_PATH + game.getGameId() + Constants.GAME_SUFFIXE));
-            out.writeObject(game);
-            out.close();
-        } catch (IOException expt) {
-            System.out.println(expt.getMessage());
-            System.out.println(expt.getStackTrace());
-        }
+        ObjectOutputStream out;
+        out = new ObjectOutputStream(new FileOutputStream(Constants.GAMES_PATH + game.getGameId() + Constants.GAME_SUFFIXE));
+        out.writeObject(game);
+        out.close();
     }
 
     /**
@@ -165,32 +146,19 @@ public class Serializer {
      * @throws FileNotFoundException This exception is thrown when this method
      * can't have access to an expected file
      */
-    static public Game readGame(long gameId) throws FileNotFoundException {
+    static public Game readGame(long gameId) throws FileNotFoundException, IOException, ClassNotFoundException {
         // Checks if the gameId associated file exists
 
         File gameFile = new File(Constants.GAMES_PATH + gameId + Constants.GAME_SUFFIXE);
         if (gameFile.exists()) {
-            try {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream(gameFile));
-                Game game = (Game) in.readObject();
-                in.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(gameFile));
+            Game game = (Game) in.readObject();
+            in.close();
 
-                return game;
-            } catch (ClassNotFoundException expt) {
-                System.out.println(expt.getMessage());
-                System.out.println(expt.getStackTrace());
-                return null;
-            } catch (IOException expt) {
-                System.out.println(expt.getMessage());
-                System.out.println(expt.getStackTrace());
-                return null;
-            }
+            return game;
+
         } else {
             throw new FileNotFoundException("Couldn't find the file " + Constants.GAMES_PATH + gameId + Constants.GAME_SUFFIXE);
         }
-    }
-
-    public static Profile readProfile(String profileId, String filePath) {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

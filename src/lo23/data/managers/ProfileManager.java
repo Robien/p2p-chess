@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
@@ -46,13 +44,9 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws IOException, NoIdException {
         Profile p = new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
-        try {
-            Serializer.saveProfile(p);
-        } catch (NoIdException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Serializer.saveProfile(p);
         return p;
     }
 
@@ -78,58 +72,37 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public boolean connection(String profileId, char[] password) {
-        try {
-            Profile p = Serializer.readProfile(profileId);
-            if (p == null) {
+    public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
+        Profile p = Serializer.readProfile(profileId);
+        if (p == null) {
+            return false;
+        } else {
+            if (!Arrays.equals(p.getPassword(), password)) {
                 return false;
             } else {
-                if (!Arrays.equals(p.getPassword(), password)) {
-                    return false;
-                } else {
-                    this.currentProfile = p;
-                    return true;
-                }
+                this.currentProfile = p;
+                return true;
             }
-        } catch (FileNotFoundException ex) {
-            return false;
         }
     }
 
     @Override
-    public ArrayList<PublicProfile> getLocalPublicProfiles() {
+    public ArrayList<PublicProfile> getLocalPublicProfiles() throws ClassNotFoundException, IOException, FileNotFoundException {
         ArrayList<PublicProfile> publicProfiles = new ArrayList<PublicProfile>();
-        try {
-            for (String name : Serializer.getProfileIds()) {
-                publicProfiles.add(Serializer.readProfile(name).getPublicProfile());
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        for (String name : Serializer.getProfileIds()) {
+            publicProfiles.add(Serializer.readProfile(name).getPublicProfile());
         }
         return publicProfiles;
     }
 
     @Override
-    public void saveProfile() {
-        try {
-            Serializer.saveProfile(this.currentProfile);
-        } catch (NoIdException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void saveProfile() throws NoIdException, IOException {
+        Serializer.saveProfile(this.currentProfile);
     }
 
     @Override
-    public Profile loadProfile(String profileId) {
-        try {
-            Profile p = Serializer.readProfile(profileId);
-            if (p != null) {
-                this.currentProfile = p;
-            } else {
-                System.out.println("Serializer a absorbé une exception concernant le chargement du profil.");
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Profile loadProfile(String profileId) throws IOException, ClassNotFoundException, FileNotFoundException {
+        this.currentProfile = Serializer.readProfile(profileId);
         return this.currentProfile;
     }
 
@@ -159,12 +132,8 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public void exportProfile(String filePath) {
-        try {
-            Serializer.saveProfile(this.getCurrentProfile(), filePath);
-        } catch (NoIdException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void exportProfile(String filePath) throws NoIdException, IOException {
+        Serializer.saveProfile(this.getCurrentProfile(), filePath);
     }
 
     public void updateCurrentProfileScore(boolean victory) {
@@ -176,7 +145,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException {
+    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException {
         Profile p = Serializer.readProfile2(filePath);
 
         ArrayList<String> profileIdsInDirectory = Serializer.getProfileIds();
@@ -193,7 +162,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         FileUtils.copyFile(new File(filePath), new File(Constants.PROFILES_PATH + p.getProfileId() + Constants.PROFILE_SUFFIXE));
     }
 
-    private boolean isPseudoAlreadyExist(String pseudo) {
+    private boolean isPseudoAlreadyExist(String pseudo) throws ClassNotFoundException, IOException, FileNotFoundException {
         ArrayList<PublicProfile> publicProfiles = this.getLocalPublicProfiles();
 
         for (PublicProfile publicProfile : publicProfiles) {
