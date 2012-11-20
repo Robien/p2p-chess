@@ -32,5 +32,6 @@ public class Enums
     public enum PLAYER_RESULT{
         WIN,
         LOST,
-        DRAW};
+        DRAW,
+        NOT_FINISH};
 }
