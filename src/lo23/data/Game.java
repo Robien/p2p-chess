@@ -13,14 +13,12 @@ import lo23.data.pieces.Knight;
 import lo23.data.pieces.Queen;
 import lo23.data.pieces.Rook;
 
-
-
 /**
  *
  * @author khamidou
  */
-public class Game implements Serializable
-{
+public class Game implements Serializable {
+
     private long gameId;
     private Date start;
     private Date end;
@@ -34,8 +32,7 @@ public class Game implements Serializable
     /**
      * Constructor
      */
-    public Game(Player localPlayer, Player remotePlayer)
-    {
+    public Game(Player localPlayer, Player remotePlayer) {
         gameId = (new Date()).getTime();
         start = new Date();
         end = null;
@@ -50,7 +47,7 @@ public class Game implements Serializable
     public void buildPieces() {
         // white are at the bottom.
         Player whitePlayer, blackPlayer;
-        if(localPlayer.getColor() == Enums.COLOR.BLACK) {
+        if (localPlayer.getColor() == Enums.COLOR.BLACK) {
             blackPlayer = localPlayer;
             whitePlayer = remotePlayer;
         } else {
@@ -58,13 +55,13 @@ public class Game implements Serializable
             blackPlayer = remotePlayer;
         }
 
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             Pawn p = new Pawn(new Position(i, 1), whitePlayer, this);
             Pawn p2 = new Pawn(new Position(i, 6), blackPlayer, this);
 
             board[i][1] = p;
             board[i][6] = p2;
-            
+
             whitePlayer.addPiece(p);
             blackPlayer.addPiece(p2);
             pieces.add(p);
@@ -137,50 +134,46 @@ public class Game implements Serializable
     }
 
     public void dumpBoard() {
-        
-        for(int y = 0; y < 8; y++) {
-            for(int x = 0; x < 8; x++) {
+
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
                 GamePiece p = getPieceAtXY(x, y);
-                if(p != null)
+                if (p != null) {
                     System.out.print(p.getClass().getSimpleName().charAt(0));
-                else
+                } else {
                     System.out.print("-");
+                }
             }
-            
+
             System.out.println();
         }
     }
 
     /**
      * Getter for the gameId attribute
-     * 
+     *
      * @return The gameId attribute
      */
-    public long getGameId()
-    {
+    public long getGameId() {
         return gameId;
     }
-    
-    
+
     /**
      * start game
      */
-    public void start()
-    {
+    public void start() {
     }
-    
+
     /**
      * stop game
      */
-    public void stop()
-    {
+    public void stop() {
     }
-    
+
     /**
      * resume game
      */
-    public void resume()
-    {
+    public void resume() {
     }
 
     /**
@@ -190,9 +183,8 @@ public class Game implements Serializable
      * @return GamePiece at (x, y)
      *
      */
-    public GamePiece getPieceAtXY(int x, int y)
-    {
-        if(x >= 0 && x < 8 && y >= 0 && y < 8) {
+    public GamePiece getPieceAtXY(int x, int y) {
+        if (x >= 0 && x < 8 && y >= 0 && y < 8) {
             return board[x][y];
         } else {
             return null;
@@ -230,55 +222,59 @@ public class Game implements Serializable
         int xto = move.to.getX();
         int yto = move.to.getY();
 
-        if(xfrom < 0 || xfrom > 7 || yfrom < 0 || yfrom > 7 ||
-           xto < 0 || xto > 7 || yto < 0 || yto > 7)
+        if (xfrom < 0 || xfrom > 7 || yfrom < 0 || yfrom > 7
+                || xto < 0 || xto > 7 || yto < 0 || yto > 7) {
             throw new IllegalMoveException();
+        }
 
         GamePiece piece = board[xfrom][yfrom];
         board[xfrom][yfrom] = null;
         board[xto][yto] = piece;
-        
+
         events.add(move);
     }
 
     public ArrayList<GamePiece> getPieces() {
         return pieces;
     }
+
     public Date getEndDate() {
         return end;
     }
-    
-    public void swapPlayer(){
-        Player tmp= localPlayer;
-        localPlayer=remotePlayer;
-        remotePlayer=localPlayer;       
+
+    public void swapPlayer() {
+        Player tmp = localPlayer;
+        localPlayer = remotePlayer;
+        remotePlayer = localPlayer;
     }
-    
-    public Enums.PLAYER_RESULT isWinner(String profileid) throws Exception{
-      if( !(localPlayer.getPublicProfile().getProfileId().equals(profileid))
-           && !(remotePlayer.getPublicProfile().getProfileId().equals(profileid)) ){
-         throw new Exception("Data.game.isWinner : Mauvais Profileid!") ;
-      }
-      if(end==null){
-          return Enums.PLAYER_RESULT.NOT_FINISH;
-      }else{
-        for(int i=events.size()-1;i>=0;i--){
-          if( events.get(i) instanceof Constant ){
-              Constant C = (Constant)events.get(i);
-              switch (C.getConstant()){
-                      case DRAW_ACCEPTED : return Enums.PLAYER_RESULT.DRAW;
-                      case DRAW_ASKED : throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.") ;
-                      default : // OUT_OF_TIME ou SURRENDER
-                          if(C.getSender().getPublicProfile().getProfileId().equals(profileid) ){
-                            return Enums.PLAYER_RESULT.LOST;
-                          }else{
-                            return Enums.PLAYER_RESULT.WIN;
-                          }
-                          
-              }
-          }
+
+    public Enums.PLAYER_RESULT isWinner(String profileid) throws Exception {
+        if (!(localPlayer.getPublicProfile().getProfileId().equals(profileid))
+                && !(remotePlayer.getPublicProfile().getProfileId().equals(profileid))) {
+            throw new Exception("Data.game.isWinner : Mauvais Profileid!");
         }
-      throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.") ;
-      } 
+        if (end == null) {
+            return Enums.PLAYER_RESULT.NOT_FINISH;
+        } else {
+            for (int i = events.size() - 1; i >= 0; i--) {
+                if (events.get(i) instanceof Constant) {
+                    Constant C = (Constant) events.get(i);
+                    switch (C.getConstant()) {
+                        case DRAW_ACCEPTED:
+                            return Enums.PLAYER_RESULT.DRAW;
+                        case DRAW_ASKED:
+                            throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
+                        default: // OUT_OF_TIME ou SURRENDER
+                            if (C.getSender().getPublicProfile().getProfileId().equals(profileid)) {
+                                return Enums.PLAYER_RESULT.LOST;
+                            } else {
+                                return Enums.PLAYER_RESULT.WIN;
+                            }
+
+                    }
+                }
+            }
+            throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
+        }
     }
 }
