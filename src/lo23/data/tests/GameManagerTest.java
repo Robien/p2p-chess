@@ -35,22 +35,23 @@ public class GameManagerTest {
         app.setProfileManager(new ProfileManager(app));
 
         char[] fakePassword = {};
-        app.getPManager().createProfile("profileid","toto",fakePassword,Enums.STATUS.CONNECTED,"",null,"michel","titi",22);
-        if (app.getPManager().connection("profileid", fakePassword)){
-            pHost = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+        String profileId = "profileid";
+        Profile p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+        /*if (app.getPManager().connection(profileId, fakePassword)) {
+
             pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-            inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
+            inv = new NewInvitation(Enums.COLOR.WHITE, 300, p.getPublicProfile(), pGuest.getPublicProfile());
             gm = app.getGManager().createGame(inv);
-        
+
             //
             try {
-                app.getGManager().save();            
+                app.getGManager().save();
             } catch (NoIdException expt) {
                 System.out.println(expt.getMessage());
                 System.out.println(expt.getStackTrace());
             }
-        }
+        } else {
+            System.out.println("Probleme lors de la connection.");
+        }*/
     }
-        
-    };
-
+};
