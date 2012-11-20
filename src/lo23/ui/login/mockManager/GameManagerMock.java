@@ -6,6 +6,8 @@
 package lo23.ui.login.mockManager;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
@@ -13,6 +15,7 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
+import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
@@ -20,7 +23,9 @@ import lo23.data.exceptions.NoIdException;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.pieces.GamePiece;
+import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
+import lo23.utils.Enums.STATUS;
 
 /**
  *
@@ -102,11 +107,36 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     }
 
     public ArrayList<Game> getListStopGames() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        ArrayList<Game> listStopGames = new ArrayList<Game>();
 
+        Long time = new Date().getTime();
+        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        Player playerLocal = new Player(COLOR.BLACK, time, profile);
+        Player remotePlayer = new Player(COLOR.BLACK, time, profile2);
+        Game game1 = new Game(playerLocal, remotePlayer);
+        listStopGames.add(game1);
+
+        Long time2 = new Date().getTime();
+        PublicProfile profile3 = new PublicProfile("test", "test", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        Player remotePlayer2 = new Player(COLOR.BLACK, time2, profile3);
+        Game game2 = new Game(playerLocal, remotePlayer2);
+        listStopGames.add(game2);
+        
+        return listStopGames;
+    }
     public ArrayList<Game> getListStartGames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Game> listStartGames = new ArrayList<Game>();
+
+        Long time = new Date().getTime();
+        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        Player playerLocal = new Player(COLOR.BLACK, time, profile);
+        Player remotePlayer = new Player(COLOR.BLACK, time, profile2);
+        Game game1 = new Game(playerLocal, remotePlayer);
+        listStartGames.add(game1);
+
+        return listStartGames;
     }
 
     public Game getCurrentGame() {
@@ -133,5 +163,4 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     public Game load(long gameId) throws FileNotFoundException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
