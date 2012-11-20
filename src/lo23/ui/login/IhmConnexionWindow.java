@@ -251,6 +251,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                     String path = fc.getSelectedFile().getAbsolutePath();
                     System.out.println(path);
                     ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
+                    ihmLoginModel.refreshProfileList();
             }
     }
 
