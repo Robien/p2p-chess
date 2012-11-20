@@ -5,6 +5,7 @@
 
 package lo23.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.King;
@@ -14,7 +15,7 @@ import lo23.utils.Enums.COLOR;
  *
  * @author khamidou
  */
-public class Player {
+public class Player implements Serializable {
 
     private COLOR playerColor;
     private long time = 0;
