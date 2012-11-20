@@ -4,7 +4,6 @@
  */
 package lo23.ui.login;
 
-import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -64,6 +63,7 @@ public class IhmProfileWindow extends JFrame{
         this.publicProfile = publicProfile;
         initComponent();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
 
     private void initComponent() {
@@ -134,6 +134,8 @@ public class IhmProfileWindow extends JFrame{
         });
 
         JButton applyButton = new JButton();
+        // set connectBtn comme bouton par défaut (répond à la touche ENTER)
+        this.getRootPane().setDefaultButton(applyButton); 
         // Listener
         applyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -396,56 +398,73 @@ public class IhmProfileWindow extends JFrame{
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
-                if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) && !Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
-                    if(!checkForDigit(ageField.getText())) {
-                        JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else{
+                if(checkValidityFields()){
+                    try{
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
-                        //TODO saveProfile OK.
-                        ihmLoginModel.getApplicationModel().getPManager().saveProfile();
-                        this.dispose();
-                    } 
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(0);
+                    }
+
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
+                    //TODO saveProfile OK.
+                    //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                    this.dispose();
                 }
                 break;
 
             case CREATE :
-                 if((Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) && !Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
-                    if(!checkForDigit(ageField.getText())) {
-                        JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
+                if(checkValidityFields()){
+                    int age = 0;
+                    try{
+                        age = Integer.parseInt(ageField.getText());
                     }
-                    else{
-                        //IP
-                        InetAddress thisIp = null;
-                        try {
-                            thisIp =InetAddress.getLocalHost();
-                            System.out.println("IP:"+thisIp.getHostAddress());
-                        }
-                        catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                        //TODO status
-                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), READ);
-                        ihmLoginModel.refreshProfileList();
-                        this.dispose();
-                        
-                        //Todo retour liste Partie avec connection
+                    catch(Exception e){
+                        System.out.println("Age non renseigné");
                     }
-                 }
-                else{
-                    JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
+                    //IP
+                    InetAddress thisIp = null;
+                    try {
+                        thisIp =InetAddress.getLocalHost();
+                        System.out.println("IP:"+thisIp.getHostAddress());
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    //TODO status
+                    ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                    ihmLoginModel.refreshProfileList();
+                    this.dispose();
                 }
                 break;
         }
      }
+     private boolean checkValidityFields(){
+        if(!(Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) || Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
+            JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } 
+        else{   
+            if(!checkForDigit(ageField.getText())) {
+                JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            else{
+                if(loginField.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Entrez un login valide!", "Login Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+         }
+     }
+     
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
             //open explorer to select the location
             final JFileChooser fc = new JFileChooser();
