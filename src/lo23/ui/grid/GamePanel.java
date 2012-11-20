@@ -4,6 +4,7 @@
  */
 package lo23.ui.grid;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -22,6 +23,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Position;
 import lo23.data.pieces.GamePiece;
+import lo23.utils.Enums.COLOR;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
@@ -50,8 +52,11 @@ public class GamePanel extends JPanel {
     private boolean isFormerSelectionOccupied = false;
     private JLabel formerPieceSelected;
     private Position formerPositionSelected;
-    boolean localPlayerIsWhite = true;
+    
+    //local player color
+    COLOR playerColor = COLOR.WHITE; 
     boolean secondClickIsAllowed = false;
+
  
     public GamePanel(ApplicationModel model, Game gm) {
         super();
@@ -89,9 +94,9 @@ public class GamePanel extends JPanel {
     }
 
     
-    private boolean isCaseSelectionable(Position newSelection){
+    private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
-    	if (listOfPiece.get(newSelection) != null) {
+    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor) {
     		return true;
     	} else {
     		return false;
@@ -102,8 +107,8 @@ public class GamePanel extends JPanel {
         colorPossibleCase(piece.getPossibleMovesWithCheck());
     }
     
-    private void receiveFirstClick(Position newSelection){
-    	if(isCaseSelectionable(newSelection)){
+    private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
+    	if(isCaseSelectionable(newSelection, currentPiece)){
         	
             //if a case is already selected, the former selection disapears
             if (isFormerSelectionExist) {
@@ -119,7 +124,7 @@ public class GamePanel extends JPanel {
             isFormerSelectionOccupied = true;
             listOfSelection.get(formerPositionSelected).setVisible(true);
             
-            GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
+            
             showPossiblesMoves(currentPiece);
             
             secondClickIsAllowed = true;
@@ -127,7 +132,7 @@ public class GamePanel extends JPanel {
         }
     }
     
-    private void receiveSecondClick(Position newSelection){ 
+    private void receiveSecondClick(Position newSelection, GamePiece currentPiece){ 
     	if (isFormerSelectionOccupied) {
     		//if a case is already selected, the former selection disapears
             if (isFormerSelectionExist) {
@@ -170,12 +175,13 @@ public class GamePanel extends JPanel {
         constraints.gridy = y;
 
         Position newSelection = new Position(x,y);
+        GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
         
     	if (secondClickIsAllowed) {
-    		receiveSecondClick(newSelection);
+    		receiveSecondClick(newSelection, currentPiece);
     		hidePossibleCase();
         } else {
-        	receiveFirstClick(newSelection);
+        	receiveFirstClick(newSelection, currentPiece);
         }
          
         
@@ -312,7 +318,7 @@ public class GamePanel extends JPanel {
             }
         }
         
-        if (playerIsWhite) {
+        if (playerColor == COLOR.WHITE) {
 
             //Add pawn pieces to the board
             constraints.gridy = 6;
