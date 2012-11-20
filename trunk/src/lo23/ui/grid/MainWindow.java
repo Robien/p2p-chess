@@ -9,49 +9,34 @@ package lo23.ui.grid;
  * @author Karim
  */
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.PopupMenu;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;import java.awt.event.ActionEvent;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import lo23.data.ApplicationModel;
-import lo23.data.Player;
-import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
     Launch_Sound during_party;    // launch the background sound
     boolean is_full_screen;      //control if the screen is in full screen
+    static boolean noise_on;
      
     public MainWindow(ApplicationModel m) {
         super();
@@ -64,7 +49,7 @@ public class MainWindow extends JFrame implements ActionListener {
         myModel = m;
         
         build();//On initialise notre fenêtre
-       
+      
     }
 
     private void build() {
@@ -75,6 +60,7 @@ public class MainWindow extends JFrame implements ActionListener {
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
         is_full_screen = false;
+        noise_on = true;
         setContentPane(buildContentPanel());
       
         //create the Menu	 
@@ -169,8 +155,11 @@ public class MainWindow extends JFrame implements ActionListener {
         JMenuItem full_screen=new JMenuItem("Full screen");
         JMenuItem rules=new JMenuItem("Rules of chess");
         JMenuItem about=new JMenuItem("About");
-        JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("stop music");
-        JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("play music");
+        JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("Stop music      (╯°□°)╯︵ ┻━┻");
+        JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("Play music      ♥‿♥");
+        JRadioButtonMenuItem stop_noise= new JRadioButtonMenuItem("Stop sound effects      (ʃ˘̩̩ε˘̩ƪ)");
+        JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises        ＼(^O^)／");
+        
         JMenuItem close=new JMenuItem("Quit");
         //fichier 
         file.add(new_game);
@@ -184,16 +173,21 @@ public class MainWindow extends JFrame implements ActionListener {
        
         //Radio buttons sound
         ButtonGroup bg = new ButtonGroup();
-        
+         ButtonGroup bg2 = new ButtonGroup();
          bg.add(play_music);
          bg.add(stop_music);
-        
          play_music.setSelected(true);
-       
+         bg2.add(play_noise);
+         bg2.add(stop_noise);
+         play_noise.setSelected(true);
+         
          son.add(play_music);
          son.add(stop_music);
+         son.addSeparator();
+         son.add(play_noise);
+         son.add(stop_noise);
       
-         //other
+        //other
         other.add(about);
        //accelerator
         file.setMnemonic('F');
@@ -218,6 +212,14 @@ public class MainWindow extends JFrame implements ActionListener {
         
         Play_music playm=new Play_music();
         play_music.addActionListener(playm); 
+        
+        Stop_noise stopn=new Stop_noise();
+        stop_noise.addActionListener(stopn); 
+        
+        Play_noise playn=new Play_noise();
+        play_noise.addActionListener(playn); 
+        
+        
         
         Quit quit=new Quit();
         close.addActionListener(quit);
@@ -264,6 +266,25 @@ public class MainWindow extends JFrame implements ActionListener {
             } 
         }
       
+        private  class Play_noise implements ActionListener{
+
+          @Override
+        public void actionPerformed(ActionEvent e)
+            {
+                 
+                   set_noise_on(true);
+            } 
+        }
+         private  class Stop_noise implements ActionListener{
+
+          @Override
+        public void actionPerformed(ActionEvent e)
+            {
+                 
+                   set_noise_on(false);
+            } 
+        }
+      
       private  class Full implements ActionListener
       {
         @Override
@@ -291,8 +312,31 @@ public class MainWindow extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent e)
             {
                JOptionPane.showMessageDialog(this,
-            "For rules information, please follow this link below :"
-             + "\n" + "    http://en.wikipedia.org/wiki/Rules_of_chess", "Rules of Chess",
+            "Chess is played on a square board of eight rows (called ranks and denoted with numbers 1 to 8) and eight columns (called files and denoted with letters a to h) of squares."
+            +"\nThe colors of the sixty-four squares alternate and are referred to as \"light squares\" and \"dark squares\". The chessboard is placed with a light square at the right-hand"
+            + "\nend of the rank nearest to each player, and the pieces are set out as shown in the diagram, with each queen on its own color. The pieces are divided, by convention,"
+            + "\ninto white and black sets. The players are referred to as \"White\" and \"Black\", and each begins the game with sixteen pieces of the specified color. "
+            + "\nThese consist of one king, one queen, two rooks, two bishops, two knights, and eight pawns."
+            + "\n\nMovement\n"
+            + "\nWhite always moves first. After the initial move, the players alternately move one piece at a time (with the exception of castling, when two pieces are moved)."
+            + "\nPieces are moved to either an unoccupied square or one occupied by an opponent's piece, which is captured and removed from play. With the sole exception of en passant,"
+            + "\nall pieces capture opponent's pieces by moving to the square that the opponent's piece occupies."
+            + "\nA player may not make any move that would put or leave his king under attack. If the player to move has no legal moves, the game is over; "
+            + "\nit is either a checkmate (a loss for the player with no legal moves)"
+            + "\n—if the king is under attack—or a stalemate (a draw)—if the king is not."
+            + "\nEach chess piece has its own style of moving. In the diagrams, the dots mark the squares where the piece can move if no other pieces "
+            + "\n(including one's own piece) are on the squares between the piece's initial position and its destination." 
+            +"\nThe king moves one square in any direction. The king has also a special move which is called castling and involves also moving a rook."
+            +"\nThe rook can move any number of squares along any rank or file, but may not leap over other pieces. Along with the king, the rook is involved during the king's castling move."
+            +"\n The bishop can move any number of squares diagonally, but may not leap over other pieces."
+            +"\nThe queen combines the power of the rook and bishop and can move any number of squares along rank, file, or diagonal, but it may not leap over other pieces."
+            +"\nThe knight moves to any of the closest squares that are not on the same rank, file, or diagonal, thus the move forms an \"L\""
+            +"\n-shape: two squares vertically and one square horizontally, or two squares horizontally and one square vertically."
+            +"\nThe knight is the only piece that can leap over other pieces. The pawn may move forward to the unoccupied square immediately in front of it on the same file;"
+            + "\nor on its first move it may advance two squares along the same file provided both squares are unoccupied; "
+            +"\nor it may move to a square occupied by an opponent's piece which is diagonally in front of it on an adjacent file, capturing that piece."
+            + "\nThe pawn has two special moves: the en passant capture and pawn promotion."
+    ,"Rules of Chess",
             JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/KW.png"));
             }  
       }
@@ -329,8 +373,20 @@ public class MainWindow extends JFrame implements ActionListener {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("test");
+  
 
     }
+    
+    
+        public static boolean get_noise_on()
+        {
+            return noise_on;
+        }
+        
+       public void set_noise_on(boolean t)
+        {
+             noise_on = t;
+           
+        }
 ;
     }
