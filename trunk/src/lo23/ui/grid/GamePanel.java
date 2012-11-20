@@ -40,7 +40,7 @@ import lo23.data.pieces.GamePiece;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
-	private ApplicationModel myModel;
+   private ApplicationModel myModel;
     
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
@@ -63,7 +63,7 @@ public class GamePanel extends JPanel {
     private JLabel currentPieceSelected;
     private PositionOnBoard currentPositionSelection;
     
-   
+ 
     public GamePanel(ApplicationModel model) {
         super();
         model = myModel;
@@ -321,10 +321,8 @@ public class GamePanel extends JPanel {
         //GamePiece currentPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(x, y); 
         //showPossiblesMoves(currentPiece);
         
-//        List<PositionOnBoard> testList = new ArrayList<PositionOnBoard>();
-//        testList.add(new PositionOnBoard(5,6));
-//        testList.add(new PositionOnBoard(6,5));
-//        testList.add(new PositionOnBoard(4,4));    
+//        List<Position> testList = pawn.getPossibleMovesWithCheck();
+//        
 //        colorPossibleCase(testList);
         
         if (listOfPiece.get(newSelection) != null) {
@@ -358,9 +356,10 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void colorPossibleCase(List<PositionOnBoard> positions){
-        for (PositionOnBoard p : positions){
-          listOfSquare.get(p).setVisible(true);
+    private void colorPossibleCase(List<Position> positions){
+        for (Position p : positions){
+          PositionOnBoard p2 = new PositionOnBoard(p.getX(),p.getY());
+          listOfSquare.get(p2).setVisible(true);
         }
     }
     
