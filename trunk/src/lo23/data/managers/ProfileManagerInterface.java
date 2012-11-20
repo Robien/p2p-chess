@@ -37,7 +37,7 @@ public interface ProfileManagerInterface {
      * @param age the profile's age
      * @return the new Profile instance
      */
-    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age);
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws IOException, NoIdException;
 
     /**
      * Start a periodic timer which discovers Profiles on the network every
@@ -53,19 +53,19 @@ public interface ProfileManagerInterface {
      * @param password the profile's password
      * @return true if the connection succeeded
      */
-    public boolean connection(String profileId, char[] password);
+    public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException;
 
     /**
      * Get PublicProfiles for the local Profiles
      *
      * @return the local PublicProfiles list
      */
-    public ArrayList<PublicProfile> getLocalPublicProfiles();
+    public ArrayList<PublicProfile> getLocalPublicProfiles() throws ClassNotFoundException, IOException, FileNotFoundException;
 
     /**
      * Save the current profile on the local computer
      */
-    public void saveProfile();
+    public void saveProfile() throws NoIdException, IOException;
 
     /**
      * Load a local profile from the local computer
@@ -73,8 +73,7 @@ public interface ProfileManagerInterface {
      * @param profileId
      * @return the local profile or null if there is an error with the loading of the profile
      */
-    public Profile loadProfile(String profileId);
-
+    public Profile loadProfile(String profileId) throws IOException, ClassNotFoundException, FileNotFoundException;
     /**
      * Notify the subscribed Managers about the invitation
      * @param invitation the invitation to be notified
@@ -113,12 +112,12 @@ public interface ProfileManagerInterface {
      * Exports the current Profile in a local file
      * @param filePath desired path for the local export file
      */
-    public void exportProfile(String filePath);
+    public void exportProfile(String filePath) throws NoIdException, IOException ;
 
     /**
      * Imports a Profile from a local file and sets it as the current Profile
      * This method SHOULD NOT BE called if there is already a current Profile
      * @param filePath path to the local file
      */
-    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException;
+    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException ;
 }
