@@ -70,7 +70,7 @@ public class GridMain {
                 //TODO : comment a cause d'un problème de compil
 
                //myModel.setComManager(new TMP_ComManager(null, myModel))
-                MainWindow fenetre = new MainWindow(getModel());
+                MainWindow fenetre = new MainWindow(getModel(),gm);
                 fenetre.setVisible(true);
             }
         });
