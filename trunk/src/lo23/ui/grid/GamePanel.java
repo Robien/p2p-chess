@@ -19,12 +19,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
 import lo23.data.Position;
+import lo23.data.pieces.GamePiece;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
    private ApplicationModel myModel;
+   private Game game;
     
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
@@ -47,11 +50,13 @@ public class GamePanel extends JPanel {
     private boolean isCurrentSelectionOccupied = false;
     private JLabel currentPieceSelected;
     private Position currentPositionSelection;
+    boolean localPlayerIsWhite = true;
     
  
-    public GamePanel(ApplicationModel model) {
+    public GamePanel(ApplicationModel model, Game gm) {
         super();
         model = myModel;
+        game = gm;
         build();
     }
 
@@ -285,9 +290,24 @@ public class GamePanel extends JPanel {
             blackAtePieces.add(jB4);
         }
     }
+    
+//     private void clickOnCase(int x, int y){
+//         TODO corriger le sens de la grille
+//        constraints.insets = new Insets(0, 0, 0, 0);
+//        constraints.gridwidth = 1;
+//        constraints.gridheight = 1;
+//        constraints.gridx = 7 - x;
+//        constraints.gridy = y;
+//
+//        isCurrentSelectionExist = true;
+//
+//        PositionOnBoard newSelection = new PositionOnBoard(7 - x, y);
+//        
+//        if()
+//     }
 
       private void receiveSelectedCase(int x, int y) {
-        
+        System.out.println(x + ":" + y);
         //TODO corriger le sens de la grille
         constraints.insets = new Insets(0, 0, 0, 0);
         constraints.gridwidth = 1;
@@ -296,12 +316,9 @@ public class GamePanel extends JPanel {
         constraints.gridy = y;
 
         Position newSelection = new Position(7 - x, y);
-        //GamePiece currentPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(x, y); 
-        //showPossiblesMoves(currentPiece);
         
-//        List<Position> testList = pawn.getPossibleMovesWithCheck();
-//        
-//        colorPossibleCase(testList);
+        
+
         
         //if the actual case is occupied
         //TODO by a piece of your color
@@ -309,6 +326,7 @@ public class GamePanel extends JPanel {
         	
             //if a case is already selected, the former selection disapears
             if (isCurrentSelectionExist) {
+                hidePossibleCase();
                 listOfSelection.get(currentPositionSelection).setVisible(false);
                 repaint();
             }
@@ -320,12 +338,8 @@ public class GamePanel extends JPanel {
             isCurrentSelectionOccupied = true;
             listOfSelection.get(currentPositionSelection).setVisible(true);
             
-            //test affichage case possibles
-            ArrayList<Position> tempList = new ArrayList<Position>();
-            tempList.add(new Position(3,3));
-            tempList.add(new Position(4,4));
-            tempList.add(new Position(5,3));
-            colorPossibleCase(tempList);
+            GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), newSelection.getY()); 
+            showPossiblesMoves(currentPiece);
           
         //if the former case was occupied
         } else if (isCurrentSelectionOccupied) {
@@ -355,15 +369,16 @@ public class GamePanel extends JPanel {
                     //update the display
                     add(currentPieceSelected, constraints, 0);
                     isCurrentSelectionOccupied = false;
-                    
+                    System.out.println(currentPositionSelection.getX() + " " + currentPositionSelection.getY());
+                    System.out.println(newSelection.getX() + " " + newSelection.getY());
+                    game.getPieceAtXY(currentPositionSelection.getX(),7 - currentPositionSelection.getY()).movePiece(new Position(newSelection.getX(), 7-newSelection.getY()));
+                  
                     //sound
                     new Launch_Sound("move_piece.wav").play(); 
 
             	}
             }
-            
-        	hidePossibleCase();
-        	
+            hidePossibleCase();
         	            
         }
     }
@@ -377,9 +392,8 @@ public class GamePanel extends JPanel {
     	} else whiteAtePieces.add(atePiece);
     }
 
-    private void colorPossibleCase(ArrayList<Position> positions){
+    private void colorPossibleCase(List<Position> positions){
         for (Position p2 : positions){
-          //Position p2 = new Position(p.getX(),p.getY());
           listOfSquare.get(p2).setVisible(true);
           listOfPossibleMove.add(p2);
         }
@@ -403,14 +417,10 @@ public class GamePanel extends JPanel {
     }
     
      
-//    private void showPossiblesMoves(GamePiece piece){
-//       // List<Position> cases = piece.getPossibleMoves();
-//       // List<Position> cases = new 
-//        cases.add(new Position(0,1));
-//        cases.add(new Position(2,2));
-//        
-//        System.out.print(cases);
-//
-//        
-//    }
+    private void showPossiblesMoves(GamePiece piece){
+      
+       colorPossibleCase(piece.getPossibleMoves());
+
+        
+    }
 }
