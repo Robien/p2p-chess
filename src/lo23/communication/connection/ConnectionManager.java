@@ -92,9 +92,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Function which answer to sendMultiCast()
+     * Function which answer to sendMultiCast().
      */
-
     private void replyMulticast() {
         PublicProfile profile = this.comManager.getCurrentUserProfile();
         MulticastAnswer message = new MulticastAnswer(profile);
@@ -140,8 +139,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * TO DO
-     * @param userProfile
+     * Start a game session with a user.
+     * @param userProfile the user who will be the opponent
      */
     public void sendGameStarted(PublicProfile userProfile) {
         try {
@@ -206,6 +205,10 @@ public class ConnectionManager implements ConnectionListener {
         handleMessage.send(constantMsg);
     }
 
+    /**
+     * End the current game session.
+     * (available only when a game session is started)
+     */
     public void sendGameEnded() {
         GameEnded message = new GameEnded();
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
@@ -215,8 +218,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
-     * @param socket socket
+     * Method which notifies the connection on the server socket.
+     * @param socket the new client socket
      */
     @Override
     public synchronized void receivedConnection(Socket socket) {
@@ -228,7 +231,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
+     * Allow to connect to a distant user.
+     * (Update socketDirectory and handleMessageMap)
      * @param inetAddress 
      */
     private synchronized void connect(InetAddress inetAddress) {
@@ -245,8 +249,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
-     * @param socket socket
+     * Method which notifies the closure of a socket.
+     * @param socket the closed socket
      */
     @Override
     public synchronized void closedConnection(Socket socket) {
@@ -269,8 +273,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Mettre un commentaire.
-     * @param socket 
+     * Allow to disconnect from a socket.
+     * @param socket the socket will be closed
      */
     private void disconnect(Socket socket) {
         try {
@@ -348,6 +352,9 @@ public class ConnectionManager implements ConnectionListener {
         SwingUtilities.invokeLater(new NotifyMessageLater(message));
     }
 
+    /**
+     * Class which allow to notify a message later.
+     */
     private class NotifyMessageLater implements Runnable {
 
         private Message message;

@@ -8,17 +8,12 @@ import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.PublicProfile;
 import lo23.data.managers.Manager;
-import lo23.ui.login.mockManager.*;
-import lo23.utils.Enums.STATUS;
 
 /**
  * This is the main class of the communication module.
  */
 public class ComManager extends Manager implements ISender {
 
-    // TODO faire les classes Messages
-    // TODO finir les Handle
-    
     private PublicProfile currentUserProfile;
     private ConnectionManager connectionManager;
     
@@ -31,16 +26,6 @@ public class ComManager extends Manager implements ISender {
         super(applicationModel);
         this.currentUserProfile = profile;
         this.connectionManager = new ConnectionManager(this);
-    }
-
-    public static void main(String args[]){
-
-        //Instantiate DataManager
-        PublicProfile profile = new PublicProfile("1", "penotvin", STATUS.INGAME, "172.22.2.3", null,"PENOT","Vincent",22);
-        ApplicationModel appModel = new ApplicationModel();
-        appModel.setComManager(new ComManager(profile,appModel));
-        appModel.setGameManager(new GameManagerMock((appModel)));
-        appModel.setProfileManager(new ProfileManagerMock(appModel));
     }
     
     public PublicProfile getCurrentUserProfile() {
