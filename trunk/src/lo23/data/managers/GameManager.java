@@ -2,6 +2,7 @@ package lo23.data.managers;
 
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,13 +42,13 @@ public class GameManager extends Manager implements GameManagerInterface {
     
 
     @Override
-    public void save() throws NoIdException {
+    public void save() throws NoIdException, IOException {
         Serializer.saveGame(currentGame);
     }
 
     
     @Override
-    public Game load(long gameId) throws FileNotFoundException {
+    public Game load(long gameId) throws FileNotFoundException, IOException, ClassNotFoundException {
         return Serializer.readGame(gameId);
     }
 
@@ -177,7 +178,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
-    public ArrayList<Game> getListStopGames() {
+    public ArrayList<Game> getListStopGames() throws IOException, ClassNotFoundException {
         ArrayList<Game> gameList= getListAllGames();
         ArrayList<Integer> indexList= new ArrayList<Integer>();
         //StartGames have to be remove.
@@ -194,7 +195,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
-    public ArrayList<Game> getListStartGames() {
+    public ArrayList<Game> getListStartGames() throws IOException, ClassNotFoundException {
         ArrayList<Game> gameList= getListAllGames();
         ArrayList<Integer> indexList= new ArrayList<Integer>();
         //EndGames have to be remove.
@@ -225,7 +226,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
     
     @Override
-    public ArrayList<Game> getListAllGames(){
+    public ArrayList<Game> getListAllGames() throws IOException, ClassNotFoundException {
             File games = new File(Constants.GAMES_PATH);
         String[] fileList = games.list();
         
