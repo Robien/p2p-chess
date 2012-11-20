@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Position;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums.COLOR;
@@ -155,6 +156,9 @@ public class GamePanel extends JPanel {
                 
                 //Update model
                 game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+                //True code
+//                Move move = myModel.getGManager().createMove(newSelection, currentPiece);
+//                myModel.getGManager().sendMove(move);
                 
                 //update display
                 listOfPiece.remove(formerPositionSelected);
@@ -212,6 +216,24 @@ public class GamePanel extends JPanel {
     
     public ArrayList<JLabel> getBlackAtePieces(){
     	return blackAtePieces;
+    }
+    
+    private void updateBoard(Move move){
+        // Update board after player play a move
+        // TO DO...
+    }
+    
+    private void launchParty(){
+        // Launch A party and build the board with events or not
+        if(myModel.getGManager().getCurrentGame().getEvents().isEmpty()){
+            if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
+                buildBoard(true);
+            } else {
+                buildBoard(false);
+            }
+        }else {
+            // TO DO : Parcourir la liste des events et reconstituer la partie.
+        }
     }
 
     private void buildBoard(boolean playerIsWhite) {
