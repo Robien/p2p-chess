@@ -255,9 +255,11 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        if(pce.getPropertyName().equals(REFRESH_LIST)){
-            PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
-            loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+        if(this.isVisible()){
+            if(pce.getPropertyName().equals(REFRESH_LIST)){
+                PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
+                loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+            }
         }
     }
 
