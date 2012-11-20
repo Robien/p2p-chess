@@ -4,7 +4,6 @@
  */
 package lo23.ui.login.tests;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import lo23.data.ApplicationModel;
 import lo23.ui.login.IHMList;
 import lo23.ui.login.IhmConnexionWindow;
@@ -32,7 +31,7 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
     
     public static void main(String args[]) {
         
-        testInitialState();
+//        testInitialState();
         
         // Test de la connexion avec différentes valeurs erronées
 //        testConnectionError();
