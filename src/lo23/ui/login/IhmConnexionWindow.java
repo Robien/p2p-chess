@@ -2,10 +2,14 @@ package lo23.ui.login;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -29,7 +33,10 @@ import lo23.ui.login.IhmProfileWindow;
  *
  * @author marcrossi
  */
-public class IhmConnexionWindow extends javax.swing.JFrame {
+public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyChangeListener {
+    
+    
+    public static final String REFRESH_LIST = "refresh-list";
 
     private IhmLoginModel ihmLoginModel;
     private javax.swing.JButton connectBtn;
@@ -48,10 +55,12 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
     public IhmConnexionWindow(IhmLoginModel ihmLoginModel) {
         
         this.ihmLoginModel = ihmLoginModel;
+        ihmLoginModel.addPropertyChangeListener(this);
         initComponents();
         setSize(360, 500);
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+        ihmLoginModel.refreshProfileList();
     }
 
     /**
@@ -115,8 +124,8 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
 
         // Fields
-        PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
-        loginCombo = new javax.swing.JComboBox(profilesList);
+        
+        loginCombo = new javax.swing.JComboBox();
         passwordField = new javax.swing.JPasswordField();
         passwordField.setText("");
 
@@ -242,6 +251,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame {
 
     public JButton getConnectBtn() {
         return connectBtn;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        if(pce.getPropertyName().equals(REFRESH_LIST)){
+            PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
+            loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+        }
     }
 
 

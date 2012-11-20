@@ -43,7 +43,9 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Profile p = new Profile(profileId,pseudo,password,Enums.STATUS.OFFLINE,"127.0.0.1",avatar,firstName,name,age);
+        profiles.add(p);
+        return p;
     }
 
 
