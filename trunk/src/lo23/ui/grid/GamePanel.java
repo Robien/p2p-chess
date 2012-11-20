@@ -75,7 +75,7 @@ public class GamePanel extends JPanel {
                     int y = mouseEvent.getY();
                     int xSquare = (x - x % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
                     int ySquare = (y - y % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
-                    receiveSelectedCase(xSquare, ySquare);
+                    receiveSelectedCase(xSquare,7 - ySquare);
 //    	        } else if(SwingUtilities.isMiddleMouseButton(mouseEvent) ) {
 //    	        	//middle button
 //    	        	
@@ -290,21 +290,6 @@ public class GamePanel extends JPanel {
             blackAtePieces.add(jB4);
         }
     }
-    
-//     private void clickOnCase(int x, int y){
-//         TODO corriger le sens de la grille
-//        constraints.insets = new Insets(0, 0, 0, 0);
-//        constraints.gridwidth = 1;
-//        constraints.gridheight = 1;
-//        constraints.gridx = 7 - x;
-//        constraints.gridy = y;
-//
-//        isCurrentSelectionExist = true;
-//
-//        PositionOnBoard newSelection = new PositionOnBoard(7 - x, y);
-//        
-//        if()
-//     }
 
       private void receiveSelectedCase(int x, int y) {
         System.out.println(x + ":" + y);
@@ -313,13 +298,10 @@ public class GamePanel extends JPanel {
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
         constraints.gridx = 7 - x;
-        constraints.gridy = y;
+        constraints.gridy = 7 - y;
 
-        Position newSelection = new Position(7 - x, y);
-        
-        
+        Position newSelection = new Position(7 - x,7 - y);
 
-        
         //if the actual case is occupied
         //TODO by a piece of your color
         if (listOfPiece.get(newSelection) != null) {
@@ -355,7 +337,7 @@ public class GamePanel extends JPanel {
             	if (p.getX()==newSelection.getX() && p.getY()==newSelection.getY()){
             		//Move the piece
                     constraints.gridx = 7 - x;
-                    constraints.gridy = y;
+                    constraints.gridy = 7 - y;
                     
                     //if the target is black piece
 //                    if (currentPiece.getOwner().getColor().equals(Color.BLACK)) {
@@ -371,7 +353,7 @@ public class GamePanel extends JPanel {
                     isCurrentSelectionOccupied = false;
                     System.out.println(currentPositionSelection.getX() + " " + currentPositionSelection.getY());
                     System.out.println(newSelection.getX() + " " + newSelection.getY());
-                    game.getPieceAtXY(currentPositionSelection.getX(),7 - currentPositionSelection.getY()).movePiece(new Position(newSelection.getX(), 7-newSelection.getY()));
+                    game.getPieceAtXY(currentPositionSelection.getX(),currentPositionSelection.getY()).movePiece(new Position(newSelection.getX(), newSelection.getY()));
                   
                     //sound
                     new Launch_Sound("move_piece.wav").play(); 
