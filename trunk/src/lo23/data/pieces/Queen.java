@@ -52,7 +52,7 @@ public class Queen extends GamePiece {
         //déplacement d'une reine = déplacement d'un fou + déplacement d'un cavalier
         
         
-        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
+        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym || xm || ym || xp || yp); i++)
         {
           
             //moves in Bishop
