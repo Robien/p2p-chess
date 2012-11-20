@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
     private Position formerPositionSelected;
     
     //local player color
-    COLOR playerColor = COLOR.WHITE; 
+    COLOR playerColor; 
     boolean secondClickIsAllowed = false;
 
  
@@ -60,6 +60,15 @@ public class GamePanel extends JPanel {
         super();
         model = myModel;
         game = gm;
+        playerColor = COLOR.WHITE;
+        build();
+    }
+    
+    public GamePanel(ApplicationModel model, Game gm, COLOR color) {
+        super();
+        model = myModel;
+        game = gm;
+        playerColor = color;
         build();
     }
 
@@ -83,6 +92,23 @@ public class GamePanel extends JPanel {
             }
         });
         buildBoard(true);
+    }
+    
+    private void receiveSelectedCase(int x, int y){ 
+    	constraints.insets = new Insets(0, 0, 0, 0);
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = x;
+        constraints.gridy = y;
+
+        Position newSelection = new Position(x,y);
+        GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
+
+    	if (isCaseSelectionable(newSelection, currentPiece)) {
+    		receiveFirstClick(newSelection, currentPiece);
+        } else if (isFormerSelectionExist) {
+        	receiveSecondClick(newSelection, currentPiece);
+        }   
     }
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
@@ -111,56 +137,45 @@ public class GamePanel extends JPanel {
         isFormerSelectionExist = true;
         for(Position possibleMove : listOfPossibleMove){
         	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
-        		//remove the former position
-                listOfPiece.remove(formerPositionSelected);
-                //add the new position
-                listOfPiece.put(newSelection, formerPieceSelected);
-                //update the display
-                add(formerPieceSelected, constraints, 0);
-
-                game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
-                  
-                //sound
-                if (Menu.get_noise_on()){
+                
+        		if (game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY()) != null) {
+                	if (game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY()).getOwner().getColor() != playerColor) {
+                		eatPiece(newSelection);
+                	}
+                	//add Eat Sound
+                	
+                } else if (Menu.get_noise_on()){
+                	//displacement sound
                 	new Launch_Sound("move_piece.wav").play(); 
                 }
+                
+                //Update model
+                game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+                
+                //update display
+                listOfPiece.remove(formerPositionSelected);
+                listOfPiece.put(newSelection, formerPieceSelected);
+                add(formerPieceSelected, constraints, 0);
+                
+                
         	}
     	}
         hidePossibleCase();
     }
-    
-    private void receiveSelectedCase(int x, int y){
-        
-    	constraints.insets = new Insets(0, 0, 0, 0);
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = x;
-        constraints.gridy = y;
-
-        Position newSelection = new Position(x,y);
-        GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
-
-    	if (isCaseSelectionable(newSelection, currentPiece)) {
-    		receiveFirstClick(newSelection, currentPiece);
-        } else if (isFormerSelectionExist) {
-        	receiveSecondClick(newSelection, currentPiece);
-        }
-        
-        
-    }
       
     public void eatPiece(Position p){
+    	listOfPiece.get(p).setVisible(false);
     	JLabel atePiece = listOfPiece.remove(p);
-    	//test
-    	String colorPiece = "black";
-    	if (colorPiece.equals("black")){
+
+    	if (playerColor == COLOR.WHITE) {
     		blackAtePieces.add(atePiece);
     	} else whiteAtePieces.add(atePiece);
     }
     
     private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
-    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
+    	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
+    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty() && currentPiece.getOwner().getColor() == playerColor ) {
     		return true;
     	} else {
     		return false;
