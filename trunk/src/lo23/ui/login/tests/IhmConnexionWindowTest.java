@@ -6,8 +6,7 @@ package lo23.ui.login.tests;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import lo23.data.ApplicationModel;
-import lo23.ui.login.IHMListe;
-import lo23.ui.login.IHMListe;
+import lo23.ui.login.IHMList;
 import lo23.ui.login.IhmConnexionWindow;
 import lo23.ui.login.IhmLoginModel;
 import lo23.ui.login.mockManager.CommManagerMock;

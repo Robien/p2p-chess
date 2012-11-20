@@ -147,16 +147,16 @@ public class IhmListGames extends javax.swing.JFrame {
     }//GEN-LAST:event_previousBtnActionPerformed
 
     public void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        int id;
+        long id;
         JButton btn = (JButton) evt.getSource();
-        id = (Integer) btn.getClientProperty("id");
+        id = (Long) btn.getClientProperty("id");
         System.out.println("click review game btn avec comme id = " + id);
     }    
     
     private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {  
-        int id;
+        long id;
         JButton btn = (JButton) evt.getSource();
-        id = (Integer) btn.getClientProperty("id");
+        id = (Long) btn.getClientProperty("id");
         System.out.println("click continue game btn avec comme id = " + id);
     }                                        
 
