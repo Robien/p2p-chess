@@ -37,17 +37,14 @@ import lo23.ui.grid.PlayerPanel;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
-    Launch_Sound during_party;    // launch the background sound
-    boolean is_full_screen;      //control if the screen is in full screen
     Game game;
-    static boolean noise_on;
-    
+ 
     public MainWindow(ApplicationModel m, Game gm) {
         super();
             
        //Launch the Sound
-       during_party = new Launch_Sound("chess.wav");
-       during_party.play();
+//       during_party = new Launch_Sound("chess.wav");
+//       during_party.play();
    
        
         myModel = m;
@@ -64,12 +61,14 @@ public class MainWindow extends JFrame implements ActionListener {
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
         setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
-        is_full_screen = false;
-        noise_on = true;
+      
         setContentPane(buildContentPanel());
       
         //create the Menu	 
-        Menu();
+     
+        
+        Menu menu = new Menu(this);
+        
      }
     
     private JPanel buildContentPanel() {
@@ -147,253 +146,6 @@ public class MainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
     }
-
-    private void Menu() 
-    {
-        
-     	JMenuBar menu=new JMenuBar();
-        JMenu file=new JMenu("File");
-        JMenu options=new JMenu("Options");
-        JMenu son=new JMenu("Sound");
-        JMenu other=new JMenu("?");
-        JMenuItem new_game=new JMenuItem("New Game");
-        JMenuItem full_screen=new JMenuItem("Full screen");
-        JMenuItem rules=new JMenuItem("Rules of chess");
-        JMenuItem about=new JMenuItem("About");
-        JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("Stop music      (╯°□°)╯︵ ┻━┻");
-        JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("Play music      ♥‿♥");
-        JRadioButtonMenuItem stop_noise= new JRadioButtonMenuItem("Stop sound effects      (ʃ˘̩̩ε˘̩ƪ)");
-        JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises        ＼(^O^)／");
-        
-        JMenuItem close=new JMenuItem("Quit");
-        //fichier 
-        file.add(new_game);
-        file.addSeparator();
-        file.add(close);
-         //options
-        options.add(rules); 
-        options.addSeparator();
-        options.add(full_screen);
-      
-       
-        //Radio buttons sound
-        ButtonGroup bg = new ButtonGroup();
-         ButtonGroup bg2 = new ButtonGroup();
-         bg.add(play_music);
-         bg.add(stop_music);
-         play_music.setSelected(true);
-         bg2.add(play_noise);
-         bg2.add(stop_noise);
-         play_noise.setSelected(true);
-         
-         son.add(play_music);
-         son.add(stop_music);
-         son.addSeparator();
-         son.add(play_noise);
-         son.add(stop_noise);
-      
-        //other
-        other.add(about);
-       //accelerator
-        file.setMnemonic('F');
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
-        options.setMnemonic('O');
-        full_screen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11,0));
-        son.setMnemonic('S');
-        
  
-        //add in the Menu
-        menu.add(file);
-        menu.add(options);
-        menu.add(son);
-        menu.add(other);
-        this.setJMenuBar(menu); 
       
-      
-        
-        //Listeners
-        Stop_music stopm=new Stop_music();
-        stop_music.addActionListener(stopm); 
-        
-        Play_music playm=new Play_music();
-        play_music.addActionListener(playm); 
-        
-        Stop_noise stopn=new Stop_noise();
-        stop_noise.addActionListener(stopn); 
-        
-        Play_noise playn=new Play_noise();
-        play_noise.addActionListener(playn); 
-        
-        
-        
-        Quit quit=new Quit();
-        close.addActionListener(quit);
-
-        Full screen=new Full();
-        full_screen.addActionListener(screen);
-          
-    
-        Rules rul=new Rules();
-        rules.addActionListener(rul);
-        
-        About ab=new About();
-        about.addActionListener(ab);
-       
-        
- }
-
-    private  class Quit implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e)
-            {
-                System.exit(0);
-            } 
-        }  
-    
-     private  class Stop_music implements ActionListener{
-
-         @Override
-        public void actionPerformed(ActionEvent e)
-            {
-                 
-                  during_party.pause();
-            } 
-        }  
-     
-      private  class Play_music implements ActionListener{
-
-          @Override
-        public void actionPerformed(ActionEvent e)
-            {
-                 
-                    during_party.play();
-            } 
-        }
-      
-        private  class Play_noise implements ActionListener{
-
-          @Override
-        public void actionPerformed(ActionEvent e)
-            {
-                 
-                   set_noise_on(true);
-            } 
-        }
-         private  class Stop_noise implements ActionListener{
-
-          @Override
-        public void actionPerformed(ActionEvent e)
-            {
-                 
-                   set_noise_on(false);
-            } 
-        }
-      
-      private  class Full implements ActionListener
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-                if(is_full_screen == false)
-                {  
-                  Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-                  setLocation(0,0);
-                  setSize(tailleEcran);
-                  is_full_screen = true;  
-                } 
-                else
-                {
-                  setSize(GridConstants.WINDOW_WIDTH, GridConstants.WINDOW_HEIGHT); //On donne une taille à notre fenêtre
-                  setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-                  is_full_screen = false;
-                }
-        } 
-     
-      } 
-      private  class Rules extends JFrame implements ActionListener
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-            {
-               JOptionPane.showMessageDialog(this,
-            "Chess is played on a square board of eight rows (called ranks and denoted with numbers 1 to 8) and eight columns (called files and denoted with letters a to h) of squares."
-            +"\nThe colors of the sixty-four squares alternate and are referred to as \"light squares\" and \"dark squares\". The chessboard is placed with a light square at the right-hand"
-            + "\nend of the rank nearest to each player, and the pieces are set out as shown in the diagram, with each queen on its own color. The pieces are divided, by convention,"
-            + "\ninto white and black sets. The players are referred to as \"White\" and \"Black\", and each begins the game with sixteen pieces of the specified color. "
-            + "\nThese consist of one king, one queen, two rooks, two bishops, two knights, and eight pawns."
-            + "\n\nMovement\n"
-            + "\nWhite always moves first. After the initial move, the players alternately move one piece at a time (with the exception of castling, when two pieces are moved)."
-            + "\nPieces are moved to either an unoccupied square or one occupied by an opponent's piece, which is captured and removed from play. With the sole exception of en passant,"
-            + "\nall pieces capture opponent's pieces by moving to the square that the opponent's piece occupies."
-            + "\nA player may not make any move that would put or leave his king under attack. If the player to move has no legal moves, the game is over; "
-            + "\nit is either a checkmate (a loss for the player with no legal moves)"
-            + "\n—if the king is under attack—or a stalemate (a draw)—if the king is not."
-            + "\nEach chess piece has its own style of moving. In the diagrams, the dots mark the squares where the piece can move if no other pieces "
-            + "\n(including one's own piece) are on the squares between the piece's initial position and its destination." 
-            +"\nThe king moves one square in any direction. The king has also a special move which is called castling and involves also moving a rook."
-            +"\nThe rook can move any number of squares along any rank or file, but may not leap over other pieces. Along with the king, the rook is involved during the king's castling move."
-            +"\n The bishop can move any number of squares diagonally, but may not leap over other pieces."
-            +"\nThe queen combines the power of the rook and bishop and can move any number of squares along rank, file, or diagonal, but it may not leap over other pieces."
-            +"\nThe knight moves to any of the closest squares that are not on the same rank, file, or diagonal, thus the move forms an \"L\""
-            +"\n-shape: two squares vertically and one square horizontally, or two squares horizontally and one square vertically."
-            +"\nThe knight is the only piece that can leap over other pieces. The pawn may move forward to the unoccupied square immediately in front of it on the same file;"
-            + "\nor on its first move it may advance two squares along the same file provided both squares are unoccupied; "
-            +"\nor it may move to a square occupied by an opponent's piece which is diagonally in front of it on an adjacent file, capturing that piece."
-            + "\nThe pawn has two special moves: the en passant capture and pawn promotion."
-            + "\n\n\nFor more informations, please follow this link : http://en.wikipedia.org/wiki/Rules_of_chess"
-            + "\n   \n"
-    ,"Rules of Chess",
-            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/KW.png"));
-            }  
-      }
-      
-       private  class About extends JFrame implements ActionListener
-       {
-
-       @Override
-       public void actionPerformed(ActionEvent e)
-           {
-               JOptionPane.showMessageDialog(this,
-            "Game developed by UTC Students"
-             + "\n" + "        LO23 Project - 2012", "About",
-            JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/logo_utc.png"));
-           }
-       }
-       
-       
-       
-       
-     
-        
-    private static void setWindowsLook() {
-        LookAndFeel lf = UIManager.getLookAndFeel();
-
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-  
-
-    }
-    
-    
-        public static boolean get_noise_on()
-        {
-            return noise_on;
-        }
-        
-       public void set_noise_on(boolean t)
-        {
-             noise_on = t;
-           
-        }
-;
-    }
+}
