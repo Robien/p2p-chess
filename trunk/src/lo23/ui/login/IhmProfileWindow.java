@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
 import javax.swing.JFrame;
@@ -25,7 +26,10 @@ import lo23.data.PublicProfile;
 import lo23.data.Profile;
 import javax.imageio.ImageIO;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
+import lo23.data.exceptions.NoIdException;
 
 /**
  *
@@ -439,8 +443,12 @@ public class IhmProfileWindow extends JFrame{
                     catch(Exception e) {
                         e.printStackTrace();
                     }
-                    //TODO status
-                    ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                    try {
+                        //TODO status
+                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
                     ihmLoginModel.refreshProfileList();
                     this.dispose();
                 }
@@ -478,7 +486,11 @@ public class IhmProfileWindow extends JFrame{
             if(n==JFileChooser.APPROVE_OPTION){
                     String path = fc.getSelectedFile().getAbsolutePath();
                     System.out.println(path);
-                    ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+             try {
+                 ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+             } catch (Exception ex) {
+                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+             }
             }
      }
      
