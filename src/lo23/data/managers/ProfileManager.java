@@ -15,6 +15,7 @@ import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.serializer.Serializer;
+import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Configuration;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
@@ -138,7 +139,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void notifyInvitation(Invitation invitation) {
-        publish("invitation", invitation);
+        publish(IhmLoginModel.INVIT_RECEIVE, invitation);
     }
 
     @Override
@@ -148,13 +149,12 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void notifyAddProfile(PublicProfile publicProfile) {
-        publish("addProfile", publicProfile);
+        publish(IhmLoginModel.ADD_PLAYER_CONNECTED, publicProfile);
     }
 
     @Override
     public void notifyInvitAnswer(Invitation invitation, boolean answer) {
-        // publish("invitation-" + invitation.getHost().getProfileId() + "-" + invitation.getGuest().getProfileId() , publicProfile);
-        throw new UnsupportedOperationException("Not supported yet.");
+        publish(IhmLoginModel.REQUEST_GAME_RESPONSE, invitation, answer);
     }
 
     @Override
