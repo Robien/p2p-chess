@@ -50,6 +50,7 @@ public class MainTest1 {
                     InetAddress a = i.nextElement();
                     if (!a.isLoopbackAddress()) {
                         addressIp = a.getHostAddress();
+                        System.out.print("\nIP : "+ addressIp);
                     }
                 }
             }
