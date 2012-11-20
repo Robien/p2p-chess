@@ -31,22 +31,19 @@ import lo23.data.serializer.Serializer;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
-
 public class GameManager extends Manager implements GameManagerInterface {
-    
-    private Game currentGame;   
-    
+
+    private Game currentGame;
+
     public GameManager(ApplicationModel app) {
         super(app);
     }
-    
 
     @Override
     public void save() throws NoIdException, IOException {
         Serializer.saveGame(currentGame);
     }
 
-    
     @Override
     public Game load(long gameId) throws FileNotFoundException, IOException, ClassNotFoundException {
         return Serializer.readGame(gameId);
@@ -54,7 +51,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public Move createMove(Position to, GamePiece piece) {
-       return new Move(piece.getPosition(), to, piece);
+        return new Move(piece.getPosition(), to, piece);
     }
 
     @Override
@@ -74,7 +71,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public Message createMessage(String content) {
         return new Message(content, currentGame.getLocalPlayer(),
-                                    currentGame.getRemotePlayer());
+                currentGame.getRemotePlayer());
     }
 
     @Override
@@ -104,50 +101,49 @@ public class GameManager extends Manager implements GameManagerInterface {
         /* à finir: gaumont Noé
          A LA MAIN
          */
-        if (invitation instanceof NewInvitation){
+        if (invitation instanceof NewInvitation) {
             /*
-            Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
-            Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
-            currentGame = new Game(guest, host);
-            currentGame.buildPieces();
-            */
+             Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
+             Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
+             currentGame = new Game(guest, host);
+             currentGame.buildPieces();
+             */
             NewInvitation I = (NewInvitation) invitation;
             COLOR guestColor;
-            if (I.getColor()==COLOR.BLACK){
-                guestColor=COLOR.WHITE;
-            }else{
-                guestColor=COLOR.BLACK;
+            if (I.getColor() == COLOR.BLACK) {
+                guestColor = COLOR.WHITE;
+            } else {
+                guestColor = COLOR.BLACK;
             }
-            
+
             // Il faut que currentProfile ait une valeur!!!
             // remplacer "" par getApplicationModel().getPManager().getCurrentProfile().getProfileId()
-            if(invitation.getGuest().getProfileId().equals("")){ // Il faut etre connecté
+            if (invitation.getGuest().getProfileId().equals("")) { // Il faut etre connecté
                 // guest=local
-                Player local = new Player(guestColor,I.getDuration(), invitation.getGuest());
+                Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
                 Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
                 currentGame = new Game(local, remote);
                 currentGame.buildPieces();
-            }else{
-                
+            } else {
+
                 // guest = remote
                 Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
-                Player remote = new Player(guestColor,I.getDuration(), invitation.getGuest());
+                Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
                 currentGame = new Game(local, remote);
                 currentGame.buildPieces();
             }
-            
-        }
-        else{
+
+        } else {
             //Il s'agit d'un resume game
             ResumeGame I = (ResumeGame) invitation;
-            currentGame=I.getGame();
+            currentGame = I.getGame();
             currentGame.swapPlayer(); // Il faut inverser local et remote player
         }
         return currentGame;
     }
 
     @Override
-    public Constant createConstant(CONSTANT_TYPE constant) {        
+    public Constant createConstant(CONSTANT_TYPE constant) {
         return new Constant(constant, currentGame.getRemotePlayer(), currentGame.getLocalPlayer());
     }
 
@@ -179,32 +175,32 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public ArrayList<Game> getListStopGames() throws IOException, ClassNotFoundException {
-        ArrayList<Game> gameList= getListAllGames();
-        ArrayList<Integer> indexList= new ArrayList<Integer>();
+        ArrayList<Game> gameList = getListAllGames();
+        ArrayList<Integer> indexList = new ArrayList<Integer>();
         //StartGames have to be remove.
-        for(int i= 0 ; i<gameList.size();i++){
-            if(gameList.get(i).getEndDate()==null ){ //StartGame doesn't have an end Date.
+        for (int i = 0; i < gameList.size(); i++) {
+            if (gameList.get(i).getEndDate() == null) { //StartGame doesn't have an end Date.
                 indexList.add(i);
             }
         }
-        for(int i= 0 ; i<indexList.size();i++){
+        for (int i = 0; i < indexList.size(); i++) {
             gameList.remove(i);
         }
         return gameList;
-    
+
     }
 
     @Override
     public ArrayList<Game> getListStartGames() throws IOException, ClassNotFoundException {
-        ArrayList<Game> gameList= getListAllGames();
-        ArrayList<Integer> indexList= new ArrayList<Integer>();
+        ArrayList<Game> gameList = getListAllGames();
+        ArrayList<Integer> indexList = new ArrayList<Integer>();
         //EndGames have to be remove.
-        for(int i= 0 ; i<gameList.size();i++){
-            if(gameList.get(i).getEndDate()!=null ){ //EndGame have an end Date.
+        for (int i = 0; i < gameList.size(); i++) {
+            if (gameList.get(i).getEndDate() != null) { //EndGame have an end Date.
                 indexList.add(i);
             }
         }
-        for(int i= 0 ; i<indexList.size();i++){
+        for (int i = 0; i < indexList.size(); i++) {
             gameList.remove(i);
         }
         return gameList;
@@ -224,30 +220,32 @@ public class GameManager extends Manager implements GameManagerInterface {
     public void notifyMovement(Move move) {
         publish("move", move);
     }
-    
+
     @Override
     public ArrayList<Game> getListAllGames() throws IOException, ClassNotFoundException {
-            File games = new File(Constants.GAMES_PATH);
+        File games = new File(Constants.GAMES_PATH);
         String[] fileList = games.list();
         
-        ArrayList<Game> gameList= new ArrayList<Game>();
-        
-        for(int i=0; i<fileList.length;i++ ){
-            try{ 
+        ArrayList<Game> gameList = new ArrayList<Game>();
+
+        for (int i = 0; i < fileList.length ; i++) {
+            try {
                 //fileList[i] format is "gameId.game"
                 //So the string is split in order to have the gameId.
-                Profile cur= getApplicationModel().getPManager().getCurrentProfile();
+                Profile cur = getApplicationModel().getPManager().getCurrentProfile();
                 
-                Game tmp=load(Long.parseLong(fileList[i].split(".")[0]));
-                if( cur.getProfileId().equals(tmp.getLocalPlayer().getPublicProfile().getProfileId() ) ||
-                    cur.getProfileId().equals(tmp.getRemotePlayer().getPublicProfile().getProfileId()) ){ //ajout de tmp si le localPLayer ou le distant est le profile connecte
-                 gameList.add(tmp);
+                long tmp_long=Long.parseLong(fileList[i].split("\\.")[0]);
+                System.out.println(tmp_long);
+                Game tmp = load(tmp_long);
+                System.out.println("Plop");
+                if (cur.getProfileId().equals(tmp.getLocalPlayer().getPublicProfile().getProfileId())
+                        || cur.getProfileId().equals(tmp.getRemotePlayer().getPublicProfile().getProfileId())) { //ajout de tmp si le localPLayer ou le distant est le profile connecte
+                    gameList.add(tmp);
                 }
-            }
-            catch(FileNotFoundException expt ){
+            } catch (FileNotFoundException expt) {
                 System.out.println(expt.getMessage());
                 System.out.println(expt.getStackTrace());
-            }            
+            }
         }
         return gameList;
     }
