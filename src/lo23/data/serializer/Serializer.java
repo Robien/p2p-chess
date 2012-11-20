@@ -90,9 +90,9 @@ public class Serializer {
      * @throws FileNotFoundException This exception is thrown when this method
      * can't have access to an expected file
      */
-    static public Profile readProfile(String profileId, String path) throws FileNotFoundException {
+    static public Profile readProfile2(String filePath) throws FileNotFoundException {
         // Checks if the profileId associated file exists
-        File profileFile = new File(path + profileId + Constants.PROFILE_SUFFIXE);
+        File profileFile = new File(filePath);
         if (profileFile.exists()) {
             try {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(profileFile));
@@ -110,7 +110,7 @@ public class Serializer {
                 return null;
             }
         } else {
-            throw new FileNotFoundException("Couldn't find the file " + Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
+            throw new FileNotFoundException("Couldn't find the file " + filePath);
         }
     }
 
@@ -126,7 +126,7 @@ public class Serializer {
      * can't have access to an expected file
      */
     static public Profile readProfile(String profileId) throws FileNotFoundException {
-        return readProfile(profileId, Constants.PROFILES_PATH);
+        return readProfile2(Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE);
     }
 
     /**
@@ -188,5 +188,9 @@ public class Serializer {
         } else {
             throw new FileNotFoundException("Couldn't find the file " + Constants.GAMES_PATH + gameId + Constants.GAME_SUFFIXE);
         }
+    }
+
+    public static Profile readProfile(String profileId, String filePath) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

@@ -1,5 +1,6 @@
 package lo23.data.managers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import lo23.data.Invitation;
@@ -7,6 +8,7 @@ import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
+import lo23.data.exceptions.*;
 
 /**
  * Interface for the ProfileManager class. This interface specialize in Profile
@@ -118,5 +120,5 @@ public interface ProfileManagerInterface {
      * This method SHOULD NOT BE called if there is already a current Profile
      * @param filePath path to the local file
      */
-    public void importProfile(String filePath);
+    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException;
 }
