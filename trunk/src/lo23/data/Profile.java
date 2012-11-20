@@ -246,7 +246,7 @@ public class Profile implements Serializable {
         return lostGames;
     }
 
-    public void incrementLostGame() {
+    public void incrementLostGames() {
         this.lostGames++;
     }
 
