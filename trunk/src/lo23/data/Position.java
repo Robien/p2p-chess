@@ -5,8 +5,6 @@
 
 package lo23.data;
 
-import lo23.ui.grid.PositionOnBoard;
-
 /**
  *
  * @author khamidou
@@ -30,7 +28,7 @@ public class Position {
     
 	@Override
 	public boolean equals(Object P) {
-		if (((PositionOnBoard) P).getX() == x && ((PositionOnBoard) P).getY() == y) return true;
+		if (((Position) P).getX() == x && ((Position) P).getY() == y) return true;
 		else return false;
 	}
 	
