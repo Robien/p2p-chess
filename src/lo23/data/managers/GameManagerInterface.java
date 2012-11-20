@@ -1,5 +1,6 @@
 package lo23.data.managers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import lo23.data.Constant;
 import lo23.data.Event;
@@ -25,7 +26,7 @@ public interface GameManagerInterface
      * 
      * @throws NoIdException in case of a null or empty gameId value
      */
-    public void save() throws NoIdException;
+    public void save() throws NoIdException, IOException;
     
     /**
      * This method reads the filesystem in order to parse a Game object whom
@@ -35,7 +36,7 @@ public interface GameManagerInterface
      * 
      * @return Either a Game object, either null value
      */
-    public Game load(long gameId) throws FileNotFoundException;
+    public Game load(long gameId) throws FileNotFoundException, IOException, ClassNotFoundException;
     
     /**
      * This methods creates a new Move object
@@ -167,21 +168,21 @@ public interface GameManagerInterface
      * 
      * @return An ArrayList object of Game objects
      */
-    public ArrayList<Game> getListStopGames();
+    public ArrayList<Game> getListStopGames() throws IOException, ClassNotFoundException;
     
     /**
      * This method returns a list of started games.
      * 
      * @return An ArrayList object of Game objects
      */
-    public ArrayList<Game> getListStartGames();
+    public ArrayList<Game> getListStartGames() throws IOException, ClassNotFoundException;
     
     /**
      * This method returns a list of all games (started && Stop).
      * 
      * @return An ArrayList object of Game objects
      */
-    public ArrayList<Game> getListAllGames();
+    public ArrayList<Game> getListAllGames() throws IOException, ClassNotFoundException;
     
     /**
      * This is a simple getter to the currentGame attribute
