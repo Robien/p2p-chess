@@ -35,6 +35,7 @@ public class PubSubTest implements PropertyChangeListener
         // This should output the first message, but not the second
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt)
     {
         System.out.println("[ " + evt.getPropertyName() + " ] " + evt.getNewValue());
