@@ -28,4 +28,9 @@ public class Enums
         DRAW_ACCEPTED,
         SURRENDER,
         OUT_OF_TIME};
+    
+    public enum PLAYER_RESULT{
+        WIN,
+        LOST,
+        DRAW};
 }
