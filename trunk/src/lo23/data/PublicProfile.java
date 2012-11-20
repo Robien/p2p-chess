@@ -25,8 +25,9 @@ public class PublicProfile implements Serializable {
     private int age;
     private ArrayList<Invitation> invitations;
     private ArrayList<Player> players;
-    private int wonGame;
-    private int lostGame;
+    private int wonGames;
+    private int lostGames;
+    private int drawGames;
 
     /**
      * Constructor for the PublicProfile class. This constructor SHOULD NOT be
@@ -42,7 +43,7 @@ public class PublicProfile implements Serializable {
      * @param firstName the player's firstname
      * @param age the player's age
      */
-    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age, int wonGame, int lostGame) {
+    public PublicProfile(String profileId, String pseudo, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age, int wonGames, int lostGames, int drawGames) {
         this.profileId = profileId;
         this.pseudo = pseudo;
         this.status = status;
@@ -51,8 +52,9 @@ public class PublicProfile implements Serializable {
         this.name = name;
         this.firstName = firstName;
         this.age = age;
-        this.wonGame = wonGame;
-        this.lostGame = lostGame;
+        this.wonGames = wonGames;
+        this.lostGames = lostGames;
+        this.drawGames = drawGames;
         this.invitations = new ArrayList<Invitation>();
         this.players = new ArrayList<Player>();
     }
@@ -219,12 +221,16 @@ public class PublicProfile implements Serializable {
         this.status = status;
     }
 
-    public int getWonGame() {
-        return wonGame;
+    public int getWonGames() {
+        return wonGames;
     }
 
-    public int getLostGame() {
-        return lostGame;
+    public int getLostGames() {
+        return lostGames;
+    }
+
+    public int getDrawGames() {
+        return drawGames;
     }
 
     @Override
