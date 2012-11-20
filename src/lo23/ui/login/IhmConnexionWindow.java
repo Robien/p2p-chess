@@ -7,6 +7,8 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -19,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import lo23.data.ApplicationModel;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.ProfileIdAlreadyExistException;
+import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
@@ -241,7 +246,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
          new IhmProfileWindow(ihmLoginModel,IhmProfileWindow.CREATE,null).setVisible(true);
      }
      
-     private void loadProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
+     private void loadProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
         //open explorer to select the location
             final JFileChooser fc = new JFileChooser();
             int n = fc.showOpenDialog(this);
@@ -250,7 +255,15 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             if(n==JFileChooser.APPROVE_OPTION){
                     String path = fc.getSelectedFile().getAbsolutePath();
                     System.out.println(path);
-                    ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
+                    try {
+                        ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
+                    } catch (ProfileIdAlreadyExistException ex) {
+                        //TODO
+                    } catch (ProfilePseudoAlreadyExistException ex) {
+                        //TODO
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
                     ihmLoginModel.refreshProfileList();
             }
     }
@@ -280,8 +293,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     public void propertyChange(PropertyChangeEvent pce) {
         if(this.isVisible()){
             if(pce.getPropertyName().equals(REFRESH_LIST)){
-                PublicProfile [] profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
-                loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+                PublicProfile [] profilesList;
+                try {
+                    profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
+                    loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
+                
             }
         }
     }
