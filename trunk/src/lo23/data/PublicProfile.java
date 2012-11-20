@@ -69,15 +69,6 @@ public class PublicProfile implements Serializable {
     }
 
     /**
-     * Setter for the player's age
-     *
-     * @param age the player's new age
-     */
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    /**
      * Getter for the player's avatar
      *
      * @return the player's avatar
@@ -87,30 +78,12 @@ public class PublicProfile implements Serializable {
     }
 
     /**
-     * Setter for the player's avatar
-     *
-     * @param avatar the new player's avatar
-     */
-    public void setAvatar(ImageIcon avatar) {
-        this.avatar = avatar;
-    }
-
-    /**
      * Getter for the player's firstname
      *
      * @return the player's firstname
      */
     public String getFirstName() {
         return firstName;
-    }
-
-    /**
-     * Setter for the player's firstname
-     *
-     * @param firstName the player's new firstname
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     /**
@@ -132,30 +105,12 @@ public class PublicProfile implements Serializable {
     }
 
     /**
-     * Setter for the player's IP address
-     *
-     * @param ipAddress the player's new IP address
-     */
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    /**
      * Getter for the player's lastname
      *
      * @return the player's lastname
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Setter for the player's lastname
-     *
-     * @param name the player's new lastname
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -177,15 +132,6 @@ public class PublicProfile implements Serializable {
     }
 
     /**
-     * Setter for the player's unique profile ID
-     *
-     * @param profileId the player's new unique profile ID
-     */
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
-    }
-
-    /**
      * Getter for the player's nickname
      *
      * @return the player's nickname
@@ -195,30 +141,12 @@ public class PublicProfile implements Serializable {
     }
 
     /**
-     * Setter for the player's nickname
-     *
-     * @param pseudo the player's new nickname
-     */
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
-    /**
      * Getter for the player's status
      *
      * @return the player's status
      */
     public STATUS getStatus() {
         return status;
-    }
-
-    /**
-     * Setter for the player's status
-     *
-     * @param status the player's new status
-     */
-    public void setStatus(STATUS status) {
-        this.status = status;
     }
 
     public int getWonGames() {
