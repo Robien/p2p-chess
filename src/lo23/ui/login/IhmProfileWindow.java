@@ -44,6 +44,8 @@ public class IhmProfileWindow extends JFrame{
     private JTextField ageField = new JTextField();
     private JLabel profileImage = new JLabel();
     private ImageIcon icon;
+    private int initialHeight = 450;
+    private int initialWidth = 450;
     
     public static final int MODIFY = 0;
     public static final int CREATE = 1;
@@ -70,15 +72,17 @@ public class IhmProfileWindow extends JFrame{
         switch(status){
             case MODIFY :
                 setTitle("Gestion du profil"); //On donne un titre à l'application
-                setSize(400, 450); //On donne une taille à notre fenêtre
+                setSize(initialWidth, initialHeight); //On donne une taille à notre fenêtre
                 break;
             case READ :
                 setTitle("Consultation d'un profil"); //On donne un titre à l'application
-                setSize(400, 450); //On donne une taille à notre fenêtre
+                setSize(initialWidth, initialHeight); //On donne une taille à notre fenêtre
                 break;
             case CREATE :
+                initialWidth = 350;
+                initialHeight = 350;
                 setTitle("Création d'un profil"); //On donne un titre à l'application
-                setSize(400, 450); //On donne une taille à notre fenêtre
+                setSize(initialWidth,initialHeight); //On donne une taille à notre fenêtre
                 break;
                 
             
@@ -86,7 +90,7 @@ public class IhmProfileWindow extends JFrame{
         
         
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-        setResizable(true); //On interdit la redimensionnement de la fenêtre
+        setResizable(false); //On interdit la redimensionnement de la fenêtre
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 
         setContentPane(initContentPanel());
@@ -215,7 +219,6 @@ public class IhmProfileWindow extends JFrame{
                 jPasswordField1.setVisible(false);
                 jPasswordField2.setVisible(false);
                 changeImageButton.setVisible(false);
-                setSize(400, 450); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
                 applyButton.setVisible(false);
                 
@@ -240,7 +243,6 @@ public class IhmProfileWindow extends JFrame{
                 lastNameField.setEditable(true);
                 firstNameField.setEditable(true);
                 ageField.setEditable(true);
-                setSize(400, 350); //On donne une taille à notre fenêtre
                 exportProfileButton.setVisible(false);
                 applyButton.setText("Valider l'inscription");
                 gamesWonLabel.setVisible(false);
@@ -375,6 +377,7 @@ public class IhmProfileWindow extends JFrame{
                          scaleValue = (double)90/(double)image.getWidth();
                      }
                     image = scale(image,scaleValue);
+                    this.setSize(initialWidth, initialHeight+image.getHeight());
                     icon = new ImageIcon(image);
                     profileImage.setIcon(icon);
                     profileImage.repaint();
