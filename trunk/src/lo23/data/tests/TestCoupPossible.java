@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package lo23.data.serializer.tests;
+package lo23.data.tests;
 
 import java.util.List;
 import lo23.data.ApplicationModel;
@@ -12,7 +12,6 @@ import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
-import lo23.data.PublicProfile;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.pieces.GamePiece;
@@ -48,7 +47,7 @@ public class TestCoupPossible {
 
 
         GamePiece roi = gm.getPieceAtXY(4, 0);
-        roi.movePiece(new Position(3, 3));
+        roi.movePiece(new Position(5, 3));
         //System.out.println(piece.getOwner().getColor());
          GamePiece fou = gm.getPieceAtXY(5, 7);
          fou.movePiece(new Position(5, 5));
@@ -66,6 +65,9 @@ public class TestCoupPossible {
 
     }
 
+
+    //méthode temporaire pour afficher le board et en mettant des croix quand la position est dans la liste
+    // et je sais, l'algo est bien bien moche mais c'est juste pour les tests !
     public void dumpBoardAndList(List<Position> list, Game gm) {
 
         for(int y = 0; y < 8; y++) {
