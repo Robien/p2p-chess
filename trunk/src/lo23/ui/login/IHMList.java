@@ -205,6 +205,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         this.dispose();
         
         new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+        ihmLoginModel.refreshProfileList();
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
     private void manageProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageProfileBtnActionPerformed
