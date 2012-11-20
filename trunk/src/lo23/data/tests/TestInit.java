@@ -5,20 +5,21 @@
 
 package lo23.data.tests;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
+import lo23.data.Event;
 import lo23.data.Game;
-import lo23.data.Invitation;
 import lo23.data.Move;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
-import lo23.data.PublicProfile;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
@@ -45,7 +46,7 @@ public class TestInit {
         
         Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
+        inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
         gm = app.getGManager().createGame(inv);
         gm.buildPieces();
         gm.dumpBoard();
@@ -58,6 +59,12 @@ public class TestInit {
         }
         System.out.println(">>>> After Move <<<<<");
         gm.dumpBoard();
+        
+        System.out.println(">>>> History <<<<<");
+        ArrayList<Event> e = gm.getEvents();
+        for(int i = 0; i < e.size(); i++) {
+            System.out.println(gm.getEvents().get(i));
+        }
     }
     
 }
