@@ -28,9 +28,9 @@ public class PlayerPanel extends javax.swing.JPanel {
         initComponents();
         myModel = model;
         // inits values
-        PublicProfile tmp = new PublicProfile("profileId", "Pseudo", STATUS.INGAME, "192.168.1.1", null, "picavet", "loic", 24);
-        age.setText(String.valueOf(tmp.getAge()));
-        nickName.setText(tmp.getPseudo());
+//        PublicProfile tmp = new PublicProfile("profileId", "Pseudo", STATUS.INGAME, "192.168.1.1", null, "picavet", "loic", 24);
+//        age.setText(String.valueOf(tmp.getAge()));
+//        nickName.setText(tmp.getPseudo());
 
     }
 
