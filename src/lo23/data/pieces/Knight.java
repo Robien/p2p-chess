@@ -113,6 +113,30 @@ public class Knight extends GamePiece {
                     positions.add(new Position(x + 2, y - 1));
                 }
             }
+            
+              if (x - 1  < 8 && y - 2 >=0 && game.getPieceAtXY(x - 1, y - 2) == null)
+            {
+                positions.add(new Position(x - 1, y - 2));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x - 1, y - 2))
+                {
+                    positions.add(new Position(x - 1, y - 2));
+                }
+            }
+              
+            if (x + 1 < 8 && y - 2 >=0 && game.getPieceAtXY(x + 1, y - 2) == null)
+            {
+                positions.add(new Position(x + 1, y - 2));
+            }
+            else
+            {
+                if (thereIsAnEnemyAt(x + 1, y - 2))
+                {
+                    positions.add(new Position(x + 1, y - 2));
+                }
+            }
 
         return positions;    
     }
