@@ -117,9 +117,6 @@ public class GameManager extends Manager implements GameManagerInterface {
             }else{
                 guestColor=COLOR.BLACK;
             }
-            //hey ! j'ai commenté tes lignes qui faisait foirer tout nos test !
-            //préviens moi si tu le remet et dit moi comment le faire marcher !
-            //Romain de ui grid (et Karim de Data ...)
             
             // Il faut que currentProfile ait une valeur!!!
             // remplacer "" par getApplicationModel().getPManager().getCurrentProfile().getProfileId()

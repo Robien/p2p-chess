@@ -35,6 +35,10 @@ public abstract class GamePiece implements Serializable {
         this.game = game;
     }
 
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
     public boolean isOutOfBorder() {
         return outOfBorder;
     }

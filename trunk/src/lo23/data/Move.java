@@ -29,4 +29,8 @@ public class Move extends Event implements Serializable {
     public Position getTo() {
         return to;
     }
+
+    public String toString() {
+        return "Move: " + piece + " from : " + from + " to : " + to;
+    }
 }
