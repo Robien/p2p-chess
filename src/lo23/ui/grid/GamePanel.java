@@ -100,24 +100,23 @@ public class GamePanel extends JPanel {
     }
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
-            //if a case is already selected, the former selection disapears
-            if (isFormerSelectionExist) {
-                hidePossibleCase();
-                listOfSelection.get(formerPositionSelected).setVisible(false);
-                repaint();
-            }
-            isFormerSelectionExist = true;
+    	//if a case is already selected, the former selection disapears
+        if (isFormerSelectionExist) {
+        	hidePossibleCase();
+            listOfSelection.get(formerPositionSelected).setVisible(false);
+            repaint();
+        }
+        isFormerSelectionExist = true;
         	
-            //save the current position
-            formerPieceSelected = listOfPiece.get(newSelection);
-            formerPositionSelected = newSelection;
-            listOfSelection.get(formerPositionSelected).setVisible(true);
+        //save the current position
+        formerPieceSelected = listOfPiece.get(newSelection);
+        formerPositionSelected = newSelection;
+        listOfSelection.get(formerPositionSelected).setVisible(true);
   
-            showPossiblesMoves(currentPiece);
+        showPossiblesMoves(currentPiece);
     }
     
     private void receiveSecondClick(Position newSelection, GamePiece currentPiece){ 
-    	
     	//if a case is already selected, the former selection disapears
         if (isFormerSelectionExist) {
             listOfSelection.get(formerPositionSelected).setVisible(false);
@@ -154,11 +153,10 @@ public class GamePanel extends JPanel {
 
         Position newSelection = new Position(x,y);
         GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
-        
-        
+
     	if (isCaseSelectionable(newSelection, currentPiece)) {
     		receiveFirstClick(newSelection, currentPiece);
-        } else {
+        } else if (isFormerSelectionExist) {
         	receiveSecondClick(newSelection, currentPiece);
         }
         
