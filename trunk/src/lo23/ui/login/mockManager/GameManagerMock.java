@@ -109,18 +109,19 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     public ArrayList<Game> getListStopGames() {
         ArrayList<Game> listStopGames = new ArrayList<Game>();
 
-        Long time = new Date().getTime();
-        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
-        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
-        Player playerLocal = new Player(COLOR.BLACK, time, profile);
-        Player remotePlayer = new Player(COLOR.BLACK, time, profile2);
+        Long id2 = new Date().getTime();
+        PublicProfile profile = new PublicProfile("1", id2.toString(), STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
+        PublicProfile profile2 = new PublicProfile("2", id2.toString(), STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        Player playerLocal = new Player(COLOR.BLACK, 10, profile);
+        Player remotePlayer = new Player(COLOR.BLACK, 30, profile2);
         Game game1 = new Game(playerLocal, remotePlayer);
+        System.out.println("Game1 : "+game1.getGameId());
         listStopGames.add(game1);
 
-        Long time2 = new Date().getTime();
-        PublicProfile profile3 = new PublicProfile("test", "test", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
-        Player remotePlayer2 = new Player(COLOR.BLACK, time2, profile3);
+        PublicProfile profile3 = new PublicProfile("3", "3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        Player remotePlayer2 = new Player(COLOR.BLACK, 3, profile3);
         Game game2 = new Game(playerLocal, remotePlayer2);
+       
         listStopGames.add(game2);
         
         return listStopGames;
@@ -129,8 +130,8 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
         ArrayList<Game> listStartGames = new ArrayList<Game>();
 
         Long time = new Date().getTime();
-        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
-        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2);
+        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
         Player playerLocal = new Player(COLOR.BLACK, time, profile);
         Player remotePlayer = new Player(COLOR.BLACK, time, profile2);
         Game game1 = new Game(playerLocal, remotePlayer);
