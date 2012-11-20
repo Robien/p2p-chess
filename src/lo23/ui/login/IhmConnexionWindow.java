@@ -12,6 +12,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
@@ -156,6 +157,13 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 registerBtnActionPerformed(evt);
             }
         });
+        
+        
+        loadProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadProfileBtnActionPerformed(evt);
+            }
+        });
 
         // Positionnement
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
@@ -232,6 +240,19 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
      private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
          new IhmProfileWindow(ihmLoginModel,IhmProfileWindow.CREATE,null).setVisible(true);
      }
+     
+     private void loadProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        //open explorer to select the location
+            final JFileChooser fc = new JFileChooser();
+            int n = fc.showOpenDialog(this);
+         
+            //Si valide appele le modèle
+            if(n==JFileChooser.APPROVE_OPTION){
+                    String path = fc.getSelectedFile().getAbsolutePath();
+                    System.out.println(path);
+                    ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
+            }
+    }
 
     /**
      * Méthode retournant le champ "login" du formulaire
@@ -252,6 +273,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     public JButton getConnectBtn() {
         return connectBtn;
     }
+    
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
