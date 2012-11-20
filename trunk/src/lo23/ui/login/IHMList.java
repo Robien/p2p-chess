@@ -132,9 +132,9 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         panelTablePlayers.setViewportView(tablePlayers);
         tablePlayers.addMouseListener(new JTableButtonMouseListener(tablePlayers));
 
-        labelTable.setText("Liste des joueurs connectés");
+        labelTable.setText("Connected Players");
 
-        manageProfileBtn.setText("Gérer son profil");
+        manageProfileBtn.setText("Manage Profile");
         manageProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manageProfileBtnActionPerformed(evt);
