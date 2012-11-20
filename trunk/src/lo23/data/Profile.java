@@ -24,6 +24,7 @@ public class Profile implements Serializable {
     private ArrayList<Player> players;
     private int wonGames = 0;
     private int lostGames = 0;
+    private int drawGames = 0;
 
     /**
      * Constructor for the Profile class. Take all the information needed as
@@ -233,26 +234,28 @@ public class Profile implements Serializable {
         this.status = status;
     }
 
-    public int getWonGame() {
+    public int getWonGames() {
         return wonGames;
     }
 
-    public int getLostGame() {
+    public void incrementWonGames(int wonGames) {
+        this.wonGames++;
+    }
+
+    public int getLostGames() {
         return lostGames;
     }
 
-    /**
-     * This method simply implements the number of won games
-     */
-    public void incrementWonGames() {
-        wonGames++;
+    public void incrementLostGame() {
+        this.lostGames++;
     }
 
-    /**
-     * This method simply implements the number of lost games
-     */
-    public void incrementLostGames() {
-        lostGames++;
+    public int getDrawGames() {
+        return drawGames;
+    }
+
+    public void incrementDrawGames() {
+        this.drawGames++;
     }
 
     /**
