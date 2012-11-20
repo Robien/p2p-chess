@@ -76,9 +76,9 @@ public class Game implements Serializable {
         whitePlayer.addPiece(r1);
         whitePlayer.addPiece(r2);
 
-        Rook r3 = new Rook(new Position(0, 0), blackPlayer, this);
+        Rook r3 = new Rook(new Position(0, 7), blackPlayer, this);
         board[0][7] = r3;
-        Rook r4 = new Rook(new Position(7, 0), blackPlayer, this);
+        Rook r4 = new Rook(new Position(7, 7), blackPlayer, this);
         board[7][7] = r4;
         blackPlayer.addPiece(r3);
         blackPlayer.addPiece(r4);
@@ -139,7 +139,7 @@ public class Game implements Serializable {
             for (int x = 0; x < 8; x++) {
                 GamePiece p = getPieceAtXY(x, y);
                 if (p != null) {
-                    System.out.print(p.getClass().getSimpleName().charAt(0));
+                    System.out.print(p.toString().charAt(0));
                 } else {
                     System.out.print("-");
                 }
