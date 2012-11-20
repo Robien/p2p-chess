@@ -54,10 +54,10 @@ import javax.swing.UnsupportedLookAndFeelException;
         JMenuItem full_screen=new JMenuItem("Full screen");
         JMenuItem rules=new JMenuItem("Rules of chess");
         JMenuItem about=new JMenuItem("About");
-        JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("Stop music      (╯°□°)╯︵ ┻━┻");
-        JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("Play music      ♥‿♥");
-        JRadioButtonMenuItem stop_noise= new JRadioButtonMenuItem("Stop sound effects      (ʃ˘̩̩ε˘̩ƪ)");
-        JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises        ＼(^O^)／");
+        JRadioButtonMenuItem stop_music= new JRadioButtonMenuItem("Stop music");
+        JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("Play music");
+        JRadioButtonMenuItem stop_noise= new JRadioButtonMenuItem("Stop sound effects");
+        JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises");
         
         JMenuItem close=new JMenuItem("Quit");
         //fichier 
