@@ -105,8 +105,6 @@ public class IhmLoginModel implements PropertyChangeListener{
 
         pcs = new PropertyChangeSupport(this);
         
-        //TEST TO REMOVE
-        pcs.addPropertyChangeListener(this);
 
     }
 
@@ -157,8 +155,8 @@ public class IhmLoginModel implements PropertyChangeListener{
             PublicProfile p = getProfile(profile.getProfileId());
             if(p == null){
                 listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
-                pcs.firePropertyChange(ADD_PLAYER_CONNECTED, null, p);
                 p = profile;
+                pcs.firePropertyChange(ADD_PLAYER_CONNECTED, null, p);
             }
             listProfileDate.put(p,new Date());
             
