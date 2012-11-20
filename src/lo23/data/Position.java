@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package lo23.data;
 
 /**
@@ -10,6 +9,7 @@ package lo23.data;
  * @author khamidou
  */
 public class Position {
+
     private int x;
     private int y;
 
@@ -25,16 +25,23 @@ public class Position {
     public int getY() {
         return y;
     }
-    
-	@Override
-	public boolean equals(Object P) {
-		if (((Position) P).getX() == x && ((Position) P).getY() == y) return true;
-		else return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		String temp = String.valueOf(x) + String.valueOf(y);
-		return Integer.valueOf(temp);
-	}
+
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object P) {
+        if (((Position) P).getX() == x && ((Position) P).getY() == y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        String temp = String.valueOf(x) + String.valueOf(y);
+        return Integer.valueOf(temp);
+    }
 }
