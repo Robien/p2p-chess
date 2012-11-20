@@ -35,7 +35,7 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
         
         // Test de la connexion avec différentes valeurs erronées
 //        testConnectionError();
-        
+
         // Test de la connexion avec différentes valeurs correctes
 //        testConnectionCorrect();
         
@@ -61,13 +61,13 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
         System.out.println("***** TEST CONNECTION CORRECT *****");
         
         // 1er test
-//        loginFrame.getLoginField().setText("admin");
+        loginFrame.getLoginCombo().setSelectedIndex(0);
         loginFrame.getPasswordField().setText("admin");
         onClickConnectBtnWindowHandlerCorrect("Disconnect");
         
         // 2eme test
         testInitialState();
-//        loginFrame.getLoginField().setText("admin");
+        loginFrame.getLoginCombo().setSelectedIndex(1);
         loginFrame.getPasswordField().setText("admin");
         onClickConnectBtnWindowHandlerCorrect("Disconnect");
         
@@ -81,7 +81,7 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
         onClickConnectBtnWindowHandlerError("OK");
         
         // 2eme Test
-//        loginFrame.getLoginField().setText("toto");
+        loginFrame.getLoginCombo().setSelectedIndex(1);
         loginFrame.getPasswordField().setText("titi");
         onClickConnectBtnWindowHandlerError("OK");
     }
@@ -128,7 +128,6 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
                 }
                 })
             .run();
-        
     }
     
 }
