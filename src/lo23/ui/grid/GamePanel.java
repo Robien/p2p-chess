@@ -55,8 +55,8 @@ public class GamePanel extends JPanel {
     private HashMap<PositionOnBoard, JLabel> listOfSquare = new HashMap<PositionOnBoard, JLabel>();
     
     //ate piece
-    private JList<JLabel> blackAtePieces = new JList<JLabel>();
-    private JList<JLabel> whiteAtePieces = new JList<JLabel>();
+    private ArrayList<JLabel> blackAtePieces = new ArrayList<JLabel>();
+    private ArrayList<JLabel> whiteAtePieces = new ArrayList<JLabel>();
 
     private boolean isCurrentSelectionExist = false;
     private boolean isCurrentSelectionOccupied = false;
@@ -371,11 +371,11 @@ public class GamePanel extends JPanel {
         }
     }
     
-    public JList<JLabel> getWhiteAtePieces(){
+    public ArrayList<JLabel> getWhiteAtePieces(){
     	return whiteAtePieces;
     }
     
-    public JList<JLabel> getBlackAtePieces(){
+    public ArrayList<JLabel> getBlackAtePieces(){
     	return blackAtePieces;
     }
     
