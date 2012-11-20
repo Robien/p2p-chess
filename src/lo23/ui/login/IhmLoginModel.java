@@ -202,6 +202,10 @@ public class IhmLoginModel implements PropertyChangeListener{
         Game game = appModel.getGManager().createGame(invitation);
         appModel.getGManager().load(game.getGameId());
     }
+
+    void refreshProfileList() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
  
 
     private class PlayerModel extends DefaultTableModel {
