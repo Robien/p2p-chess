@@ -1,5 +1,7 @@
 package lo23.data.managers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
@@ -12,13 +14,14 @@ import lo23.data.Invitation;
 import lo23.data.NewInvitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
-import lo23.data.exceptions.FileNotFoundException;
-import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.*;
+import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
 import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Configuration;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Implementation of the PublicManagerInterface interface.
@@ -50,7 +53,6 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         } catch (NoIdException ex) {
             Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return p;
     }
 
@@ -122,8 +124,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
             Profile p = Serializer.readProfile(profileId);
             if (p != null) {
                 this.currentProfile = p;
-            }
-            else {
+            } else {
                 System.out.println("Serializer a absorbé une exception concernant le chargement du profil.");
             }
         } catch (FileNotFoundException ex) {
@@ -167,17 +168,31 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public void importProfile(String filePath) {
-        try {
-            Profile p = Serializer.readProfile(this.getCurrentProfile().getProfileId(), filePath);
-            if (p != null) {
-                this.currentProfile = p;
-            }
-            else {
-                System.out.println("Serializer a absorbé une exception concernant le chargement du profil.");
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+    public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException {
+        Profile p = Serializer.readProfile2(filePath);
+
+        ArrayList<String> profileIdsInDirectory = Serializer.getProfileIds();
+        String profileId = p.getProfileId();
+        if (profileIdsInDirectory.contains(profileId)) {
+            throw new ProfileIdAlreadyExistException("A profile with ID " + profileId + "already exists !");
         }
+
+        String pseudo = p.getPseudo();
+        if (isPseudoAlreadyExist(pseudo)) {
+            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + "already exists !");
+        }
+
+        FileUtils.copyFile(new File(filePath), new File(Constants.PROFILES_PATH + p.getProfileId() + Constants.PROFILE_SUFFIXE));
+    }
+
+    private boolean isPseudoAlreadyExist(String pseudo) {
+        ArrayList<PublicProfile> publicProfiles = this.getLocalPublicProfiles();
+
+        for (PublicProfile publicProfile : publicProfiles) {
+            if (publicProfile.toString().equals(pseudo)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
