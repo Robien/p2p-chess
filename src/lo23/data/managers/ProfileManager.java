@@ -43,7 +43,14 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) {
-        return new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
+        Profile p = new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
+        try {
+            Serializer.saveProfile(p);
+        } catch (NoIdException ex) {
+            Logger.getLogger(ProfileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return p;
     }
 
     @Override
