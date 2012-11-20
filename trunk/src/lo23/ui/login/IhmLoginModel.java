@@ -204,7 +204,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     }
 
     void refreshProfileList() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        pcs.firePropertyChange(IhmConnexionWindow.REFRESH_LIST,null,null);
     }
  
 
