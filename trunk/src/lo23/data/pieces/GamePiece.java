@@ -255,7 +255,7 @@ public abstract class GamePiece implements Serializable {
           
                 if (piece.isResponsableOfCheck(getOwner().getKing(), from, to)) //TODO change to king's position
                 {
-                    System.out.println("déplacement en " + to.getX() + " - " + to.getY() +" pas possible à cause du " + piece.getClass().getSimpleName());
+                 //   System.out.println("déplacement en " + to.getX() + " - " + to.getY() +" pas possible à cause du " + piece.getClass().getSimpleName());
                     return true;
                 }
 

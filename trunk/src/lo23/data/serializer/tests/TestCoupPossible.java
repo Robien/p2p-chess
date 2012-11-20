@@ -31,14 +31,14 @@ public class TestCoupPossible {
 
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress",null, "dupont", "robert", 12));
-        Player p2 = new Player(COLOR.BLACK, 0, new PublicProfile("id", "pseudo", STATUS.CONNECTED, "adress", null, "dupont", "robert2", 12));
+        Player p1 = new Player(COLOR.WHITE, 0, null);
+        Player p2 = new Player(COLOR.BLACK, 0, null);
 
         char[] fakePassword = {};
         
         Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        NewInvitation inv = new NewInvitation(pHost.getPublicProfile(), pGuest.getPublicProfile());
+        NewInvitation inv = new NewInvitation(COLOR.BLACK, 0, pHost.getPublicProfile(), pGuest.getPublicProfile());
         Game gm = app.getGManager().createGame(inv);
         gm.buildPieces();
        // gm.dumpBoard();
