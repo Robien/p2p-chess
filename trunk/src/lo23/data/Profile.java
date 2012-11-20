@@ -265,6 +265,6 @@ public class Profile implements Serializable {
      * @return the player's PublicProfile
      */
     public PublicProfile getPublicProfile() {
-        return new PublicProfile(this.profileId, this.pseudo, this.status, this.ipAddress, this.avatar, this.name, this.firstName, this.age, this.wonGames, this.lostGames);
+        return new PublicProfile(this.profileId, this.pseudo, this.status, this.ipAddress, this.avatar, this.name, this.firstName, this.age, this.wonGames, this.lostGames, this.drawGames);
     }
 }
