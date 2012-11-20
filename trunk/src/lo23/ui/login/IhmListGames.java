@@ -79,7 +79,7 @@ public class IhmListGames extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         stopGamesTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("My games");
 
         previousBtn.setText("Previous");
