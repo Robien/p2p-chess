@@ -1,5 +1,6 @@
 package lo23.communication.tests;
 
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -17,6 +18,7 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
+import lo23.data.NewInvitation;
 import lo23.data.Position;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
@@ -48,7 +50,7 @@ public class MainTest1 {
                 Enumeration<InetAddress> i = e.nextElement().getInetAddresses(); 
                 while (i.hasMoreElements()){ 
                     InetAddress a = i.nextElement();
-                    if (!a.isLoopbackAddress()) {
+                    if (!a.isLoopbackAddress() && !(a instanceof Inet6Address)) {
                         addressIp = a.getHostAddress();
                         System.out.print("\nIP : "+ addressIp);
                     }
@@ -57,27 +59,36 @@ public class MainTest1 {
             
             System.out.print("\nEntrez votre pseudo : ");
             String pseudo = scanner.nextLine().trim();
-            PublicProfile profile = new PublicProfile("1", pseudo, Enums.STATUS.CONNECTED, addressIp, null, "Vincent", "Penot", 23, 0, 0);
+            PublicProfile profile = new PublicProfile("1", pseudo, Enums.STATUS.CONNECTED, addressIp, null, "Vincent", "Penot", 23, 0, 0, 0);
             
             ApplicationModel appModel = new ApplicationModel();
             appModel.setComManager(new ComManager(profile,appModel));
             appModel.setGameManager(new MyGameManagerMock(appModel));
             appModel.setProfileManager(new MyProfileManagerMock(appModel));
             
+            String menuStr;
             char menu;
             do {
                 System.out.print("\na. Voir les utilisateurs disponibles");
-                //System.out.print("\nb. Se connecter à un utilisateur");
+                System.out.print("\nb. Se connecter à un utilisateur");
                 System.out.print("\nVotre choix: ");
-                menu = scanner.nextLine().trim().toLowerCase().charAt(0);
                 
-                switch(menu) {
-                    case 'a':
-                        appModel.getComManager().sendMulticast();
-                        break;
+                menuStr = scanner.nextLine().trim().toLowerCase();
+                if (!menuStr.isEmpty()) {
+                    menu = menuStr.charAt(0);
+                    switch(menu) {
+                        case 'a':
+                            appModel.getComManager().sendMulticast();
+                            break;
+                        case 'b':
+                            //System.out.print("Adresse IP : ");
+                            //String ipAddress = scanner.nextLine().trim();
+                            Invitation invit = new NewInvitation(COLOR.BLACK, 3600, profile, profile);
+                            appModel.getComManager().sendInvitation(invit);
+                            break;
+                    }
                 }
-                
-            } while (menu >= 'a' && menu <= 'b');
+            } while (!menuStr.isEmpty());
             
         } catch (SocketException ex) {
             Logger.getLogger(MainTest1.class.getName()).log(Level.SEVERE, null, ex);

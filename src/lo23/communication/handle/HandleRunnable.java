@@ -45,13 +45,14 @@ public abstract class HandleRunnable implements Runnable {
      * of the Thread.
      */
     public void waitStarted() {
-        synchronized (start) {
-            while (!start.get()) {
-                try {
+        while (!start.get()) {
+            System.out.println("Wait started");
+            try {
+                synchronized (start) {
                     start.wait(1000);
-                } catch (InterruptedException e) {
-                    Logger.getLogger(HandleRunnable.class.getName()).log(Level.SEVERE, "Error waitStarted", e);
                 }
+            } catch (InterruptedException e) {
+                Logger.getLogger(HandleRunnable.class.getName()).log(Level.SEVERE, "Error waitStarted", e);
             }
         }
     }

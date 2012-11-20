@@ -1,6 +1,8 @@
 package lo23.data;
 
-public abstract class Invitation {
+import java.io.Serializable;
+
+public abstract class Invitation implements Serializable {
 
     private PublicProfile host;
     private PublicProfile guest;

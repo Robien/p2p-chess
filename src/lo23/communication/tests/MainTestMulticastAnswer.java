@@ -27,7 +27,7 @@ import lo23.utils.Enums.STATUS;
 public class MainTestMulticastAnswer {
 
     public static void main(String[] args) {
-        PublicProfile profile = new PublicProfile("1", "penotVin", STATUS.INGAME, "172.25.23.139", null, "Vincent", "Penot", 23, 0, 0);
+        PublicProfile profile = new PublicProfile("1", "penotVin", STATUS.INGAME, "172.25.23.139", null, "Vincent", "Penot", 23, 0, 0, 0);
 
         MulticastInvit message = new MulticastInvit(profile);
         MulticastSocket multicastSocket = null;
@@ -51,7 +51,7 @@ public class MainTestMulticastAnswer {
         }
 
         HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
-        handler.send(message);
+       //handler.send(message);
 
     }
 
