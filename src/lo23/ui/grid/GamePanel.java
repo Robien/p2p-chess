@@ -361,7 +361,8 @@ public class GamePanel extends JPanel {
 
             	}
             }
-        	
+            
+        	hidePossibleCase();
         	
         	            
         }
