@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
     }
 
     private void showPossiblesMoves(GamePiece piece) {
-        colorPossibleCase(piece.getPossibleMoves());
+        colorPossibleCase(piece.getPossibleMovesWithCheck());
     }
     
     private void receiveFirstClick(Position newSelection){
@@ -120,8 +120,8 @@ public class GamePanel extends JPanel {
             listOfSelection.get(formerPositionSelected).setVisible(true);
             
             GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
-            System.out.println(currentPiece.toString());
             showPossiblesMoves(currentPiece);
+            
             secondClickIsAllowed = true;
         
         }
@@ -129,14 +129,13 @@ public class GamePanel extends JPanel {
     
     private void receiveSecondClick(Position newSelection){ 
     	if (isFormerSelectionOccupied) {
-    		System.out.println("second click");
     		//if a case is already selected, the former selection disapears
             if (isFormerSelectionExist) {
                 listOfSelection.get(formerPositionSelected).setVisible(false);
                 repaint();
             }
             isFormerSelectionExist = true;
-        	
+        	System.out.println(listOfPossibleMove);
             for(Position possibleMove : listOfPossibleMove){
             	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
                     
@@ -174,79 +173,80 @@ public class GamePanel extends JPanel {
         
     	if (secondClickIsAllowed) {
     		receiveSecondClick(newSelection);
+    		hidePossibleCase();
         } else {
         	receiveFirstClick(newSelection);
         }
          
-        hidePossibleCase();
+        
     }
 
-    private void receiveSelectedCaseOld(int x, int y) {
-    	  
-        constraints.insets = new Insets(0, 0, 0, 0);
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = x;
-        constraints.gridy = y;
-
-        Position newSelection = new Position(x,y);
-
-        //if the actual case is occupied
-        //TODO by a piece of your color
-        if (listOfPiece.get(newSelection) != null) {
-        	
-            //if a case is already selected, the former selection disapears
-            if (isFormerSelectionExist) {
-                hidePossibleCase();
-                listOfSelection.get(formerPositionSelected).setVisible(false);
-                repaint();
-            }
-            isFormerSelectionExist = true;
-        	
-            //save the current position
-            formerPieceSelected = listOfPiece.get(newSelection);
-            formerPositionSelected = newSelection;
-            isFormerSelectionOccupied = true;
-            listOfSelection.get(formerPositionSelected).setVisible(true);
-            
-            GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY()); 
-            showPossiblesMoves(currentPiece);
-          
-        //if the former case was occupied
-        } else if (isFormerSelectionOccupied) {
-        	
-            //if a case is already selected, the former selection disapears
-            if (isFormerSelectionExist) {
-                listOfSelection.get(formerPositionSelected).setVisible(false);
-                repaint();
-            }
-            isFormerSelectionExist = true;
-        	
-            for(Position possibleMove : listOfPossibleMove){
-            	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
-                    
-                    //remove the former position
-                    listOfPiece.remove(formerPositionSelected);
-                    //add the new position
-                    listOfPiece.put(newSelection, formerPieceSelected);
-                    //update the display
-                    add(formerPieceSelected, constraints, 0);
-                    isFormerSelectionOccupied = false;
-
-                    game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
-                  
-                    //sound
-                    if (Menu.get_noise_on()){
-                    	new Launch_Sound("move_piece.wav").play(); 
-                    }
-                    
-
-            	}
-            }
-            hidePossibleCase();
-        	            
-        }
-    }
+//    private void receiveSelectedCaseOld(int x, int y) {
+//    	  
+//        constraints.insets = new Insets(0, 0, 0, 0);
+//        constraints.gridwidth = 1;
+//        constraints.gridheight = 1;
+//        constraints.gridx = x;
+//        constraints.gridy = y;
+//
+//        Position newSelection = new Position(x,y);
+//
+//        //if the actual case is occupied
+//        //TODO by a piece of your color
+//        if (listOfPiece.get(newSelection) != null) {
+//        	
+//            //if a case is already selected, the former selection disapears
+//            if (isFormerSelectionExist) {
+//                hidePossibleCase();
+//                listOfSelection.get(formerPositionSelected).setVisible(false);
+//                repaint();
+//            }
+//            isFormerSelectionExist = true;
+//        	
+//            //save the current position
+//            formerPieceSelected = listOfPiece.get(newSelection);
+//            formerPositionSelected = newSelection;
+//            isFormerSelectionOccupied = true;
+//            listOfSelection.get(formerPositionSelected).setVisible(true);
+//            
+//            GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY()); 
+//            showPossiblesMoves(currentPiece);
+//          
+//        //if the former case was occupied
+//        } else if (isFormerSelectionOccupied) {
+//        	
+//            //if a case is already selected, the former selection disapears
+//            if (isFormerSelectionExist) {
+//                listOfSelection.get(formerPositionSelected).setVisible(false);
+//                repaint();
+//            }
+//            isFormerSelectionExist = true;
+//        	
+//            for(Position possibleMove : listOfPossibleMove){
+//            	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
+//                    
+//                    //remove the former position
+//                    listOfPiece.remove(formerPositionSelected);
+//                    //add the new position
+//                    listOfPiece.put(newSelection, formerPieceSelected);
+//                    //update the display
+//                    add(formerPieceSelected, constraints, 0);
+//                    isFormerSelectionOccupied = false;
+//
+//                    game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+//                  
+//                    //sound
+//                    if (Menu.get_noise_on()){
+//                    	new Launch_Sound("move_piece.wav").play(); 
+//                    }
+//                    
+//
+//            	}
+//            }
+//            hidePossibleCase();
+//        	            
+//        }
+//    }
       
     public void eatPiece(Position p){
     	JLabel atePiece = listOfPiece.remove(p);
@@ -259,7 +259,6 @@ public class GamePanel extends JPanel {
 
     private void colorPossibleCase(List<Position> positions){
         for (Position p : positions){
-        	System.out.println("test : " + p.getX() + " y: " + p.getY());
         	listOfSquare.get(new Position(p.getX(),7 - p.getY())).setVisible(true);
         	listOfPossibleMove.add(p);
         }
