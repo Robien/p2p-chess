@@ -51,8 +51,12 @@ public class Rook extends GamePiece {
 
         //même fonctionement que le fou (bishop) mais en ligne droite
 
+        System.out.println(getPosition().getY());
+
         for (int i = 1; i < 8 && (xp || xm || yp || ym); i++)
         {
+
+            
 
             if (xp && x + i < 8 && game.getPieceAtXY(x + i, y) == null)
             {
@@ -156,7 +160,7 @@ public class Rook extends GamePiece {
             }
             else
             {
-                if (xm && isThereAKingHere(x - i, y - 1, from, to, king))
+                if (xm && isThereAKingHere(x - i, y, from, to, king))
                 {
                       return true;
                 }
