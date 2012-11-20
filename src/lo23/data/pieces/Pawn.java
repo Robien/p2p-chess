@@ -3,6 +3,7 @@ package lo23.data.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.utils.Enums.COLOR;
@@ -25,7 +26,22 @@ public class Pawn extends GamePiece {
      */
     public Pawn(Position position, Player owner, Game game) {
         super(position, owner, game);
-            firstMove = false;
+            firstMove = true;
+    }
+    
+    @Override
+    public void movePiece(Position to) {
+
+        try
+        {
+            getGame().playMove(new Move(getPosition(), to, this));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Erreur !");
+        }
+        position = to;
+        firstMove = false;
     }
 
     @Override
