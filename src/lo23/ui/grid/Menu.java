@@ -19,6 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
 
 public class Menu extends MainWindow {
     ApplicationModel m;
@@ -38,8 +39,8 @@ public class Menu extends MainWindow {
   private JRadioButtonMenuItem jrmi1 = new JRadioButtonMenuItem("Radio 1");
   private JRadioButtonMenuItem jrmi2 = new JRadioButtonMenuItem("Radio 2");
 
-  public Menu(ApplicationModel m){
-      super(m);
+  public Menu(ApplicationModel m, Game game){
+    super(m, null);
     this.setSize(400, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
