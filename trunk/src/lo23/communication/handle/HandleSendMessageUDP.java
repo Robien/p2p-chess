@@ -57,11 +57,17 @@ public class HandleSendMessageUDP {
      * @param message the message
      */
     public void send(Message message) {
+
+
+
+
        byte b[] = this.serialize(message);
        DatagramPacket dgram = null;
        try {
            dgram = new DatagramPacket(b, b.length, InetAddress.getByName(ConnectionParams.multicastAddress), ConnectionParams.multicastPort); // multicast
-       } catch (UnknownHostException ex) {
+           socket.send(dgram);
+           System.out.print("msg envoi: "+message);
+       } catch (Exception ex) {
        Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error during the datagramme creation", ex);
        }
     }

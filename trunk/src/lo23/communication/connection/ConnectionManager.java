@@ -69,6 +69,7 @@ public class ConnectionManager implements ConnectionListener {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
             handleMulticast = new HandleReceiveUDPMessage(multicastSocket, this);
+            new Thread(handleMulticast).start();
             datagramSocket = new DatagramSocket();
 
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
