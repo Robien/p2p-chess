@@ -96,7 +96,7 @@ public class GamePanel extends JPanel {
     
     private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
-    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor) {
+    	if (listOfPiece.get(newSelection) != null  && currentPiece.getOwner().getColor() == playerColor && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
     		return true;
     	} else {
     		return false;
@@ -108,8 +108,6 @@ public class GamePanel extends JPanel {
     }
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
-    	if(isCaseSelectionable(newSelection, currentPiece)){
-        	
             //if a case is already selected, the former selection disapears
             if (isFormerSelectionExist) {
                 hidePossibleCase();
@@ -123,45 +121,40 @@ public class GamePanel extends JPanel {
             formerPositionSelected = newSelection;
             isFormerSelectionOccupied = true;
             listOfSelection.get(formerPositionSelected).setVisible(true);
-            
-            
+  
             showPossiblesMoves(currentPiece);
             
             secondClickIsAllowed = true;
-        
-        }
     }
     
     private void receiveSecondClick(Position newSelection, GamePiece currentPiece){ 
-    	if (isFormerSelectionOccupied) {
-    		//if a case is already selected, the former selection disapears
-            if (isFormerSelectionExist) {
-                listOfSelection.get(formerPositionSelected).setVisible(false);
-                repaint();
-            }
-            isFormerSelectionExist = true;
-        	System.out.println(listOfPossibleMove);
-            for(Position possibleMove : listOfPossibleMove){
-            	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
-                    
-                    //remove the former position
-                    listOfPiece.remove(formerPositionSelected);
-                    //add the new position
-                    listOfPiece.put(newSelection, formerPieceSelected);
-                    //update the display
-                    add(formerPieceSelected, constraints, 0);
-                    isFormerSelectionOccupied = false;
+    	
+    	//if a case is already selected, the former selection disapears
+        if (isFormerSelectionExist) {
+            listOfSelection.get(formerPositionSelected).setVisible(false);
+            repaint();
+        }
+        isFormerSelectionExist = true;
+        System.out.println(listOfPossibleMove);
+        for(Position possibleMove : listOfPossibleMove){
+        	if (possibleMove.getX()==newSelection.getX() && possibleMove.getY()==(7 - newSelection.getY())){
+        		//remove the former position
+                listOfPiece.remove(formerPositionSelected);
+                //add the new position
+                listOfPiece.put(newSelection, formerPieceSelected);
+                //update the display
+                add(formerPieceSelected, constraints, 0);
+                isFormerSelectionOccupied = false;
 
-                    game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+                game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                   
-                    //sound
-                    if (Menu.get_noise_on()){
-                    	new Launch_Sound("move_piece.wav").play(); 
-                    }
+                //sound
+                if (Menu.get_noise_on()){
+                	new Launch_Sound("move_piece.wav").play(); 
+                }
                     
 
-            	}
-            }
+        	}
     	}
     	secondClickIsAllowed = false;
     }
@@ -177,10 +170,11 @@ public class GamePanel extends JPanel {
         Position newSelection = new Position(x,y);
         GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
         
-    	if (secondClickIsAllowed) {
+        
+    	if (secondClickIsAllowed && isFormerSelectionOccupied) {
     		receiveSecondClick(newSelection, currentPiece);
     		hidePossibleCase();
-        } else {
+        } else if (isCaseSelectionable(newSelection, currentPiece)) {
         	receiveFirstClick(newSelection, currentPiece);
         }
          
@@ -286,8 +280,6 @@ public class GamePanel extends JPanel {
     public ArrayList<JLabel> getBlackAtePieces(){
     	return blackAtePieces;
     }
-    
-     
 
     private void buildBoard(boolean playerIsWhite) {
         ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
