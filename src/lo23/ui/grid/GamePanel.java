@@ -169,7 +169,7 @@ public class GamePanel extends JPanel {
                     game.getPieceAtXY(currentPositionSelection.getX(), currentPositionSelection.getY()).movePiece(new Position(newSelection.getX(), newSelection.getY()));
 
                     //sound
-                    if (MainWindow.get_noise_on()){
+                    if (Menu.get_noise_on()){
                     	new Launch_Sound("move_piece.wav").play(); 
                     }
 
@@ -246,7 +246,7 @@ public class GamePanel extends JPanel {
                     game.getPieceAtXY(currentPositionSelection.getX(),7 - currentPositionSelection.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                   
                     //sound
-                    if (MainWindow.get_noise_on()){
+                    if (Menu.get_noise_on()){
                     	new Launch_Sound("move_piece.wav").play(); 
                     }
                     
