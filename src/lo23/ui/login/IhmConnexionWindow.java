@@ -60,7 +60,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         setSize(360, 500);
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-        ihmLoginModel.refreshProfileList();
     }
 
     /**
@@ -81,6 +80,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 
                // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
                 new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+                ihmLoginModel.refreshProfileList();
             }
         });
     }
