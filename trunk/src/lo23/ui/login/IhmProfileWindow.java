@@ -367,10 +367,10 @@ public class IhmProfileWindow extends JFrame{
                     //Redimentionne l'image
                      double scaleValue;
                      if(image.getHeight()>image.getWidth()){
-                         scaleValue = (double)180/(double)image.getHeight();
+                         scaleValue = (double)90/(double)image.getHeight();
                      }
                      else{
-                         scaleValue = (double)180/(double)image.getWidth();
+                         scaleValue = (double)90/(double)image.getWidth();
                      }
                     image = scale(image,scaleValue);
                     icon = new ImageIcon(image);
@@ -408,7 +408,7 @@ public class IhmProfileWindow extends JFrame{
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
                         ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
                         //TODO saveProfile OK.
-                        //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                        ihmLoginModel.getApplicationModel().getPManager().saveProfile();
                         this.dispose();
                     } 
                 }
@@ -434,7 +434,9 @@ public class IhmProfileWindow extends JFrame{
                         }
                         //TODO status
                         ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), READ);
+                        ihmLoginModel.refreshProfileList();
                         this.dispose();
+                        
                         //Todo retour liste Partie avec connection
                     }
                  }
@@ -445,10 +447,16 @@ public class IhmProfileWindow extends JFrame{
         }
      }
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
-         //TODO : faire ca
-         //open explorer to select the location
-         final JFileChooser fc = new JFileChooser();
-         int returnVal = fc.showOpenDialog(this);
+            //open explorer to select the location
+            final JFileChooser fc = new JFileChooser();
+            int n = fc.showSaveDialog(this);
+         
+            //Si valide appele le modèle
+            if(n==JFileChooser.APPROVE_OPTION){
+                    String path = fc.getSelectedFile().getAbsolutePath();
+                    System.out.println(path);
+                    ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+            }
      }
      
      private boolean checkForDigit(String s){
