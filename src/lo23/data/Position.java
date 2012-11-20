@@ -4,11 +4,13 @@
  */
 package lo23.data;
 
+import java.io.Serializable;
+
 /**
  *
  * @author khamidou
  */
-public class Position {
+public class Position implements Serializable {
 
     private int x;
     private int y;
