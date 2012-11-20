@@ -167,6 +167,14 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         }
     }
 
+    public void updateCurrentProfileScore(boolean victory) {
+        if(victory) {
+            this.currentProfile.incrementWonGames();
+        } else {
+            this.currentProfile.incrementLostGames();
+        }
+    }
+
     @Override
     public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException {
         Profile p = Serializer.readProfile2(filePath);
