@@ -336,6 +336,8 @@ public class MainWindow extends JFrame implements ActionListener {
             + "\nor on its first move it may advance two squares along the same file provided both squares are unoccupied; "
             +"\nor it may move to a square occupied by an opponent's piece which is diagonally in front of it on an adjacent file, capturing that piece."
             + "\nThe pawn has two special moves: the en passant capture and pawn promotion."
+            + "\n\n\nFor more informations, please follow this link : http://en.wikipedia.org/wiki/Rules_of_chess"
+            + "\n   \n"
     ,"Rules of Chess",
             JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/KW.png"));
             }  
