@@ -484,13 +484,13 @@ public class IhmProfileWindow extends JFrame{
          
             //Si valide appele le modèle
             if(n==JFileChooser.APPROVE_OPTION){
-                    String path = fc.getSelectedFile().getAbsolutePath();
-                    System.out.println(path);
-             try {
-                 ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
-             } catch (Exception ex) {
-                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-             }
+                String path = fc.getSelectedFile().getAbsolutePath();
+                System.out.println(path);
+                try {
+                    ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
             }
      }
      
