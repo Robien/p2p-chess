@@ -85,12 +85,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="labelTable">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Liste des joueurs connect&#xe9;s"/>
+        <Property name="text" type="java.lang.String" value="Connected Players"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="manageProfileBtn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="G&#xe9;rer son profil"/>
+        <Property name="text" type="java.lang.String" value="Manage Profile"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageProfileBtnActionPerformed"/>
