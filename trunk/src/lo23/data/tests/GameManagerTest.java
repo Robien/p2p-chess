@@ -4,10 +4,10 @@
  */
 package lo23.data.tests;
 
+import java.io.IOException;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
-import lo23.data.Player;
 import lo23.data.Profile;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.managers.GameManager;
@@ -20,11 +20,11 @@ import lo23.utils.Enums;
  */
 public class GameManagerTest {
 
-    static public void main(String[] args) {
+    static public void main(String[] args) throws IOException, NoIdException {
         getListAllGame();
     }
 
-    static private void getListAllGame() {
+    static private void getListAllGame() throws IOException, NoIdException {
         ApplicationModel app;
         Profile pHost, pGuest;
         NewInvitation inv;
