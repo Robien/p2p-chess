@@ -142,7 +142,11 @@ public class GamePanel extends JPanel {
                 	if (game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY()).getOwner().getColor() != playerColor) {
                 		eatPiece(newSelection);
                 	}
-                	//add Eat Sound
+                	//Eat Sound
+                        if (Menu.get_noise_on())
+                        {
+                            new Launch_Sound("eat_piece.wav").play(); 
+                        }
                 	
                 } else if (Menu.get_noise_on()){
                 	//displacement sound
