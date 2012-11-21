@@ -7,7 +7,8 @@ package lo23.ui.login.mockManager;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
@@ -33,6 +34,10 @@ import lo23.utils.Enums.STATUS;
  */
 public class GameManagerMock extends Manager implements GameManagerInterface{
 
+    // Lists contenant les gameId des parties affichées pour pouvoir tester les boutons dans ihmListGamesTest
+    public ArrayList<Long> idStopGames;
+    public ArrayList<Long> idStartGames;
+    
     
     public GameManagerMock(ApplicationModel model){
         super(model);
@@ -106,36 +111,58 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public ArrayList<Game> getListStopGames() {
         ArrayList<Game> listStopGames = new ArrayList<Game>();
+        idStopGames = new ArrayList<Long>();
 
-        Long id2 = new Date().getTime();
-        PublicProfile profile = new PublicProfile("1", id2.toString(), STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
-        PublicProfile profile2 = new PublicProfile("2", id2.toString(), STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        PublicProfile profile = new PublicProfile("1", "player1", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
+        PublicProfile profile2 = new PublicProfile("2", "player2", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         Player playerLocal = new Player(COLOR.BLACK, 10, profile);
         Player remotePlayer = new Player(COLOR.BLACK, 30, profile2);
         Game game1 = new Game(playerLocal, remotePlayer);
-        System.out.println("Game1 : "+game1.getGameId());
         listStopGames.add(game1);
-
-        PublicProfile profile3 = new PublicProfile("3", "3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        idStopGames.add(game1.getGameId()); // Ajout de l'id pour les tests
+        
+        try {
+            Thread.sleep(987);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        PublicProfile profile3 = new PublicProfile("3", "player3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         Player remotePlayer2 = new Player(COLOR.BLACK, 3, profile3);
         Game game2 = new Game(playerLocal, remotePlayer2);
-       
         listStopGames.add(game2);
+        idStopGames.add(game2.getGameId()); // Ajout de l'id pour les tests
         
         return listStopGames;
     }
+    
+    @Override
     public ArrayList<Game> getListStartGames() {
         ArrayList<Game> listStartGames = new ArrayList<Game>();
-
-        Long time = new Date().getTime();
+        idStartGames = new ArrayList<Long>();
+        
         PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
-        Player playerLocal = new Player(COLOR.BLACK, time, profile);
-        Player remotePlayer = new Player(COLOR.BLACK, time, profile2);
+        Player playerLocal = new Player(COLOR.BLACK, 23, profile);
+        Player remotePlayer = new Player(COLOR.BLACK, 10, profile2);
         Game game1 = new Game(playerLocal, remotePlayer);
         listStartGames.add(game1);
+        idStartGames.add(game1.getGameId());
+        
+        try {
+            Thread.sleep(987);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        PublicProfile profile3 = new PublicProfile("3", "player3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        Player remotePlayer2 = new Player(COLOR.BLACK, 3, profile3);
+        Game game2 = new Game(playerLocal, remotePlayer2);
+        listStartGames.add(game2);
+        idStartGames.add(game2.getGameId()); // Ajout de l'id pour les tests
 
         return listStartGames;
     }
@@ -163,5 +190,13 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     @Override
     public Game load(long gameId) throws FileNotFoundException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public ArrayList<Long> getIdStopGames() {
+        return idStopGames;
+    }
+    
+    public ArrayList<Long> getIdStartGames() {
+        return idStartGames;
     }
 }

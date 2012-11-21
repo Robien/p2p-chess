@@ -46,7 +46,9 @@ public class IhmLoginModel implements PropertyChangeListener{
     private final ImageIcon OFFLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_offline.png"));
     
     public PropertyChangeSupport pcs;
-
+    public ArrayList<Long> idEndGames;
+    public ArrayList<Long> idStartGames;
+    
     private ApplicationModel appModel;
 
     private PlayerModel listPlayers;
@@ -83,6 +85,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         listReviewGameBtn = new ArrayList<JButton>();
 
         ArrayList<Game> endGames = gameManager.getListStopGames();
+        idEndGames = gameManager.getIdStopGames(); // Pour les tests
         for (Game game : endGames ) {
             listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
         }
@@ -94,6 +97,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         listContinueGameBtn = new ArrayList<JButton>();
 
         ArrayList<Game> stopGames = gameManager.getListStartGames();
+        idStartGames = gameManager.getIdStartGames(); // Pour les tests
         for (Game game : stopGames ) {
             listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId());
         }
