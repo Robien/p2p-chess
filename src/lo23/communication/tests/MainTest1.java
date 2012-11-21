@@ -1,15 +1,24 @@
 package lo23.communication.tests;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
@@ -40,10 +49,14 @@ public class MainTest1 {
         MainTest1 main = new MainTest1();
     }
     
+    private PublicProfile hostProfile;
+    private ApplicationModel appModel;
+    private JFrame frame;
+    private JList userJList;
+    private DefaultListModel userListModel;
+    
     public MainTest1() {
-        try { 
-            Scanner scanner = new Scanner(System.in);
-            
+        try {            
             String addressIp = null;
             Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces(); 
             while (e.hasMoreElements()) { 
@@ -57,38 +70,46 @@ public class MainTest1 {
                 }
             }
             
-            System.out.print("\nEntrez votre pseudo : ");
-            String pseudo = scanner.nextLine().trim();
-            PublicProfile profile = new PublicProfile("1", pseudo, Enums.STATUS.CONNECTED, addressIp, null, "Vincent", "Penot", 23, 0, 0, 0);
+            hostProfile = new PublicProfile("1", "Pseudo", Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23, 0, 0, 0);
             
-            ApplicationModel appModel = new ApplicationModel();
-            appModel.setComManager(new ComManager(profile,appModel));
+            appModel = new ApplicationModel();
+            appModel.setComManager(new ComManager(hostProfile, appModel));
             appModel.setGameManager(new MyGameManagerMock(appModel));
             appModel.setProfileManager(new MyProfileManagerMock(appModel));
             
-            String menuStr;
-            char menu;
-            do {
-                System.out.print("\na. Voir les utilisateurs disponibles");
-                System.out.print("\nb. Se connecter à un utilisateur");
-                System.out.print("\nVotre choix: ");
-                
-                menuStr = scanner.nextLine().trim().toLowerCase();
-                if (!menuStr.isEmpty()) {
-                    menu = menuStr.charAt(0);
-                    switch(menu) {
-                        case 'a':
-                            appModel.getComManager().sendMulticast();
-                            break;
-                        case 'b':
-                            //System.out.print("Adresse IP : ");
-                            //String ipAddress = scanner.nextLine().trim();
-                            Invitation invit = new NewInvitation(COLOR.BLACK, 3600, profile, profile);
-                            appModel.getComManager().sendInvitation(invit);
-                            break;
+            frame = new JFrame("MainTest1");
+            frame.getContentPane().setLayout(new BorderLayout());
+            userListModel = new DefaultListModel();
+            userJList = new JList(userListModel);
+            frame.getContentPane().add(userJList, BorderLayout.CENTER);
+            
+            JPanel panelButton = new JPanel(new FlowLayout());
+            frame.getContentPane().add(panelButton, BorderLayout.PAGE_END);
+            JButton multicastButton = new JButton("1. Multicast");
+            JButton invitButton = new JButton("2. Invitation");
+            panelButton.add(multicastButton);
+            panelButton.add(invitButton);
+            
+            multicastButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    userListModel.clear();
+                    appModel.getComManager().sendMulticast();
+                }
+            });
+            
+            invitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (userJList.getSelectedValue() != null) {
+                        PublicProfile profile = (PublicProfile) userJList.getSelectedValue();
+                        NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile, profile);
+                        appModel.getComManager().sendInvitation(invitation);
                     }
                 }
-            } while (!menuStr.isEmpty());
+            });
+            
+            frame.toFront();
             
         } catch (SocketException ex) {
             Logger.getLogger(MainTest1.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,7 +281,7 @@ public class MainTest1 {
 
         @Override
         public void notifyInvitation(Invitation invitation) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            JOptionPane.showMessageDialog(frame, "Vous avez reçu une invitation : " + invitation.toString());
         }
 
         @Override
@@ -275,9 +296,7 @@ public class MainTest1 {
 
         @Override
         public void notifyAddProfile(PublicProfile publicProfile) {
-            System.out.print("\nUtilisateur disponible :");
-            System.out.print("\n  pseudo : "+publicProfile.getPseudo());
-            System.out.print("\n  adresse IP : "+publicProfile.getIpAddress());
+            userListModel.addElement(publicProfile);
         }
 
         @Override
