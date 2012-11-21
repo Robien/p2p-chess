@@ -4,7 +4,13 @@
  */
 package lo23.ui.login.tests;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import lo23.data.ApplicationModel;
+import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.ui.login.IHMList;
 import lo23.ui.login.IhmConnexionWindow;
 import lo23.ui.login.IhmLoginModel;
@@ -24,6 +30,7 @@ import org.uispec4j.interception.WindowInterceptor;
 public class IhmConnexionWindowTest extends UISpecTestCase {
     
     static IhmConnexionWindow loginFrame;
+    static PublicProfile [] profilesList;
             
     static {
        UISpec4J.init();
@@ -31,13 +38,13 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
     
     public static void main(String args[]) {
         
-//        testInitialState();
+        testInitialState();
         
         // Test de la connexion avec différentes valeurs erronées
-//        testConnectionError();
+        testConnectionError();
 
         // Test de la connexion avec différentes valeurs correctes
-//        testConnectionCorrect();
+        testConnectionCorrect();
         
     }
     
@@ -52,37 +59,53 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
         
         //Instantiate IhmLoginModel
         IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
+       
+        try {
+            profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
+        } catch (Exception ex) {
+            Logger.getLogger(IhmConnexionWindowTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         loginFrame = new IhmConnexionWindow(ihmLoginModel);
     }
     
     public static void testConnectionCorrect() {
         
-        System.out.println("***** TEST CONNECTION CORRECT *****");
+        System.out.println("\n***** TEST CONNECTION CORRECT *****");
         
         // 1er test
-        loginFrame.getLoginCombo().setSelectedIndex(0);
+        PublicProfile profile1 = profilesList[0];
+        loginFrame.getLoginCombo().setEditable(true); // on rend la combo editable
+        loginFrame.getLoginCombo().setSelectedItem(profile1); // On choisit le premier profile, soit "admin"
         loginFrame.getPasswordField().setText("admin");
         onClickConnectBtnWindowHandlerCorrect("Disconnect");
         
         // 2eme test
         testInitialState();
-        loginFrame.getLoginCombo().setSelectedIndex(1);
-        loginFrame.getPasswordField().setText("admin");
+        PublicProfile profile2 = profilesList[1];
+        loginFrame.getLoginCombo().setEditable(true); // on rend la combo editable
+        loginFrame.getLoginCombo().setSelectedItem(profile2); // On choisit le deuxieme profile, soit "john"
+        loginFrame.getPasswordField().setText("john");
         onClickConnectBtnWindowHandlerCorrect("Disconnect");
         
     }
     
     public static void testConnectionError() {
         
-        System.out.println("***** TEST CONNECTION AVEC ERREURS *****");
+        System.out.println("\n***** TEST CONNECTION AVEC ERREURS *****");
         
-        // 1er test
-        onClickConnectBtnWindowHandlerError("OK");
+        // 1er test - John / null
+        PublicProfile profile1 = profilesList[1];
+        loginFrame.getLoginCombo().setEditable(true); // on rend la combo editable
+        loginFrame.getLoginCombo().setSelectedItem(profile1); // On choisit le deuxieme profile, soit "john"
+        loginFrame.getPasswordField().setText(null);
+        onClickConnectBtnWindowHandlerError("OK");  
         
-        // 2eme Test
-        loginFrame.getLoginCombo().setSelectedIndex(1);
-        loginFrame.getPasswordField().setText("titi");
+        // 2eme Test - Admin / john
+        PublicProfile profile2 = profilesList[0];
+        loginFrame.getLoginCombo().setEditable(true); // on rend la combo editable
+        loginFrame.getLoginCombo().setSelectedItem(profile2); // On choisit le premier profile, soit "admin"
+        loginFrame.getPasswordField().setText("john");
         onClickConnectBtnWindowHandlerError("OK");
     }
     
@@ -124,7 +147,6 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
                     assertEquals(window.getTitle(), IHMList.TITLE);
                     window.dispose();
                     return Trigger.DO_NOTHING;
-                    //window.getButton(backBtnName).triggerClick();
                 }
                 })
             .run();

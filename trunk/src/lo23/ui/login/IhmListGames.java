@@ -12,17 +12,18 @@
 package lo23.ui.login;
 
 import java.util.ArrayList;
-import lo23.utils.JTableButtonMouseListener;
-import lo23.utils.JTableButtonRenderer;
+import javax.swing.*;
 import lo23.data.ApplicationModel;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
-import javax.swing.*;
+import lo23.utils.JTableButtonMouseListener;
+import lo23.utils.JTableButtonRenderer;
 
 
 /**
- *
+ * Classe gérant la fenêtre de partie terminées à revoir et des parties en cours à continuer
+ * 
  * @author rossmarc
  */
 public class IhmListGames extends javax.swing.JFrame {
@@ -44,6 +45,7 @@ public class IhmListGames extends javax.swing.JFrame {
         ArrayList<JButton> listReviewBtn = ihmLoginModel.getListReviewGameBtn();
         for (JButton btn : listReviewBtn) {
             btn.addActionListener(new java.awt.event.ActionListener() {
+                @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     reviewGameBtnActionPerformed(evt);
                 }
@@ -54,6 +56,7 @@ public class IhmListGames extends javax.swing.JFrame {
         ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
             btn.addActionListener(new java.awt.event.ActionListener() {
+                @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     continueGameBtnActionPerformed(evt);
                 }
@@ -164,6 +167,7 @@ public class IhmListGames extends javax.swing.JFrame {
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 //Instantiate DataManager
                 ApplicationModel appModel = new ApplicationModel();
