@@ -4,13 +4,10 @@
  */
 package lo23.ui.login.tests;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import lo23.data.ApplicationModel;
 import lo23.data.PublicProfile;
-import lo23.data.exceptions.FileNotFoundException;
 import lo23.ui.login.IHMList;
 import lo23.ui.login.IhmConnexionWindow;
 import lo23.ui.login.IhmLoginModel;
