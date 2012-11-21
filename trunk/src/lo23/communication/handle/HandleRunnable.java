@@ -46,7 +46,6 @@ public abstract class HandleRunnable implements Runnable {
      */
     public void waitStarted() {
         while (!start.get()) {
-            System.out.println("Wait started");
             try {
                 synchronized (start) {
                     start.wait(1000);
