@@ -88,9 +88,9 @@ public class ConnectionManager implements ConnectionListener {
      * is a new connection.
      */
     public void sendMulticast() {
-        PublicProfile profile = this.comManager.getCurrentUserProfile();
+        PublicProfile profile = comManager.getCurrentUserProfile();
         MulticastInvit message = new MulticastInvit(profile);
-        HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
+        HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
         handler.sendMulticast(message);
     }
 
@@ -98,9 +98,9 @@ public class ConnectionManager implements ConnectionListener {
      * Function which answer to sendMultiCast().
      */
     private void replyMulticast(String ipAddress) {
-        PublicProfile profile = this.comManager.getCurrentUserProfile();
+        PublicProfile profile = comManager.getCurrentUserProfile();
         MulticastAnswer message = new MulticastAnswer(profile);
-        HandleSendMessageUDP handler = new HandleSendMessageUDP(this.datagramSocket);
+        HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
         handler.send(message, ipAddress);
     }
 
@@ -340,7 +340,10 @@ public class ConnectionManager implements ConnectionListener {
     @Override
     public synchronized void receivedUDPMessage(Message message) {
         if (message instanceof MulticastInvit) {
-            replyMulticast(((MulticastInvit) message).getProfile().getIpAddress());
+            String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
+            if (!ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
+                replyMulticast(ipAddress);
+            }
         } else if (message instanceof MulticastAnswer) {
             notifyMessage(message);
         }
@@ -368,7 +371,7 @@ public class ConnectionManager implements ConnectionListener {
 
         @Override
         public void run() {
-            ApplicationModel model = ConnectionManager.this.comManager.getApplicationModel();
+            ApplicationModel model = comManager.getApplicationModel();
             if (message instanceof InvitMsg) {
                 model.getPManager().notifyInvitation(((InvitMsg) message).getInvitation());
             } else if (message instanceof AnswerMsg) {

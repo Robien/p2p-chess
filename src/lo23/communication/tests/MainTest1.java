@@ -1,6 +1,7 @@
 package lo23.communication.tests;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,6 +79,8 @@ public class MainTest1 {
             appModel.setProfileManager(new MyProfileManagerMock(appModel));
             
             frame = new JFrame("MainTest1");
+            frame.setSize(new Dimension(400, 300));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().setLayout(new BorderLayout());
             userListModel = new DefaultListModel();
             userJList = new JList(userListModel);
@@ -109,6 +112,7 @@ public class MainTest1 {
                 }
             });
             
+            frame.setVisible(true);
             frame.toFront();
             
         } catch (SocketException ex) {
@@ -281,7 +285,7 @@ public class MainTest1 {
 
         @Override
         public void notifyInvitation(Invitation invitation) {
-            JOptionPane.showMessageDialog(frame, "Vous avez reçu une invitation : " + invitation.toString());
+            JOptionPane.showMessageDialog(frame, "Vous avez reçu une invitation de : " + invitation.getHost().toString());
         }
 
         @Override
