@@ -4,32 +4,24 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import lo23.data.ApplicationModel;
 import lo23.data.PublicProfile;
-import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.ProfileIdAlreadyExistException;
 import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
-import lo23.utils.Enums.STATUS;
-import lo23.ui.login.IhmProfileWindow;
 
 /**
  * IhmConnexionWindow_old : interface de connexion (login) à l'application
