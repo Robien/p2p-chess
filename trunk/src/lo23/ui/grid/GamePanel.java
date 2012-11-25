@@ -176,7 +176,7 @@ public class GamePanel extends JPanel {
 //                myModel.getGManager().playMove(move);
 //                myModel.getGManager().sendMove(move);
                 
-                //update display
+                //update display (remove for integration)
                 listOfPiece.remove(formerPositionSelected);
                 listOfPiece.put(newSelection, formerPieceSelected);
                 add(formerPieceSelected, constraints, 0);
