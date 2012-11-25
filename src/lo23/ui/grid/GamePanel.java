@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,15 +24,18 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.managers.Manager;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums.COLOR;
+
+
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
    private ApplicationModel myModel;
    private Game game;
-    
+   private EventListener eventListener = new EventListener(this);
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
       
@@ -93,8 +98,13 @@ public class GamePanel extends JPanel {
                 }
             }
         });
+       
         
+        ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
         
+        addPropertyChangeListener(eventListener);
+
+  
           
         buildBoard(true);
     }
@@ -237,7 +247,7 @@ public class GamePanel extends JPanel {
     	return blackAtePieces;
     }
     
-    private void updateBoard(Move move){
+    public void updateBoard(Move move){
         // Update board after player play a move
          listOfPiece.remove(move.getFrom());
          listOfPiece.put(move.getTo(), formerPieceSelected);
