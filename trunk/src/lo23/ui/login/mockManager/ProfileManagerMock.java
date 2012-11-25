@@ -5,10 +5,14 @@
 
 package lo23.ui.login.mockManager;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.NewInvitation;
+import lo23.data.Player;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.managers.Manager;
@@ -26,6 +30,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     private Profile profileAdmin;
     private Profile currProfil = null;
     private ArrayList<Profile> profiles = new ArrayList<Profile>();
+    public ArrayList<Long> idPlayersConnected;
     
     public ProfileManagerMock(ApplicationModel model){
         super(model);
@@ -127,7 +132,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() {
-        ArrayList<PublicProfile> profilesPublic = new ArrayList<PublicProfile>();
+        ArrayList<PublicProfile> profilesPublic = new ArrayList<>();
         for(Profile p : profiles){
             profilesPublic.add(p.getPublicProfile());
         }
@@ -155,6 +160,27 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     @Override
     public void startProfilesDiscovery() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    // pour le test 
+    public ArrayList<Long> getIdPlayersConnected() {
+
+        idPlayersConnected= new ArrayList<>();
+        
+        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
+        //Player playerLocal = new Player(COLOR.BLACK, 23, profile);
+        //Player remotePlayer = new Player(COLOR.BLACK, 10, profile2);
+        //Game game1 = new Game(playerLocal, remotePlayer);
+        //listStartGames.add(game1);
+        idPlayersConnected.add(Long.parseLong(profile.getProfileId()));
+        idPlayersConnected.add(Long.parseLong(profile2.getProfileId()));
+        try {
+            Thread.sleep(987);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ProfileManagerMock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        return idPlayersConnected;
     }
 
 }
