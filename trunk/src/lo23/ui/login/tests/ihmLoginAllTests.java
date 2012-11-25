@@ -20,6 +20,9 @@ public class ihmLoginAllTests {
         System.out.println("\n----------------- TEST de IhmListGames ----------------\n");
         IhmListGamesTest.main(args);
         
+        System.out.println("\n----------------- TEST de IhmListPlayers ----------------\n");
+        IhmListPlayersTest.main(args);
+        
     }
     
     
