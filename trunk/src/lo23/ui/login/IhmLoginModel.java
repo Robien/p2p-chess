@@ -24,6 +24,7 @@ import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
+import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
 
@@ -47,7 +48,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     public PropertyChangeSupport pcs;
     public ArrayList<Long> idEndGames;
     public ArrayList<Long> idStartGames;
-    
+    public ArrayList<Long> idPlayersConnected;
     private ApplicationModel appModel;
 
     private PlayerModel listPlayers;
@@ -70,12 +71,14 @@ public class IhmLoginModel implements PropertyChangeListener{
         // Liste des joueurs présents
         Object[][] donnees = {};
         String[] entetes = {"id", "Pseudo", "FistName", "Status",""};
-
+        ProfileManagerMock profileManager = new ProfileManagerMock(appModel);
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
         listPlayGameBtn = new ArrayList<JButton>();
         listPlayersLaunchBtn = new ArrayList<JButton>();
-
+       
+        idPlayersConnected = profileManager.getIdPlayersConnected(); // pour le test
+         
         // Liste des parties terminées
         GameManagerMock gameManager = new GameManagerMock(appModel);
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
