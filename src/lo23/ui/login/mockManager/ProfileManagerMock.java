@@ -132,7 +132,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() {
-        ArrayList<PublicProfile> profilesPublic = new ArrayList<>();
+        ArrayList<PublicProfile> profilesPublic = new ArrayList<PublicProfile>();
         for(Profile p : profiles){
             profilesPublic.add(p.getPublicProfile());
         }
@@ -164,7 +164,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     // pour le test 
     public ArrayList<Long> getIdPlayersConnected() {
 
-        idPlayersConnected= new ArrayList<>();
+        idPlayersConnected= new ArrayList<Long>();
         
         PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
