@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.xml.bind.Marshaller.Listener;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
@@ -95,8 +94,8 @@ public class GamePanel extends JPanel {
             }
         });
         
-      
         
+          
         buildBoard(true);
     }
     
