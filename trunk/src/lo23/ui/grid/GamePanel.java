@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.xml.bind.Marshaller.Listener;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel {
         model = myModel;
         game = gm;
         playerColor = COLOR.WHITE;
+        
         build();
     }
     
@@ -92,6 +94,9 @@ public class GamePanel extends JPanel {
                 }
             }
         });
+        
+      
+        
         buildBoard(true);
     }
     
@@ -102,6 +107,7 @@ public class GamePanel extends JPanel {
         constraints.gridx = x;
         constraints.gridy = y;
 
+        
         Position newSelection = new Position(x,y);
         GamePiece currentPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
 
@@ -114,6 +120,7 @@ public class GamePanel extends JPanel {
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
     	//if a case is already selected, the former selection disapears
+        playerColor = game.getLocalPlayer().getColor();
         if (isFormerSelectionExist) {
         	hidePossibleCase();
             listOfSelection.get(formerPositionSelected).setVisible(false);
@@ -155,9 +162,19 @@ public class GamePanel extends JPanel {
                 }
                 
                 //Update model
-                game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
-                //True code
+                 game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+                
+                    if (playerColor == COLOR.WHITE) {
+                        playerColor = COLOR.BLACK;
+                        System.out.println("1" + playerColor);
+                    } else if (playerColor == COLOR.BLACK) {
+                        playerColor = COLOR.WHITE;
+                        System.out.println("2" + playerColor);
+                    }
+                 
+                 //True code
 //                Move move = myModel.getGManager().createMove(newSelection, currentPiece);
+//                myModel.getGManager().playMove(move);
 //                myModel.getGManager().sendMove(move);
                 
                 //update display
@@ -169,6 +186,7 @@ public class GamePanel extends JPanel {
         	}
     	}
         hidePossibleCase();
+        
     }
       
     public void eatPiece(Position p){
@@ -177,13 +195,15 @@ public class GamePanel extends JPanel {
 
     	if (playerColor == COLOR.WHITE) {
     		blackAtePieces.add(atePiece);
-    	} else whiteAtePieces.add(atePiece);
+    	} else {
+            whiteAtePieces.add(atePiece);
+        }
     }
     
     private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
-    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty() && currentPiece.getOwner().getColor() == playerColor ) {
+    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty() && currentPiece.getOwner().getColor() == playerColor && game.getLocalPlayer().getColor() == playerColor) {
     		return true;
     	} else {
     		return false;
@@ -220,7 +240,9 @@ public class GamePanel extends JPanel {
     
     private void updateBoard(Move move){
         // Update board after player play a move
-        // TO DO...
+         listOfPiece.remove(move.getFrom());
+         listOfPiece.put(move.getTo(), formerPieceSelected);
+         add(formerPieceSelected, constraints, 0);
     }
     
     private void launchParty(){
