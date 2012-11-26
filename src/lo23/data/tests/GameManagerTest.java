@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.NewInvitation;
@@ -22,6 +23,7 @@ import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums;
+import lo23.utils.Enums.PLAYER_RESULT;
 
 /**
  *
@@ -53,21 +55,23 @@ public class GameManagerTest {
 
                 pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
                 Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-                inv = new NewInvitation(Enums.COLOR.WHITE, 300, phost.getPublicProfile(), pGuest.getPublicProfile());
+                inv = new NewInvitation(Enums.COLOR.WHITE, 300, app.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
                 try {
                     gm = app.getGManager().createGame(inv);
                     long gid = gm.getGameId();
-
-
-                    Move m = new Move(new Position(0, 0), new Position(0, 2), gm.getPieceAtXY(0, 0));
+                    
+                    
+                    Constant c=app.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+                    app.getGManager().saveConstant(c);   
                     try {
-                        gm.playMove(m);
-                    } catch (IllegalMoveException ex) {
-                        Logger.getLogger(TestInit.class.getName()).log(Level.SEVERE, null, ex);
+                        PLAYER_RESULT reponse = gm.isWinner("idprofile");
+                        System.out.println(reponse+" "+PLAYER_RESULT.WIN+" "+PLAYER_RESULT.LOST);
+                    } catch (Exception ex) {
+                        Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     app.getGManager().save();
 
-                    ArrayList<Game> list = app.getGManager().getListStartGames();
+                    ArrayList<Game> list = app.getGManager().getListAllGames();
                     for (Game g : list) {
                         g.dumpBoard();
                     }
