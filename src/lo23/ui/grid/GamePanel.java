@@ -24,6 +24,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.managers.GameManager;
 import lo23.data.managers.Manager;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums.COLOR;
@@ -60,22 +61,40 @@ public class GamePanel extends JPanel {
     //local player color
     COLOR playerColor; 
     boolean secondClickIsAllowed = false;
-
+ //   GameManager manager = new GameManager(myModel);
+   
+    public GamePanel(ApplicationModel model){
+        super();
+        model = myModel;
+        
+        ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
+        
+        addPropertyChangeListener(eventListener);
+    }
  
     public GamePanel(ApplicationModel model, Game gm) {
         super();
-        model = myModel;
+        myModel = model;
         game = gm;
         playerColor = COLOR.WHITE;
+       
+        
+//       ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
+//
+//       addPropertyChangeListener(eventListener);
         
         build();
     }
     
     public GamePanel(ApplicationModel model, Game gm, COLOR color) {
         super();
-        model = myModel;
+        myModel = model;
         game = gm;
         playerColor = color;
+        
+       ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
+        
+        addPropertyChangeListener(eventListener);
         build();
     }
 
@@ -100,9 +119,8 @@ public class GamePanel extends JPanel {
         });
        
         
-        ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
         
-        addPropertyChangeListener(eventListener);
+      
 
   
           
@@ -171,6 +189,14 @@ public class GamePanel extends JPanel {
                 }
                 
                 //Update model
+        
+                        
+               //True code
+//               System.out.println(newSelection + ":" + game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
+//               Move move = myModel.getGManager().createMove(newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
+//               myModel.getGManager().playMove(move);
+//               myModel.getGManager().sendMove(move);
+                
                  game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                 
                     if (playerColor == COLOR.WHITE) {
@@ -181,16 +207,13 @@ public class GamePanel extends JPanel {
                         System.out.println("2" + playerColor);
                     }
                  
-                 //True code
-//                Move move = myModel.getGManager().createMove(newSelection, currentPiece);
-//                myModel.getGManager().playMove(move);
-//                myModel.getGManager().sendMove(move);
-                
+
                 //update display (remove for integration)
                 listOfPiece.remove(formerPositionSelected);
                 listOfPiece.put(newSelection, formerPieceSelected);
                 add(formerPieceSelected, constraints, 0);
-                
+
+
                 
         	}
     	}
