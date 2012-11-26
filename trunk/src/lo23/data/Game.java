@@ -242,8 +242,8 @@ public class Game implements Serializable {
         return end;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setEnd() {
+        this.end = new Date();
     }
 
     public void swapPlayer() {
