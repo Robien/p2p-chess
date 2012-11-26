@@ -256,7 +256,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     try {
                         model.loadGame(invitation);
                         this.setVisible(false);
-                        new lo23.ui.grid.MainWindow(model.getApplicationModel(),null);
+                        new lo23.ui.grid.MainWindow(model.getApplicationModel());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
