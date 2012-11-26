@@ -38,6 +38,20 @@ import lo23.ui.grid.PlayerPanel;
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
     Game game;
+    
+    public MainWindow(ApplicationModel m) {
+        super();
+
+        //Launch the Sound
+//       during_party = new Launch_Sound("chess.wav");
+//       during_party.play();
+
+
+        myModel = m;
+  
+        build();//On initialise notre fenêtre
+
+    }
  
     public MainWindow(ApplicationModel m, Game gm) {
         super();
