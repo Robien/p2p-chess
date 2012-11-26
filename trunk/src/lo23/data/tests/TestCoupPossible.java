@@ -6,12 +6,15 @@
 package lo23.data.tests;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.pieces.GamePiece;
@@ -38,7 +41,12 @@ public class TestCoupPossible {
         Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         NewInvitation inv = new NewInvitation(COLOR.BLACK, 0, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        Game gm = app.getGManager().createGame(inv);
+        Game gm=null;
+        try {
+            gm = app.getGManager().createGame(inv);
+        } catch (WrongInvitation ex) {
+            Logger.getLogger(TestCoupPossible.class.getName()).log(Level.SEVERE, null, ex);
+        }
         gm.buildPieces();
        // gm.dumpBoard();
 

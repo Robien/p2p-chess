@@ -5,6 +5,7 @@
 package lo23.data.tests;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
@@ -16,6 +17,8 @@ import lo23.data.Profile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.WrongInvitation;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums;
@@ -41,21 +44,21 @@ public class GameManagerTest {
         app.setProfileManager(new ProfileManager(app));
 
         char[] fakePassword = {};
-        String profileId = "profileid";
+        String profileId = "MIchel";
         Profile p;
         try {
-            p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+            //p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
 
             if (app.getPManager().connection(profileId, fakePassword)) {
-                System.out.println("Connection.");
-                pGuest = new Profile("", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-                inv = new NewInvitation(Enums.COLOR.WHITE, 300, app.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
 
-                gm = app.getGManager().createGame(inv);
-                long gid = gm.getGameId(); 
-                
-                //
+                pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                inv = new NewInvitation(Enums.COLOR.WHITE, 300, phost.getPublicProfile(), pGuest.getPublicProfile());
                 try {
+                    gm = app.getGManager().createGame(inv);
+                    long gid = gm.getGameId();
+
+
                     Move m = new Move(new Position(0, 0), new Position(0, 2), gm.getPieceAtXY(0, 0));
                     try {
                         gm.playMove(m);
@@ -63,11 +66,17 @@ public class GameManagerTest {
                         Logger.getLogger(TestInit.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     app.getGManager().save();
-                    System.out.println(gid);
-                    app.getGManager().getListAllGames();
-                    app.getGManager().load(gid);
-                    
+
+                    ArrayList<Game> list = app.getGManager().getListStartGames();
+                    for (Game g : list) {
+                        g.dumpBoard();
+                    }
+                    System.out.println(list.size());
+
                 } catch (NoIdException expt) {
+                    System.out.println(expt.getMessage());
+                    System.out.println(expt.getStackTrace());
+                } catch (WrongInvitation expt) {
                     System.out.println(expt.getMessage());
                     System.out.println(expt.getStackTrace());
                 }
@@ -76,8 +85,7 @@ public class GameManagerTest {
             }
         } catch (IOException ex) {
             Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoIdException ex) {
-            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {

@@ -17,6 +17,7 @@ import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums;
@@ -47,7 +48,11 @@ public class TestInit {
         Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        gm = app.getGManager().createGame(inv);
+        try {
+            gm = app.getGManager().createGame(inv);
+        } catch (WrongInvitation ex) {
+            Logger.getLogger(TestInit.class.getName()).log(Level.SEVERE, null, ex);
+        }
         gm.buildPieces();
         gm.dumpBoard();
 

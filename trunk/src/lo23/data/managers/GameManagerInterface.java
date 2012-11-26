@@ -12,6 +12,7 @@ import lo23.data.Position;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
 
@@ -114,7 +115,7 @@ public interface GameManagerInterface
      * 
      * @return A Game object
      */
-    public Game createGame(Invitation invitation);
+    public Game createGame(Invitation invitation) throws WrongInvitation;
     
     /**
      * This method creates a Constant object from a CONSTANT_TYPE type given
