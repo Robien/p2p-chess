@@ -235,9 +235,7 @@ public class GameManager extends Manager implements GameManagerInterface {
                 Profile cur = getApplicationModel().getPManager().getCurrentProfile();
                 
                 long tmp_long=Long.parseLong(fileList[i].split("\\.")[0]);
-                System.out.println(tmp_long);
                 Game tmp = load(tmp_long);
-                System.out.println("Plop");
                 if (cur.getProfileId().equals(tmp.getLocalPlayer().getPublicProfile().getProfileId())
                         || cur.getProfileId().equals(tmp.getRemotePlayer().getPublicProfile().getProfileId())) { //ajout de tmp si le localPLayer ou le distant est le profile connecte
                     gameList.add(tmp);
