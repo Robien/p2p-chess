@@ -63,7 +63,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         
         //Seulement lorsque l'utilisateur distant est en ligne
         //Implémentation terminé à tester
-        /*
+        
         // Ajoute un listener sur tous les ContinueGameBtn
         ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
@@ -73,7 +73,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     continueGameBtnActionPerformed(evt);
                 }
             });
-        }*/
+        }
     }
 
     /** This method is called from within the constructor to
