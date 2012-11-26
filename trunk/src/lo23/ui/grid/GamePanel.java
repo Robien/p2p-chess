@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
+import lo23.data.Event;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Position;
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel {
 	
    private ApplicationModel myModel;
    private Game game;
-   private EventListener eventListener = new EventListener(this);
+   private EventListener eventListener;
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
       
@@ -61,40 +62,32 @@ public class GamePanel extends JPanel {
     //local player color
     COLOR playerColor; 
     boolean secondClickIsAllowed = false;
- //   GameManager manager = new GameManager(myModel);
+    GameManager manager = new GameManager(myModel);
+
    
     public GamePanel(ApplicationModel model){
         super();
-        model = myModel;
-        
-        ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
-        
-        addPropertyChangeListener(eventListener);
+        myModel = model; 
+        eventListener = new EventListener(this, myModel);
     }
  
     public GamePanel(ApplicationModel model, Game gm) {
         super();
         myModel = model;
+        eventListener = new EventListener(this, myModel);
         game = gm;
         playerColor = COLOR.WHITE;
-       
-        
-//       ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
-//
-//       addPropertyChangeListener(eventListener);
-        
+      
         build();
     }
     
     public GamePanel(ApplicationModel model, Game gm, COLOR color) {
         super();
         myModel = model;
+        eventListener = new EventListener(this, myModel);
         game = gm;
         playerColor = color;
-        
-       ((Manager)myModel.getGManager()).subscribe(eventListener,"move");
-        
-        addPropertyChangeListener(eventListener);
+
         build();
     }
 
@@ -117,13 +110,8 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-       
-        
-        
-      
-
-  
           
+       
         buildBoard(true);
     }
     
