@@ -242,6 +242,10 @@ public class Game implements Serializable {
         return end;
     }
 
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
     public void swapPlayer() {
         Player tmp = localPlayer;
         localPlayer = remotePlayer;
