@@ -11,8 +11,13 @@
 
 package lo23.ui.login;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 import lo23.data.ApplicationModel;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
@@ -26,7 +31,7 @@ import lo23.utils.JTableButtonRenderer;
  * 
  * @author rossmarc
  */
-public class IhmListGames extends javax.swing.JFrame {
+public class IhmListGames extends javax.swing.JFrame implements TableModelListener{
 
     private IhmLoginModel ihmLoginModel;
     private IHMList listPlayers;
@@ -52,6 +57,13 @@ public class IhmListGames extends javax.swing.JFrame {
             });
         }
         
+        //Add listener when table model change
+        this.stopGamesTable.getModel().addTableModelListener(this);
+        
+        
+        //Seulement lorsque l'utilisateur distant est en ligne
+        //Implémentation terminé à tester
+        /*
         // Ajoute un listener sur tous les ContinueGameBtn
         ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
@@ -61,7 +73,7 @@ public class IhmListGames extends javax.swing.JFrame {
                     continueGameBtnActionPerformed(evt);
                 }
             });
-        }
+        }*/
     }
 
     /** This method is called from within the constructor to
@@ -190,5 +202,22 @@ public class IhmListGames extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable stopGamesTable;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void tableChanged(TableModelEvent tme) {
+        if(tme.getType() == TableModelEvent.INSERT){
+            int row = tme.getLastRow();
+            TableModel tm = (TableModel)tme.getSource();
+            Object o = tm.getValueAt(row,tm.getColumnCount()-1);
+            if(o instanceof JButton){
+                ((JButton)o).addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        continueGameBtnActionPerformed(ae);
+                    }
+                });
+            }
+        }
+    }
 
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +22,7 @@ import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
@@ -116,7 +119,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             pcs.addPropertyChangeListener(l);
     }
     
-    public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException{
+    public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
         GameManagerInterface gameManager = appModel.getGManager();
         Game game = gameManager.createGame(invit);
         gameManager.load(game.getGameId());
@@ -157,16 +160,26 @@ public class IhmLoginModel implements PropertyChangeListener{
 
             PublicProfile p = getProfile(profile.getProfileId());
             if(p == null){
+                //Add remote profile to Jtable model
                 listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
+                
+                //Get all games stopped which have the id of the current profile p
+                ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
+                for(Game g : gamesContinue){
+                    listStartGames.addGame(g.getEndDate(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId());
+                }
+                
+                //Set profile to p
                 p = profile;
                 pcs.firePropertyChange(ADD_PLAYER_CONNECTED, null, p);
             }
+            //put p to list
             listProfileDate.put(p,new Date());
             
             
             System.out.println("Player : "+profile.getPseudo()+" added");
 
-            removeOldPlayers();
+            removeDisconnectedProfilesAndGames();
             
         }
         if(evt.getPropertyName().equals(INVIT_RECEIVE)){
@@ -197,13 +210,20 @@ public class IhmLoginModel implements PropertyChangeListener{
             return OFFLINEICON;
     }
 
-    private void removeOldPlayers(){
+    private void removeDisconnectedProfilesAndGames(){
         Date now = new Date();
         for(PublicProfile p : listProfileDate.keySet()){
             Date currDate = listProfileDate.get(p);
             if(now.getTime() - currDate.getTime() >= 30*1000){
+                //Remove profile from two list
                 listProfileDate.remove(p);
                 listPlayers.removePlayer(p.getProfileId());
+                
+                //Remove games associated
+                ArrayList<Game> gamesContinue = this.getGamesContinueFromId(p.getProfileId());
+                for(Game g : gamesContinue){
+                    this.listStartGames.removeGame(g.getGameId());
+                }
             }
         }
     }
@@ -216,13 +236,31 @@ public class IhmLoginModel implements PropertyChangeListener{
         return null;
     }
 
-    public void loadGame(Invitation invitation) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public void loadGame(Invitation invitation) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation {
         Game game = appModel.getGManager().createGame(invitation);
         appModel.getGManager().load(game.getGameId());
     }
 
     void refreshProfileList() {
         pcs.firePropertyChange(IhmConnexionWindow.REFRESH_LIST,null,null);
+    }
+
+    private ArrayList<Game> getGamesContinueFromId(String profileId) {
+        ArrayList<Game> res = new ArrayList<Game>();
+        try {
+            ArrayList<Game> gamesContinue = appModel.getGManager().getListStopGames();
+            for(Game g : gamesContinue){
+                if(g.getRemotePlayer().getPublicProfile().getProfileId().equals(profileId)){
+                    res.add(g);
+                }
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(IhmLoginModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(IhmLoginModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
     }
  
 
@@ -283,6 +321,9 @@ public class IhmLoginModel implements PropertyChangeListener{
                 return o.getClass();
             }
         }
+        
+        
+        
     }
     
     private class EndGameModel extends GameModel {
@@ -292,6 +333,19 @@ public class IhmLoginModel implements PropertyChangeListener{
             listReviewGameBtn.add(btn);
             this.addRow(new Object[]{date, adversary, result, btn});
         }
+        
+        public void removeGame(Long id) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if(this.getValueAt(i, 3) instanceof JButton){
+                    JButton button = (JButton) this.getValueAt(i, 3);
+                    if (button.getClientProperty("id") == id) {
+                        this.removeRow(i);
+                        return;
+                    }
+                }
+            }
+        }
+        
     } 
     private class StopGameModel extends GameModel {
         public void addGame(Date date, String adversary, Long id) {
@@ -299,6 +353,18 @@ public class IhmLoginModel implements PropertyChangeListener{
             btn.putClientProperty("id", id);
             listContinueGameBtn.add(btn);
             this.addRow(new Object[]{date, adversary, btn});
+        }
+        
+        public void removeGame(Long id) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if(this.getValueAt(i, 2) instanceof JButton){
+                    JButton button = (JButton) this.getValueAt(i, 2);
+                    if (button.getClientProperty("id") == id) {
+                        this.removeRow(i);
+                        return;
+                    }
+                }
+            }
         }
     } 
   
