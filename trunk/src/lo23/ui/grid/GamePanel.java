@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -44,12 +45,17 @@ public class GamePanel extends JPanel {
     private String path = getClass().getClassLoader().getResource(".").getPath();
     private ImageIcon squareBorder = new ImageIcon(path + "lo23/ui/resources/squareBorder.png");
     private ImageIcon filledSquare = new ImageIcon(path + "lo23/ui/resources/PossibleSquare.png");
+    private ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
+    private ImageIcon imageCaseN = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
+    private ImageIcon preSelection = new ImageIcon(path + "lo23/ui/resources/preSelection.png");
     
 	//hashmap with JLabel and their positions
     private HashMap<Position, JLabel> listOfPiece = new HashMap<Position, JLabel>();
     private HashMap<Position, JLabel> listOfSelection = new HashMap<Position, JLabel>();
     private HashMap<Position, JLabel> listOfSquare = new HashMap<Position, JLabel>();
+    private HashMap<Position, JLabel> listOfPreSelection = new HashMap<Position, JLabel>();
     private ArrayList<Position> listOfPossibleMove = new ArrayList<Position>();
+//    private HashMap<Position, JLabel> listOfCase = new HashMap<Position, JLabel>();
     
     //ate piece
     private ArrayList<JLabel> blackAtePieces = new ArrayList<JLabel>();
@@ -58,6 +64,9 @@ public class GamePanel extends JPanel {
     private boolean isFormerSelectionExist = false;
     private JLabel formerPieceSelected;
     private Position formerPositionSelected;
+    private Position formerPreSelection;
+    private Position newPreSelection;
+    private boolean isFormerPreSelectionExist = false;
     
     //local player color
     COLOR playerColor; 
@@ -106,9 +115,40 @@ public class GamePanel extends JPanel {
                     int y = mouseEvent.getY();
                     int xSquare = (x - x % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
                     int ySquare = (y - y % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
-                    receiveSelectedCase(xSquare,ySquare); 
+//                    receiveSelectedCase(xSquare,ySquare); 
                 }
             }
+        });
+        
+        addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseMoved(MouseEvent mouseEvent) {
+                int x = mouseEvent.getX();
+                int y = mouseEvent.getY();
+                int xSquare = (x - x % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
+                int ySquare = (y - y % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
+                
+                formerPreSelection = newPreSelection;
+                newPreSelection = new Position(xSquare,ySquare);
+                
+                //tester si la case est selectionnable
+                if (isFormerPreSelectionExist){
+                	listOfPreSelection.get(formerPreSelection).setVisible(false);
+                	listOfPreSelection.get(newPreSelection).setVisible(true);
+                } else {
+                	listOfPreSelection.get(newPreSelection).setVisible(true);
+                	isFormerPreSelectionExist = true;
+                }
+                
+			}
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
         });
           
        
@@ -279,8 +319,6 @@ public class GamePanel extends JPanel {
     }
 
     private void buildBoard(boolean playerIsWhite) {
-        ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
-        ImageIcon imageCaseN = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -297,12 +335,19 @@ public class GamePanel extends JPanel {
                 listOfSquare.put(new Position(i,j), possibleCase);
                 possibleCase.setVisible(false);
                 
+                JLabel preSelectionLabel = new JLabel("", preSelection, JLabel.CENTER);
+                add(preSelectionLabel, constraints, 1);
+                listOfPreSelection.put(new Position(i,j), preSelectionLabel);
+                preSelectionLabel.setVisible(false);
+                
                 if ((i + j) % 2 != 0) {
                     JLabel labelCaseN = new JLabel("", imageCaseN, JLabel.CENTER);
                     add(labelCaseN, constraints, -1);
+//                    listOfCase.put(new Position(i,j), labelCaseN);
                 } else {
                     JLabel labelCaseB = new JLabel("", imageCaseB, JLabel.CENTER);
                     add(labelCaseB, constraints, -1);
+//                    listOfCase.put(new Position(i,j), labelCaseB);
                 }
             }
         }
@@ -316,7 +361,7 @@ public class GamePanel extends JPanel {
                 constraints.gridx = i; 
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PW.png");
                  JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
-                 add(pawnLabel, constraints, 1);
+                 add(pawnLabel, constraints, 2);
                  listOfPiece.put(new Position(i,6), pawnLabel);
             }
 
@@ -326,12 +371,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TW.png");
             JLabel towerRight = new JLabel("", tower, JLabel.CENTER);
-            add(towerRight, constraints, 1);
+            add(towerRight, constraints, 2);
             listOfPiece.put(new Position(0, 7), towerRight);
 
             constraints.gridx = 7;
             JLabel towerLeft = new JLabel("", tower, JLabel.CENTER);
-            add(towerLeft, constraints, 1);
+            add(towerLeft, constraints, 2);
             listOfPiece.put(new Position(7, 7), towerLeft);
 
             //Add knights pieces to the board
@@ -340,12 +385,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KW.png");
             JLabel knightRight = new JLabel("", knight, JLabel.CENTER);
-            add(knightRight, constraints, 1);
+            add(knightRight, constraints, 2);
             listOfPiece.put(new Position(1, 7), knightRight);
 
             constraints.gridx = 6;
             JLabel knightLeft = new JLabel("", knight, JLabel.CENTER);
-            add(knightLeft, constraints, 1);
+            add(knightLeft, constraints, 2);
             listOfPiece.put(new Position(6, 7), knightLeft);
 
             //Add bishop pieces to the board
@@ -354,12 +399,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon bishop = new ImageIcon(path + "lo23/ui/resources/BW.png");
             JLabel bishopRight = new JLabel("", bishop, JLabel.CENTER);
-            add(bishopRight, constraints, 1);
+            add(bishopRight, constraints, 2);
             listOfPiece.put(new Position(2, 7), bishopRight);
 
             constraints.gridx = 5;
             JLabel bishopLeft = new JLabel("", bishop, JLabel.CENTER);
-            add(bishopLeft, constraints, 1);
+            add(bishopLeft, constraints, 2);
             listOfPiece.put(new Position(5, 7), bishopLeft);
 
             //Add queen pieces to the board
@@ -368,7 +413,7 @@ public class GamePanel extends JPanel {
 
             ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QW.png");
             JLabel queenPiece = new JLabel("", queen, JLabel.CENTER);
-            add(queenPiece, constraints, 1);
+            add(queenPiece, constraints, 2);
             listOfPiece.put(new Position(3, 7), queenPiece);
 
             //Add king pieces to the board
@@ -377,7 +422,7 @@ public class GamePanel extends JPanel {
 
             ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKW.png");
             JLabel kingPiece = new JLabel("", king, JLabel.CENTER);
-            add(kingPiece, constraints, 1);
+            add(kingPiece, constraints, 2);
             listOfPiece.put(new Position(4, 7), kingPiece);
             //Black Pieces :
             //Add pawn pieces to the board
@@ -388,7 +433,7 @@ public class GamePanel extends JPanel {
                  constraints.gridx = i; 
                  ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
                  JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
-                 add(pawnLabel, constraints, 1);
+                 add(pawnLabel, constraints, 2);
                  listOfPiece.put(new Position(i,1), pawnLabel);
             }
 
@@ -398,12 +443,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon towerB = new ImageIcon(path + "lo23/ui/resources/TB.png");
             JLabel towerRightB = new JLabel("", towerB, JLabel.CENTER);
-            add(towerRightB, constraints, 1);
+            add(towerRightB, constraints, 2);
             listOfPiece.put(new Position(0, 0), towerRightB);
 
             constraints.gridx = 7;
             JLabel towerLeftB = new JLabel("", towerB, JLabel.CENTER);
-            add(towerLeftB, constraints, 1);
+            add(towerLeftB, constraints, 2);
             listOfPiece.put(new Position(7, 0), towerLeftB);
 
             //Add knights pieces to the board
@@ -412,12 +457,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon knightB = new ImageIcon(path + "lo23/ui/resources/KB.png");
             JLabel knightRightB = new JLabel("", knightB, JLabel.CENTER);
-            add(knightRightB, constraints, 1);
+            add(knightRightB, constraints, 2);
             listOfPiece.put(new Position(1, 0), knightRightB);
 
             constraints.gridx = 6;
             JLabel knightLeftB = new JLabel("", knightB, JLabel.CENTER);
-            add(knightLeftB, constraints, 1);
+            add(knightLeftB, constraints, 2);
             listOfPiece.put(new Position(6, 0), knightLeftB);
 
             //Add bishop pieces to the board
@@ -426,12 +471,12 @@ public class GamePanel extends JPanel {
 
             ImageIcon bishopB = new ImageIcon(path + "lo23/ui/resources/BB.png");
             JLabel bishopRightB = new JLabel("", bishopB, JLabel.CENTER);
-            add(bishopRightB, constraints, 1);
+            add(bishopRightB, constraints, 2);
             listOfPiece.put(new Position(2, 0), bishopRightB);
 
             constraints.gridx = 5;
             JLabel bishopLeftB = new JLabel("", bishopB, JLabel.CENTER);
-            add(bishopLeftB, constraints, 1);
+            add(bishopLeftB, constraints, 2);
             listOfPiece.put(new Position(5, 0), bishopLeftB);
 
             //Add queen pieces to the board
@@ -440,7 +485,7 @@ public class GamePanel extends JPanel {
 
             ImageIcon queenB = new ImageIcon(path + "lo23/ui/resources/QB.png");
             JLabel queenPieceB = new JLabel("", queenB, JLabel.CENTER);
-            add(queenPieceB, constraints, 1);
+            add(queenPieceB, constraints, 2);
             listOfPiece.put(new Position(3, 0), queenPieceB);
 
             //Add king pieces to the board
@@ -449,7 +494,7 @@ public class GamePanel extends JPanel {
 
             ImageIcon kingB = new ImageIcon(path + "lo23/ui/resources/KKB.png");
             JLabel kingPieceB = new JLabel("", kingB, JLabel.CENTER);
-            add(kingPieceB, constraints, 1);
+            add(kingPieceB, constraints, 2);
             listOfPiece.put(new Position(4, 0), kingPieceB);
             
             //test for AtePieces
