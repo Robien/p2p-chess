@@ -33,9 +33,9 @@ public class PlayerPanel extends javax.swing.JPanel {
         age.setText(String.valueOf(player.getPublicProfile().getAge()));
         nickName.setText(player.getPublicProfile().getPseudo());
 
-        Image img = player.getPublicProfile().getAvatar();
-        Icon ico = new ImageIcon(img);
-        avatar.setIcon(ico);
+        //ImageIcon img = player.getPublicProfile().getAvatar();
+       // Icon ico = new ImageIcon(img);
+       // avatar.setIcon(ico);
 
     }
 
