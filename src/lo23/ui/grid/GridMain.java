@@ -74,12 +74,12 @@ public class GridMain
                 char[] fakePassword =
                 {
                 };
-                String profileId = "MIchel";
+                String profileId = "M23hel";
                 Profile p;
                 try
                 {
                     try {
-                        p = myModel.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                        p = myModel.getPManager().createProfile(profileId, "toto2", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
                     } catch (ProfilePseudoAlreadyExistException ex) {
                         Logger.getLogger(GridMain.class.getName()).log(Level.SEVERE, null, ex);
                     }
