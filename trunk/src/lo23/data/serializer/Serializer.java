@@ -57,6 +57,7 @@ public class Serializer {
         ObjectOutputStream out;
         out = new ObjectOutputStream(new FileOutputStream(path + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
         out.writeObject(profile);
+        out.flush();
         out.close();
     }
 
