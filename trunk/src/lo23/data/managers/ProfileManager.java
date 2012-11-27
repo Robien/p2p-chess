@@ -132,7 +132,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void exportProfile(String filePath) throws NoIdException, IOException {
-        Serializer.saveProfile(this.getCurrentProfile(), filePath);
+        Serializer.saveProfile(this.getCurrentProfile(), filePath, "");
     }
 
     public void updateCurrentProfileScore(boolean victory) {
