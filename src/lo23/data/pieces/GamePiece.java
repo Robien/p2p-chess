@@ -7,6 +7,7 @@ import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 
 /**
  *
@@ -52,19 +53,11 @@ public abstract class GamePiece implements Serializable {
         return position;
     }
 
-    public void movePiece(Position to) {
-
-        try
-        {
-            getGame().playMove(new Move(getPosition(), to, this));
-        }
-        catch(Exception e)
-        {
-            System.out.println("Erreur !");
-        }
+    public void movePiece(Position to) throws IllegalMoveException {
+        getGame().playMove(new Move(getPosition(), to, this));
         position = to;
-
     }
+    
     /**
      * This method returns the game where the current GamePiece is contained
      * 
