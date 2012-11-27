@@ -227,13 +227,7 @@ public class GamePanel extends JPanel {
                 
                  game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                 
-                    if (playerColor == COLOR.WHITE) {
-                        playerColor = COLOR.BLACK;
-                        System.out.println("1" + playerColor);
-                    } else if (playerColor == COLOR.BLACK) {
-                        playerColor = COLOR.WHITE;
-                        System.out.println("2" + playerColor);
-                    }
+              
                  
 
                 //update display (remove for integration)
@@ -305,6 +299,14 @@ public class GamePanel extends JPanel {
          listOfPiece.remove(move.getFrom());
          listOfPiece.put(move.getTo(), currentPiece);
          add(currentPiece, constraints, 0);
+         
+        if (playerColor == COLOR.WHITE) {
+            playerColor = COLOR.BLACK;
+            System.out.println("1" + playerColor);
+        } else if (playerColor == COLOR.BLACK) {
+            playerColor = COLOR.WHITE;
+            System.out.println("2" + playerColor);
+        }
     }
     
     private void launchParty(){
