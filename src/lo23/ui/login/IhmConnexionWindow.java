@@ -248,6 +248,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
             }
         }catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -267,10 +268,11 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                     try {
                         ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
                     } catch (ProfileIdAlreadyExistException ex) {
-                        //TODO
+                        //importProfileWithNewId(ex.getProfileWithExistingId()); //DataManager need to implement this accessor
                     } catch (ProfilePseudoAlreadyExistException ex) {
-                        importProfile(ex.getProfileWithExistingPseudo());
+                        importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
                     } catch (Exception ex){
+                        ex.printStackTrace();
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                     finally{
@@ -279,18 +281,37 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             }
     }
 
-     private void importProfile(Profile p){
-         String res;
-         res = JOptionPane.showInputDialog(this,"Pseudo "+p.getPseudo()+" already exists");
-         p.setPseudo(res);
+     private void importProfileWithPseudoUnicity(Profile p){
         try {
+            String res;
+            res = JOptionPane.showInputDialog(this,"Choose an another one :","Pseudo "+p.getPseudo()+" already exists",JOptionPane.OK_CANCEL_OPTION);
+            if(res == null)
+                return;
+            p.setPseudo(res);
             ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
-        } catch (ProfilePseudoAlreadyExistException ex) {
-            importProfile(ex.getProfileWithExistingPseudo());
-        } catch (Exception ex) {
+        } 
+        catch (ProfilePseudoAlreadyExistException ex) {
+            importProfileWithPseudoUnicity(p);
+        } 
+        catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
      }
+     
+     /*private void importProfileWithNewId(Profile p){
+        try {
+             p.setProfileId(IhmProfileWindow.RandomStringUUID());
+             ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
+        }  
+        catch (ProfilePseudoAlreadyExistException ex) {
+            importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
+        } 
+        catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
+     }*/
 
 
     /**
@@ -323,6 +344,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                     profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
                     loginCombo.setModel(new DefaultComboBoxModel(profilesList));
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
                 
