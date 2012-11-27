@@ -71,7 +71,6 @@ public class GamePanel extends JPanel {
     //local player color
     COLOR playerColor; 
     boolean secondClickIsAllowed = false;
-    GameManager manager = new GameManager(myModel);
 
    
     public GamePanel(ApplicationModel model){
@@ -98,6 +97,20 @@ public class GamePanel extends JPanel {
         playerColor = color;
 
         build();
+    }
+    
+        
+    private void launchGame(){
+        // Launch a game and build the board with events or not
+        if(myModel.getGManager().getCurrentGame().getEvents().isEmpty()){
+            if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
+                buildBoard(true);
+            } else {
+                buildBoard(false);
+            }
+        }else {
+            // TO DO : Parcourir la liste des events et reconstituer la partie.
+        }
     }
 
     private void build() {
@@ -151,6 +164,7 @@ public class GamePanel extends JPanel {
         	
         });
           
+        addPropertyChangeListener(eventListener);
        
         buildBoard(true);
     }
@@ -220,20 +234,14 @@ public class GamePanel extends JPanel {
         
                         
                //True code
-//               System.out.println(newSelection + ":" + game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
-//               Move move = myModel.getGManager().createMove(newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
-//               myModel.getGManager().playMove(move);
+               System.out.println(newSelection + ":" + game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
+               Move move = myModel.getGManager().createMove(newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
+               myModel.getGManager().playMove(move);
                //myModel.getGManager().sendMove(move);
                 
-                 game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
+                // game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                 
               
-                 
-
-                //update display (remove for integration)
-//                listOfPiece.remove(formerPositionSelected);
-//                listOfPiece.put(newSelection, formerPieceSelected);
-//                add(formerPieceSelected, constraints, 0);
                     
                 updateBoard(new Move(formerPositionSelected,newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY())));
 
@@ -307,20 +315,10 @@ public class GamePanel extends JPanel {
             playerColor = COLOR.WHITE;
             System.out.println("2" + playerColor);
         }
+        
+        // TO DO : Check end of game
     }
-    
-    private void launchParty(){
-        // Launch A party and build the board with events or not
-        if(myModel.getGManager().getCurrentGame().getEvents().isEmpty()){
-            if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
-                buildBoard(true);
-            } else {
-                buildBoard(false);
-            }
-        }else {
-            // TO DO : Parcourir la liste des events et reconstituer la partie.
-        }
-    }
+
 
     private void buildBoard(boolean playerIsWhite) {
 
