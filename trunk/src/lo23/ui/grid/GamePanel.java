@@ -144,15 +144,21 @@ public class GamePanel extends JPanel {
                 
                 formerPreSelection = newPreSelection;
                 newPreSelection = new Position(xSquare,ySquare);
+                GamePiece currentPiece = game.getPieceAtXY(newPreSelection.getX(), 7 - newPreSelection.getY());
                 
-                //tester si la case est selectionnable
-                if (isFormerPreSelectionExist){
-                	listOfPreSelection.get(formerPreSelection).setVisible(false);
-                	listOfPreSelection.get(newPreSelection).setVisible(true);
+                if (isCaseSelectionable(newPreSelection, currentPiece) || amongListOfPossiblesMoves(newPreSelection)){
+                	
+                	if (isFormerPreSelectionExist){
+	                	listOfPreSelection.get(formerPreSelection).setVisible(false);
+	                	listOfPreSelection.get(newPreSelection).setVisible(true);
+	                } else {
+	                	listOfPreSelection.get(newPreSelection).setVisible(true);
+	                	isFormerPreSelectionExist = true;
+	                }
                 } else {
-                	listOfPreSelection.get(newPreSelection).setVisible(true);
-                	isFormerPreSelectionExist = true;
+                	listOfPreSelection.get(formerPreSelection).setVisible(false);
                 }
+                
                 
 			}
 
@@ -256,18 +262,33 @@ public class GamePanel extends JPanel {
     	listOfPiece.get(p).setVisible(false);
     	JLabel atePiece = listOfPiece.remove(p);
 
-//    	if (playerColor == COLOR.WHITE) {
-//    		blackAtePieces.add(atePiece);
-//    	} else {
-//            whiteAtePieces.add(atePiece);
-//        }
+    	if (playerColor == COLOR.WHITE) {
+    		blackAtePieces.add(atePiece);
+    	} else {
+            whiteAtePieces.add(atePiece);
+        }
+    }
+    
+    private boolean amongListOfPossiblesMoves (Position p){
+		for (int i=0; i<listOfPossibleMove.size(); i++){
+			if (listOfPossibleMove.get(i).getX() == p.getX() && listOfPossibleMove.get(i).getY() == 7 - p.getY()){
+				System.out.println("goooood");
+				return true;
+			}
+		}
+    	return false;
     }
     
     private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
-    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty() && currentPiece.getOwner().getColor() == playerColor && game.getLocalPlayer().getColor() == playerColor) {
-    		return true;
+    	if (listOfPiece.get(newSelection) != null) {
+    		if(!currentPiece.getPossibleMovesWithCheck().isEmpty() 
+    				&& currentPiece.getOwner().getColor() == playerColor 
+    				&& game.getLocalPlayer().getColor() == playerColor) {
+    			return true;
+    		}
+    		return false;
     	} else {
     		return false;
     	}
@@ -327,21 +348,21 @@ public class GamePanel extends JPanel {
                 constraints.gridx = i;
                 constraints.gridy = j;
                 
+                JLabel preSelectionLabel = new JLabel("", preSelection, JLabel.CENTER);
+                add(preSelectionLabel, constraints, 0);
+                listOfPreSelection.put(new Position(i,j), preSelectionLabel);
+                preSelectionLabel.setVisible(false);
+                
                 JLabel currentSelection = new JLabel("", squareBorder, JLabel.CENTER);
-                add(currentSelection, constraints, 0);
+                add(currentSelection, constraints, 1);
                 listOfSelection.put(new Position(i,j), currentSelection);
                 currentSelection.setVisible(false);
                 
                 JLabel possibleCase = new JLabel("", filledSquare, JLabel.CENTER);
-                add(possibleCase, constraints, 0);
+                add(possibleCase, constraints, 1);
                 listOfSquare.put(new Position(i,j), possibleCase);
                 possibleCase.setVisible(false);
-                
-                JLabel preSelectionLabel = new JLabel("", preSelection, JLabel.CENTER);
-                add(preSelectionLabel, constraints, 1);
-                listOfPreSelection.put(new Position(i,j), preSelectionLabel);
-                preSelectionLabel.setVisible(false);
-                
+               
                 if ((i + j) % 2 != 0) {
                     JLabel labelCaseN = new JLabel("", imageCaseN, JLabel.CENTER);
                     add(labelCaseN, constraints, -1);
