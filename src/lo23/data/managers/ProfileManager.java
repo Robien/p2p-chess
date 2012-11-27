@@ -23,10 +23,6 @@ import org.apache.commons.io.FileUtils;
 
 /**
  * Implementation of the PublicManagerInterface interface.
- *
- * TODO : implémenter notifyInvitAnswer.
- * TODO : absorption des exceptions du serializer ?
- *
  */
 public class ProfileManager extends Manager implements ProfileManagerInterface {
 
@@ -159,7 +155,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
         String pseudo = p.getPseudo();
         if (isPseudoAlreadyExist(pseudo)) {
-            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !");
+            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !", p);
         }
 
         FileUtils.copyFile(new File(filePath), new File(Constants.PROFILES_PATH + p.getProfileId() + Constants.PROFILE_SUFFIXE));
