@@ -34,4 +34,8 @@ public class Enums
         LOST,
         DRAW,
         NOT_FINISH};
+
+    public enum PROMOTED_PIECES_TYPES {
+        QUEEN, ROOK, KNIGHT, BISHOP
+    };
 }
