@@ -56,13 +56,24 @@ public class Manager {
     /**
      * This method implements the Publish / Subscribe pattern.
      * It sends data to registered subscribers, on a specific channel.
-     *
      * @param channel The channel data is sent to.
      * @param value The data to be sent.
      */
     public void publish(String channel, Object value)
     {
        publish(channel, value, null);
+    }
+    
+    
+    /**
+     * This method implements the Publish / Subscribe pattern.
+     * It unsubscribes the given listener from a given channel
+     * @param listener The listener that is going to unsubscribe
+     * @param channel The channel that the listener is about to unsubscribe
+     */
+    public void unsubscribe(PropertyChangeListener listener, String channel)
+    {
+        notifier.removePropertyChangeListener(channel, listener);
     }
 
 
