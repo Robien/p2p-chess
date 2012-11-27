@@ -18,6 +18,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.ProfileIdAlreadyExistException;
 import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
+import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
@@ -229,6 +230,16 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 this.setVisible(false);
                 this.dispose();
                 listWindow.setVisible(true);
+                
+                ProfileManager pm = (ProfileManager)pmi; 
+                // TODO unsuscribe on deconnect
+                // ((ProfileManager)pmi)
+                // suscribe to notification from data manager on channel UpdateListPlayers
+                pm.subscribe(listWindow, IhmLoginModel.ADD_PLAYER_CONNECTED);
+                pm.subscribe(listWindow, IhmLoginModel.DELETE_PLAYER_DISCONNECTED);
+                pm.startProfilesDiscovery();
+                
+
             }
         }catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
