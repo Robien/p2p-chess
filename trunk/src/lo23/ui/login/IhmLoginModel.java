@@ -103,9 +103,9 @@ public class IhmLoginModel implements PropertyChangeListener{
 
         ArrayList<Game> stopGames = gameManager.getListStartGames();
         idStartGames = gameManager.getIdStartGames(); // Pour les tests
-        for (Game game : stopGames ) {
+        /*for (Game game : stopGames ) {
             listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId());
-        }
+        }*/
         
         listProfileDate = new HashMap<PublicProfile,Date>();
 
@@ -114,9 +114,9 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l){
+    public void addPropertyChangeListener(String evt,PropertyChangeListener l){
         if(pcs != null)
-            pcs.addPropertyChangeListener(l);
+            pcs.addPropertyChangeListener(evt,l);
     }
     
     public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{

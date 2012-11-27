@@ -53,7 +53,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     public IhmConnexionWindow(IhmLoginModel ihmLoginModel) {
         
         this.ihmLoginModel = ihmLoginModel;
-        ihmLoginModel.addPropertyChangeListener(this);
+        ihmLoginModel.addPropertyChangeListener(this.REFRESH_LIST,this);
         initComponents();
         setSize(360, 500);
         setResizable(false);
