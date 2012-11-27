@@ -46,7 +46,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
-        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Ajoute un listener sur tous les ReviewGameBtn
         ArrayList<JButton> listReviewBtn = ihmLoginModel.getListReviewGameBtn();
         for (JButton btn : listReviewBtn) {
