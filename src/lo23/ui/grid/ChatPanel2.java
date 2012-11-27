@@ -7,7 +7,7 @@ package ui.grid;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.EventListener;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
@@ -18,9 +18,11 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import lo23.data.ApplicationModel;
 import lo23.data.Message;
+import lo23.data.Move;
 import lo23.data.Player;
+//import lo23.ui.grid.EventListener;
 
-/**
+/** 
  *
  * @author PEP
  */
@@ -33,7 +35,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
     final Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
-       private EventListener eventListener;
+//       private EventListener eventListener;
 
     /**
      * Creates new form ChatPanel2
@@ -42,7 +44,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         public ChatPanel2(ApplicationModel model) {
         myModel = model;
 
-        eventListener = new EventListener(this, myModel);
+//        eventListener = new EventListener(this, myModel);
 
         initComponents();
         sc = new StyleContext();
@@ -222,7 +224,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * @param msg
      * @throws BadLocationException
      */
-    public void gameMsg(Move mv) throws BadLocationException{
+    public void gameMsg(Move mv) throws BadLocationException{/*
        if (!msg.getContents().equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
@@ -239,7 +241,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 doc2.insertString(doc2.getLength(), msg.getContents() + "\n", gameStyle);
 
 
-        }
+        }*/
     }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
