@@ -1,5 +1,7 @@
 package lo23.communication;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import lo23.communication.connection.ConnectionManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
@@ -15,6 +17,7 @@ import lo23.data.managers.Manager;
 public class ComManager extends Manager implements ISender {
 
     private PublicProfile currentUserProfile;
+    private ImageIcon resizedImage;
     private ConnectionManager connectionManager;
     
     /**
@@ -26,10 +29,16 @@ public class ComManager extends Manager implements ISender {
         super(applicationModel);
         this.currentUserProfile = profile;
         this.connectionManager = new ConnectionManager(this);
+
+        resizedImage = new ImageIcon(profile.getAvatar().getImage().getScaledInstance(110, 110, Image.SCALE_DEFAULT));
     }
     
     public PublicProfile getCurrentUserProfile() {
         return currentUserProfile;
+    }
+
+    public ImageIcon getResizedImage() {
+        return resizedImage;
     }
     
     @Override

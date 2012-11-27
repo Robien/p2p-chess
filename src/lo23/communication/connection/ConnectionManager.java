@@ -98,6 +98,7 @@ public class ConnectionManager implements ConnectionListener {
      * Function which answer to sendMultiCast().
      */
     private void replyMulticast(String ipAddress) {
+        //FIXME mettre ici le resizedImage
         PublicProfile profile = comManager.getCurrentUserProfile();
         MulticastAnswer message = new MulticastAnswer(profile);
         HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
