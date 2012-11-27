@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package lo23.ui.grid;
+package ui.grid;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -39,6 +39,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
     final Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
+       private EventListener eventListener;
 
     /**
      * Creates new form ChatPanel2
@@ -46,6 +47,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
         public ChatPanel2(ApplicationModel model) {
         myModel = model;
+
+        eventListener = new EventListener(this, myModel);
+
         initComponents();
         sc = new StyleContext();
         doc = new DefaultStyledDocument(sc);
@@ -209,9 +213,13 @@ public class ChatPanel2 extends javax.swing.JPanel {
        if (!msg.getContents().equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
+            msg.getSender();
+           // getPublicProfile
             // printing on screen
             doc2.insertString(doc2.getLength(), "[Heure][NomPlayer] : " + msg.getContents() + "\n", remoteStyle);
-        }
+
+
+       }
     }
 
     /**
