@@ -13,6 +13,7 @@ import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
 import lo23.data.Move;
 import lo23.data.managers.Manager;
+import ui.grid.ChatPanel2;
 
 
 /**
@@ -45,15 +46,15 @@ public class EventListener implements PropertyChangeListener {
              if(gamePanel != null){
                  gamePanel.updateBoard((Move)evt.getNewValue());
              } else if(chatPanel != null){
-                 chatPanel.gameMsg((Move)evt.getNewValue());
+                 //chatPanel.gameMsg((Move)evt.getNewValue());
              }
              
          } else if(evt.getNewValue() instanceof Message){
-                try {
-                    chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
-                } catch (BadLocationException ex) {
-                    Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
+//                } catch (BadLocationException ex) {
+//                    Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+//                }
          }
         }
     }
