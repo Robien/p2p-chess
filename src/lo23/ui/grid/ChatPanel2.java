@@ -222,7 +222,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * @param msg
      * @throws BadLocationException
      */
-    public void gameMsg(Message msg) throws BadLocationException{
+    public void gameMsg(Move mv) throws BadLocationException{
        if (!msg.getContents().equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
