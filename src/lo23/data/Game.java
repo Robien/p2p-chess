@@ -1,5 +1,6 @@
 package lo23.data;
 
+import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Move;
@@ -156,6 +157,37 @@ public class Game implements Serializable {
 
             System.out.println();
         }
+    }
+
+    public GamePiece promotePawn(Pawn pawn, Enums.PROMOTED_PIECES_TYPES piece) throws UndefinedGamePieceException {
+        Position p = pawn.getPosition();
+        int px = p.getX();
+        int py = p.getY();
+
+        GamePiece np;
+
+        switch(piece) {
+            case BISHOP:
+                np = new Bishop(new Position(px, py), pawn.getOwner(), this);
+                break;
+
+            case QUEEN:
+                np = new Queen(new Position(px, py), pawn.getOwner(), this);
+                break;
+
+            case ROOK:
+                np = new Rook(new Position(px, py), pawn.getOwner(), this);
+                break;
+
+            case KNIGHT:
+                np = new Knight(new Position(px, py), pawn.getOwner(), this);
+                break;
+            default:
+                throw new UndefinedGamePieceException();
+        }
+
+        board[px][py] = np;
+        return np;
     }
 
     /**
