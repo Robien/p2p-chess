@@ -132,8 +132,9 @@ public class IhmLoginModel implements PropertyChangeListener{
         //Instantiate DataManager
         ProfileManagerInterface profileManager = appModel.getPManager();
         //Instantiate profile and invitation
-        Profile profile = profileManager.loadProfile(idUser);
-        Invitation invit = profileManager.createInvitation(profile.getPublicProfile(), col, time);
+        PublicProfile p = this.getRemoteProfile(idUser);
+        //Profile profile = profileManager.loadProfile(idUser);
+        Invitation invit = profileManager.createInvitation(p, col, time);
         //Send invitation
         profileManager.sendInvitation(invit);  
     }
@@ -158,7 +159,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(evt.getPropertyName().equals(ADD_PLAYER_CONNECTED)){
             PublicProfile profile = (PublicProfile)evt.getNewValue();
 
-            PublicProfile p = getProfile(profile.getProfileId());
+            PublicProfile p = getRemoteProfile(profile.getProfileId());
             if(p == null){
                 //Add remote profile to Jtable model
                 listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
@@ -191,14 +192,6 @@ public class IhmLoginModel implements PropertyChangeListener{
         if(evt.getPropertyName().equals(INVIT_EXPIRED)){
             pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
-    }
-    
-    public PublicProfile getProfile(String id){
-        for(PublicProfile p : listProfileDate.keySet()){
-            if(p.getProfileId().equals(id))
-                return p;
-        }
-        return null;
     }
     
     
