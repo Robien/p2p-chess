@@ -93,7 +93,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyChatMessage(Message message) {
-        currentGame.getEvents().add(message);
+        currentGame.pushEvent(message);
     }
 
     @Override
@@ -119,13 +119,13 @@ public class GameManager extends Manager implements GameManagerInterface {
                     // guest=local
                     Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
                     Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
-                    currentGame = new Game(local, remote);
+                    currentGame = new Game(local, remote, this);
                     currentGame.buildPieces();
                 } else {
                     // guest = remote
                     Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
                     Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
-                    currentGame = new Game(local, remote);
+                    currentGame = new Game(local, remote, this);
                     currentGame.buildPieces();
                 }
 
@@ -133,6 +133,7 @@ public class GameManager extends Manager implements GameManagerInterface {
                 //Il s'agit d'un resume game
                 ResumeGame I = (ResumeGame) invitation;
                 currentGame = I.getGame();
+                currentGame.setgManager(this);
                 currentGame.swapPlayer(); // Il faut inverser local et remote player
             }
         } else {
@@ -153,7 +154,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyConstantMessage(Constant constant) {
-        currentGame.getEvents().add(constant);
+        currentGame.pushEvent(constant);
         CONSTANT_TYPE c = constant.getConstant();
         if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();
@@ -162,7 +163,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void saveConstant(Constant constant) {
-        currentGame.getEvents().add(constant);
+        currentGame.pushEvent(constant);
         CONSTANT_TYPE c = constant.getConstant();
         if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();

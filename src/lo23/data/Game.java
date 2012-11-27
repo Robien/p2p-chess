@@ -1,9 +1,18 @@
 package lo23.data;
 
+import lo23.data.Constant;
+import lo23.data.Event;
+import lo23.data.Move;
+import lo23.data.Player;
+import lo23.data.Position;
+
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.managers.GameManager;
 import lo23.data.pieces.Bishop;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
@@ -12,6 +21,7 @@ import lo23.data.pieces.King;
 import lo23.data.pieces.Knight;
 import lo23.data.pieces.Queen;
 import lo23.data.pieces.Rook;
+import lo23.ui.grid.GridConstants;
 
 /**
  *
@@ -28,11 +38,12 @@ public class Game implements Serializable {
     private Player localPlayer;
     private Player remotePlayer;
     private ArrayList<Event> events;
+    private GameManager gManager;
 
     /**
-     * Constructor
+     * Constructor - used because we overload the real constructor
      */
-    public Game(Player localPlayer, Player remotePlayer) {
+    public void buildGame(Player localPlayer, Player remotePlayer) {
         gameId = (new Date()).getTime();
         start = new Date();
         end = null;
@@ -42,8 +53,23 @@ public class Game implements Serializable {
         events = new ArrayList<Event>();
         this.localPlayer = localPlayer;
         this.remotePlayer = remotePlayer;
+        gManager = null;
     }
 
+    public Game(Player localPlayer, Player remotePlayer) {
+        buildGame(localPlayer, remotePlayer);
+    }
+
+    public Game(Player localPlayer, Player remotePlayer, GameManager gManager) {
+        buildGame(localPlayer, remotePlayer);
+        this.gManager = gManager;
+    }
+
+    public void setgManager(GameManager gManager) {
+        this.gManager = gManager;
+    }
+
+    
     public void buildPieces() {
         // white are at the bottom.
         Player whitePlayer, blackPlayer;
@@ -213,6 +239,7 @@ public class Game implements Serializable {
 
     public void pushEvent(Event e) {
         events.add(e);
+        gManager.publish(GridConstants.NEW_EVENT_ADDED, e);        
     }
 
     public void playMove(Move move) throws IllegalMoveException {
@@ -231,7 +258,8 @@ public class Game implements Serializable {
         board[xfrom][yfrom] = null;
         board[xto][yto] = piece;
 
-        events.add(move);
+        pushEvent(move);
+
     }
 
     public ArrayList<GamePiece> getPieces() {
