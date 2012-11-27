@@ -44,7 +44,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
-    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws IOException, NoIdException {
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws FileNotFoundException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException, NoIdException {
+        if (isPseudoAlreadyExist(pseudo)) {
+            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !");
+        }
         Profile p = new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
         Serializer.saveProfile(p);
         return p;

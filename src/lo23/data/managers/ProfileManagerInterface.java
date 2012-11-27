@@ -37,7 +37,7 @@ public interface ProfileManagerInterface {
      * @param age the profile's age
      * @return the new Profile instance
      */
-    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws IOException, NoIdException;
+    public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws FileNotFoundException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException, NoIdException;
 
     /**
      * Start a periodic timer which discovers Profiles on the network every
