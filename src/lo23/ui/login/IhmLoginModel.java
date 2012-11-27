@@ -166,7 +166,7 @@ public class IhmLoginModel implements PropertyChangeListener{
                 //Get all games stopped which have the id of the current profile p
                 ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
                 for(Game g : gamesContinue){
-                    listStartGames.addGame(g.getEndDate(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId());
+                    listStartGames.addGame(g.getEndDate(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(),profile.getStatus());
                 }
                 
                 //Set profile to p
@@ -348,9 +348,13 @@ public class IhmLoginModel implements PropertyChangeListener{
         
     } 
     private class StopGameModel extends GameModel {
-        public void addGame(Date date, String adversary, Long id) {
+        public void addGame(Date date, String adversary, Long id,Enums.STATUS status) {
             JButton btn = new JButton("Continue");
             btn.putClientProperty("id", id);
+            if(status.equals(Enums.STATUS.CONNECTED))
+                btn.setEnabled(true);
+            else
+                btn.setEnabled(false);
             listContinueGameBtn.add(btn);
             this.addRow(new Object[]{date, adversary, btn});
         }
