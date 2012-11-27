@@ -87,7 +87,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
     @Override
     public void saveMessage(Message message) {
-        currentGame.pushEvent(message);
+        pushEvent(message);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyChatMessage(Message message) {
-        currentGame.pushEvent(message);
+        pushEvent(message);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyConstantMessage(Constant constant) {
-        currentGame.pushEvent(constant);
+        pushEvent(constant);
         CONSTANT_TYPE c = constant.getConstant();
         if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();
@@ -167,7 +167,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void saveConstant(Constant constant) {
-        currentGame.pushEvent(constant);
+        pushEvent(constant);
         CONSTANT_TYPE c = constant.getConstant();
         if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();
