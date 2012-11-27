@@ -8,6 +8,7 @@ package lo23.data.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 

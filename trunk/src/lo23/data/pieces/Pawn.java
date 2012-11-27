@@ -31,7 +31,7 @@ public class Pawn extends GamePiece {
     
     @Override
     public void movePiece(Position to) {
-
+    //TODO throw
         try
         {
             getGame().playMove(new Move(getPosition(), to, this));

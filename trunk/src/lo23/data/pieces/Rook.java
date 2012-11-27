@@ -8,6 +8,7 @@ package lo23.data.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 
@@ -30,6 +31,25 @@ public class Rook extends GamePiece {
     public Rook(Position position, Player owner, Game game) 
     {
         super(position, owner, game);
+                firstMove = true;
+    }
+
+
+    private boolean firstMove;
+
+        @Override
+    public void movePiece(Position to) {
+    //TODO throw
+        try
+        {
+            getGame().playMove(new Move(getPosition(), to, this));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Erreur !");
+        }
+        position = to;
+        firstMove = false;
     }
 
     @Override

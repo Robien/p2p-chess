@@ -3,6 +3,7 @@ package lo23.data.pieces;
 import java.util.ArrayList;
 import java.util.List;
 import lo23.data.Game;
+import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 
@@ -21,7 +22,27 @@ public class King extends GamePiece {
      */
     public King(Position position, Player owner, Game game) {
         super(position, owner, game);
+        firstMove = true;
     }
+
+
+    private boolean firstMove;
+
+        @Override
+    public void movePiece(Position to) {
+    //TODO throw
+        try
+        {
+            getGame().playMove(new Move(getPosition(), to, this));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Erreur !");
+        }
+        position = to;
+        firstMove = false;
+    }
+
 
     @Override
     public List<Position> getPossibleMoves() 
@@ -101,6 +122,21 @@ public class King extends GamePiece {
             if (x + 1 < 8 && game.getPieceAtXY(x + 1, y) == null)
             {
                 positions.add(new Position(x + 1, y));
+
+
+                if (firstMove) //rook 1
+                {
+                    boolean isPossible = true;
+                    for (int i = x + 1; i < 7;i++)
+                    {
+                        if (isPossible)
+                        {
+                            //isPossible = game.getPieceAtXY(i, y) == null && ;
+                        }
+                    }
+                }
+
+
             }
             else
             {
@@ -113,6 +149,7 @@ public class King extends GamePiece {
             if (x - 1 >= 0 && game.getPieceAtXY(x - 1, y) == null)
             {
                 positions.add(new Position(x - 1, y));
+                //rook 2
             }
             else
             {
