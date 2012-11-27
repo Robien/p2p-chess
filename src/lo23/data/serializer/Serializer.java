@@ -44,21 +44,26 @@ public class Serializer {
      *
      * @param profile The object to serialize
      * @param path The path where the profile is serialized
+     * @param profileId The profile ID. Set to "" to permit exportation of profile with personnalised file name
      *
      * @throws NoIdException This exception is thrown if profile argument
      * doesn't have a correct profileId
      */
-    static public void saveProfile(Profile profile, String path) throws NoIdException, IOException {
+    static public void saveProfile(Profile profile, String path, String profileId) throws NoIdException, IOException {
         // Checks the profileId attribute validity
         if (profile.getProfileId() == null || profile.getProfileId().equals("")) {
             throw new NoIdException("The object you're trying to serialize handle a null or empty profileId attribute.");
         }
 
         ObjectOutputStream out;
-        out = new ObjectOutputStream(new FileOutputStream(path + profile.getProfileId() + Constants.PROFILE_SUFFIXE));
+        out = new ObjectOutputStream(new FileOutputStream(path + profileId + Constants.PROFILE_SUFFIXE));
         out.writeObject(profile);
         out.flush();
         out.close();
+    }
+
+    static public void saveProfile(Profile profile, String path) throws NoIdException, IOException {
+        saveProfile(profile, path, profile.getProfileId());
     }
 
     /**
@@ -90,12 +95,12 @@ public class Serializer {
         // Checks if the profileId associated file exists
         File profileFile = new File(filePath);
         if (profileFile.exists()) {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream(profileFile));
-                Profile profile = (Profile) in.readObject();
-                in.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(profileFile));
+            Profile profile = (Profile) in.readObject();
+            in.close();
 
-                return profile;
-   
+            return profile;
+
         } else {
             throw new FileNotFoundException("Couldn't find the file " + filePath);
         }
