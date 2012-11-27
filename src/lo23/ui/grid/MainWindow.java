@@ -132,8 +132,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		constraints.gridx = 1;
 		constraints.gridy = 5;
 
-         //PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-         PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
+         PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+        // PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
 
          panel.add(localPlayerPanel, constraints);
 
