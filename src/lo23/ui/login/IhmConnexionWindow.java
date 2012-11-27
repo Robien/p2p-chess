@@ -230,7 +230,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 this.dispose();
                 listWindow.setVisible(true);
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }

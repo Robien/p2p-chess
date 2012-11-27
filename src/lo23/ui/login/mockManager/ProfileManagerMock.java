@@ -166,8 +166,8 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
         idPlayersConnected= new ArrayList<Long>();
         
-        PublicProfile profile = new PublicProfile("toto", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
-        PublicProfile profile2 = new PublicProfile("titi", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
+        PublicProfile profile = new PublicProfile("1", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
+        PublicProfile profile2 = new PublicProfile("2", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
         //Player playerLocal = new Player(COLOR.BLACK, 23, profile);
         //Player remotePlayer = new Player(COLOR.BLACK, 10, profile2);
         //Game game1 = new Game(playerLocal, remotePlayer);
