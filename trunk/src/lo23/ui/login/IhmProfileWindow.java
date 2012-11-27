@@ -431,7 +431,7 @@ public class IhmProfileWindow extends JFrame{
                     try {
                         ihmLoginModel.getApplicationModel().getPManager().saveProfile();
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception Save Profile", JOptionPane.ERROR_MESSAGE);
                     }
                     this.dispose();
                 }
@@ -459,7 +459,7 @@ public class IhmProfileWindow extends JFrame{
                         //TODO status
                         ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception Create Profile", JOptionPane.ERROR_MESSAGE);
                     }
                     ihmLoginModel.refreshProfileList();
                     this.dispose();

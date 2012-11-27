@@ -151,12 +151,12 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         ArrayList<String> profileIdsInDirectory = Serializer.getProfileIds();
         String profileId = p.getProfileId();
         if (profileIdsInDirectory.contains(profileId)) {
-            throw new ProfileIdAlreadyExistException("A profile with ID " + profileId + "already exists !");
+            throw new ProfileIdAlreadyExistException("A profile with ID " + profileId + " already exists !");
         }
 
         String pseudo = p.getPseudo();
         if (isPseudoAlreadyExist(pseudo)) {
-            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + "already exists !");
+            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !");
         }
 
         FileUtils.copyFile(new File(filePath), new File(Constants.PROFILES_PATH + p.getProfileId() + Constants.PROFILE_SUFFIXE));

@@ -6,6 +6,7 @@ package lo23.data.serializer;
 public class Constants
 {
 	// Paths where will be saved serialized objects
+        // Working directory should be in the netbeans workspace
 	static public final String PROFILES_PATH = "data/profiles/";
 	static public final String GAMES_PATH = "data/games/";
         
