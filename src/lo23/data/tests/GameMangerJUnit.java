@@ -5,11 +5,14 @@
 
 package lo23.data.tests;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Profile;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums;
@@ -57,7 +60,11 @@ public class GameMangerJUnit {
         Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
         inv = new NewInvitation(Enums.COLOR.WHITE,300, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        gm = app.getGManager().createGame(inv);
+        try {
+            gm = app.getGManager().createGame(inv);
+        } catch (WrongInvitation ex) {
+            Logger.getLogger(GameMangerJUnit.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void testSave() {
