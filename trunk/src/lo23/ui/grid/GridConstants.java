@@ -6,5 +6,6 @@ public class GridConstants {
 	public static int SQUARE_SIZE = 64;
 	public static int WINDOW_HEIGHT = 700;
 	public static int WINDOW_WIDTH = 1020;
+        public static final String NEW_EVENT_ADDED = "new_event_added";
 	
 }
