@@ -30,13 +30,13 @@ public class EventListener implements PropertyChangeListener {
     public EventListener(GamePanel panel, ApplicationModel model){
         gamePanel = panel;
         myModel = model;
-        ((Manager)myModel.getGManager()).subscribe(this,NEW_EVENT_ADDED);
+//        ((Manager)myModel.getGManager()).subscribe(this,NEW_EVENT_ADDED);
     }
     
     public EventListener(ChatPanel2 panel, ApplicationModel model){
         chatPanel = panel;
         myModel = model;
-        ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
+   //     ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
     
     @Override

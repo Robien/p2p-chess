@@ -4,8 +4,9 @@
  */
 package lo23.ui.grid;
 
-
 //import ui.grid.TMP_GameManager;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -15,9 +16,12 @@ import lo23.data.Game;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Profile;
+import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
+import lo23.data.tests.GameManagerTest;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
@@ -25,18 +29,23 @@ import lo23.utils.Enums.STATUS;
  *
  * @author Karim
  */
-public class GridMain {
-        static ApplicationModel myModel;
+public class GridMain
+{
 
+    static ApplicationModel myModel;
 
-     private static ApplicationModel getModel(){
-         return myModel;
-     }
+    private static ApplicationModel getModel()
+    {
+        return myModel;
+    }
 
+    public static void main(String[] args)
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable(){
-            public void run() {
+            public void run()
+            {
                 /*
                  * Important : All of yours interactions with managers will be develop like that :
                  *
@@ -52,34 +61,75 @@ public class GridMain {
 
 
                 //du code tout moche de data pour faire les tests !
-                        ApplicationModel app = new ApplicationModel();
+                //ApplicationModel myModel;
+                Profile pGuest;
+                NewInvitation inv;
+                Game gm;
 
-        app.setGameManager(new GameManager(app));
-        app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, null);
-        Player p2 = new Player(COLOR.BLACK, 0, null);
+                myModel = new ApplicationModel();
+                myModel.setGameManager(new GameManager(myModel));
+                myModel.setProfileManager(new ProfileManager(myModel));
 
-        char[] fakePassword = {};
+                char[] fakePassword =
+                {
+                };
+                String profileId = "MIchel";
+                Profile p;
+                try
+                {
+                    p = myModel.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
 
-        Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        NewInvitation inv = new NewInvitation(COLOR.BLACK, 0, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        Game gm = null;
-                try {
-                    gm = app.getGManager().createGame(inv);
-                } catch (WrongInvitation ex) {
-                    Logger.getLogger(GridMain.class.getName()).log(Level.SEVERE, null, ex);
+                    if (myModel.getPManager().connection(profileId, fakePassword))
+                    {
+
+                        pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                        Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                        inv = new NewInvitation(Enums.COLOR.WHITE, 300, myModel.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
+                        try
+                        {
+                            gm = myModel.getGManager().createGame(inv);
+                            long gid = gm.getGameId();
+
+                           gm.dumpBoard();
+                           
+                            //             myModel.setGameManager(new TMP_GameManager(myModel));
+                            //  myModel.setProfileManager(new TMP_ProfileManager(myModel));
+                            //TODO : comment a cause d'un problème de compil
+
+                            //myModel.setComManager(new TMP_ComManager(null, myModel))
+                            MainWindow fenetre = new MainWindow(getModel(), gm);
+                            fenetre.setVisible(true);
+
+
+
+                        } catch (WrongInvitation expt)
+                        {
+                            System.out.println(expt.getMessage());
+                            System.out.println(expt.getStackTrace());
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("Probleme lors de la connection.");
+                    }
+                } catch (lo23.data.exceptions.NoIdException expt)
+                {
+                    System.out.println(expt.getMessage());
+                    System.out.println(expt.getStackTrace());
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+
+                } catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (lo23.data.exceptions.FileNotFoundException ex)
+                {
+                    Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
 
-                myModel = new ApplicationModel();
-   //             myModel.setGameManager(new TMP_GameManager(myModel));
-             //  myModel.setProfileManager(new TMP_ProfileManager(myModel));
-                //TODO : comment a cause d'un problème de compil
 
-               //myModel.setComManager(new TMP_ComManager(null, myModel))
-                MainWindow fenetre = new MainWindow(app,gm);
-                fenetre.setVisible(true);
             }
         });
     }
