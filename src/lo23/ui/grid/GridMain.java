@@ -6,6 +6,10 @@ package lo23.ui.grid;
 
 
 //import ui.grid.TMP_GameManager;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
@@ -13,8 +17,12 @@ import lo23.data.Game;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Profile;
+import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
+import lo23.data.tests.GameManagerTest;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
 
@@ -49,22 +57,38 @@ public class GridMain {
 
 
                 //du code tout moche de data pour faire les tests !
-                        ApplicationModel app = new ApplicationModel();
+  ApplicationModel app;
+        Profile pGuest;
+        NewInvitation inv;
+        Game gm;
 
+        app = new ApplicationModel();
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, null);
-        Player p2 = new Player(COLOR.BLACK, 0, null);
 
         char[] fakePassword = {};
+        String profileId = "MIchel";
+        Profile p;
+        System.out.println(System.getProperties().get("user.dir"));
+        try {
+                    try
+                    {
+                        p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                    } catch (NoIdException ex)
+                    {
+                        Logger.getLogger(GridMain.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-        Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        NewInvitation inv = new NewInvitation(COLOR.BLACK, 0, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        Game gm = app.getGManager().createGame(inv);
+            if (app.getPManager().connection(profileId, fakePassword)) {
 
+                pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                inv = new NewInvitation(Enums.COLOR.WHITE, 300, app.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
+                try {
+                    gm = app.getGManager().createGame(inv);
+                    long gid = gm.getGameId();
 
-                myModel = new ApplicationModel();
+                      myModel = new ApplicationModel();
    //             myModel.setGameManager(new TMP_GameManager(myModel));
              //  myModel.setProfileManager(new TMP_ProfileManager(myModel));
                 //TODO : comment a cause d'un problème de compil
@@ -72,6 +96,26 @@ public class GridMain {
                //myModel.setComManager(new TMP_ComManager(null, myModel))
                 MainWindow fenetre = new MainWindow(getModel(),gm);
                 fenetre.setVisible(true);
+
+                
+                } catch (WrongInvitation expt) {
+                    System.out.println(expt.getMessage());
+                    System.out.println(expt.getStackTrace());
+                }
+            } else {
+                System.out.println("Probleme lors de la connection.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (lo23.data.exceptions.FileNotFoundException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      
+              
             }
         });
     }

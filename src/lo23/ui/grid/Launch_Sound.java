@@ -1,6 +1,8 @@
 
 package lo23.ui.grid;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +44,16 @@ public class Launch_Sound extends Thread implements Runnable{
         {    
             
                 String path = getClass().getClassLoader().getResource(".").getPath();
-                try 
+//                File dir1 = new File(".");
+//                try
+//                {
+//                    path = dir1.getCanonicalPath();
+//                } catch (IOException ex)
+//                {
+//                    Logger.getLogger(Launch_Sound.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+
+                try
                 {
                     
                     if(sound.equals("chess.wav"))

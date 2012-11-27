@@ -34,6 +34,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Player;
 import lo23.ui.grid.PlayerPanel;
+import ui.grid.ChatPanel2;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;

@@ -248,17 +248,17 @@ public class GamePanel extends JPanel {
     	listOfPiece.get(p).setVisible(false);
     	JLabel atePiece = listOfPiece.remove(p);
 
-    	if (playerColor == COLOR.WHITE) {
-    		blackAtePieces.add(atePiece);
-    	} else {
-            whiteAtePieces.add(atePiece);
-        }
+//    	if (playerColor == COLOR.WHITE) {
+//    		blackAtePieces.add(atePiece);
+//    	} else {
+//            whiteAtePieces.add(atePiece);
+//        }
     }
     
     private boolean isCaseSelectionable(Position newSelection, GamePiece currentPiece){
         // Check if the case is selectionable with pieces color...
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
-    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty() && currentPiece.getOwner().getColor() == playerColor && game.getLocalPlayer().getColor() == playerColor) {
+    	if (listOfPiece.get(newSelection) != null && !currentPiece.getPossibleMovesWithCheck().isEmpty()){// && currentPiece.getOwner().getColor() == playerColor && game.getLocalPlayer().getColor() == playerColor) {
     		return true;
     	} else {
     		return false;
