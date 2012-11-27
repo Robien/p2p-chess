@@ -8,9 +8,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -26,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.NoIdException;
 
 /**
  *
@@ -45,6 +49,10 @@ public class IhmProfileWindow extends JFrame{
     private JTextField ageField = new JTextField();
     private JLabel profileImage = new JLabel();
     private ImageIcon icon;
+    private JTextField gamesWonField = new JTextField();
+    private JTextField gamesLostField = new JTextField();
+    private JTextField gamesDrawField = new JTextField();
+    
     private int initialHeight = 450;
     private int initialWidth = 450;
     
@@ -173,10 +181,7 @@ public class IhmProfileWindow extends JFrame{
         JLabel gamesDrawLabel = new JLabel();
         gamesDrawLabel.setText("Parties nulles");
 
-        //TODO : from statistic profile
-        JTextField gamesWonField = new JTextField("8");
-        JTextField gamesLostField = new JTextField("9");
-        JTextField gamesDrawField = new JTextField("10");
+
         
         gamesWonField.setEditable(false);
         gamesLostField.setEditable(false);
@@ -196,6 +201,10 @@ public class IhmProfileWindow extends JFrame{
                 ageField.setText(String.valueOf(currentProfile.getAge()));
                 jPasswordField1.setText(new String(currentProfile.getPassword()));
                 jPasswordField2.setText(new String(currentProfile.getPassword()));
+                gamesWonField.setText(String.valueOf(currentProfile.getWonGames()));
+                gamesLostField.setText(String.valueOf(currentProfile.getLostGames()));
+                gamesDrawField.setText(String.valueOf(currentProfile.getDrawGames()));
+                
                 applyButton.setText("Valider");
                 changeImageButton.setText("Changer votre avatar");
                 try{
@@ -223,10 +232,14 @@ public class IhmProfileWindow extends JFrame{
                 exportProfileButton.setVisible(false);
                 applyButton.setVisible(false);
                 
+                
                 loginField.setText(publicProfile.getPseudo());
                 lastNameField.setText(publicProfile.getName());
                 firstNameField.setText(publicProfile.getFirstName());
                 ageField.setText(String.valueOf(publicProfile.getAge()));
+                gamesWonField.setText(String.valueOf(publicProfile.getWonGames()));
+                gamesLostField.setText(String.valueOf(publicProfile.getLostGames()));
+                gamesDrawField.setText(String.valueOf(publicProfile.getDrawGames()));
                 try{
                     profileImage.setIcon(publicProfile.getAvatar());
                     profileImage.repaint();
@@ -415,8 +428,11 @@ public class IhmProfileWindow extends JFrame{
                     ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
                     ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
                     ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
-                    //TODO saveProfile OK.
-                    //ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                    try {
+                        ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
                     this.dispose();
                 }
                 break;
