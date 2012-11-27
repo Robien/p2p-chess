@@ -30,8 +30,8 @@ public class PlayerPanel extends javax.swing.JPanel {
         initComponents();
         myModel = model;
         // inits values
-        age.setText(String.valueOf(player.getPublicProfile().getAge()));
-        nickName.setText(player.getPublicProfile().getPseudo());
+      //  age.setText(String.valueOf(player.getPublicProfile().getAge()));
+      //  nickName.setText(player.getPublicProfile().getPseudo());
 
         //ImageIcon img = player.getPublicProfile().getAvatar();
        // Icon ico = new ImageIcon(img);
