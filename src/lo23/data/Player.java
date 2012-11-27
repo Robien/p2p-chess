@@ -83,7 +83,48 @@ public class Player implements Serializable {
     {
         return pieces;
     }
-    
+
+    public boolean isOncheck()
+    {
+
+
+        Player player = this;
+        if (player == getKing().getGame().getLocalPlayer())
+        {
+            player = getKing().getGame().getRemotePlayer();
+        }
+        else
+        {
+            player = getKing().getGame().getLocalPlayer();
+        }
+
+        ArrayList<GamePiece> gamePieces = player.getPieces();
+
+
+        for (int i = 0; i < gamePieces.size(); ++i)
+        {
+            GamePiece piece = gamePieces.get(i);
+
+                //List<Position> pos = piece.getPossibleMoves();
+             //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
+                if (piece.isResponsableOfCheck(getKing(), new Position(10, 10), new Position(10, 10)))
+                {
+
+                    return true;
+                }
+
+
+        }
+        return false;
+
+    }
+
+    public boolean isCheckAndMat()
+    {
+        return getKing().getPossibleMoves().isEmpty() && isOncheck();
+    }
+
+
     
     public PublicProfile getPublicProfile() {
         return publicProfile;
