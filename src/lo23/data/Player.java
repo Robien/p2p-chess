@@ -129,4 +129,9 @@ public class Player implements Serializable {
     public PublicProfile getPublicProfile() {
         return publicProfile;
     }
+
+    // joseph, fouette moi
+    public Game getGame() {
+        return getKing().getGame();
+    }
 }
