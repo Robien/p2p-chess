@@ -97,19 +97,13 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
-    public Game createGame(Invitation invitation) throws WrongInvitation{
+    public Game createGame(Invitation invitation) throws WrongInvitation {
         String curr_pofileId = getApplicationModel().getPManager().getCurrentProfile().getProfileId(),
                 guestProfileId = invitation.getGuest().getProfileId(),
                 hostprofileId = invitation.getHost().getProfileId();
         if (curr_pofileId.equals(guestProfileId)
                 || curr_pofileId.equals(hostprofileId)) {
             if (invitation instanceof NewInvitation) {
-                /*
-                 Player guest = new Player(COLOR.BLACK, 400, invitation.getGuest());
-                 Player host = new Player(COLOR.WHITE, 400, invitation.getHost());
-                 currentGame = new Game(guest, host);
-                 currentGame.buildPieces();
-                 */
                 NewInvitation I = (NewInvitation) invitation;
                 COLOR guestColor;
                 if (I.getColor() == COLOR.BLACK) {
@@ -117,9 +111,6 @@ public class GameManager extends Manager implements GameManagerInterface {
                 } else {
                     guestColor = COLOR.BLACK;
                 }
-
-                // Il faut que currentProfile ait une valeur!!!
-                // remplacer "" par 
                 if (guestProfileId.equals(curr_pofileId)) {
                     // guest=local
                     Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
@@ -127,7 +118,6 @@ public class GameManager extends Manager implements GameManagerInterface {
                     currentGame = new Game(local, remote);
                     currentGame.buildPieces();
                 } else {
-
                     // guest = remote
                     Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
                     Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
@@ -141,7 +131,7 @@ public class GameManager extends Manager implements GameManagerInterface {
                 currentGame = I.getGame();
                 currentGame.swapPlayer(); // Il faut inverser local et remote player
             }
-        }else{
+        } else {
             throw new WrongInvitation("L'invitation n'est pas pour le profile connecté.");
         }
         return currentGame;
@@ -160,8 +150,8 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public void notifyConstantMessage(Constant constant) {
         currentGame.getEvents().add(constant);
-        CONSTANT_TYPE c=constant.getConstant();
-        if (c== CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c== CONSTANT_TYPE.SURRENDER){
+        CONSTANT_TYPE c = constant.getConstant();
+        if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();
         }
     }
@@ -169,8 +159,8 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public void saveConstant(Constant constant) {
         currentGame.getEvents().add(constant);
-        CONSTANT_TYPE c=constant.getConstant();
-        if (c== CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c== CONSTANT_TYPE.SURRENDER){
+        CONSTANT_TYPE c = constant.getConstant();
+        if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
             currentGame.setEnd();
         }
     }
@@ -191,7 +181,7 @@ public class GameManager extends Manager implements GameManagerInterface {
         ArrayList<Game> gameList = getListAllGames();
         int i = 0;
         while (i < gameList.size()) {
-            if (gameList.get(i).getEndDate() == null) { 
+            if (gameList.get(i).getEndDate() == null) {
                 gameList.remove(i);
             } else {
                 i++;
