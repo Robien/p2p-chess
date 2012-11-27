@@ -19,6 +19,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
 import lo23.ui.login.mockManager.CommManagerMock;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
@@ -161,17 +162,17 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     }//GEN-LAST:event_previousBtnActionPerformed
 
     public void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        long id;
+        long idGame;
         JButton btn = (JButton) evt.getSource();
-        id = (Long) btn.getClientProperty("id");
-        System.out.println("click review game btn avec comme id = " + id);
+        idGame = (Long) btn.getClientProperty("id");
+        ihmLoginModel.sendInvitationResumeGame(idGame);
     }    
     
     private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {  
-        long id;
+        long idGame;
         JButton btn = (JButton) evt.getSource();
-        id = (Long) btn.getClientProperty("id");
-        System.out.println("click continue game btn avec comme id = " + id);
+        idGame = (Long) btn.getClientProperty("id");
+        ihmLoginModel.sendInvitationResumeGame(idGame);
     }                                        
 
     /**
