@@ -21,6 +21,7 @@ import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManagerInterface;
@@ -56,6 +57,7 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     private PlayerModel listPlayers;
     private HashMap<PublicProfile,Date> listProfileDate;
+    private HashMap<Long,Game> listIdGame;
     ArrayList<JButton> listPlayersLaunchBtn;
     private  EndGameModel listEndGames;
     private  StopGameModel listStartGames;
@@ -83,6 +85,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         idPlayersConnected = profileManager.getIdPlayersConnected(); // pour le test
          
         // Liste des parties terminées
+        listIdGame = new HashMap<Long, Game>();
         GameManagerMock gameManager = new GameManagerMock(appModel);
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
@@ -167,6 +170,7 @@ public class IhmLoginModel implements PropertyChangeListener{
                 //Get all games stopped which have the id of the current profile p
                 ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
                 for(Game g : gamesContinue){
+                    listIdGame.put(g.getGameId(), g);
                     listStartGames.addGame(g.getEndDate(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(),profile.getStatus());
                 }
                 
@@ -215,6 +219,7 @@ public class IhmLoginModel implements PropertyChangeListener{
                 //Remove games associated
                 ArrayList<Game> gamesContinue = this.getGamesContinueFromId(p.getProfileId());
                 for(Game g : gamesContinue){
+                    listIdGame.remove(g.getGameId());
                     this.listStartGames.removeGame(g.getGameId());
                 }
             }
@@ -383,4 +388,15 @@ public class IhmLoginModel implements PropertyChangeListener{
     public ArrayList<JButton> getListLaunchGameBtn() {
         return  listPlayersLaunchBtn;
     }
+
+    public void sendInvitationResumeGame(Long idGame) {
+        Game game = listIdGame.get(idGame);
+        PublicProfile guest = game.getRemotePlayer().getPublicProfile();
+        PublicProfile host = game.getLocalPlayer().getPublicProfile();
+        ResumeGame invit = new ResumeGame(host, guest, game);
+
+        //Send invitation
+        appModel.getPManager().sendInvitation(invit);
+    }
+
 }
