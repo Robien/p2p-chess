@@ -71,7 +71,7 @@ public class MainTestImage {
                 }
             }
 
-            ImageIcon icon = new ImageIcon("C:\\Documents and Settings\\fguilpai\\Bureau\\logo.jpg");
+            ImageIcon icon = new ImageIcon("Z:\\logo.gif");
             hostProfile = new PublicProfile("1", "Francois", Enums.STATUS.CONNECTED, addressIp, icon, "Nom", "Prénom", 23, 0, 0, 0);
 
             appModel = new ApplicationModel();
