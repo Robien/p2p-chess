@@ -49,7 +49,7 @@ public class GameManagerTest {
         String profileId = "MIchel";
         Profile p;
         try {
-            //p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+//            p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
 
             if (app.getPManager().connection(profileId, fakePassword)) {
 
