@@ -5,20 +5,27 @@
 
 package lo23.data.tests;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
+import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.pieces.GamePiece;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
+import lo23.utils.Enums.PLAYER_RESULT;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -29,28 +36,40 @@ public class TestCoupPossible {
 
 
     public static void main(String[] args) {
-        ApplicationModel app = new ApplicationModel();
+        ApplicationModel app;
+        Profile pGuest;
+        NewInvitation inv;
+        Game gm;
 
+        app = new ApplicationModel();
         app.setGameManager(new GameManager(app));
         app.setProfileManager(new ProfileManager(app));
-        Player p1 = new Player(COLOR.WHITE, 0, null);
-        Player p2 = new Player(COLOR.BLACK, 0, null);
 
         char[] fakePassword = {};
-        
-        Profile pHost = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        Profile pGuest = new Profile("", "host", fakePassword, STATUS.INGAME, "", null, "", "", 21);
-        NewInvitation inv = new NewInvitation(COLOR.BLACK, 0, pHost.getPublicProfile(), pGuest.getPublicProfile());
-        Game gm=null;
+        String profileId = "MIchel";
+        Profile p;
         try {
-            gm = app.getGManager().createGame(inv);
-        } catch (WrongInvitation ex) {
-            Logger.getLogger(TestCoupPossible.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        gm.buildPieces();
+            try
+            {
+                p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+            } catch (NoIdException ex)
+            {
+                Logger.getLogger(TestCoupPossible.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (app.getPManager().connection(profileId, fakePassword)) {
+
+                pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
+                inv = new NewInvitation(Enums.COLOR.WHITE, 300, app.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
+                try {
+                    gm = app.getGManager().createGame(inv);
+                    long gid = gm.getGameId();
+
+                     gm.buildPieces();
        // gm.dumpBoard();
 
-        
+
         //maintenant, testons les coups possibles !
 
 
@@ -63,7 +82,7 @@ public class TestCoupPossible {
         //piece.movePiece(new Position(5, 4));
 
 //System.out.println(roi.isOncheck());
-        
+
 
         List<Position> possibleMoves = piece.getPossibleMovesWithCheck();
 //        possibleMoves = piece.removeCheckingMove(possibleMoves);
@@ -71,6 +90,41 @@ public class TestCoupPossible {
         TestCoupPossible test = new TestCoupPossible();
         test.dumpBoardAndList(possibleMoves, gm);
 
+                    Constant c=app.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+                    app.getGManager().saveConstant(c);
+                    try {
+                        PLAYER_RESULT reponse = gm.isWinner("idprofile");
+                        System.out.println(reponse+" "+PLAYER_RESULT.WIN+" "+PLAYER_RESULT.LOST);
+                    } catch (Exception ex) {
+                        Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    app.getGManager().save();
+
+                    ArrayList<Game> list = app.getGManager().getListAllGames();
+                    for (Game g : list) {
+                        g.dumpBoard();
+                    }
+                    System.out.println(list.size());
+
+                } catch (NoIdException expt) {
+                    System.out.println(expt.getMessage());
+                    System.out.println(expt.getStackTrace());
+                } catch (WrongInvitation expt) {
+                    System.out.println(expt.getMessage());
+                    System.out.println(expt.getStackTrace());
+                }
+            } else {
+                System.out.println("Probleme lors de la connection.");
+            }
+        }catch (lo23.data.exceptions.FileNotFoundException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
 
 
