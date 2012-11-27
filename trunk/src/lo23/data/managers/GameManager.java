@@ -153,6 +153,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void sendConstant(Constant constant) {
+        saveConstant(constant);
         getApplicationModel().getComManager().sendConstantMessage(constant);
     }
 
