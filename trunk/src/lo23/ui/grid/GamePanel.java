@@ -115,7 +115,7 @@ public class GamePanel extends JPanel {
                     int y = mouseEvent.getY();
                     int xSquare = (x - x % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
                     int ySquare = (y - y % GridConstants.SQUARE_SIZE) / GridConstants.SQUARE_SIZE;
-//                    receiveSelectedCase(xSquare,ySquare); 
+                    receiveSelectedCase(xSquare,ySquare); 
                 }
             }
         });
@@ -223,7 +223,7 @@ public class GamePanel extends JPanel {
 //               System.out.println(newSelection + ":" + game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
 //               Move move = myModel.getGManager().createMove(newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()));
 //               myModel.getGManager().playMove(move);
-//               myModel.getGManager().sendMove(move);
+               //myModel.getGManager().sendMove(move);
                 
                  game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
                 
@@ -237,10 +237,11 @@ public class GamePanel extends JPanel {
                  
 
                 //update display (remove for integration)
-                listOfPiece.remove(formerPositionSelected);
-                listOfPiece.put(newSelection, formerPieceSelected);
-                add(formerPieceSelected, constraints, 0);
-
+//                listOfPiece.remove(formerPositionSelected);
+//                listOfPiece.put(newSelection, formerPieceSelected);
+//                add(formerPieceSelected, constraints, 0);
+                    
+                updateBoard(new Move(formerPositionSelected,newSelection, game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY())));
 
                 
         	}
@@ -300,9 +301,10 @@ public class GamePanel extends JPanel {
     
     public void updateBoard(Move move){
         // Update board after player play a move
+         JLabel currentPiece = listOfPiece.get(move.getFrom());
          listOfPiece.remove(move.getFrom());
-         listOfPiece.put(move.getTo(), formerPieceSelected);
-         add(formerPieceSelected, constraints, 0);
+         listOfPiece.put(move.getTo(), currentPiece);
+         add(currentPiece, constraints, 0);
     }
     
     private void launchParty(){
