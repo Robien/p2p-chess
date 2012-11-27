@@ -5,26 +5,20 @@
 package ui.grid;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.EventListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Element;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import lo23.data.ApplicationModel;
 import lo23.data.Message;
+import lo23.data.Player;
 
 /**
  *
@@ -195,7 +189,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
 
                 // printing on screen
-                doc2.insertString(doc2.getLength(), "[Heure][NomPlayer] : " + jTextField1.getText() + "\n", localStyle);
+                doc2.insertString(doc2.getLength(), "[Heure][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", localStyle);
                 jTextField1.setText("");
                 jTextField1.setFocusable(true);
 
@@ -213,10 +207,11 @@ public class ChatPanel2 extends javax.swing.JPanel {
        if (!msg.getContents().equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
-            msg.getSender();
-           // getPublicProfile
+            Player sender = msg.getSender();
+           // Player receiver = msg.getReceiver();
+
             // printing on screen
-            doc2.insertString(doc2.getLength(), "[Heure][NomPlayer] : " + msg.getContents() + "\n", remoteStyle);
+            doc2.insertString(doc2.getLength(), "[Heure]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
 
 
        }
