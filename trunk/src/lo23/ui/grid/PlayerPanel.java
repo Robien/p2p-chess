@@ -12,6 +12,8 @@
 package lo23.ui.grid;
 
 import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import lo23.data.ApplicationModel;
 import lo23.data.Player;
 import lo23.data.PublicProfile;
@@ -24,13 +26,16 @@ import lo23.utils.Enums.STATUS;
 public class PlayerPanel extends javax.swing.JPanel {
     ApplicationModel myModel;
     /** Creates new form PlayerPanel */
-    public PlayerPanel(ApplicationModel model){//,Player player) {
+    public PlayerPanel(ApplicationModel model, Player player) {
         initComponents();
         myModel = model;
         // inits values
-        PublicProfile tmp = new PublicProfile("profileId", "Pseudo", STATUS.INGAME, "192.168.1.1", null, "picavet", "loic", 24,0,0, 0);
-        age.setText(String.valueOf(tmp.getAge()));
-        nickName.setText(tmp.getPseudo());
+        age.setText(String.valueOf(player.getPublicProfile().getAge()));
+        nickName.setText(player.getPublicProfile().getPseudo());
+
+        Image img = player.getPublicProfile().getAvatar();
+        Icon ico = new ImageIcon(img);
+        avatar.setIcon(ico);
 
     }
 
