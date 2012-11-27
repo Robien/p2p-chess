@@ -102,6 +102,7 @@ public class GameManager extends Manager implements GameManagerInterface {
         if (getApplicationModel().getPManager().getCurrentProfile()==null){
             throw new WrongInvitation("Personne n'est connecté.");
         }
+        
         String curr_pofileId = getApplicationModel().getPManager().getCurrentProfile().getProfileId(),
                 guestProfileId = invitation.getGuest().getProfileId(),
                 hostprofileId = invitation.getHost().getProfileId();
