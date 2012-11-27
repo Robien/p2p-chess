@@ -38,12 +38,10 @@ public class Game implements Serializable {
     private Player localPlayer;
     private Player remotePlayer;
     private ArrayList<Event> events;
-    private GameManager gManager;
 
-    /**
-     * Constructor - used because we overload the real constructor
-     */
-    public void buildGame(Player localPlayer, Player remotePlayer) {
+
+
+    public Game(Player localPlayer, Player remotePlayer) {
         gameId = (new Date()).getTime();
         start = new Date();
         end = null;
@@ -53,22 +51,7 @@ public class Game implements Serializable {
         events = new ArrayList<Event>();
         this.localPlayer = localPlayer;
         this.remotePlayer = remotePlayer;
-        gManager = null;
     }
-
-    public Game(Player localPlayer, Player remotePlayer) {
-        buildGame(localPlayer, remotePlayer);
-    }
-
-    public Game(Player localPlayer, Player remotePlayer, GameManager gManager) {
-        buildGame(localPlayer, remotePlayer);
-        this.gManager = gManager;
-    }
-
-    public void setgManager(GameManager gManager) {
-        this.gManager = gManager;
-    }
-
     
     public void buildPieces() {
         // white are at the bottom.
@@ -238,8 +221,7 @@ public class Game implements Serializable {
     }
 
     public void pushEvent(Event e) {
-        events.add(e);
-        gManager.publish(GridConstants.NEW_EVENT_ADDED, e);        
+        events.add(e);      
     }
 
     public void playMove(Move move) throws IllegalMoveException {

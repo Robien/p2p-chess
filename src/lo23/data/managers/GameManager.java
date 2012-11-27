@@ -1,6 +1,5 @@
 package lo23.data.managers;
 
-import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import lo23.data.exceptions.WrongInvitation;
 import lo23.data.pieces.GamePiece;
 import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
+import lo23.ui.grid.GridConstants;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -81,6 +81,10 @@ public class GameManager extends Manager implements GameManagerInterface {
         getApplicationModel().getComManager().sendChatMessage(message);
     }
 
+    public void pushEvent(Event e) {
+        currentGame.pushEvent(e);
+        this.publish(GridConstants.NEW_EVENT_ADDED, e);
+    }
     @Override
     public void saveMessage(Message message) {
         currentGame.pushEvent(message);
@@ -120,13 +124,13 @@ public class GameManager extends Manager implements GameManagerInterface {
                     // guest=local
                     Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
                     Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
-                    currentGame = new Game(local, remote, this);
+                    currentGame = new Game(local, remote);
                     currentGame.buildPieces();
                 } else {
                     // guest = remote
                     Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
                     Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
-                    currentGame = new Game(local, remote, this);
+                    currentGame = new Game(local, remote);
                     currentGame.buildPieces();
                 }
 
@@ -134,7 +138,6 @@ public class GameManager extends Manager implements GameManagerInterface {
                 //Il s'agit d'un resume game
                 ResumeGame I = (ResumeGame) invitation;
                 currentGame = I.getGame();
-                currentGame.setgManager(this);
                 currentGame.swapPlayer(); // Il faut inverser local et remote player
             }
         } else {
