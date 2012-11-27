@@ -32,7 +32,7 @@ public class Serializer {
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                profileIds.add(listOfFiles[i].getName());
+                profileIds.add(listOfFiles[i].getName().replaceAll(".profile", ""));
             }
         }
 
