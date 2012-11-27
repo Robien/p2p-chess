@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.grid;
+package lo23.ui.grid;
 
 import java.awt.Color;
 import java.awt.event.KeyAdapter;

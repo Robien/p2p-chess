@@ -13,7 +13,7 @@ import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
 import lo23.data.Move;
 import lo23.data.managers.Manager;
-import ui.grid.ChatPanel2;
+
 
 
 /**
