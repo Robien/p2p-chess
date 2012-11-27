@@ -124,11 +124,11 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
         listStopGames.add(game1);
         idStopGames.add(game1.getGameId()); // Ajout de l'id pour les tests
         
-        try {
-            Thread.sleep(987);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Thread.sleep(987);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         PublicProfile profile3 = new PublicProfile("3", "player3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         Player remotePlayer2 = new Player(COLOR.BLACK, 3, profile3);
@@ -152,11 +152,11 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
         listStartGames.add(game1);
         idStartGames.add(game1.getGameId());
         
-        try {
-            Thread.sleep(987);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Thread.sleep(987);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(GameManagerMock.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         PublicProfile profile3 = new PublicProfile("3", "player3", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         Player remotePlayer2 = new Player(COLOR.BLACK, 3, profile3);
