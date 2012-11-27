@@ -21,23 +21,30 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
+import lo23.data.Game;
 import lo23.data.Invitation;
+import lo23.data.Move;
 import lo23.data.NewInvitation;
+import lo23.data.Player;
+import lo23.data.Position;
+import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManager;
+import lo23.data.pieces.King;
+import lo23.data.tests.TestInit;
 import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
-
+import lo23.utils.Enums.STATUS;
 
 public class SuperMain implements PropertyChangeListener {
 
     public static void main(String[] args) {
         SuperMain main = new SuperMain();
     }
-
     private PublicProfile hostProfile;
     private ApplicationModel appModel;
     private JFrame frame;
@@ -50,16 +57,16 @@ public class SuperMain implements PropertyChangeListener {
             Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
             while (e.hasMoreElements()) {
                 Enumeration<InetAddress> i = e.nextElement().getInetAddresses();
-                while (i.hasMoreElements()){
+                while (i.hasMoreElements()) {
                     InetAddress a = i.nextElement();
                     if (!a.isLoopbackAddress() && !(a instanceof Inet6Address)) {
                         addressIp = a.getHostAddress();
-                        System.out.print("\nIP : "+ addressIp);
+                        System.out.print("\nIP : " + addressIp);
                     }
                 }
             }
 
-            hostProfile = new PublicProfile("1", "Pseudo", Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23, 0, 0, 0);
+            hostProfile = new PublicProfile("1", "Nous", Enums.STATUS.CONNECTED, addressIp, null , "Nom", "Prénom", 23, 0, 0, 0);
 
             appModel = new ApplicationModel();
             appModel.setComManager(new ComManager(hostProfile, appModel));
@@ -78,19 +85,23 @@ public class SuperMain implements PropertyChangeListener {
             frame.getContentPane().add(panelButton, BorderLayout.PAGE_END);
             JButton multicastButton = new JButton("1. Multicast");
             JButton invitButton = new JButton("2. Invitation");
+            JButton moveButton = new JButton("3. Move");
             panelButton.add(multicastButton);
             panelButton.add(invitButton);
+            panelButton.add(moveButton);
 
             multicastButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     userListModel.clear();
                     appModel.getPManager().startProfilesDiscovery();
-                    ((Manager) appModel.getPManager()).subscribe(SuperMain.this,IhmLoginModel.ADD_PLAYER_CONNECTED);
+                    ((Manager) appModel.getPManager()).subscribe(SuperMain.this, IhmLoginModel.ADD_PLAYER_CONNECTED);
                 }
             });
 
             invitButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (userJList.getSelectedValue() != null) {
@@ -98,6 +109,35 @@ public class SuperMain implements PropertyChangeListener {
                         NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile, profile);
                         appModel.getPManager().sendInvitation(invitation);
                         ((Manager) appModel.getPManager()).subscribe(SuperMain.this, IhmLoginModel.INVIT_RECEIVE);
+                    }
+                }
+            });
+
+            moveButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (userJList.getSelectedValue() != null) {
+                        PublicProfile profile = (PublicProfile) userJList.getSelectedValue();
+                        NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile, profile);
+
+                        appModel.getComManager().sendInvitation(invitation);
+                        appModel.getComManager().sendGameStarted(invitation.getGuest());
+
+                        Player p1 = new Player(COLOR.WHITE, 0, null);
+                        Player p2 = new Player(COLOR.BLACK, 0, null);
+
+                        Game gm = null;
+                        try {
+                            gm = appModel.getGManager().createGame(invitation);
+                        } catch (WrongInvitation ex) {
+                            Logger.getLogger(TestInit.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        Move m = new Move(new Position(0, 0), new Position(0, 2), new King(new Position(0, 0), p1, gm));
+                        appModel.getGManager().sendMove(m);
+
+                        ((Manager) appModel.getPManager()).subscribe(SuperMain.this, "move");
                     }
                 }
             });
@@ -111,14 +151,14 @@ public class SuperMain implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if ( evt.getPropertyName().equals(IhmLoginModel.ADD_PLAYER_CONNECTED)) {
+        if (evt.getPropertyName().equals(IhmLoginModel.ADD_PLAYER_CONNECTED)) {
             userListModel.addElement(evt.getNewValue());
             System.out.println(evt.getNewValue());
-        } else if ( evt.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)) {
+        } else if (evt.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)) {
             Invitation invit = (Invitation) evt.getNewValue();
-            System.out.println("Invitation reçu de "+invit.getHost());
+            System.out.println("Invitation reçu de " + invit.getHost());
+        } else if (evt.getPropertyName().equals("move")) {
+            System.out.println("Coup reçu");
         }
     }
-
-
 }
