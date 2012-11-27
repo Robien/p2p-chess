@@ -423,11 +423,12 @@ public class IhmProfileWindow extends JFrame{
                 ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
                 ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
                 ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
-                try {
-                    ihmLoginModel.getApplicationModel().getPManager().saveProfile();
-                } catch (Exception ex) {
+             try {
+                 ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+             } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                }
+             }
+                
                 
                 return true;
             } else{
@@ -471,11 +472,12 @@ public class IhmProfileWindow extends JFrame{
                     try {
                         //TODO status
                         ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                        ihmLoginModel.refreshProfileList();
+                        this.dispose();
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception Create Profile", JOptionPane.ERROR_MESSAGE);
                     }
-                    ihmLoginModel.refreshProfileList();
-                    this.dispose();
+                    
                 }
                 break;
         }
@@ -504,23 +506,22 @@ public class IhmProfileWindow extends JFrame{
      
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
             //open explorer to select the location
+
             if(this.checkAndSave()){
                 final JFileChooser fc = new JFileChooser();
                 int n = fc.showSaveDialog(this);
-         
+                
                 //Si valide appele le modèle
                 if(n==JFileChooser.APPROVE_OPTION){
                     String path = fc.getSelectedFile().getAbsolutePath();
                     System.out.println(path);
                     try {
-
-                            ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
-                            this.dispose();
+                        ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+                        this.dispose();
 
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
-
                 }
             }
      }
