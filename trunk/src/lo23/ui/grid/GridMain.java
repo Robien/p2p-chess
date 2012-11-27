@@ -17,6 +17,7 @@ import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Profile;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
@@ -77,7 +78,11 @@ public class GridMain
                 Profile p;
                 try
                 {
-                    p = myModel.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                    try {
+                        p = myModel.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                    } catch (ProfilePseudoAlreadyExistException ex) {
+                        Logger.getLogger(GridMain.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     if (myModel.getPManager().connection(profileId, fakePassword))
                     {
