@@ -27,6 +27,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.NoIdException;
@@ -80,17 +82,17 @@ public class IhmProfileWindow extends JFrame{
     private void initComponent() {
         switch(status){
             case MODIFY :
-                setTitle("Gestion du profil"); //On donne un titre à l'application
+                setTitle("Manage profile"); //On donne un titre à l'application
                 setSize(initialWidth, initialHeight); //On donne une taille à notre fenêtre
                 break;
             case READ :
-                setTitle("Consultation d'un profil"); //On donne un titre à l'application
+                setTitle("View profile"); //On donne un titre à l'application
                 setSize(initialWidth, initialHeight); //On donne une taille à notre fenêtre
                 break;
             case CREATE :
                 initialWidth = 350;
                 initialHeight = 350;
-                setTitle("Création d'un profil"); //On donne un titre à l'application
+                setTitle("Create profile"); //On donne un titre à l'application
                 setSize(initialWidth,initialHeight); //On donne une taille à notre fenêtre
                 break;
                 
@@ -117,28 +119,28 @@ public class IhmProfileWindow extends JFrame{
         
 
         JLabel password = new JLabel();
-        password.setText("Mot de passe");
+        password.setText("Password");
         
 
         JLabel passwordConfirm = new JLabel();
-        passwordConfirm.setText("Ressaisissez votre mot de passe");
+        passwordConfirm.setText("Password confirm");
         
 
         JLabel firstName = new JLabel();
-        firstName.setText("Nom");
+        firstName.setText("Lastname");
         
         
         JLabel lastName = new JLabel();
-        lastName.setText("Prénom");
+        lastName.setText("Name");
         
 
         JLabel age = new JLabel();
-        age.setText("Âge");
+        age.setText("Age");
         
         
         
         JButton exportProfileButton = new JButton();
-        exportProfileButton.setText("Exporter le profil");
+        exportProfileButton.setText("Export profile");
         // Listener
         exportProfileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,12 +176,12 @@ public class IhmProfileWindow extends JFrame{
         
          //STATISTIC PART
         JLabel gamesWonLabel = new JLabel();
-        gamesWonLabel.setText("Parties gagnées");
+        gamesWonLabel.setText("Won games");
         JLabel gamesLostLabel = new JLabel();
-        gamesLostLabel.setText("Parties perdues");
+        gamesLostLabel.setText("Lost games");
 
         JLabel gamesDrawLabel = new JLabel();
-        gamesDrawLabel.setText("Parties nulles");
+        gamesDrawLabel.setText("Draw games");
 
 
         
@@ -205,8 +207,8 @@ public class IhmProfileWindow extends JFrame{
                 gamesLostField.setText(String.valueOf(currentProfile.getLostGames()));
                 gamesDrawField.setText(String.valueOf(currentProfile.getDrawGames()));
                 
-                applyButton.setText("Valider");
-                changeImageButton.setText("Changer votre avatar");
+                applyButton.setText("Validate");
+                changeImageButton.setText("Changer your avatar");
                 try{
                     profileImage.setIcon(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar());
                     profileImage.repaint();
@@ -214,7 +216,7 @@ public class IhmProfileWindow extends JFrame{
                 }catch (Exception e1) {
                     // Image Inconnue
                     profileImage.setIcon(null);
-                    profileImage.setText("Image Inconnue");
+                    profileImage.setText("Unknow picture");
                 }
                 
                 
@@ -247,7 +249,7 @@ public class IhmProfileWindow extends JFrame{
                 }catch (Exception e1) {
                     // Image Inconnue
                     profileImage.setIcon(null);
-                    profileImage.setText("Image Inconnue");
+                    profileImage.setText("Unknow picture");
                 }
                 
                 break;
@@ -258,7 +260,7 @@ public class IhmProfileWindow extends JFrame{
                 firstNameField.setEditable(true);
                 ageField.setEditable(true);
                 exportProfileButton.setVisible(false);
-                applyButton.setText("Valider l'inscription");
+                applyButton.setText("Suscribe");
                 gamesWonLabel.setVisible(false);
                 gamesLostLabel.setVisible(false);
                 gamesDrawLabel.setVisible(false);
@@ -267,7 +269,7 @@ public class IhmProfileWindow extends JFrame{
                 gamesDrawField.setVisible(false);
                 jSeparator1.setVisible(false);
                 jSeparator2.setVisible(false);
-                changeImageButton.setText("Selectionnez votre avatar");
+                changeImageButton.setText("Select your avatar");
                 break;
         }
 
@@ -375,7 +377,10 @@ public class IhmProfileWindow extends JFrame{
  
      //Change image
      private void changeImagePerformed(java.awt.event.ActionEvent evt) {
+        FileFilter imagesFilter = new FileNameExtensionFilter("Images", "bmp", "gif", "jpg", "jpeg", "png");
         JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(imagesFilter);
         int n = fc.showOpenDialog(this);
         //Si valide appele le modèle
         if(n==JFileChooser.APPROVE_OPTION){
@@ -399,9 +404,35 @@ public class IhmProfileWindow extends JFrame{
                 }catch (Exception e1) {
                     // Image Inconnue
                     profileImage.setIcon(null);
-                    profileImage.setText("Image Inconnue");
+                    profileImage.setText("Unknow picture");
                 }	
         }
+     }
+     
+     private boolean checkAndSave(){
+         if(checkValidityFields()){
+                try{
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
+                }
+                catch(Exception e){
+                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(0);
+                }
+
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
+                ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
+                try {
+                    ihmLoginModel.getApplicationModel().getPManager().saveProfile();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                return true;
+            } else{
+                return false;
+            }
      }
      
      private String RandomStringUUID() {
@@ -415,26 +446,8 @@ public class IhmProfileWindow extends JFrame{
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
-                if(checkValidityFields()){
-                    try{
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(Integer.parseInt(ageField.getText()));
-                    }
-                    catch(Exception e){
-                        ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAge(0);
-                    }
-
-                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setFirstName(firstNameField.getText());
-                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setName(lastNameField.getText());
-                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPseudo(loginField.getText());
-                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setPassword(jPasswordField1.getPassword());
-                    ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().setAvatar(icon);
-                    try {
-                        ihmLoginModel.getApplicationModel().getPManager().saveProfile();
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception Save Profile", JOptionPane.ERROR_MESSAGE);
-                    }
-                    this.dispose();
-                }
+                this.checkAndSave();
+                this.dispose();
                 break;
 
             case CREATE :
@@ -444,7 +457,7 @@ public class IhmProfileWindow extends JFrame{
                         age = Integer.parseInt(ageField.getText());
                     }
                     catch(Exception e){
-                        System.out.println("Age non renseigné");
+                        System.out.println("Age not filled");
                     }
                     //IP
                     InetAddress thisIp = null;
@@ -469,17 +482,17 @@ public class IhmProfileWindow extends JFrame{
      }
      private boolean checkValidityFields(){
         if(!(Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) || Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
-            JOptionPane.showMessageDialog(this, "Entrez le même mot de passe", "Password Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Your password is wrong", "Password Error", JOptionPane.ERROR_MESSAGE);
             return false;
         } 
         else{   
             if(!checkForDigit(ageField.getText())) {
-                JOptionPane.showMessageDialog(this, "Entrez un age valide!", "Age Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Set a correct age", "Age Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             else{
                 if(loginField.getText().isEmpty()){
-                    JOptionPane.showMessageDialog(this, "Entrez un login valide!", "Login Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Enter a correct login", "Login Error", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
                 else{
@@ -491,17 +504,23 @@ public class IhmProfileWindow extends JFrame{
      
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
             //open explorer to select the location
-            final JFileChooser fc = new JFileChooser();
-            int n = fc.showSaveDialog(this);
+            if(this.checkAndSave()){
+                final JFileChooser fc = new JFileChooser();
+                int n = fc.showSaveDialog(this);
          
-            //Si valide appele le modèle
-            if(n==JFileChooser.APPROVE_OPTION){
-                String path = fc.getSelectedFile().getAbsolutePath();
-                System.out.println(path);
-                try {
-                    ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                //Si valide appele le modèle
+                if(n==JFileChooser.APPROVE_OPTION){
+                    String path = fc.getSelectedFile().getAbsolutePath();
+                    System.out.println(path);
+                    try {
+
+                            ihmLoginModel.getApplicationModel().getPManager().exportProfile(path);
+                            this.dispose();
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+
                 }
             }
      }
