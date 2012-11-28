@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
-import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
