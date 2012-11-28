@@ -6,9 +6,6 @@
 package lo23.ui.login.mockManager;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
