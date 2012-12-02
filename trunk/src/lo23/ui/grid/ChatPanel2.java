@@ -7,6 +7,9 @@ package lo23.ui.grid;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
     final Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
+
 //       private EventListener eventListener;
 
     /**
@@ -104,6 +108,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(153, 51, 0));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Draw");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,18 +118,22 @@ public class ChatPanel2 extends javax.swing.JPanel {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Give up");
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Save game");
 
         jTextPane1.setEditable(false);
-        jTextPane1.setBackground(new java.awt.Color(255, 255, 153));
-        jTextPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextPane1.setBackground(new java.awt.Color(255, 255, 204));
+        jTextPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTextPane1.setForeground(new java.awt.Color(102, 102, 102));
         jTextPane1.setToolTipText("");
         jTextPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextPane1.setMaximumSize(new java.awt.Dimension(6, 20));
         jScrollPane1.setViewportView(jTextPane1);
 
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Send");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,22 +192,22 @@ public class ChatPanel2 extends javax.swing.JPanel {
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
                 // sending message to remote player
-             //   if(myModel == null)
-             //          System.out.print("variable modele nulle");
-             //   else{
+                if(myModel == null)
+                       System.out.print("variable modele nulle");
+                else{
 
             
-                  //  Message m = myModel.getGManager().createMessage(msg);
-                 //  myModel.getGManager().sendMessage(m);
-
+                 //   Message m = myModel.getGManager().createMessage(msg);
+                //   myModel.getGManager().sendMessage(m);
+                }
 
                 // printing on screen
-                doc2.insertString(doc2.getLength(), "[Heure][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", localStyle);
+                doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", localStyle);
                 jTextField1.setText("");
                 jTextField1.setFocusable(true);
 
 
-                receivedMsg(new Message("test", null, null));
+               // receivedMsg(new Message("test", null, null));
 
         }
     }
@@ -213,7 +224,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
            // Player receiver = msg.getReceiver();
 
             // printing on screen
-            doc2.insertString(doc2.getLength(), "[Heure]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
+            doc2.insertString(doc2.getLength(), "[" + getHeure() + "]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
 
 
        }
@@ -224,24 +235,19 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * @param msg
      * @throws BadLocationException
      */
-    public void gameMsg(Move mv) throws BadLocationException{/*
-       if (!msg.getContents().equals("")) { // if not null
+    public void gameMsg(Move mv) throws BadLocationException{
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
-                // sending message to remote player
-             //   if(myModel == null)
-             //          System.out.print("variable modele nulle");
-             //   else{
-               //     Message m = myModel.getGManager().createMessage(msg);
-               //     myModel.getGManager().sendMessage(m);
-
-
-
                 // printing on screen
-                doc2.insertString(doc2.getLength(), msg.getContents() + "\n", gameStyle);
-
-
-        }*/
+                doc2.insertString(doc2.getLength(), "[" + getHeure() + "] "+ mv.toString(), gameStyle);
+              //  jTextField1.setText("");
+               // jTextField1.setFocusable(true);
+    }
+    
+    private String getHeure(){
+        Date actuelle = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(actuelle);
     }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
