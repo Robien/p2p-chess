@@ -3,6 +3,7 @@ package lo23.data.serializer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,7 +29,12 @@ public class Serializer {
         File folder = new File(Constants.PROFILES_PATH);
 
         ArrayList<String> profileIds = new ArrayList<String>();
-        File[] listOfFiles = folder.listFiles();
+        File[] listOfFiles = folder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File folder, String name) {
+                return name.toLowerCase().endsWith(".profile");
+            }
+        });
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
@@ -44,7 +50,8 @@ public class Serializer {
      *
      * @param profile The object to serialize
      * @param path The path where the profile is serialized
-     * @param profileId The profile ID. Set to "" to permit exportation of profile with personnalised file name
+     * @param profileId The profile ID. Set to "" to permit exportation of
+     * profile with personnalised file name
      *
      * @throws NoIdException This exception is thrown if profile argument
      * doesn't have a correct profileId
