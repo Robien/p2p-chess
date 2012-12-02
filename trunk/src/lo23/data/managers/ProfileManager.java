@@ -150,7 +150,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
         ArrayList<String> profileIdsInDirectory = Serializer.getProfileIds();
         String profileId = p.getProfileId();
         if (profileIdsInDirectory.contains(profileId)) {
-            throw new ProfileIdAlreadyExistException("A profile with ID " + profileId + " already exists !");
+            throw new ProfileIdAlreadyExistException("A profile with ID " + profileId + " already exists !", p);
         }
 
         String pseudo = p.getPseudo();
