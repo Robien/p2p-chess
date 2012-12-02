@@ -7,8 +7,8 @@ public class Constants
 {
 	// Paths where will be saved serialized objects
         // Working directory should be in the netbeans workspace
-       
-	static public final String PROFILES_PATH =  "data/profiles/";
+           
+	static public final String PROFILES_PATH = System.getProperty("user.dir") + "/data/profiles/";
 	static public final String GAMES_PATH = "data/games/";
         // File suffixes
         static public final String PROFILE_SUFFIXE = ".profile";

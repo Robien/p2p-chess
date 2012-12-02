@@ -58,7 +58,7 @@ public interface ProfileManagerInterface {
     /**
      * Get PublicProfiles for the local Profiles
      *
-     * @return the local PublicProfiles list
+     * @return the local PublicProfiles list or null if there in no local profile
      */
     public ArrayList<PublicProfile> getLocalPublicProfiles() throws ClassNotFoundException, IOException, FileNotFoundException;
 

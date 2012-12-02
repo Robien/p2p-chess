@@ -21,12 +21,17 @@ import lo23.data.exceptions.NoIdException;
 public class Serializer {
 
     /**
-     * Get all the Profile IDs stored in {@link Constants.PROFILES_PATH}
+     * Get all the Profile IDs stored in {@link Constants.PROFILES_PATH} and
+     * create any necessary but nonexistent parent directories.
      *
      * @return the profile IDs
      */
     static public ArrayList<String> getProfileIds() {
         File folder = new File(Constants.PROFILES_PATH);
+
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
         ArrayList<String> profileIds = new ArrayList<String>();
         File[] listOfFiles = folder.listFiles(new FilenameFilter() {
@@ -36,9 +41,11 @@ public class Serializer {
             }
         });
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                profileIds.add(listOfFiles[i].getName().replaceAll(".profile", ""));
+        if (!listOfFiles.equals(null)) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile()) {
+                    profileIds.add(listOfFiles[i].getName().replaceAll(".profile", ""));
+                }
             }
         }
 
