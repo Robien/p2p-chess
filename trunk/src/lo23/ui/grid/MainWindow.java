@@ -38,6 +38,7 @@ import lo23.ui.grid.PlayerPanel;
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
     Game game;
+    public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
     
     public MainWindow(ApplicationModel m) {
         super();
@@ -92,7 +93,7 @@ public class MainWindow extends JFrame implements ActionListener {
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel.setLayout(gridBagLayout);
         
-     
+        panel.setBackground(fond);
 //  
         GridBagConstraints constraints = new GridBagConstraints();
 
