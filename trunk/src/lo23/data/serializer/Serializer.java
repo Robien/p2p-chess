@@ -41,7 +41,7 @@ public class Serializer {
             }
         });
 
-        if (!listOfFiles.equals(null)) {
+        if (listOfFiles != null) {
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
                     profileIds.add(listOfFiles[i].getName().replaceAll(".profile", ""));

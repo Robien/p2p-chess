@@ -136,7 +136,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     public void updateCurrentProfileScore(boolean victory) {
-        if(victory) {
+        if (victory) {
             this.currentProfile.incrementWonGames();
         } else {
             this.currentProfile.incrementLostGames();
