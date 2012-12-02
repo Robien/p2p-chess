@@ -35,9 +35,12 @@ public class PlayerPanel extends javax.swing.JPanel {
         age.setText(String.valueOf(player.getPublicProfile().getAge()) + " ans");
         
        // ImageIcon img = player.getPublicProfile().getAvatar();
-        //Icon ico = new ImageIcon(img);
-        //avatar.setIcon(ico);
+        //Icon ico = new ImageIcon("QW.png");
+       // avatar.setIcon(ico);
         setBackground(fond);
+        
+        avatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lo23/ui/resources/QW.png"))); // NOI18N
+
 //  
     }
 
@@ -94,11 +97,12 @@ public class PlayerPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(avatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(nickName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(age))
-                    .addComponent(avatar, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addComponent(age)
+                        .addGap(0, 30, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
