@@ -5,7 +5,6 @@
 
 package lo23.data.tests;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +14,16 @@ import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
-import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.Profile;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
-import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.PLAYER_RESULT;
-import lo23.utils.Enums.STATUS;
 
 /**
  *
@@ -51,7 +48,11 @@ public class TestCoupPossible {
         try {
             try
             {
-                p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                try {
+                    p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+                } catch (ProfilePseudoAlreadyExistException ex) {
+                    Logger.getLogger(TestCoupPossible.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (NoIdException ex)
             {
                 Logger.getLogger(TestCoupPossible.class.getName()).log(Level.SEVERE, null, ex);
