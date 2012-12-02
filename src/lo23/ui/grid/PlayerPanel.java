@@ -25,18 +25,20 @@ import lo23.utils.Enums.STATUS;
  */
 public class PlayerPanel extends javax.swing.JPanel {
     ApplicationModel myModel;
+        public static final java.awt.Color fond = new java.awt.Color(153, 51, 0);
     /** Creates new form PlayerPanel */
     public PlayerPanel(ApplicationModel model, Player player) {
         initComponents();
         myModel = model;
         // inits values
-      //  age.setText(String.valueOf(player.getPublicProfile().getAge()));
-      //  nickName.setText(player.getPublicProfile().getPseudo());
-
-        //ImageIcon img = player.getPublicProfile().getAvatar();
-       // Icon ico = new ImageIcon(img);
-       // avatar.setIcon(ico);
-
+        nickName.setText(player.getPublicProfile().getPseudo());
+        age.setText(String.valueOf(player.getPublicProfile().getAge()) + " ans");
+        
+       // ImageIcon img = player.getPublicProfile().getAvatar();
+        //Icon ico = new ImageIcon(img);
+        //avatar.setIcon(ico);
+        setBackground(fond);
+//  
     }
 
     public PlayerPanel(ApplicationModel model) {
@@ -67,6 +69,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 
         avatar.setBackground(new java.awt.Color(51, 255, 51));
 
+        nickName.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        nickName.setForeground(new java.awt.Color(255, 51, 51));
         nickName.setText("Nom du joueur");
 
         age.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
@@ -83,7 +87,7 @@ public class PlayerPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nickName)
                     .addComponent(age))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
