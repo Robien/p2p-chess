@@ -323,4 +323,9 @@ public class Game implements Serializable {
             throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
         }
     }
+    
+    public GamePiece[][] getBoard(){
+    	return board;
+    }
+    
 }
