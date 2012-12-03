@@ -25,7 +25,7 @@ import lo23.utils.Enums.STATUS;
  */
 public class PlayerPanel extends javax.swing.JPanel {
     ApplicationModel myModel;
-        public static final java.awt.Color fond = new java.awt.Color(153, 51, 0);
+        public static final java.awt.Color fond = new java.awt.Color(170, 51, 0);
     /** Creates new form PlayerPanel */
     public PlayerPanel(ApplicationModel model, Player player) {
         initComponents();

@@ -142,7 +142,7 @@ public class GamePanel extends JPanel {
     }
     
     private void nextActionPerformed(){
-      //  myModel.getGManager().getCurrentGame().getEvents(); Tableau d'évènements
+       // myModel.getGManager().getCurrentGame().getEvents(); Tableau d'évènements
       // Pour jouer un coup (vers l'avant) : utiliser updateBoard();
       // Pour jouer en arrière (vers l'arrière) : inverser le Move (from devient to et inversement)
       // utiliser updateBoard.
@@ -377,8 +377,20 @@ public class GamePanel extends JPanel {
             System.out.println("2" + playerColor);
         }
         
+
         // TO DO : Check end of game
     }
+    
+        public void updateReviewBoard(Move move){
+        // Update board with a move extract from Review mod
+         JLabel currentPiece = listOfPiece.get(move.getFrom());
+         listOfPiece.remove(move.getFrom());
+         listOfPiece.put(move.getTo(), currentPiece);
+         add(currentPiece, constraints, 0);
+         
+         System.out.println(move);
+    }
+    
 
 
     private void buildBoard(boolean playerIsWhite) {

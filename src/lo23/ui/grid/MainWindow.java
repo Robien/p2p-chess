@@ -138,6 +138,8 @@ public class MainWindow extends JFrame implements ActionListener {
 
          panel.add(localPlayerPanel, constraints);
 
+
+         
         //Chat panel
         constraints.insets = new Insets(50,50,0,0);
         constraints.gridwidth = 2;
@@ -149,8 +151,14 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.add(chatPanel, constraints);
         
         
-        //Menu
-        
+        //Review 
+       constraints.gridwidth = 6;
+       constraints.gridheight = 1;
+       constraints.gridx = 1;
+       constraints.gridy = 0;
+       ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
+
+         panel.add(reviewPanel, constraints);
         
         
         return panel;

@@ -68,8 +68,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
         StyleConstants.setForeground(remoteStyle, Color.BLUE);
       
         gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
-        StyleConstants.setForeground(gameStyle, Color.RED);
-        StyleConstants.setFontSize(gameStyle, 25);
+        StyleConstants.setForeground(gameStyle, Color.GRAY);
+        StyleConstants.setFontSize(gameStyle, 12);
 
                 // ajout d'un ecouteur de frappe du clavier sur le textField
         jTextField1.addKeyListener(new KeyAdapter() {
@@ -78,7 +78,6 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 // teste si la touche pressé correspond à la touche entrée
                 if (e.getKeyCode() == 10) {
                     try {
-                        // sur le bouton lui meme
                         // sur le bouton lui meme
                         sendMsg(jTextField1.getText());
                     } catch (BadLocationException ex) {
@@ -123,13 +122,18 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Save game");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jTextPane1.setEditable(false);
         jTextPane1.setBackground(new java.awt.Color(255, 255, 204));
         jTextPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextPane1.setForeground(new java.awt.Color(102, 102, 102));
         jTextPane1.setToolTipText("");
-        jTextPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTextPane1.setMaximumSize(new java.awt.Dimension(6, 20));
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -239,7 +243,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
                 // printing on screen
-                doc2.insertString(doc2.getLength(), "[" + getHeure() + "] "+ mv.toString(), gameStyle);
+                doc2.insertString(doc2.getLength(), "[" + getHeure() + "] "+ mv.toString() + "\n", gameStyle);
               //  jTextField1.setText("");
                // jTextField1.setFocusable(true);
     }
@@ -259,6 +263,11 @@ public class ChatPanel2 extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
