@@ -172,7 +172,7 @@ public class GamePanel extends JPanel {
           
         addPropertyChangeListener(eventListener);
        
-        buildBoard(true);
+       launchGame();
     }
     
     private void receiveSelectedCase(int x, int y){ 
