@@ -4,6 +4,7 @@
  */
 package lo23.ui.grid;
 
+import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -39,6 +41,7 @@ public class GamePanel extends JPanel {
    private ApplicationModel myModel;
    private Game game;
    private EventListener eventListener;
+   private BorderLayout borderLayout;
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
       
@@ -102,6 +105,8 @@ public class GamePanel extends JPanel {
         
     private void launchGame(){
         // Launch a game and build the board with events or not
+        
+       
         if(myModel.getGManager().getCurrentGame().getEvents().isEmpty()){
             if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
                 buildBoard(true);
@@ -110,10 +115,40 @@ public class GamePanel extends JPanel {
             }
         }else {
             // TO DO : Parcourir la liste des events et reconstituer la partie.
+            buildReviewBoard();
         }
     }
 
-    private void build() {
+    private void buildReviewBoard(){
+           if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
+                buildBoard(true);
+            } else {
+                buildBoard(false);
+            }
+           
+           JButton nextButton = new JButton("Next");
+           nextButton.setSize(10, 10);
+           constraints.gridx = 0;
+           constraints.gridy = 8;
+           add(nextButton, constraints, 0);
+           
+           nextButton.addActionListener(new java.awt.event.ActionListener() {
+               @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextActionPerformed();
+            }
+        });
+           
+    }
+    
+    private void nextActionPerformed(){
+      //  myModel.getGManager().getCurrentGame().getEvents(); Tableau d'évènements
+      // Pour jouer un coup (vers l'avant) : utiliser updateBoard();
+      // Pour jouer en arrière (vers l'arrière) : inverser le Move (from devient to et inversement)
+      // utiliser updateBoard.
+    }
+    
+    private void build() {    
         setPreferredSize(new Dimension(GridConstants.SQUARE_SIZE * 8, GridConstants.SQUARE_SIZE * 8));
         setLayout(gameBoard);
         setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -328,6 +363,11 @@ public class GamePanel extends JPanel {
          listOfPiece.remove(move.getFrom());
          listOfPiece.put(move.getTo(), currentPiece);
          add(currentPiece, constraints, 0);
+         
+        if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
+            // End of game
+            
+        }
          
         if (playerColor == COLOR.WHITE) {
             playerColor = COLOR.BLACK;
