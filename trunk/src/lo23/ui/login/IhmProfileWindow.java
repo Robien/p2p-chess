@@ -87,7 +87,7 @@ public class IhmProfileWindow extends JFrame{
                 break;
             case CREATE :
                 initialWidth = 350;
-                initialHeight = 350;
+                initialHeight = 400;
                 setTitle("Create profile"); //On donne un titre à l'application
                 setSize(initialWidth,initialHeight); //On donne une taille à notre fenêtre
                 break;
