@@ -223,7 +223,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
      */
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
-        System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + new String(getPasswordField().getPassword()));
+        //System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + new String(getPasswordField().getPassword()));
 
         // Appel de la methode de connexion
         try {
@@ -290,6 +290,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         }
     }
 
+    /**
+     * While the pseudo of profile p already exists, ask to user to change it.
+     * @param p a profile to change
+     */
     private void importProfileWithPseudoUnicity(Profile p) {
         try {
             String res;
@@ -307,9 +311,13 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         }
     }
 
+    /**
+     * While the id of profile p already exists, ask to user to change it.
+     * @param p a profile to change
+     */
     private void importProfileWithNewId(Profile p){
         try {
-           p.setProfileId(IhmProfileWindow.RandomStringUUID());
+           p.setProfileId(lo23.utils.RandomUUID.RandomStringUUID());
            ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
         }  
         catch (ProfilePseudoAlreadyExistException ex) {
