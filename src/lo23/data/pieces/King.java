@@ -24,15 +24,21 @@ public class King extends GamePiece {
     public King(Position position, Player owner, Game game) {
         super(position, owner, game);
         firstMove = true;
+        justHaveRook = false;
     }
 
 
     private boolean firstMove;
+    private boolean justHaveRook;
 
         @Override
     public void movePiece(Position to) throws IllegalMoveException {
     //TODO throw
-        
+        if (isDoingARook(to))
+        {
+            justHaveRook = true;
+        }
+        justHaveRook = false;
             getGame().playMove(new Move(getPosition(), to, this));
     
         position = to;
@@ -339,6 +345,15 @@ public boolean isDoingARook(Position to)
         return false;
     }
 }
+
+//seulement si le dernier mouvement de cette piece est un rock
+    @Override
+public boolean haveDoneARook(Position to)
+{
+   // System.out.println("non !!");
+    return justHaveRook;
+}
+
 
 
 }
