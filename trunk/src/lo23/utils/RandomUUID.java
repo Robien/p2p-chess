@@ -7,10 +7,16 @@ package lo23.utils;
 import java.util.UUID;
 
 /**
- *
+ * Class to manage an UUID (Universal Unique Identifier)
+ * Use by profile id
  * @author Esteban
  */
 public class RandomUUID {
+    
+    /**
+     * Generate an UUID
+     * @return the UUID
+     */
     public static String RandomStringUUID() {
         // Creating a random UUID (Universally unique identifier).
         //
