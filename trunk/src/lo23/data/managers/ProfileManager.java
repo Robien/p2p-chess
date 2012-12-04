@@ -72,6 +72,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
+        System.out.println("connection profil ma");
         Profile p = Serializer.readProfile(profileId);
         if (p == null) {
             return false;
@@ -80,6 +81,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
                 return false;
             } else {
                 this.currentProfile = p;
+                System.out.println("fin connection profil ma");
                 return true;
             }
         }
@@ -88,6 +90,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() throws ClassNotFoundException, IOException, FileNotFoundException {
         ArrayList<PublicProfile> publicProfiles = new ArrayList<PublicProfile>();
+        System.out.println(System.getProperty("user.dir"));
         for (String name : Serializer.getProfileIds()) {
             publicProfiles.add(Serializer.readProfile(name).getPublicProfile());
         }

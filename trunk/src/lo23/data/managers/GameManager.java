@@ -238,7 +238,7 @@ public class GameManager extends Manager implements GameManagerInterface {
         String[] fileList = games.list();
 
         ArrayList<Game> gameList = new ArrayList<Game>();
-
+        System.out.println("toto = " + fileList);
         if(fileList == null) {
             return new ArrayList<Game>();
         }
