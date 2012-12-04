@@ -34,10 +34,14 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Player;
 import lo23.ui.grid.PlayerPanel;
+import lo23.utils.Enums.COLOR;
 
 public class MainWindow extends JFrame implements ActionListener {
     ApplicationModel myModel;
     Game game;
+    PiecesBox remotePlayerLostPieces;
+    PiecesBox localPlayerLostPieces;
+    
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
     
     public MainWindow(ApplicationModel m) {
@@ -113,7 +117,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
         //Test Ajout Timer, a remplacer par profilPanel
-        constraints.gridwidth = 6;
+        constraints.gridwidth = 2;
 		constraints.gridheight = 1;
 		constraints.gridx = 1;
 		constraints.gridy = 0;
@@ -128,7 +132,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
         //Test Ajout Timer
-        constraints.gridwidth = 6;
+        constraints.gridwidth = 2;
 		constraints.gridheight = 1;
 		constraints.gridx = 1;
 		constraints.gridy = 5;
@@ -152,15 +156,39 @@ public class MainWindow extends JFrame implements ActionListener {
         
         
         //Review 
-       constraints.gridwidth = 6;
+       /*constraints.gridwidth = 6;
        constraints.gridheight = 1;
        constraints.gridx = 1;
        constraints.gridy = 0;
        ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
 
-         panel.add(reviewPanel, constraints);
+         panel.add(reviewPanel, constraints);*/
         
         
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = 4;
+        constraints.gridy = 5;
+        constraints.fill = GridBagConstraints.BOTH ;
+        localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
+            panel.add(localPlayerLostPieces, constraints);
+            
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = 4;
+        constraints.gridy = 0;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.CENTER;
+        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
+            panel.add(remotePlayerLostPieces, constraints);
+            
+        //Appels à des fins de test TODO : à retirer
+        remotePlayerLostPieces.updateBox();
+        localPlayerLostPieces.updateBox();
+        
+         
+         
+         
         return panel;
     }
 
