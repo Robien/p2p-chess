@@ -3,11 +3,15 @@ package lo23.data.pieces;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.ui.grid.Launch_Sound;
+import lo23.ui.grid.Menu;
 
 /**
  *
@@ -222,7 +226,7 @@ public abstract class GamePiece implements Serializable {
              //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
                 if (piece.isResponsableOfCheck(getOwner().getKing(), new Position(10, 10), new Position(10, 10)))
                 {
-                    
+                      
                     return true;
                 }
             
@@ -234,6 +238,7 @@ public abstract class GamePiece implements Serializable {
     
     public boolean isOnCheckWithAMove(Position from, Position to)
     {
+        
         Player player = getOwner();
         if (player == getGame().getLocalPlayer())
         {
@@ -252,6 +257,7 @@ public abstract class GamePiece implements Serializable {
           
                 if (piece.isResponsableOfCheck(getOwner().getKing(), from, to)) //TODO change to king's position
                 {
+                     
                  //   System.out.println("déplacement en " + to.getX() + " - " + to.getY() +" pas possible à cause du " + piece.getClass().getSimpleName());
                     return true;
                 }
@@ -287,6 +293,7 @@ public abstract class GamePiece implements Serializable {
 
 public boolean isPawnTop()
 {
+   // System.out.println("non !!");
     return false;
 }
 }
