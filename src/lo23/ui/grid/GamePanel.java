@@ -264,6 +264,7 @@ public class GamePanel extends JPanel {
         isFormerSelectionExist = true;
         
         Iterator it = listOfPossibleMove.iterator();
+   
         int i = 0;
         
         while(it.hasNext() && i<listOfPossibleMove.size()) {
@@ -324,8 +325,10 @@ public class GamePanel extends JPanel {
             }
             i++;
             it.next();
-            hidePossibleCase();
+           
         }
+        
+         hidePossibleCase();
     }
       
     public void updateBoard(Move move){
