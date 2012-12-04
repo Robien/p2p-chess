@@ -280,10 +280,7 @@ public class GamePanel extends JPanel {
 	            Move move = myModel.getGManager().createMove(tempPosition, tempPiece);
 	            myModel.getGManager().playMove(move);
 	                
-	            // game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY()).movePiece(new Position(newSelection.getX(), 7 - newSelection.getY()));
-	               
-	            updateBoard(new Move(formerPositionSelected,newSelection, tempPiece));
-                
+	         
         	}
     	}
         hidePossibleCase();  
