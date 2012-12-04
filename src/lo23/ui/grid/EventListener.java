@@ -12,6 +12,7 @@ import javax.swing.text.BadLocationException;
 import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
 import lo23.data.Move;
+import lo23.data.Position;
 import lo23.data.managers.Manager;
 
 
@@ -48,6 +49,21 @@ public class EventListener implements PropertyChangeListener {
              if(gamePanel != null){
                  System.out.println("EVENT DETECTED 4");
                  gamePanel.updateBoard((Move)evt.getNewValue());
+
+                 if (((Move)evt.getNewValue()).getPiece().haveDoneARook())
+                 {
+                    System.out.println("EVENT DETECTED 4 => rook");
+                    if (((Move)evt.getNewValue()).getTo().getX() == 1)
+                    {
+                         gamePanel.updateBoard(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
+
+                    }
+                    else
+                    {
+                           gamePanel.updateBoard(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
+                    }
+                 }
+                 
              } else if(chatPanel != null){
                  try {
                      chatPanel.gameMsg((Move)evt.getNewValue());
