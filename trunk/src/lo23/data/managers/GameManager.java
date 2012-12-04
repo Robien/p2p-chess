@@ -29,6 +29,7 @@ import lo23.data.pieces.GamePiece;
 import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
 import lo23.ui.grid.GridConstants;
+import lo23.ui.grid.MainWindow;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -37,250 +38,254 @@ public class GameManager extends Manager implements GameManagerInterface {
     private Game currentGame;
 
     public GameManager(ApplicationModel app) {
-        super(app);
+	super(app);
     }
 
     @Override
     public void save() throws NoIdException, IOException {
-        Serializer.saveGame(currentGame);
+	Serializer.saveGame(currentGame);
     }
 
     @Override
     public Game load(long gameId) throws FileNotFoundException, IOException, ClassNotFoundException {
-        return Serializer.readGame(gameId);
+	return Serializer.readGame(gameId);
     }
 
     @Override
     public Move createMove(Position to, GamePiece piece) {
-        return new Move(piece.getPosition(), to, piece);
+	return new Move(piece.getPosition(), to, piece);
     }
 
     @Override
     public void sendMove(Move move) {
-        getApplicationModel().getComManager().sendMovement(move);
+	getApplicationModel().getComManager().sendMovement(move);
     }
 
     @Override
     public void playMove(Move move) {
-        try {
-            currentGame.playMove(move);
-        } catch (IllegalMoveException ex) {
-            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	try {
+	    currentGame.playMove(move);
+	} catch (IllegalMoveException ex) {
+	    Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+	}
 
-        pushEvent(move);
+	pushEvent(move);
     }
 
     @Override
     public Message createMessage(String content) {
-        return new Message(content, currentGame.getLocalPlayer(),
-                currentGame.getRemotePlayer());
+	return new Message(content, currentGame.getLocalPlayer(),
+		currentGame.getRemotePlayer());
     }
 
     @Override
     public void sendMessage(Message message) {
-        saveMessage(message);
-        getApplicationModel().getComManager().sendChatMessage(message);
+	saveMessage(message);
+	getApplicationModel().getComManager().sendChatMessage(message);
     }
 
     public void pushEvent(Event e) {
-        currentGame.pushEvent(e);
-        this.publish(GridConstants.NEW_EVENT_ADDED, e);
+	currentGame.pushEvent(e);
+	this.publish(GridConstants.NEW_EVENT_ADDED, e);
     }
+
     @Override
     public void saveMessage(Message message) {
-        pushEvent(message);
+	pushEvent(message);
     }
 
     @Override
     public ArrayList<Event> getHistory() {
-        return currentGame.getEvents();
+	return currentGame.getEvents();
     }
 
     @Override
     public void notifyChatMessage(Message message) {
-        pushEvent(message);
+	pushEvent(message);
     }
 
     @Override
     public Game createGame(Invitation invitation) throws WrongInvitation {
-        
-        if (getApplicationModel().getPManager().getCurrentProfile()==null){
-            throw new WrongInvitation("Personne n'est connecté.");
-        }
-        
-        String curr_pofileId = getApplicationModel().getPManager().getCurrentProfile().getProfileId(),
-                guestProfileId = invitation.getGuest().getProfileId(),
-                hostprofileId = invitation.getHost().getProfileId();
-        if (curr_pofileId.equals(guestProfileId)
-                || curr_pofileId.equals(hostprofileId)) {
-            if (invitation instanceof NewInvitation) {
-                NewInvitation I = (NewInvitation) invitation;
-                COLOR guestColor;
-                if (I.getColor() == COLOR.BLACK) {
-                    guestColor = COLOR.WHITE;
-                } else {
-                    guestColor = COLOR.BLACK;
-                }
-                if (guestProfileId.equals(curr_pofileId)) {
-                    // guest=local
-                    Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
-                    Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
-                    currentGame = new Game(local, remote);
-                    currentGame.buildPieces();
-                } else {
-                    // guest = remote
-                    Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
-                    Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
-                    currentGame = new Game(local, remote);
-                    currentGame.buildPieces();
-                }
 
-            } else {
-                //Il s'agit d'un resume game
-                ResumeGame I = (ResumeGame) invitation;
-                currentGame = I.getGame();
-                currentGame.swapPlayer(); // Il faut inverser local et remote player
-            }
-        } else {
-            throw new WrongInvitation("L'invitation n'est pas pour le profile connecté.");
-        }
-        return currentGame;
+	if (getApplicationModel().getPManager().getCurrentProfile() == null) {
+	    throw new WrongInvitation("Personne n'est connecté.");
+	}
+
+	String curr_pofileId = getApplicationModel().getPManager().getCurrentProfile().getProfileId(),
+		guestProfileId = invitation.getGuest().getProfileId(),
+		hostprofileId = invitation.getHost().getProfileId();
+	if (curr_pofileId.equals(guestProfileId)
+		|| curr_pofileId.equals(hostprofileId)) {
+	    if (invitation instanceof NewInvitation) {
+		NewInvitation I = (NewInvitation) invitation;
+		COLOR guestColor;
+		if (I.getColor() == COLOR.BLACK) {
+		    guestColor = COLOR.WHITE;
+		} else {
+		    guestColor = COLOR.BLACK;
+		}
+		if (guestProfileId.equals(curr_pofileId)) {
+		    // guest=local
+		    Player local = new Player(guestColor, I.getDuration(), invitation.getGuest());
+		    Player remote = new Player(I.getColor(), I.getDuration(), invitation.getHost());
+		    currentGame = new Game(local, remote);
+		    currentGame.buildPieces();
+		} else {
+		    // guest = remote
+		    Player local = new Player(I.getColor(), I.getDuration(), invitation.getHost());
+		    Player remote = new Player(guestColor, I.getDuration(), invitation.getGuest());
+		    currentGame = new Game(local, remote);
+		    currentGame.buildPieces();
+		}
+
+	    } else {
+		//Il s'agit d'un resume game
+		ResumeGame I = (ResumeGame) invitation;
+		currentGame = I.getGame();
+		currentGame.swapPlayer(); // Il faut inverser local et remote player
+	    }
+	} else {
+	    throw new WrongInvitation("L'invitation n'est pas pour le profile connecté.");
+	}
+	//MainWindow fenetre = new MainWindow(this.getApplicationModel(), currentGame);
+	//fenetre.setVisible(true);
+	return currentGame;
     }
 
     @Override
     public Constant createConstant(CONSTANT_TYPE constant) {
-        return new Constant(constant, currentGame.getRemotePlayer(), currentGame.getLocalPlayer());
+	return new Constant(constant, currentGame.getRemotePlayer(), currentGame.getLocalPlayer());
     }
 
     @Override
     public void sendConstant(Constant constant) {
-        saveConstant(constant);
-        getApplicationModel().getComManager().sendConstantMessage(constant);
+	saveConstant(constant);
+	getApplicationModel().getComManager().sendConstantMessage(constant);
     }
 
     @Override
     public void notifyConstantMessage(Constant constant) {
-        pushEvent(constant);
-        CONSTANT_TYPE c = constant.getConstant();
-        if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
-            currentGame.setEnd();
-        }
+	pushEvent(constant);
+	CONSTANT_TYPE c = constant.getConstant();
+	if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
+	    currentGame.setEnd();
+	}
     }
 
     @Override
     public void saveConstant(Constant constant) {
-        pushEvent(constant);
-        CONSTANT_TYPE c = constant.getConstant();
-        if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
-            currentGame.setEnd();
-        }
+	pushEvent(constant);
+	CONSTANT_TYPE c = constant.getConstant();
+	if (c == CONSTANT_TYPE.DRAW_ACCEPTED || c == CONSTANT_TYPE.OUT_OF_TIME || c == CONSTANT_TYPE.SURRENDER) {
+	    currentGame.setEnd();
+	}
     }
 
     @Override
     public void notifyGameEnded() {
-        publish("gameEnded", null);
+	publish("gameEnded", null);
     }
 
     @Override
     @Deprecated
     public Game notifyGameStarted(Invitation invitation) {
-        throw new UnsupportedOperationException("Not supported yet.");
+	throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public ArrayList<Game> getListStopGames() throws IOException, ClassNotFoundException {
-        ArrayList<Game> gameList = getListAllGames();
-        int i = 0;
-        while (i < gameList.size()) {
-            if (gameList.get(i).getEndDate() == null) {
-                gameList.remove(i);
-            } else {
-                i++;
-            }
-        }
-        return gameList;
+	ArrayList<Game> gameList = getListAllGames();
+	int i = 0;
+	while (i < gameList.size()) {
+	    if (gameList.get(i).getEndDate() == null) {
+		gameList.remove(i);
+	    } else {
+		i++;
+	    }
+	}
+	return gameList;
     }
 
     @Override
     public ArrayList<Game> getListStartGames() throws IOException, ClassNotFoundException {
-        ArrayList<Game> gameList = getListAllGames();
-        //EndGames have to be remove.
-        int i = 0;
-        while (i < gameList.size()) {
-            if (gameList.get(i).getEndDate() != null) { //EndGame have an end Date.
-                gameList.remove(i);
-            } else {
-                i++;
-            }
-        }
-        return gameList;
+	ArrayList<Game> gameList = getListAllGames();
+	//EndGames have to be remove.
+	int i = 0;
+	while (i < gameList.size()) {
+	    if (gameList.get(i).getEndDate() != null) { //EndGame have an end Date.
+		gameList.remove(i);
+	    } else {
+		i++;
+	    }
+	}
+	return gameList;
     }
 
     @Override
     public Game getCurrentGame() {
-        return this.currentGame;
+	return this.currentGame;
     }
 
     @Override
     public void notifyGameStarted(PublicProfile userProfile) {
-        publish("gameStarted", userProfile);
+	publish("gameStarted", userProfile);
     }
 
     @Override
     public void notifyMovement(Move move) {
-        if(move == null) {
-            return;
-        } else {
-            int xfrom = move.getFrom().getX();
-            int yfrom = move.getFrom().getY();
-            GamePiece p = getPieceAtXY(xfrom, yfrom);
-            try {
-                currentGame.playMove(move);
-            } catch (IllegalMoveException ex) {
-                System.out.println("Error : received illegal move. Shouldn't happen " +
-                                    move.getFrom() + " - " + move.getTo());
-                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            publish("move", move);
-        }
+	if (move == null) {
+	    return;
+	} else {
+	    int xfrom = move.getFrom().getX();
+	    int yfrom = move.getFrom().getY();
+	    GamePiece p = getPieceAtXY(xfrom, yfrom);
+	    try {
+		currentGame.playMove(move);
+	    } catch (IllegalMoveException ex) {
+		System.out.println("Error : received illegal move. Shouldn't happen "
+			+ move.getFrom() + " - " + move.getTo());
+		Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    publish("move", move);
+	}
     }
 
     @Override
     public ArrayList<Game> getListAllGames() throws IOException, ClassNotFoundException {
-        File games = new File(Constants.GAMES_PATH);
-        String[] fileList = games.list();
+	File games = new File(Constants.GAMES_PATH);
+	String[] fileList = games.list();
 
-        ArrayList<Game> gameList = new ArrayList<Game>();
-        System.out.println("toto = " + fileList);
-        if(fileList == null) {
-            return new ArrayList<Game>();
-        }
+	ArrayList<Game> gameList = new ArrayList<Game>();
+	System.out.println("toto = " + fileList);
+	if (fileList == null) {
+	    return new ArrayList<Game>();
+	}
 
-        for (int i = 0; i < fileList.length; i++) {
-            if(fileList[i].startsWith("."))
-                continue;
+	for (int i = 0; i < fileList.length; i++) {
+	    if (fileList[i].startsWith(".")) {
+		continue;
+	    }
 
-            try {
-                //fileList[i] format is "gameId.game"
-                //So the string is split in order to have the gameId.
-                Profile cur = getApplicationModel().getPManager().getCurrentProfile();
+	    try {
+		//fileList[i] format is "gameId.game"
+		//So the string is split in order to have the gameId.
+		Profile cur = getApplicationModel().getPManager().getCurrentProfile();
 
-                long tmp_long = Long.parseLong(fileList[i].split("\\.")[0]);
-                Game tmp = load(tmp_long);
-                if (cur.getProfileId().equals(tmp.getLocalPlayer().getPublicProfile().getProfileId())
-                        || cur.getProfileId().equals(tmp.getRemotePlayer().getPublicProfile().getProfileId())) { //ajout de tmp si le localPLayer ou le distant est le profile connecte
-                    gameList.add(tmp);
-                }
-            } catch (FileNotFoundException expt) {
-                System.out.println(expt.getMessage());
-                System.out.println(expt.getStackTrace());
-            }
-        }
-        return gameList;
+		long tmp_long = Long.parseLong(fileList[i].split("\\.")[0]);
+		Game tmp = load(tmp_long);
+		if (cur.getProfileId().equals(tmp.getLocalPlayer().getPublicProfile().getProfileId())
+			|| cur.getProfileId().equals(tmp.getRemotePlayer().getPublicProfile().getProfileId())) { //ajout de tmp si le localPLayer ou le distant est le profile connecte
+		    gameList.add(tmp);
+		}
+	    } catch (FileNotFoundException expt) {
+		System.out.println(expt.getMessage());
+		System.out.println(expt.getStackTrace());
+	    }
+	}
+	return gameList;
     }
 
     public GamePiece getPieceAtXY(int x, int y) {
-        return currentGame.getPieceAtXY(x, y);
+	return currentGame.getPieceAtXY(x, y);
     }
 }
