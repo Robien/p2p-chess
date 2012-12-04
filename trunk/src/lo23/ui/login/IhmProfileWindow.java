@@ -432,7 +432,7 @@ public class IhmProfileWindow extends JFrame{
             }
      }
      
-     private String RandomStringUUID() {
+     public static String RandomStringUUID() {
         // Creating a random UUID (Universally unique identifier).
         //
         UUID uuid = UUID.randomUUID();
