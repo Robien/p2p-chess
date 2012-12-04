@@ -32,7 +32,7 @@ import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
 
 /**
- *
+ * IHMLogin model
  * @author Esteban
  */
 public class IhmLoginModel implements PropertyChangeListener{
@@ -63,6 +63,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     ArrayList<JButton> listContinueGameBtn;
     ArrayList<JButton> listReviewGameBtn;
     ArrayList<JButton> listPlayGameBtn;
+    
     
     public IhmLoginModel(ApplicationModel appModel){
         this.appModel = appModel;
@@ -112,11 +113,25 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     }
 
+    /**
+     * subscribe a PropertyChangeListener l to the model on the channel evt
+     * @param evt the channel
+     * @param l the listener
+     */
     public void addPropertyChangeListener(String evt,PropertyChangeListener l){
         if(pcs != null)
             pcs.addPropertyChangeListener(evt,l);
     }
     
+    
+    /**
+     * Accept an Invitation, create the Game and load it
+     * @param invit Invitation
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws WrongInvitation 
+     */
     public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
         GameManagerInterface gameManager = appModel.getGManager();
         Game game = gameManager.createGame(invit);
@@ -125,6 +140,14 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     
     
+    /**
+     * Send an Invitation to a remote user identified by idUser with a color col
+     * @param idUser
+     * @param col
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException 
+     */
     public void sendInvitation(String idUser,Enums.COLOR col) throws IOException, ClassNotFoundException, FileNotFoundException{
         long time = System.currentTimeMillis();
         //Instantiate DataManager
@@ -194,6 +217,11 @@ public class IhmLoginModel implements PropertyChangeListener{
     }
     
     
+    /**
+     * return the ImageIcon according to profile status
+     * @param profile
+     * @return 
+     */
     private ImageIcon getIconStatus(PublicProfile profile){
         if(profile.getStatus().equals(STATUS.CONNECTED)){
             return ONLINEICON;
@@ -202,6 +230,10 @@ public class IhmLoginModel implements PropertyChangeListener{
             return OFFLINEICON;
     }
 
+    /**
+     * Remove disconnect Profiles and Games from the JTable models
+     * if the profile wasn't modified since 30 sec, it will be deleted
+     */
     private void removeDisconnectedProfilesAndGames(){
         Date now = new Date();
         for(PublicProfile p : listProfileDate.keySet()){
@@ -221,6 +253,12 @@ public class IhmLoginModel implements PropertyChangeListener{
         }
     }
 
+    /**
+     * Get the remote profile identified by id from remote profile list
+     * if it doesn't exist return null
+     * @param id id
+     * @return Remote Profile
+     */
     PublicProfile getRemoteProfile(String id) {
         for(PublicProfile p : listProfileDate.keySet()){
             if(p.getProfileId().equals(id))
@@ -229,15 +267,31 @@ public class IhmLoginModel implements PropertyChangeListener{
         return null;
     }
 
+    /**
+     * Create a game from the Invitation and load it
+     * @param invitation 
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws WrongInvitation 
+     */
     public void loadGame(Invitation invitation) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation {
         Game game = appModel.getGManager().createGame(invitation);
         appModel.getGManager().load(game.getGameId());
     }
 
+    /**
+     * Fire REFRESH_LIST evt to refresh local profile list
+     */
     void refreshProfileList() {
         pcs.firePropertyChange(IhmConnexionWindow.REFRESH_LIST,null,null);
     }
 
+    /**
+     * Return stopped games according to the remote user id
+     * @param profileId
+     * @return 
+     */
     private ArrayList<Game> getGamesContinueFromId(String profileId) {
         ArrayList<Game> res = new ArrayList<Game>();
         try {
@@ -256,9 +310,20 @@ public class IhmLoginModel implements PropertyChangeListener{
         return res;
     }
 
-    boolean connect(PublicProfile selectedProfile,char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
+    
+    /**
+     * Connect the profile with the password
+     * true if connection succeed, otherwise return false
+     * @param selectedProfile
+     * @param password
+     * @return 
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    boolean connect(PublicProfile profile,char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
         ProfileManagerInterface pmi = appModel.getPManager();
-        boolean ret = pmi.connection(selectedProfile.getProfileId(),password);
+        boolean ret = pmi.connection(profile.getProfileId(),password);
         if(ret){
             ((Manager)pmi).subscribe(this, INVIT_RECEIVE);
             ((Manager)pmi).subscribe(this, INVIT_EXPIRED);
@@ -269,6 +334,10 @@ public class IhmLoginModel implements PropertyChangeListener{
         return ret;
     }
 
+    
+    /**
+     * Unsubscribe events
+     */
     void disconnect() {
         ProfileManagerInterface pmi = appModel.getPManager();
         ((Manager)pmi).unsubscribe(this, INVIT_RECEIVE);
@@ -405,6 +474,10 @@ public class IhmLoginModel implements PropertyChangeListener{
         return  listPlayersLaunchBtn;
     }
 
+    /**
+     * Send Invitation to resume a game identified by idGame
+     * @param idGame 
+     */
     public void sendInvitationResumeGame(Long idGame) {
         Game game = listIdGame.get(idGame);
         PublicProfile guest = game.getRemotePlayer().getPublicProfile();
