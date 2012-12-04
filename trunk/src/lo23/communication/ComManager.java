@@ -19,18 +19,19 @@ public class ComManager extends Manager implements ISender {
     private PublicProfile currentUserProfile;
     private ImageIcon resizedImage;
     private ConnectionManager connectionManager;
+    private ApplicationModel applicationModel;
     
     /**
      * Contructor of the ComManager.
      * @param profile the profile of the current user
      * @param receiveListener the listener who will be notified
      */
-    public ComManager(PublicProfile profile, ApplicationModel applicationModel) {
+    public ComManager(ApplicationModel applicationModel) {
         super(applicationModel);
-        this.currentUserProfile = profile;
+        this.applicationModel = applicationModel;
         this.connectionManager = new ConnectionManager(this);
 
-        resizedImage = new ImageIcon(profile.getAvatar().getImage().getScaledInstance(110, 110, Image.SCALE_DEFAULT));
+//        resizedImage = new ImageIcon(currentUserProfile.getAvatar().getImage().getScaledInstance(110, 110, Image.SCALE_DEFAULT));
     }
     
     public PublicProfile getCurrentUserProfile() {
@@ -43,6 +44,7 @@ public class ComManager extends Manager implements ISender {
     
     @Override
     public void sendMulticast() {
+       currentUserProfile = applicationModel.getPManager().getCurrentProfile().getPublicProfile();
        connectionManager.sendMulticast();
     }
 
