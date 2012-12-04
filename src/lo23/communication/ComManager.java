@@ -31,7 +31,11 @@ public class ComManager extends Manager implements ISender {
     }
     
     public PublicProfile getCurrentUserProfile() {
-        return applicationModel.getPManager().getCurrentProfile().getPublicProfile();
+        if (applicationModel.getPManager().getCurrentProfile() == null ) {
+            return null;
+        } else {
+            return applicationModel.getPManager().getCurrentProfile().getPublicProfile();
+        }
     }
     
     @Override
