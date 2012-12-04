@@ -22,9 +22,10 @@ import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
 
 /**
- *
- * @author pat
+ * Class IHMList Window 
+ * @author Patrick Browne & Mohamed Lahlou
  */
+
 public class IHMList extends javax.swing.JFrame implements PropertyChangeListener,TableModelListener {
 
 
@@ -37,7 +38,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
    
     
     /**
-     * Creates new form IHMListe
+     * Creates new form IHMList
+     * @param model 
      */
     public IHMList(final IhmLoginModel model) {
         // model.addPropertyChangeListener(this);
@@ -84,7 +86,10 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         }
         
     }
-    
+    /**
+     * Action bouton : when a player wants to launch a game  
+     * @param evt action event  
+     */
     private void launchGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
         String id;
         JButton btn = (JButton) evt.getSource();
@@ -103,7 +108,9 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         }
     }
     
-    
+    /*
+     * Dialog to choose color when a player send an invitation
+     */
     private Enums.COLOR chooseColorDialog() {
         Enums.COLOR color = Enums.COLOR.WHITE;
         Object[] colorTab = {pawnWhite,pawnBlack};
@@ -252,6 +259,11 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     // End of variables declaration//GEN-END:variables
 
     @Override
+    /*
+     * Listener for network events : when a player receives
+     * an invitation, or when he receives a response from a 
+     * player he invited.
+     */
     public void propertyChange(PropertyChangeEvent pce) {
         if(this.isVisible()){
             if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
@@ -292,7 +304,10 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
             this.setVisible(true);
         }
     }
-    
+    /*
+     * Dialog to accept or deny an invitation from a remote user 
+     * @param invit : the invitation 
+     */
     private boolean openInvitationDialog(Invitation invit){ 
         int response = 0;
         PublicProfile profile = invit.getGuest();
