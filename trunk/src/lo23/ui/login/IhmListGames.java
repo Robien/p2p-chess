@@ -28,15 +28,18 @@ import lo23.utils.JTableButtonRenderer;
 
 /**
  * Classe gérant la fenêtre de partie terminées à revoir et des parties en cours à continuer
- * 
- * @author rossmarc
+ * Class which manages the window of ended games to review or stopped games to continue
+ * @author remi clermont
  */
 public class IhmListGames extends javax.swing.JFrame implements TableModelListener{
 
     private IhmLoginModel ihmLoginModel;
     private IHMList listPlayers;
     
-    /** Creates new form IhmListGames */
+    /** 
+     * Constructor
+     * Creates new form IhmListGames 
+     */
     public IhmListGames(IhmLoginModel ihmLoginModel, IHMList listPlayers) {
         this.ihmLoginModel = ihmLoginModel;
         this.listPlayers = listPlayers;
@@ -160,7 +163,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         this.listPlayers.setEnabled(true);
     }//GEN-LAST:event_previousBtnActionPerformed
 
-    public void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    private void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
         long idGame;
         JButton btn = (JButton) evt.getSource();
         idGame = (Long) btn.getClientProperty("id");
