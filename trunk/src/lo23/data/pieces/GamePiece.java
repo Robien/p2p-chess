@@ -40,6 +40,7 @@ public abstract class GamePiece implements Serializable {
         this.game = game;
     }
 
+    @Override
     public String toString() {
         return getClass().getSimpleName();
     }
@@ -304,6 +305,12 @@ public boolean isDoingARook(Position to)
     return false;
 }
 
+//seulement si le dernier mouvement de cette piece est un rock
+public boolean haveDoneARook(Position to)
+{
+   // System.out.println("non !!");
+    return false;
+}
 
 }
 
