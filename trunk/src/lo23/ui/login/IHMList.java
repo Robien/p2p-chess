@@ -214,7 +214,14 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     }// </editor-fold>//GEN-END:initComponents
 
     private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
-        disconnect();
+        this.setVisible(false);
+        IhmLoginModel ihmLoginModel = new IhmLoginModel(model.getApplicationModel());
+        ihmLoginModel.disconnect();
+        
+        this.dispose();
+        
+        new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+        ihmLoginModel.refreshProfileList();
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
     private void manageProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageProfileBtnActionPerformed
@@ -227,19 +234,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       disconnect();
+       this.setVisible(false);
+       model.disconnect();
+        
+       this.dispose();
     }//GEN-LAST:event_formWindowClosing
 
-    private void disconnect(){
-        this.setVisible(false);
-        IhmLoginModel ihmLoginModel = new IhmLoginModel(model.getApplicationModel());
-        ihmLoginModel.disconnect();
-        
-        this.dispose();
-        
-        new IhmConnexionWindow(ihmLoginModel).setVisible(true);
-        ihmLoginModel.refreshProfileList();
-    }
     /**
      * @param args the command line arguments
      */
