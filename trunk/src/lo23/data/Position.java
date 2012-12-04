@@ -28,6 +28,21 @@ public class Position implements Serializable {
         return y;
     }
 
+    public int getWX(){
+        return x;
+    }
+    
+    public int getWY(){
+        return 7 - y;
+    }
+    
+    public int getBX(){
+        return 7 - x;
+    }
+    
+    public int getBY(){
+        return 7 - x;
+    }
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
