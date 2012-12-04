@@ -19,15 +19,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import lo23.data.ApplicationModel;
-import lo23.ui.login.mockManager.CommManagerMock;
-import lo23.ui.login.mockManager.GameManagerMock;
-import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.JTableButtonMouseListener;
 import lo23.utils.JTableButtonRenderer;
 
 
 /**
- * Classe gérant la fenêtre de partie terminées à revoir et des parties en cours à continuer
  * Class which manages the window of ended games to review or stopped games to continue
  * @author remi clermont
  */
