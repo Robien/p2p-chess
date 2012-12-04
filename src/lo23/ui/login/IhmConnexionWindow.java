@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
@@ -22,7 +23,6 @@ import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
-import lo23.ui.login.mockManager.CommManagerMock;
 
 /**
  * IhmConnexionWindow : interface de connexion (login) à l'application Première
@@ -74,9 +74,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
                 //Instantiate DataManager
                 ApplicationModel appModel = new ApplicationModel();
-                appModel.setComManager(new CommManagerMock(appModel));
                 appModel.setGameManager(new GameManager(appModel));
                 appModel.setProfileManager(new ProfileManager(appModel));
+                appModel.setComManager(new ComManager(appModel));
                 //Instantiate IhmLoginModel
                 IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
 
