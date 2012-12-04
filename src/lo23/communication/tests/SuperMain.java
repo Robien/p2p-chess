@@ -69,7 +69,7 @@ public class SuperMain implements PropertyChangeListener {
             hostProfile = new PublicProfile("1", "Nous", Enums.STATUS.CONNECTED, addressIp, null , "Nom", "Prénom", 23, 0, 0, 0);
 
             appModel = new ApplicationModel();
-            appModel.setComManager(new ComManager(hostProfile, appModel));
+            appModel.setComManager(new ComManager(appModel));
             appModel.setGameManager(new GameManager(appModel));
             appModel.setProfileManager(new ProfileManager(appModel));
 

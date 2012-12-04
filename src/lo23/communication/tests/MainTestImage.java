@@ -75,7 +75,7 @@ public class MainTestImage {
             hostProfile = new PublicProfile("1", "Francois", Enums.STATUS.CONNECTED, addressIp, icon, "Nom", "Prénom", 23, 0, 0, 0);
 
             appModel = new ApplicationModel();
-            appModel.setComManager(new ComManager(hostProfile, appModel));
+            appModel.setComManager(new ComManager(appModel));
             appModel.setGameManager(new MyGameManagerMock(appModel));
             appModel.setProfileManager(new MyProfileManagerMock(appModel));
 

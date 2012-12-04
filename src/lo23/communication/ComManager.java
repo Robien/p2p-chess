@@ -16,8 +16,6 @@ import lo23.data.managers.Manager;
  */
 public class ComManager extends Manager implements ISender {
 
-    private PublicProfile currentUserProfile;
-    private ImageIcon resizedImage;
     private ConnectionManager connectionManager;
     private ApplicationModel applicationModel;
     
@@ -30,21 +28,14 @@ public class ComManager extends Manager implements ISender {
         super(applicationModel);
         this.applicationModel = applicationModel;
         this.connectionManager = new ConnectionManager(this);
-
-//        resizedImage = new ImageIcon(currentUserProfile.getAvatar().getImage().getScaledInstance(110, 110, Image.SCALE_DEFAULT));
     }
     
     public PublicProfile getCurrentUserProfile() {
-        return currentUserProfile;
-    }
-
-    public ImageIcon getResizedImage() {
-        return resizedImage;
+        return applicationModel.getPManager().getCurrentProfile().getPublicProfile();
     }
     
     @Override
     public void sendMulticast() {
-       currentUserProfile = applicationModel.getPManager().getCurrentProfile().getPublicProfile();
        connectionManager.sendMulticast();
     }
 

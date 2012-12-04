@@ -71,10 +71,10 @@ public class MainTest1 {
                 }
             }
             
-            hostProfile = new PublicProfile("1", "Pseudo", Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23, 0, 0, 0);
+            hostProfile = new PublicProfile("1", "Moi", Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23, 0, 0, 0);
             
             appModel = new ApplicationModel();
-            appModel.setComManager(new ComManager(hostProfile, appModel));
+            appModel.setComManager(new ComManager(appModel));
             appModel.setGameManager(new MyGameManagerMock(appModel));
             appModel.setProfileManager(new MyProfileManagerMock(appModel));
             
@@ -285,7 +285,14 @@ public class MainTest1 {
 
         @Override
         public void notifyInvitation(Invitation invitation) {
-            JOptionPane.showMessageDialog(frame, "Vous avez reçu une invitation de : " + invitation.getHost().toString());
+            int n = JOptionPane.showConfirmDialog(frame, "Vous avez reçu une invitation de : " + invitation.getHost().toString() + " ! Voulez-vous acceptez ?");
+            if ( n == JOptionPane.OK_OPTION ) {
+                //Accept
+                getApplicationModel().getComManager().sendInvitationAnswer(invitation, true);
+            } else {
+                //Deny
+                getApplicationModel().getComManager().sendInvitationAnswer(invitation, false);
+            }
         }
 
         @Override
@@ -305,7 +312,10 @@ public class MainTest1 {
 
         @Override
         public void notifyInvitAnswer(Invitation invitation, boolean answer) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            if ( answer ) {
+                //invitation.g
+               // getApplicationModel().getComManager().sendGameStarted(hostProfile);
+            }
         }
 
         @Override
