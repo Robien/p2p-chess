@@ -266,7 +266,7 @@ public class IhmProfileWindow extends JFrame{
                 firstNameField.setEditable(true);
                 ageField.setEditable(true);
                 exportProfileButton.setVisible(false);
-                applyButton.setText("Suscribe");
+                applyButton.setText("Register");
                 gamesWonLabel.setVisible(false);
                 gamesLostLabel.setVisible(false);
                 gamesDrawLabel.setVisible(false);
