@@ -30,32 +30,40 @@ public class EventListener implements PropertyChangeListener {
     public EventListener(GamePanel panel, ApplicationModel model){
         gamePanel = panel;
         myModel = model;
-//        ((Manager)myModel.getGManager()).subscribe(this,NEW_EVENT_ADDED);
+       ((Manager)myModel.getGManager()).subscribe(this,NEW_EVENT_ADDED);
     }
     
     public EventListener(ChatPanel2 panel, ApplicationModel model){
         chatPanel = panel;
         myModel = model;
-   //     ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
+        ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (NEW_EVENT_ADDED.equals(evt.getPropertyName())) {
+        System.out.println("EVENT DETECTED ; " + evt.getOldValue() + " ; " + evt.getNewValue());
+        
          if(evt.getNewValue() instanceof Move) {
+             System.out.println("EVENT DETECTED 3");
              if(gamePanel != null){
+                 System.out.println("EVENT DETECTED 4");
                  gamePanel.updateBoard((Move)evt.getNewValue());
              } else if(chatPanel != null){
-                 //chatPanel.gameMsg((Move)evt.getNewValue());
+                 try {
+                     chatPanel.gameMsg((Move)evt.getNewValue());
+                 } catch (BadLocationException ex) {
+                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                 }
              }
              
          } else if(evt.getNewValue() instanceof Message){
-//                try {
-//                    chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
-//                } catch (BadLocationException ex) {
-//                    Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+         } else {
+             System.out.println("EVENT DETECTED BUT INSTANCE FAILED");
          }
         }
-    }
 }

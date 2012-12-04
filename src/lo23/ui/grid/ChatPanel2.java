@@ -38,6 +38,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
     final Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
+    EventListener eventListener; 
 
 //       private EventListener eventListener;
 
@@ -48,7 +49,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         public ChatPanel2(ApplicationModel model) {
         myModel = model;
 
-//        eventListener = new EventListener(this, myModel);
+       eventListener = new EventListener(this, myModel);
 
         initComponents();
         sc = new StyleContext();
@@ -87,6 +88,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
             }
         });
+        
+        addPropertyChangeListener(eventListener);
 
     }
 
@@ -240,6 +243,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * @throws BadLocationException
      */
     public void gameMsg(Move mv) throws BadLocationException{
+        System.out.println("OK");
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
                 // printing on screen
