@@ -47,7 +47,11 @@ import lo23.utils.Enums.STATUS;
 public class MainTest1 {
     
     public static void main(String[] args) {
-        MainTest1 main = new MainTest1();
+        try {
+            MainTest1 main = new MainTest1();
+        } catch (Exception ex) {
+            Logger.getLogger(MainTest1.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private Profile hostProfile;
@@ -56,7 +60,7 @@ public class MainTest1 {
     private JList userJList;
     private DefaultListModel userListModel;
     
-    public MainTest1() {
+    public MainTest1() throws Exception {
         try {            
             String addressIp = null;
             Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces(); 
