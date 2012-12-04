@@ -30,7 +30,7 @@ import lo23.data.Profile;
 import lo23.data.PublicProfile;
 
 /**
- *
+ * Class for the profilewindow, each different window is customized according to a status (create, read, modify)
  * @author Gaëtan Grégoire & Clermont Rémi
  */
 public class IhmProfileWindow extends JFrame{
@@ -64,6 +64,9 @@ public class IhmProfileWindow extends JFrame{
      * Creates new form IhmProfileWindow
      * Status : Modify, create or read.
      * PublicProfile : give null for create and modify, give distantProfile for read
+     * @param ihmLoginModel
+     * @param status value of the status
+     * @param publicProfile  
      */
     public IhmProfileWindow(IhmLoginModel ihmLoginModel,int status, PublicProfile publicProfile) {
         super();
@@ -74,7 +77,10 @@ public class IhmProfileWindow extends JFrame{
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
-
+    /**
+     * Initialize the window in function of the status (create, modify, read)
+     * No params
+     */
     private void initComponent() {
         switch(status){
             case MODIFY :
@@ -102,7 +108,11 @@ public class IhmProfileWindow extends JFrame{
         JScrollPane jsp = new JScrollPane(initContentPanel());
         setContentPane(jsp);
     }
-
+    /**
+     * Initialize the Jpanel content for the method JscrollPane in the method initComponent. 
+     * There are some modifications according to the status.
+     * @return Jpanel
+     */
      private JPanel initContentPanel() {
 
         JPanel panel = new JPanel();
@@ -371,7 +381,10 @@ public class IhmProfileWindow extends JFrame{
         return panel;
     }
  
-     //Change image
+     /**
+      * Listener of the button "change picture". It opens a browser to choose the image file.
+      * @param evt 
+      */
      private void changeImagePerformed(java.awt.event.ActionEvent evt) {
         FileFilter imagesFilter = new FileNameExtensionFilter("Images", "bmp", "gif", "jpg", "jpeg", "png");
         JFileChooser fc = new JFileChooser();
@@ -405,6 +418,10 @@ public class IhmProfileWindow extends JFrame{
         }
      }
      
+     /**
+      * This method checks if all fields are right and valid, save the current profile and return false or true.
+      * @return boolean
+      */
      private boolean checkAndSave(){
          if(checkValidityFields()){
                 try{
@@ -432,7 +449,10 @@ public class IhmProfileWindow extends JFrame{
             }
      }
      
-     
+     /**
+      * Listener for the action button in all windows for the profile (read, create, modify) with differents actions performed according to the status.
+      * @param evt 
+      */
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
             case MODIFY :
@@ -471,6 +491,11 @@ public class IhmProfileWindow extends JFrame{
                 break;
         }
      }
+     
+     /**
+      * Check if all fields are valid and right (same password in both fields, number for age...)
+      * @return boolean
+      */
      private boolean checkValidityFields(){
         if(!(Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) || Arrays.equals(jPasswordTestValidity.getPassword(),jPasswordField1.getPassword())){
             JOptionPane.showMessageDialog(this, "Your password is wrong", "Password Error", JOptionPane.ERROR_MESSAGE);
@@ -493,6 +518,10 @@ public class IhmProfileWindow extends JFrame{
          }
      }
      
+     /**
+      * Open a filebrowser to select the path to save the profile.
+      * @param evt 
+      */
      private void exportProfilePerformed(java.awt.event.ActionEvent evt) {
             //open explorer to select the location
 
@@ -515,6 +544,11 @@ public class IhmProfileWindow extends JFrame{
             }
      }
      
+     /**
+      * This method checks if the string is a digit
+      * @param s string
+      * @return 
+      */
      private boolean checkForDigit(String s){
         boolean b = true;
         for (int i = 0; i < s.length(); i++){
@@ -526,11 +560,11 @@ public class IhmProfileWindow extends JFrame{
         return b;
     }
      
-    /** Effectue une homothétie de l'image.
+    /** Make an homothety of the picture
      * 
-     * @param bi l'image.
-     * @param scaleValue la valeur de l'homothétie.
-     * @return une image réduite ou agrandie.
+     * @param bi image
+     * @param scaleValue value of the homothety
+     * @return scale image
      * 
      */public static BufferedImage scale(BufferedImage bi, double scaleValue) {
             AffineTransform tx = new AffineTransform();
