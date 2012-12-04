@@ -174,26 +174,6 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         ihmLoginModel.sendInvitationResumeGame(idGame);
     }                                        
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //Instantiate DataManager
-                ApplicationModel appModel = new ApplicationModel();
-                appModel.setComManager(new CommManagerMock(appModel));
-                appModel.setGameManager((new GameManagerMock((appModel))));
-                appModel.setProfileManager(new ProfileManagerMock(appModel));
-                //Instantiate IhmLoginModel
-                IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-                IHMList listplayers = new IHMList(ihmLoginModel);
-                new IhmListGames(ihmLoginModel, listplayers).setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable endGamesTable;
     private javax.swing.JLabel jLabel1;
