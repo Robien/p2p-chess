@@ -147,9 +147,9 @@ public class MainWindow extends JFrame implements ActionListener {
         //Chat panel
         constraints.insets = new Insets(50,50,0,0);
         constraints.gridwidth = 2;
-		constraints.gridheight = 6;
-		constraints.gridx = 6;
-		constraints.gridy = 0;
+        constraints.gridheight = 6;
+        constraints.gridx = 7;
+        constraints.gridy = 0;
 
         ChatPanel2 chatPanel = new ChatPanel2(myModel);
         panel.add(chatPanel, constraints);
@@ -163,7 +163,6 @@ public class MainWindow extends JFrame implements ActionListener {
        ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
 
          panel.add(reviewPanel, constraints);*/
-        
         
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
@@ -187,7 +186,15 @@ public class MainWindow extends JFrame implements ActionListener {
         localPlayerLostPieces.updateBox();
         
          
-         
+             //Review
+       constraints.gridwidth = 1;
+       constraints.gridheight = 1;
+       constraints.gridx = 5;
+       constraints.gridy = 2;
+       ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
+
+         panel.add(reviewPanel, constraints);
+
          
         return panel;
     }
