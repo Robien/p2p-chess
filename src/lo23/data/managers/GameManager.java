@@ -229,7 +229,21 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyMovement(Move move) {
-        publish("move", move);
+        if(move == null) {
+            return;
+        } else {
+            int xfrom = move.getFrom().getX();
+            int yfrom = move.getFrom().getY();
+            GamePiece p = getPieceAtXY(xfrom, yfrom);
+            try {
+                p.movePiece(move.getTo());
+            } catch (IllegalMoveException ex) {
+                System.out.println("Error : received illegal move. Shouldn't happen " +
+                                    move.getFrom() + " - " + move.getTo());
+                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            publish("move", move);
+        }
     }
 
     @Override
