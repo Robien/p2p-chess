@@ -59,7 +59,7 @@ public class ConnectionManager implements ConnectionListener {
      * Constructor of ConnectionManager.
      * @param comManager the comManager
      */
-    public ConnectionManager(ComManager comManager) {
+    public ConnectionManager(ComManager comManager) throws Exception {
         this.comManager = comManager;
         handleMessageMap = new ConcurrentHashMap<Socket, HandleMessage>();
         socketDirectory = new ConcurrentHashMap<InetAddress, Socket>();
@@ -80,6 +80,7 @@ public class ConnectionManager implements ConnectionListener {
             serverConnection.waitStarted();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Error for the initialisation of the server sockets", ex);
+            throw new Exception("Error for the initialisation of the server sockets");
         }
     }
 
