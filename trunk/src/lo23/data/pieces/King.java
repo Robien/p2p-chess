@@ -341,14 +341,7 @@ public class King extends GamePiece {
 public boolean isDoingARook(Position to)
 {
    // System.out.println("non !!");
-    if (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1);   
 }
 
 //seulement si le dernier mouvement de cette piece est un rock
