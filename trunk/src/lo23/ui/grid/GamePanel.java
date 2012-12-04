@@ -309,8 +309,8 @@ public class GamePanel extends JPanel {
     
     public void updateReviewBoard(Move move){
         // Update board with a move extract from Review mod
-        System.out.println("position d�part grid : " + move.getFrom().toString());
-    	System.out.println("position arriv�e grid : " + move.getTo().toString());
+        System.out.println("position départ grid : " + move.getFrom().toString());
+    	System.out.println("position arrivée grid : " + move.getTo().toString());
     	constraints.gridx = move.getTo().getX();
         constraints.gridy = 7 - move.getTo().getY();
     	
