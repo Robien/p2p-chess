@@ -96,6 +96,13 @@ public class PublicProfile implements Serializable {
     }
 
     /**
+     * Setter for the player's avatar
+     *
+     */
+    public void setAvatar(ImageIcon avatar) {
+        this.avatar = avatar;
+    }
+    /**
      * Getter for the player's IP address
      *
      * @return the player's IP address
