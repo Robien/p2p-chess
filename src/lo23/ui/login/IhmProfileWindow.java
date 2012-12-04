@@ -432,13 +432,6 @@ public class IhmProfileWindow extends JFrame{
             }
      }
      
-     public static String RandomStringUUID() {
-        // Creating a random UUID (Universally unique identifier).
-        //
-        UUID uuid = UUID.randomUUID();
-        String randomUUIDString = uuid.toString();
-        return randomUUIDString;
-    }
      
      private void applyPerformed(java.awt.event.ActionEvent evt) {
          switch(status){
@@ -467,7 +460,7 @@ public class IhmProfileWindow extends JFrame{
                     }
                     try {
                         //TODO status
-                        ihmLoginModel.getApplicationModel().getPManager().createProfile(RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                        ihmLoginModel.getApplicationModel().getPManager().createProfile(lo23.utils.RandomUUID.RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
                         ihmLoginModel.refreshProfileList();
                         this.dispose();
                     } catch (Exception ex) {
