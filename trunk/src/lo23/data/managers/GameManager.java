@@ -67,6 +67,8 @@ public class GameManager extends Manager implements GameManagerInterface {
         } catch (IllegalMoveException ex) {
             Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        pushEvent(move);
     }
 
     @Override
