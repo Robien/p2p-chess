@@ -11,6 +11,7 @@ import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 
 /**
  *
@@ -38,16 +39,10 @@ public class Rook extends GamePiece {
     private boolean firstMove;
 
         @Override
-    public void movePiece(Position to) {
-    //TODO throw
-        try
-        {
-            getGame().playMove(new Move(getPosition(), to, this));
-        }
-        catch(Exception e)
-        {
-            System.out.println("Erreur !");
-        }
+    public void movePiece(Position to)throws IllegalMoveException {
+        
+        getGame().playMove(new Move(getPosition(), to, this));
+       
         position = to;
         firstMove = false;
     }

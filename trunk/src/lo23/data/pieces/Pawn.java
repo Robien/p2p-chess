@@ -6,6 +6,7 @@ import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.utils.Enums.COLOR;
 
 /**
@@ -30,16 +31,8 @@ public class Pawn extends GamePiece {
     }
     
     @Override
-    public void movePiece(Position to) {
-    //TODO throw
-        try
-        {
+    public void movePiece(Position to) throws IllegalMoveException {       
             getGame().playMove(new Move(getPosition(), to, this));
-        }
-        catch(Exception e)
-        {
-            System.out.println("Erreur !");
-        }
         position = to;
         firstMove = false;
     }
