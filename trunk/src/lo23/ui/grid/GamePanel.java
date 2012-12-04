@@ -274,7 +274,7 @@ public class GamePanel extends JPanel {
                 Position tempPosition = new Position (newSelection.getX(), 7 - newSelection.getY());     
                 GamePiece tempPiece = game.getPieceAtXY(formerPositionSelected.getX(),7 - formerPositionSelected.getY());
         		
-                System.out.println("type pièce : " + tempPiece.getClass().getName());
+                System.out.println("type piï¿½ce : " + tempPiece.getClass().getName());
                 System.out.println("model position : " + tempPosition.toString());
                 	            
 	            Move move = myModel.getGManager().createMove(tempPosition, tempPiece);
@@ -291,13 +291,15 @@ public class GamePanel extends JPanel {
       
     public void updateBoard(Move move){
         // Update board after player play a move
-    	System.out.println("position départ grid : " + move.getFrom().toString());
-    	System.out.println("position arrivée grid : " + move.getTo().toString());
+    	System.out.println("position dï¿½part grid : " + move.getFrom().toString());
+    	System.out.println("position arrivï¿½e grid : " + move.getTo().toString());
     	constraints.gridx = move.getTo().getX();
-        constraints.gridy = move.getTo().getY();
+        constraints.gridy = 7 - move.getTo().getY();
     	
-        JLabel currentPiece = listOfPiece.get(move.getFrom());
-        listOfPiece.remove(move.getFrom());
+        Position positionFrom = new Position(move.getFrom().getX(), 7 - move.getFrom().getY());
+        
+        JLabel currentPiece = listOfPiece.get(positionFrom);
+        listOfPiece.remove(positionFrom);
         listOfPiece.put(move.getTo(), currentPiece);
         add(currentPiece, constraints, 0);
         
@@ -318,10 +320,17 @@ public class GamePanel extends JPanel {
     
     public void updateReviewBoard(Move move){
         // Update board with a move extract from Review mod
-         JLabel currentPiece = listOfPiece.get(move.getFrom());
-         listOfPiece.remove(move.getFrom());
-         listOfPiece.put(move.getTo(), currentPiece);
-         add(currentPiece, constraints, 0);
+        System.out.println("position dï¿½part grid : " + move.getFrom().toString());
+    	System.out.println("position arrivï¿½e grid : " + move.getTo().toString());
+    	constraints.gridx = move.getTo().getX();
+        constraints.gridy = 7 - move.getTo().getY();
+    	
+        Position positionFrom = new Position(move.getFrom().getX(), 7 - move.getFrom().getY());
+        
+        JLabel currentPiece = listOfPiece.get(positionFrom);
+        listOfPiece.remove(positionFrom);
+        listOfPiece.put(move.getTo(), currentPiece);
+        add(currentPiece, constraints, 0);
          
          //System.out.println(move);
     }
