@@ -27,7 +27,6 @@ import lo23.data.Move;
 import lo23.data.NewInvitation;
 import lo23.data.Player;
 import lo23.data.Position;
-import lo23.data.Profile;
 import lo23.data.PublicProfile;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
@@ -38,12 +37,15 @@ import lo23.data.tests.TestInit;
 import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
-import lo23.utils.Enums.STATUS;
 
 public class SuperMain implements PropertyChangeListener {
 
     public static void main(String[] args) {
-        SuperMain main = new SuperMain();
+        try {
+            SuperMain main = new SuperMain();
+        } catch (Exception ex) {
+            Logger.getLogger(SuperMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     private PublicProfile hostProfile;
     private ApplicationModel appModel;
@@ -51,7 +53,7 @@ public class SuperMain implements PropertyChangeListener {
     private JList userJList;
     private DefaultListModel userListModel;
 
-    public SuperMain() {
+    public SuperMain() throws Exception {
         try {
             String addressIp = null;
             Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
