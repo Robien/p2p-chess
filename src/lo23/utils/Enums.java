@@ -1,9 +1,11 @@
 package lo23.utils;
 
+import java.io.Serializable;
+
 /**
  * This class contains every enumerations used in this project
  */
-public class Enums
+public class Enums implements Serializable
 {
     /**
      * Enumeration containing possible profile's status values
