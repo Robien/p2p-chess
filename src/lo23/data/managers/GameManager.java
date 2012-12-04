@@ -240,6 +240,9 @@ public class GameManager extends Manager implements GameManagerInterface {
         ArrayList<Game> gameList = new ArrayList<Game>();
 
         for (int i = 0; i < fileList.length; i++) {
+            if(fileList[i].startsWith("."))
+                continue;
+
             try {
                 //fileList[i] format is "gameId.game"
                 //So the string is split in order to have the gameId.
