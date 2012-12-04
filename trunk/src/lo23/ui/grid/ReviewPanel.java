@@ -4,9 +4,15 @@
  */
 package lo23.ui.grid;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.text.BadLocationException;
 import lo23.data.ApplicationModel;
 import lo23.data.Event;
@@ -26,8 +32,8 @@ public class ReviewPanel extends javax.swing.JPanel {
     private ChatPanel2 myChatPanel;
     private GamePanel myGamePanel;
     private ArrayList<Event> listEvents;
-    private int firstMove;
     private int currentEvent;
+    private String path = getClass().getClassLoader().getResource(".").getPath();
     /**
      * Creates new form ReviewPanel
      */
@@ -37,14 +43,24 @@ public class ReviewPanel extends javax.swing.JPanel {
 
     public ReviewPanel(ApplicationModel model, ChatPanel2 chat, GamePanel gamePanel) {
         initComponents();
+ImageIcon img;
         myModel = model;
         myChatPanel = chat;
         myGamePanel = gamePanel;
         currentEvent = 0;
-        firstMove = 0;
         listEvents = new ArrayList<Event>();
        //listEvents = myModel.getGManager().getCurrentGame().getEvents();
-        
+        img = new ImageIcon(path + "lo23/ui/resources/begin.png");
+        begin.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
+
+        img = new ImageIcon(path + "lo23/ui/resources/previous.png");
+        previous.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
+
+        img = new ImageIcon(path + "lo23/ui/resources/next.png");
+        next.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
+
+        img = new ImageIcon(path + "lo23/ui/resources/end.png");
+        end.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,63 +71,83 @@ public class ReviewPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        begin = new javax.swing.JButton();
+        init = new javax.swing.JButton();
         previous = new javax.swing.JButton();
         next = new javax.swing.JButton();
         end = new javax.swing.JButton();
+        begin = new javax.swing.JButton();
 
-        begin.setText("Debut");
-        begin.addActionListener(new java.awt.event.ActionListener() {
+        setBackground(new java.awt.Color(255, 255, 204));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Review board", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18), new java.awt.Color(0, 0, 255))); // NOI18N
+
+        init.setText("Init");
+        init.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                beginActionPerformed(evt);
+                initActionPerformed(evt);
             }
         });
 
-        previous.setText("Previous");
+        previous.setToolTipText("Going to the previous move");
+        previous.setEnabled(false);
         previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previousActionPerformed(evt);
             }
         });
 
-        next.setText("Next");
+        next.setToolTipText("Going to the next move");
         next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextActionPerformed(evt);
             }
         });
 
-        end.setText("end");
+        end.setToolTipText("Going to the end of this game");
+        end.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endActionPerformed(evt);
+            }
+        });
+
+        begin.setToolTipText("Going to the beginning of this game");
+        begin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(begin)
-                .addGap(18, 18, 18)
-                .addComponent(previous)
-                .addGap(18, 18, 18)
-                .addComponent(next)
-                .addGap(18, 18, 18)
-                .addComponent(end)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(end)
+                    .addComponent(previous)
+                    .addComponent(init)
+                    .addComponent(next)
+                    .addComponent(begin))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(begin)
-                    .addComponent(previous)
-                    .addComponent(next)
-                    .addComponent(end))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(init)
+                .addGap(38, 38, 38)
+                .addComponent(begin)
+                .addGap(4, 4, 4)
+                .addComponent(previous)
+                .addGap(5, 5, 5)
+                .addComponent(next)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(end)
+                .addContainerGap(123, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void beginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beginActionPerformed
+    private void initActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initActionPerformed
                
         GamePiece piece;
         Position from;
@@ -132,11 +168,14 @@ public class ReviewPanel extends javax.swing.JPanel {
         listEvents.add(new Move(from, to, piece));
         
         listEvents.add(new Message("test review 2", myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer()));
-    
-    }//GEN-LAST:event_beginActionPerformed
+/*
+        piece = myModel.getGManager().getCurrentGame().getPieceAtXY(1, 5);
+        from = piece.getPosition();
+        to = new Position(1, 4);
+        listEvents.add(new Move(from, to, piece));*/
+    }//GEN-LAST:event_initActionPerformed
 
-    private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
-
+    private Move getNextCoup(){
         while(currentEvent < listEvents.size() && !(listEvents.get(currentEvent) instanceof Move)){ // n'est pas un mouvement
             try {
                 // ici on a les messages
@@ -144,40 +183,91 @@ public class ReviewPanel extends javax.swing.JPanel {
             } catch (BadLocationException ex) {
                 Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-            currentEvent = currentEvent + 1;
+            currentEvent++;
         }
-        
+
+        if(currentEvent == listEvents.size()){
+            System.out.println("Coup prochain trouvé : aucun");
+            next.setEnabled(false);
+            return null;
+        }
+        else{
+            System.out.println("Coup prochain trouvé : " + (Move)listEvents.get(currentEvent));
+             return (Move)listEvents.get(currentEvent);
+
+        }
+    }
+
+
+
+    private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
+
+        Move coup = getNextCoup();
+
+        // il n'y a pas d'autres coup
+        if(coup == null){
+            next.setEnabled(false);
+            currentEvent = listEvents.size() - 1;
+        }
+        else{ // ici on execute un coup
+            try {
+                // on affiche dans le chat
+                myChatPanel.gameMsg(coup);
+                // on met à jour le board
+                //System.out.println("Delire : " + coup);
+                myGamePanel.updateReviewBoard(coup);
+                // on passe au coup suivant
+                currentEvent++;
+                // on vient d'executer le dernier event qui est un coup
+                if(currentEvent >= listEvents.size()){
+                    currentEvent = listEvents.size() - 1;
+                    next.setEnabled(false);
+                }
+
+                previous.setEnabled(true);
+            } catch (BadLocationException ex) {
+                Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
         // si on a affaire à un mouvement
         
         // si on a executé le dernier move
         if(currentEvent == listEvents.size()){
             next.setEnabled(false);
-        }
-        else
-        {
-            // on initialise quand on trouve le premier coup (sert dans précédent)
-            if(currentEvent <= firstMove){
-                firstMove = currentEvent;
-                System.out.println("firstMove :" +firstMove);
-            }
-            
-            try {
-                // on affiche dans le chat
-                myChatPanel.gameMsg((Move)listEvents.get(currentEvent));
-                // on met à jour le board
-                myGamePanel.updateReviewBoard((Move)listEvents.get(currentEvent));
-                // on passe au coup suivant
-                currentEvent++;
-                
-            } catch (BadLocationException ex) {
-                Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            currentEvent = listEvents.size() - 1;
         }
         
 
     }//GEN-LAST:event_nextActionPerformed
+
+    private Move getPreviousCoup(){
+        while(currentEvent > 0 && !(listEvents.get(currentEvent) instanceof Move)){ // n'est pas un mouvement
+         //   try {
+                // ici on a les messages
+               // myChatPanel.receivedMsg((Message)listEvents.get(currentEvent));
+
+                //TODO : effacer les messages dans le chatBox
+
+           // } catch (BadLocationException ex) {
+           //     Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
+          //  }
+            currentEvent--;
+        }
+
+
+        if(currentEvent < 0){
+            System.out.println("Coup précédent trouvé : aucun");
+            previous.setEnabled(false);
+            return null;
+        }
+        else{
+            System.out.println("Coup précédent trouvé : " + (Move)listEvents.get(currentEvent));
+             return (Move)listEvents.get(currentEvent);
+
+        }
+    }
     /**
      * Fonction qui permet de revenir sur le coup précédent
      * @param evt 
@@ -185,58 +275,70 @@ public class ReviewPanel extends javax.swing.JPanel {
     private void previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousActionPerformed
         
         // on recule d'un coup, donc il y a un coup après
- 
+        Move coup = getPreviousCoup();
 
-        while(currentEvent > firstMove && !(listEvents.get(currentEvent) instanceof Move)){ // n'est pas un mouvement
-            
-            
-         //   try {
-                // ici on a les messages
-               // myChatPanel.receivedMsg((Message)listEvents.get(currentEvent));
-                
-                //TODO : effacer les messages dans le chatBox
-                
-           // } catch (BadLocationException ex) {
-           //     Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
-          //  }
-            
-            
-            currentEvent--;
-        }
-        
-        // si on a affaire à un mouvement , le dernier
-        if(currentEvent == firstMove){
-            previous.setEnabled(false);
-            next.setEnabled(true);
+        // si on n'a plus de mouvement à faire
+        if(coup == null){
+            previous.setEnabled(true);
         }
         else
         {
-                next.setEnabled(true);
+
                 // on fait l'inverse du mouvement pour revenir en arrière
-                Move tmp = (Move)listEvents.get(currentEvent);
-                Position tmpFrom = tmp.getFrom();
-                Position tmpTo = tmp.getTo();
+                Position tmpFrom = coup.getFrom();
+                Position tmpTo = coup.getTo();
                 
-                Move res = new Move(tmpTo, tmpFrom, tmp.getPiece());
-                
+                Move res = new Move(tmpTo, tmpFrom, coup.getPiece());
+            try {
                 // on affiche dans le chat
-               // myChatPanel.gameMsg(res);
+                myChatPanel.gameMsg(res);
+            } catch (BadLocationException ex) {
+                Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 // on met à jour le board
                 myGamePanel.updateReviewBoard(res);
                 // on passe au coup suivant
                 
                 // si on a executé le dernier move
-
                 currentEvent--;
-
+                // si on vient d'éxecuter le dernier coup qui est en 0
+                if(currentEvent < 0 ){
+                    currentEvent = 0;
+                    previous.setEnabled(false);
+                }
+                next.setEnabled(true);
         }
         
 
     }//GEN-LAST:event_previousActionPerformed
 
+    private void beginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beginActionPerformed
+        // on déroule tous les events à partir d'où on est jusqu'a se retrouver à 0
+        while(currentEvent >= 0){ // n'est pas un mouvement
+               previousActionPerformed(null);
+        }
+    }//GEN-LAST:event_beginActionPerformed
+
+     private Image getScaledImage(Image srcImg, int w, int h){
+    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.BITMASK);
+    Graphics2D g2 = resizedImg.createGraphics();
+    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g2.drawImage(srcImg, 0, 0, w, h, null);
+    g2.dispose();
+    return resizedImg;
+}
+
+    private void endActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endActionPerformed
+    // on déroule tous les events à partir d'où on est jusqu'a se retrouver à la fin
+        while(currentEvent <= listEvents.size()){ // n'est pas un mouvement
+               nextActionPerformed(null);
+        }
+    }//GEN-LAST:event_endActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton begin;
     private javax.swing.JButton end;
+    private javax.swing.JButton init;
     private javax.swing.JButton next;
     private javax.swing.JButton previous;
     // End of variables declaration//GEN-END:variables
