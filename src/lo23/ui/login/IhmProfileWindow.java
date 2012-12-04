@@ -28,6 +28,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.utils.Enums.STATUS;
 
 /**
  * Class for the profilewindow, each different window is customized according to a status (create, read, modify)
@@ -480,8 +481,7 @@ public class IhmProfileWindow extends JFrame{
                         e.printStackTrace();
                     }
                     try {
-                        //TODO status
-                        ihmLoginModel.getApplicationModel().getPManager().createProfile(lo23.utils.RandomUUID.RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), null, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
+                        ihmLoginModel.getApplicationModel().getPManager().createProfile(lo23.utils.RandomUUID.RandomStringUUID(), loginField.getText(), jPasswordField1.getPassword(), STATUS.CONNECTED, thisIp.getHostAddress(), icon, lastNameField.getText(), firstNameField.getText(), age);
                         ihmLoginModel.refreshProfileList();
                         this.dispose();
                     } catch (Exception ex) {
