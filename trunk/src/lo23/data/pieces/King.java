@@ -137,23 +137,6 @@ public class King extends GamePiece {
                         positions.add(new Position(6, y));
                     }
 
-
-                    isPossible = true;
-                    for (int i = x - 1;isPossible && i > 0;i--)
-                    {
-                       //  System.out.println(i);
-                        if (isPossible)
-                        {
-                            
-                            isPossible = game.getPieceAtXY(i, y) == null && !isOnCheckWithAMove(position, new Position(i, y));
-                        }
-                    }
-                    //if (game.getPieceAtXY(0, y).
-                    //TODO utiliser firstMove de Rook
-                    if (isPossible)
-                    {
-                        positions.add(new Position(1, y));
-                    }
                 }
 
 
@@ -170,6 +153,25 @@ public class King extends GamePiece {
             {
                 positions.add(new Position(x - 1, y));
                 //rook 2
+                    if (firstMove)
+                {
+                    boolean isPossible = true;
+                    for (int i = x - 1;i > 0;i--)
+                    {
+                       //  System.out.println(i);
+                        if (isPossible)
+                        {
+
+                            isPossible = game.getPieceAtXY(i, y) == null && !isOnCheckWithAMove(position, new Position(i, y));
+                        }
+                    }
+                    //if (game.getPieceAtXY(0, y).
+                    //TODO utiliser firstMove de Rook
+                    if (isPossible)
+                    {
+                        positions.add(new Position(1, y));
+                    }
+                }
             }
             else
             {
