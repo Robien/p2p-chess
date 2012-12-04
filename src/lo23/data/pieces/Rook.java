@@ -39,10 +39,7 @@ public class Rook extends GamePiece {
     private boolean firstMove;
 
         @Override
-    public void movePiece(Position to)throws IllegalMoveException {
-        
-        getGame().playMove(new Move(getPosition(), to, this));
-       
+    public void movePiece(Position to)throws IllegalMoveException {                       
         position = to;
         firstMove = false;
     }
