@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
@@ -23,8 +24,10 @@ import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.WrongInvitation;
+import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
+import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
@@ -71,24 +74,29 @@ public class IhmLoginModel implements PropertyChangeListener{
         // Liste des joueurs présents
         Object[][] donnees = {};
         String[] entetes = {"id", "Pseudo", "FistName", "Status",""};
-        ProfileManagerMock profileManager = new ProfileManagerMock(appModel);
+//        ProfileManager profileManager = new ProfileManager(appModel);
         listPlayers = new PlayerModel();
         listPlayers.setDataVector(donnees, entetes);
         listPlayGameBtn = new ArrayList<JButton>();
         listPlayersLaunchBtn = new ArrayList<JButton>();
        
-        idPlayersConnected = profileManager.getIdPlayersConnected(); // pour le test
+//        idPlayersConnected = profileManager.getIdPlayersConnected(); // pour le test
          
         // Liste des parties terminées
         listIdGame = new HashMap<Long, Game>();
-        GameManagerMock gameManager = new GameManagerMock(appModel);
+        GameManager gameManager = new GameManager(appModel);
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
         listEndGames.setDataVector(donnees, entetesEndGames);
         listReviewGameBtn = new ArrayList<JButton>();
 
-        ArrayList<Game> endGames = gameManager.getListStopGames();
-        idEndGames = gameManager.getIdStopGames(); // Pour les tests
+//        idEndGames = gameManager.getIdStopGames(); // Pour les tests
+        ArrayList<Game> endGames = new ArrayList<Game>();
+        try {
+            endGames = gameManager.getListStopGames();
+        } catch (Exception ex) {
+              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
+        }
         for (Game game : endGames ) {
             listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
         }
@@ -98,13 +106,17 @@ public class IhmLoginModel implements PropertyChangeListener{
         listStartGames = new StopGameModel();
         listStartGames.setDataVector(donnees, entetesStopGames);
         listContinueGameBtn = new ArrayList<JButton>();
-
-        //ArrayList<Game> stopGames = gameManager.getListStartGames();
+        ArrayList<Game> stopGames = new ArrayList<Game>();
+        try {
+            stopGames = gameManager.getListStartGames();
+        } catch (Exception ex) {
+              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception StopGame", JOptionPane.ERROR_MESSAGE);
+        }
         
-        idStartGames = gameManager.getIdStartGames(); // Pour les tests
-        /*for (Game game : stopGames ) {
-            listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId());
-        }*/
+//        idStartGames = gameManager.getIdStartGames(); // Pour les tests
+        for (Game game : stopGames ) {
+            listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId(),game.getRemotePlayer().getPublicProfile().getStatus());
+        }
         
         listProfileDate = new HashMap<PublicProfile,Date>();
 

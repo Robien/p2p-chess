@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import lo23.data.ApplicationModel;
 import lo23.utils.JTableButtonMouseListener;
 import lo23.utils.JTableButtonRenderer;
 
