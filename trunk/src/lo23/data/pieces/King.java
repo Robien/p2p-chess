@@ -40,6 +40,7 @@ public class King extends GamePiece {
     }
 
 
+
     @Override
     public List<Position> getPossibleMoves() 
     {
@@ -323,4 +324,23 @@ public class King extends GamePiece {
         return false;
 
    }
+
+
+@Override
+public boolean isDoingARook(Position to)
+{
+   // System.out.println("non !!");
+    if (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
+
+
+}
+
+
