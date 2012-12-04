@@ -6,11 +6,18 @@ package lo23.data.exceptions;
  */
 public class NoIdException extends Exception
 {
+    /**
+     * Default constructor, with no specific message
+     */
     public NoIdException()
     {
         super();
     }
     
+    /**
+     * Constructor, with a given message
+     * @param msg The message contained into the thrown exception
+     */
     public NoIdException(String msg)
     {
         super(msg);
