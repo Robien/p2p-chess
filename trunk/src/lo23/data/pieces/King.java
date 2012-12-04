@@ -33,18 +33,25 @@ public class King extends GamePiece {
 
         @Override
     public void movePiece(Position to) throws IllegalMoveException {
-    //TODO throw
         if (isDoingARook(to))
         {
-            System.out.println("en rook 1");
+            //System.out.println("en rook 1");
             justHaveRook = true;
+            if (to.getX() == 1)
+            {
+                getGame().getPieceAtXY(0, to.getY()).movePiece(new Position(2, to.getY()));
+            }
+            else
+            {
+                 getGame().getPieceAtXY(7, to.getY()).movePiece(new Position(5, to.getY()));
+            }
         }
         else
         {
-             System.out.println("en non rook");
+             //System.out.println("en non rook");
             justHaveRook = false;
         }
-            getGame().playMove(new Move(getPosition(), to, this));
+         getGame().playMove(new Move(getPosition(), to, this));
     
         position = to;
         firstMove = false;
