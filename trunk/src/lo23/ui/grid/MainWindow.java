@@ -100,60 +100,85 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.setBackground(fond);
 //  
         GridBagConstraints constraints = new GridBagConstraints();
+        final GamePanel gamePanel = new GamePanel(myModel, game);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         //The panel is a grid of 6*8 squares
 
-        //Grid
-        final GamePanel gamePanel = new GamePanel(myModel, game);
-        constraints.insets = new Insets(0,0,0,0);
-		constraints.gridwidth = 4;
-		constraints.gridheight = 4;
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-        panel.add(gamePanel, constraints);
-        
-
-
-        //Test Ajout Timer, a remplacer par profilPanel
+        //remote player
+        constraints.insets = new Insets(10,10,10,10);
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridwidth = 2;
-		constraints.gridheight = 1;
+		constraints.gridheight = 2;
 		constraints.gridx = 1;
 		constraints.gridy = 0;
+        
+        PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+        panel.add(remotePlayerPanel, constraints);
+        //   PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
 
-        //TimerPanel timerPanel = new TimerPanel();
-        //panel.add(timerPanel, constraints);
-
-      //   PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-      // tmp :
-           PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-           panel.add(remotePlayerPanel, constraints);
-
-
-        //Test Ajout Timer
         constraints.gridwidth = 2;
-		constraints.gridheight = 1;
-		constraints.gridx = 1;
-		constraints.gridy = 5;
+		constraints.gridheight = 2;
+		constraints.gridx = 3;
+		constraints.gridy = 0;
 
-         PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer());
-        // PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
-
-         panel.add(localPlayerPanel, constraints);
-
-
-         
-        //Chat panel
-        constraints.insets = new Insets(50,50,0,0);
+        TimerPanel timerPanelRemotePlayer = new TimerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+        panel.add(timerPanelRemotePlayer, constraints);
+        
         constraints.gridwidth = 2;
-        constraints.gridheight = 6;
-        constraints.gridx = 7;
+        constraints.gridheight = 2;
+        constraints.gridx = 5;
         constraints.gridy = 0;
+        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
+        panel.add(remotePlayerLostPieces, constraints);
+
+        //Grid
+        constraints.insets = new Insets(0,0,0,0);
+		constraints.gridwidth = 8;
+		constraints.gridheight = 8;
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+        panel.add(gamePanel, constraints);
+        
+        //local player
+        constraints.insets = new Insets(10,10,10,10);
+        constraints.gridwidth = 2;
+		constraints.gridheight = 2;
+		constraints.gridx = 1;
+		constraints.gridy = 10;
+        
+        PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer());
+        // PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
+        panel.add(localPlayerPanel, constraints);
+        
+        constraints.gridwidth = 2;
+		constraints.gridheight = 2;
+		constraints.gridx = 3;
+		constraints.gridy = 10;
+
+        TimerPanel timerPanelLocalPlayer = new TimerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer());
+        panel.add(timerPanelLocalPlayer, constraints);
+        
+        constraints.gridwidth = 2;
+        constraints.gridheight = 2;
+        constraints.gridx = 5;
+        constraints.gridy = 10;
+        
+//        constraints.fill = GridBagConstraints.BOTH ;
+        localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
+        panel.add(localPlayerLostPieces, constraints);
+
+        //Chat panel
+//        constraints.insets = new Insets(50,50,0,0);
+        constraints.gridwidth = 6;
+		constraints.gridheight = 10;
+		constraints.gridx = 12;
+		constraints.gridy = 1;
 
         ChatPanel2 chatPanel = new ChatPanel2(myModel);
         panel.add(chatPanel, constraints);
-        
         
         //Review 
        /*constraints.gridwidth = 6;
@@ -163,47 +188,17 @@ public class MainWindow extends JFrame implements ActionListener {
        ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
 
          panel.add(reviewPanel, constraints);*/
-        
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = 4;
-        constraints.gridy = 5;
-        constraints.fill = GridBagConstraints.BOTH ;
-        localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
-            panel.add(localPlayerLostPieces, constraints);
-            
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = 4;
-        constraints.gridy = 0;
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.CENTER;
-        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
-            panel.add(remotePlayerLostPieces, constraints);
-            
+             
         //Appels à des fins de test TODO : à retirer
         remotePlayerLostPieces.updateBox();
         localPlayerLostPieces.updateBox();
-        
-         
-             //Review
-       constraints.gridwidth = 1;
-       constraints.gridheight = 1;
-       constraints.gridx = 5;
-       constraints.gridy = 2;
-       ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
-
-         panel.add(reviewPanel, constraints);
-
          
         return panel;
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
     }
- 
-      
+     
 }
