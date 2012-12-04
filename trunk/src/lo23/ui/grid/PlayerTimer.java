@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
+import lo23.data.ApplicationModel;
+import lo23.data.Player;
+
 /**
  *
  * @author mantonel
@@ -18,12 +21,15 @@ public class PlayerTimer {
     private int delay = 1000; //milliseconds
     private Timer timer;
     private int currentTimer;
-    private int endOfTimer = 60*20; //20mn
+    private int endOfTimer;
+    Player p;
 
-    public PlayerTimer(final TimerPanel timerPanel) {
+    public PlayerTimer(final TimerPanel timerPanel, ApplicationModel am) {
 
         localTimerPanel = timerPanel;
-
+        p = am.getGManager().getCurrentGame().getLocalPlayer();
+        endOfTimer = (int) p.getRemainingTime();
+        		
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 currentTimer--;
@@ -38,10 +44,12 @@ public class PlayerTimer {
     }
 
     public void startTimer(){
+    	p.startTime();
         timer.start();
     }
 
     public void stopTimer(){
+    	p.stopTime();
         currentTimer = 0;
         timer.stop();
         localTimerPanel.getLabel().setText(getText());
@@ -56,7 +64,8 @@ public class PlayerTimer {
     }
     
     public void startAt(int s){
-        currentTimer = s;
+    	currentTimer = (int) p.getRemainingTime();
+//        currentTimer = s;
         timer.start();
     }
 
