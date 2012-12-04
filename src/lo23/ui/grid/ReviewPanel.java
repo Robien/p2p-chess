@@ -26,6 +26,7 @@ public class ReviewPanel extends javax.swing.JPanel {
     private ChatPanel2 myChatPanel;
     private GamePanel myGamePanel;
     private ArrayList<Event> listEvents;
+    private int firstMove;
     private int currentEvent;
     /**
      * Creates new form ReviewPanel
@@ -40,7 +41,7 @@ public class ReviewPanel extends javax.swing.JPanel {
         myChatPanel = chat;
         myGamePanel = gamePanel;
         currentEvent = 0;
-
+        firstMove = 0;
         listEvents = new ArrayList<Event>();
        //listEvents = myModel.getGManager().getCurrentGame().getEvents();
         
@@ -67,6 +68,11 @@ public class ReviewPanel extends javax.swing.JPanel {
         });
 
         previous.setText("Previous");
+        previous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousActionPerformed(evt);
+            }
+        });
 
         next.setText("Next");
         next.addActionListener(new java.awt.event.ActionListener() {
@@ -132,8 +138,6 @@ public class ReviewPanel extends javax.swing.JPanel {
     private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
 
         while(currentEvent < listEvents.size() && !(listEvents.get(currentEvent) instanceof Move)){ // n'est pas un mouvement
-            
-            
             try {
                 // ici on a les messages
                 myChatPanel.receivedMsg((Message)listEvents.get(currentEvent));
@@ -146,7 +150,19 @@ public class ReviewPanel extends javax.swing.JPanel {
         }
         
         // si on a affaire à un mouvement
-        if(currentEvent < listEvents.size()){
+        
+        // si on a executé le dernier move
+        if(currentEvent == listEvents.size()){
+            next.setEnabled(false);
+        }
+        else
+        {
+            // on initialise quand on trouve le premier coup (sert dans précédent)
+            if(currentEvent <= firstMove){
+                firstMove = currentEvent;
+                System.out.println("firstMove :" +firstMove);
+            }
+            
             try {
                 // on affiche dans le chat
                 myChatPanel.gameMsg((Move)listEvents.get(currentEvent));
@@ -160,11 +176,63 @@ public class ReviewPanel extends javax.swing.JPanel {
             }
         }
         
-        // si on a executé le dernier move
-        if(currentEvent == listEvents.size() ){
-            next.setEnabled(false);
-        }
+
     }//GEN-LAST:event_nextActionPerformed
+    /**
+     * Fonction qui permet de revenir sur le coup précédent
+     * @param evt 
+     */
+    private void previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousActionPerformed
+        
+        // on recule d'un coup, donc il y a un coup après
+ 
+
+        while(currentEvent > firstMove && !(listEvents.get(currentEvent) instanceof Move)){ // n'est pas un mouvement
+            
+            
+         //   try {
+                // ici on a les messages
+               // myChatPanel.receivedMsg((Message)listEvents.get(currentEvent));
+                
+                //TODO : effacer les messages dans le chatBox
+                
+           // } catch (BadLocationException ex) {
+           //     Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
+          //  }
+            
+            
+            currentEvent--;
+        }
+        
+        // si on a affaire à un mouvement , le dernier
+        if(currentEvent == firstMove){
+            previous.setEnabled(false);
+            next.setEnabled(true);
+        }
+        else
+        {
+                next.setEnabled(true);
+                // on fait l'inverse du mouvement pour revenir en arrière
+                Move tmp = (Move)listEvents.get(currentEvent);
+                Position tmpFrom = tmp.getFrom();
+                Position tmpTo = tmp.getTo();
+                
+                Move res = new Move(tmpTo, tmpFrom, tmp.getPiece());
+                
+                // on affiche dans le chat
+               // myChatPanel.gameMsg(res);
+                // on met à jour le board
+                myGamePanel.updateReviewBoard(res);
+                // on passe au coup suivant
+                
+                // si on a executé le dernier move
+
+                currentEvent--;
+
+        }
+        
+
+    }//GEN-LAST:event_previousActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton begin;
