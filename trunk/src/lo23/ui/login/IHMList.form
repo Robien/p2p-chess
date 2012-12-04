@@ -34,13 +34,13 @@
                   <Component id="panelTablePlayers" pref="499" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="labelTable" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="409" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="manageProfileBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="reviewGamesBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="194" max="32767" attributes="0"/>
                       <Component id="disconnectBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
