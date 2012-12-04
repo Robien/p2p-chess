@@ -9,8 +9,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -248,7 +250,8 @@ public class IhmLoginModel implements PropertyChangeListener{
      */
     private void removeDisconnectedProfilesAndGames(){
         Date now = new Date();
-        for(PublicProfile p : listProfileDate.keySet()){
+        Set<PublicProfile> col = listProfileDate.keySet();
+        for(PublicProfile p : col){
             Date currDate = listProfileDate.get(p);
             if(now.getTime() - currDate.getTime() >= 30*1000){
                 //Remove profile from two list
