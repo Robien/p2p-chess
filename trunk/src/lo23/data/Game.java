@@ -272,7 +272,7 @@ public class Game implements Serializable {
         board[xfrom][yfrom] = null;
         board[xto][yto] = piece;
 
-        
+        piece.movePiece(move.to);
 
     }
 

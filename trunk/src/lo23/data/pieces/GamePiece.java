@@ -58,8 +58,7 @@ public abstract class GamePiece implements Serializable {
         return position;
     }
 
-    public void movePiece(Position to) throws IllegalMoveException {
-        getGame().playMove(new Move(getPosition(), to, this));
+    public void movePiece(Position to) throws IllegalMoveException {        
         position = to;
     }
     

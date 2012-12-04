@@ -50,8 +50,7 @@ public class King extends GamePiece {
         {
              //System.out.println("en non rook");
             justHaveRook = false;
-        }
-         getGame().playMove(new Move(getPosition(), to, this));
+        }         
     
         position = to;
         firstMove = false;
