@@ -75,15 +75,15 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         
         
         //TEST
-        try {
-           
-            for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
-                PropertyChangeEvent pce = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
-                model.propertyChange(pce);
-            }
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-        }
+//        try {
+//
+//            for(PublicProfile p : model.getApplicationModel().getPManager().getLocalPublicProfiles()){
+//                PropertyChangeEvent pce = new PropertyChangeEvent("1",IhmLoginModel.ADD_PLAYER_CONNECTED,null,p);
+//                model.propertyChange(pce);
+//            }
+//        } catch (Exception ex){
+//            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+//        }
         
     }
     /**
