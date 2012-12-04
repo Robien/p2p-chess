@@ -226,10 +226,9 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + new String(getPasswordField().getPassword()));
 
         // Appel de la methode de connexion
-        ProfileManagerInterface pmi = ihmLoginModel.getApplicationModel().getPManager();
         try {
             PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
-            boolean ret = pmi.connection(selectedProfile.getProfileId(), getPasswordField().getPassword());
+            boolean ret = ihmLoginModel.connect(selectedProfile,getPasswordField().getPassword());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -237,7 +236,13 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 this.setVisible(false);
                 this.dispose();
                 listWindow.setVisible(true);
+                
 
+                /**
+                 * Only model must subscribe to Manager, not the view
+                 * See Method IhmLoginModel.connect(...)
+                 */
+                /*
                 ProfileManager pm = (ProfileManager) pmi;
                 // TODO unsuscribe on deconnect
                 // ((ProfileManager)pmi)
@@ -245,8 +250,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 pm.subscribe(listWindow, IhmLoginModel.ADD_PLAYER_CONNECTED);
                 pm.subscribe(listWindow, IhmLoginModel.DELETE_PLAYER_DISCONNECTED);
                 pm.startProfilesDiscovery();
-
-
+                */
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -275,7 +279,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             try {
                 ihmLoginModel.getApplicationModel().getPManager().importProfile(path);
             } catch (ProfileIdAlreadyExistException ex) {
-                //importProfileWithNewId(ex.getProfileWithExistingId()); //DataManager need to implement this accessor
+                importProfileWithNewId(ex.getProfileWithExistingID());
             } catch (ProfilePseudoAlreadyExistException ex) {
                 importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
             } catch (Exception ex) {
@@ -297,24 +301,26 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
         } catch (ProfilePseudoAlreadyExistException ex) {
             importProfileWithPseudoUnicity(p);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    /*private void importProfileWithNewId(Profile p){
-     try {
-     p.setProfileId(IhmProfileWindow.RandomStringUUID());
-     ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
-     }  
-     catch (ProfilePseudoAlreadyExistException ex) {
-     importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
-     } 
-     catch (Exception e){
-     e.printStackTrace();
-     JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+    private void importProfileWithNewId(Profile p){
+        try {
+           p.setProfileId(IhmProfileWindow.RandomStringUUID());
+           ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
+        }  
+        catch (ProfilePseudoAlreadyExistException ex) {
+           importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
+        } 
+        catch (Exception e){
+           e.printStackTrace();
+           JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
      }
-     }*/
+    
     /**
      * Méthode retournant le champ "login" du formulaire
      *
