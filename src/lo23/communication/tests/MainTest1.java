@@ -50,7 +50,7 @@ public class MainTest1 {
         MainTest1 main = new MainTest1();
     }
     
-    private PublicProfile hostProfile;
+    private Profile hostProfile;
     private ApplicationModel appModel;
     private JFrame frame;
     private JList userJList;
@@ -71,7 +71,7 @@ public class MainTest1 {
                 }
             }
             
-            hostProfile = new PublicProfile("1", "Moi", Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23, 0, 0, 0);
+            hostProfile = new Profile("1", "Moi", "pass".toCharArray(), Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23);
             
             appModel = new ApplicationModel();
             appModel.setComManager(new ComManager(appModel));
@@ -106,7 +106,7 @@ public class MainTest1 {
                 public void actionPerformed(ActionEvent e) {
                     if (userJList.getSelectedValue() != null) {
                         PublicProfile profile = (PublicProfile) userJList.getSelectedValue();
-                        NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile, profile);
+                        NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile.getPublicProfile(), profile);
                         appModel.getComManager().sendInvitation(invitation);
                     }
                 }
@@ -250,7 +250,7 @@ public class MainTest1 {
         
         @Override
         public Profile getCurrentProfile() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return MainTest1.this.hostProfile;
         }
 
         @Override
@@ -314,7 +314,7 @@ public class MainTest1 {
         public void notifyInvitAnswer(Invitation invitation, boolean answer) {
             if ( answer ) {
                 //invitation.g
-               // getApplicationModel().getComManager().sendGameStarted(hostProfile);
+                getApplicationModel().getComManager().sendGameStarted(hostProfile.getPublicProfile());
             }
         }
 
