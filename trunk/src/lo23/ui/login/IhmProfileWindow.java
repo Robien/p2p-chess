@@ -214,7 +214,7 @@ public class IhmProfileWindow extends JFrame{
                 gamesDrawField.setText(String.valueOf(currentProfile.getDrawGames()));
                 
                 applyButton.setText("Validate");
-                changeImageButton.setText("Changer your avatar");
+                changeImageButton.setText("Change your avatar");
                 try{
                     profileImage.setIcon(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar());
                     profileImage.repaint();
@@ -457,6 +457,7 @@ public class IhmProfileWindow extends JFrame{
          switch(status){
             case MODIFY :
                 this.checkAndSave();
+                
                 this.dispose();
                 break;
 
