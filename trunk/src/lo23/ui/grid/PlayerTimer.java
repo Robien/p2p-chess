@@ -24,12 +24,12 @@ public class PlayerTimer {
     private int endOfTimer;
     Player p;
 
-    public PlayerTimer(final TimerPanel timerPanel, ApplicationModel am) {
+    public PlayerTimer(final TimerPanel timerPanel, ApplicationModel am, Player player) {
 
         localTimerPanel = timerPanel;
-        p = am.getGManager().getCurrentGame().getLocalPlayer();
+        p = player;
         endOfTimer = (int) p.getRemainingTime();
-        		
+        
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 currentTimer--;
@@ -43,7 +43,7 @@ public class PlayerTimer {
         startTimer();
     }
 
-    public void startTimer(){
+	public void startTimer(){
     	p.startTime();
         timer.start();
     }
