@@ -36,9 +36,14 @@ public class King extends GamePiece {
     //TODO throw
         if (isDoingARook(to))
         {
+            System.out.println("en rook 1");
             justHaveRook = true;
         }
-        justHaveRook = false;
+        else
+        {
+             System.out.println("en non rook");
+            justHaveRook = false;
+        }
             getGame().playMove(new Move(getPosition(), to, this));
     
         position = to;
@@ -350,7 +355,7 @@ public boolean isDoingARook(Position to)
     @Override
 public boolean haveDoneARook()
 {
-   // System.out.println("non !!");
+    System.out.println("en have rook");
     return justHaveRook;
 }
 
