@@ -239,6 +239,10 @@ public class GameManager extends Manager implements GameManagerInterface {
 
         ArrayList<Game> gameList = new ArrayList<Game>();
 
+        if(fileList == null) {
+            return new ArrayList<Game>();
+        }
+
         for (int i = 0; i < fileList.length; i++) {
             if(fileList[i].startsWith("."))
                 continue;
