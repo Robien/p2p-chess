@@ -24,7 +24,7 @@ public class ComManager extends Manager implements ISender {
      * @param profile the profile of the current user
      * @param receiveListener the listener who will be notified
      */
-    public ComManager(ApplicationModel applicationModel) {
+    public ComManager(ApplicationModel applicationModel) throws Exception {
         super(applicationModel);
         this.applicationModel = applicationModel;
         this.connectionManager = new ConnectionManager(this);
