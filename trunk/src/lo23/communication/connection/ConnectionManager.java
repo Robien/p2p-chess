@@ -88,21 +88,27 @@ public class ConnectionManager implements ConnectionListener {
      * is a new connection.
      */
     public void sendMulticast() {
-        PublicProfile profile = comManager.getCurrentUserProfile();
-        MulticastInvit message = new MulticastInvit(profile);
-        HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
-        handler.sendMulticast(message);
+        if (comManager.getCurrentUserProfile() != null) {
+            PublicProfile profile = comManager.getCurrentUserProfile();
+            MulticastInvit message = new MulticastInvit(profile);
+            HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
+            handler.sendMulticast(message);
+        } else {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Send multicast without publicProfile");
+        }
     }
 
     /**
      * Function which answer to sendMultiCast().
      */
     private void replyMulticast(String ipAddress) {
-        //FIXME mettre ici le resizedImage
-        PublicProfile profile = comManager.getCurrentUserProfile();
-        MulticastAnswer message = new MulticastAnswer(profile);
-        HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
-        handler.send(message, ipAddress);
+        if ( comManager.getCurrentUserProfile() != null) {
+            //FIXME mettre ici le resizedImage
+            PublicProfile profile = comManager.getCurrentUserProfile();
+            MulticastAnswer message = new MulticastAnswer(profile);
+            HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
+            handler.send(message, ipAddress);
+        }
     }
 
     /**
@@ -342,9 +348,10 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedUDPMessage(Message message) {
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
-            if (!ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
+            if ( comManager.getCurrentUserProfile() != null &&
+                !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
                 replyMulticast(ipAddress);
-            }
+            }    
         } else if (message instanceof MulticastAnswer) {
             notifyMessage(message);
         }
