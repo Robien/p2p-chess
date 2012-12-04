@@ -306,7 +306,7 @@ public boolean isDoingARook(Position to)
 }
 
 //seulement si le dernier mouvement de cette piece est un rock
-public boolean haveDoneARook(Position to)
+public boolean haveDoneARook()
 {
    // System.out.println("non !!");
     return false;
