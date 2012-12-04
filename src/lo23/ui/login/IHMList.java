@@ -147,7 +147,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         javax.swing.JButton disconnectBtn = new javax.swing.JButton();
         reviewGamesBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

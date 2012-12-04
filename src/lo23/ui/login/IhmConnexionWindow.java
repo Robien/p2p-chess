@@ -6,6 +6,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -71,18 +73,22 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                try {
+                    //Instantiate DataManager
+                    ApplicationModel appModel = new ApplicationModel();
+                    appModel.setGameManager(new GameManager(appModel));
+                    appModel.setProfileManager(new ProfileManager(appModel));
+                    appModel.setComManager(new ComManager(appModel));
+                    //Instantiate IhmLoginModel
+                    IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
 
-                //Instantiate DataManager
-                ApplicationModel appModel = new ApplicationModel();
-                appModel.setGameManager(new GameManager(appModel));
-                appModel.setProfileManager(new ProfileManager(appModel));
-                appModel.setComManager(new ComManager(appModel));
-                //Instantiate IhmLoginModel
-                IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
-
-                // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
-                new IhmConnexionWindow(ihmLoginModel).setVisible(true);
-                ihmLoginModel.refreshProfileList();
+                    // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
+                    new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+                    ihmLoginModel.refreshProfileList();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
