@@ -18,6 +18,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import lo23.data.ApplicationModel;
+import lo23.data.Player;
 
 /**
  *
@@ -34,7 +35,7 @@ public class TimerPanel extends JPanel {
     JButton pause;
     JButton recovery;
 
-    public TimerPanel(ApplicationModel am) {
+    public TimerPanel(ApplicationModel am, Player p) {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(100,100));
         
@@ -46,7 +47,7 @@ public class TimerPanel extends JPanel {
         border = new LineBorder(new Color(255));
         setBorder(border);
 
-        playerTimer = new PlayerTimer(this, am);
+        playerTimer = new PlayerTimer(this, am, p);
         playerTimer.startTimer();
 
     }
