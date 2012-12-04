@@ -210,8 +210,14 @@ public class IhmLoginModel implements PropertyChangeListener{
                 p = profile;
                 pcs.firePropertyChange(ADD_PLAYER_CONNECTED, null, p);
             }
+            else{
+                //update info of p
+                listPlayers.updatePlayer(profile.getProfileId(), profile.getName(), profile.getFirstName(), getIconStatus(profile));
+            }
             //put p to list
             listProfileDate.put(p,new Date());
+            
+            
             
             
             System.out.println("Player : "+profile.getPseudo()+" added");
@@ -253,7 +259,7 @@ public class IhmLoginModel implements PropertyChangeListener{
         Set<PublicProfile> col = listProfileDate.keySet();
         for(PublicProfile p : col){
             Date currDate = listProfileDate.get(p);
-            if(now.getTime() - currDate.getTime() >= 30*1000){
+            if(now.getTime() - currDate.getTime() >= 3*1000){
                 //Remove profile from two list
                 listProfileDate.remove(p);
                 listPlayers.removePlayer(p.getProfileId());
@@ -377,6 +383,17 @@ public class IhmLoginModel implements PropertyChangeListener{
                 return Object.class;
             } else {
                 return o.getClass();
+            }
+        }
+        
+        public void updatePlayer(String id,String name,String firstname,ImageIcon ico){
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if (this.getValueAt(i, 0) == id) {
+                    this.setValueAt(name, i, 1);
+                    this.setValueAt(firstname,i,2);
+                    this.setValueAt(ico, i, 3);
+                    return;
+                }
             }
         }
 
