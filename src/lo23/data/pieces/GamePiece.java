@@ -296,5 +296,14 @@ public boolean isPawnTop()
    // System.out.println("non !!");
     return false;
 }
+
+
+public boolean isDoingARook(Position to)
+{
+   // System.out.println("non !!");
+    return false;
+}
+
+
 }
 
