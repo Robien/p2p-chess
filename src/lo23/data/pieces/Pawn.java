@@ -91,7 +91,7 @@ public class Pawn extends GamePiece {
            if(firstMove)
            {
                 //nobody (no a friend or an enemy) you can move
-                if (game.getPieceAtXY(x, y - 2) == null && !thereIsAnEnemyAt(x, y - 2))
+                if (game.getPieceAtXY(x, y - 2) == null &&  game.getPieceAtXY(x, y - 1) == null && !thereIsAnEnemyAt(x, y - 2))
                 {
                     positions.add(new Position(x, y - 2));
                 }
