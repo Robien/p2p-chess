@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -193,7 +194,9 @@ public class GamePanel extends JPanel {
 	                	isFormerPreSelectionExist = true;
 	                }
                 } else {
+                    if(formerPreSelection != null){
                 	listOfPreSelection.get(formerPreSelection).setVisible(false);
+                    }
                 }   
 			}
 
@@ -259,9 +262,13 @@ public class GamePanel extends JPanel {
             repaint();
         }
         isFormerSelectionExist = true;
-        for (Position possibleMove : listOfPossibleMove) {
-
+        
+        Iterator it = listOfPossibleMove.iterator();
+        int i = 0;
+        
+        while(it.hasNext() && i<listOfPossibleMove.size()) {
             GamePiece tempPiece = null;
+            Position possibleMove = listOfPossibleMove.get(i);
             if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
                 if (possibleMove.getX() == newSelection.getWX() && possibleMove.getY() == newSelection.getWY()) {
 
@@ -315,6 +322,8 @@ public class GamePanel extends JPanel {
                 
     
             }
+            i++;
+            it.next();
             hidePossibleCase();
         }
     }
@@ -419,7 +428,7 @@ public class GamePanel extends JPanel {
         // Check if the case is selectionable with pieces color...
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
     	if (listOfPiece.get(newSelection) != null) {
-    		if(!currentPiece.getPossibleMovesWithCheck().isEmpty()) {
+    		if(currentPiece != null && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
     				//&& currentPiece.getOwner().getColor() == playerColor 
     				//&& game.getLocalPlayer().getColor() == playerColor) {
     			return true;
