@@ -18,6 +18,7 @@ import lo23.data.Profile;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
@@ -49,7 +50,11 @@ public class GameManagerTest {
         String profileId = "MIchel";
         Profile p;
         try {
-//            p = app.getPManager().createProfile(profileId, "toto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+//            try {
+//                p = app.getPManager().createProfile(profileId, "toddto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
+//            } catch (ProfilePseudoAlreadyExistException ex) {
+//                Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+//            }
 
             if (app.getPManager().connection(profileId, fakePassword)) {
 
