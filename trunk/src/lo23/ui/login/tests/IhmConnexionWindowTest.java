@@ -38,10 +38,10 @@ public class IhmConnexionWindowTest extends UISpecTestCase {
         testInitialState();
         
         // Test de la connexion avec différentes valeurs erronées
-        testConnectionError();
+//        testConnectionError();
 
         // Test de la connexion avec différentes valeurs correctes
-        testConnectionCorrect();
+//        testConnectionCorrect();
         
     }
     

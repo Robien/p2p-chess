@@ -71,24 +71,25 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             @Override
             public void run() {
-                try {
-                    //Instantiate DataManager
-                    ApplicationModel appModel = new ApplicationModel();
-                    appModel.setGameManager(new GameManager(appModel));
-                    appModel.setProfileManager(new ProfileManager(appModel));
-                    appModel.setComManager(new ComManager(appModel));
-                    //Instantiate IhmLoginModel
-                    IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
+                //Instantiate DataManager
+                ApplicationModel appModel = new ApplicationModel();
+                appModel.setGameManager(new GameManager(appModel));
+                appModel.setProfileManager(new ProfileManager(appModel));
+                //Instantiate IhmLoginModel
+                IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
 
-                    // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
-                    new IhmConnexionWindow(ihmLoginModel).setVisible(true);
-                    ihmLoginModel.refreshProfileList();
+                try {
+                    appModel.setComManager(new ComManager(appModel));
                 } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception Game already running", JOptionPane.ERROR_MESSAGE);
                 }
+
+                // new IhmConnexionWindow_old(ihmLoginModel).setVisible(true);
+                new IhmConnexionWindow(ihmLoginModel).setVisible(true);
+                ihmLoginModel.refreshProfileList();
             }
         });
     }
@@ -117,6 +118,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
         jPanel1 = new javax.swing.JPanel() {
             // Création de l'image d'arrière plan
+
             @Override
             public void paint(Graphics g) {
                 URL backgroundPath = IhmConnexionWindow.class.getResource("/lo23/ui/resources/backgroundLogin.jpg");
@@ -129,7 +131,8 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                     super.paint(g);
                 }
             }
-        ;
+
+            ;
         };
         jPanel1.setOpaque(false);
 
@@ -156,6 +159,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
         // Listener
         connectBtn.addActionListener(new java.awt.event.ActionListener() {
+
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectBtnActionPerformed(evt);
@@ -163,6 +167,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         });
 
         registerBtn.addActionListener(new java.awt.event.ActionListener() {
+
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerBtnActionPerformed(evt);
@@ -171,6 +176,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
 
         loadProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadProfileBtnActionPerformed(evt);
@@ -181,45 +187,15 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .add(15, 15, 15)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                .add(jPanel1Layout.createSequentialGroup()
-                .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(jPanel1Layout.createSequentialGroup()
-                .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 101, Short.MAX_VALUE)
-                .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(20, 20, 20))
-                .add(jPanel1Layout.createSequentialGroup()
-                .add(128, 128, 128)
-                .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 132, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE)));
+                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup().add(15, 15, 15).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING).add(jPanel1Layout.createSequentialGroup().add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(jPanel1Layout.createSequentialGroup().add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 101, Short.MAX_VALUE).add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))).add(20, 20, 20)).add(jPanel1Layout.createSequentialGroup().add(128, 128, 128).add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 132, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(108, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(jPanel1Layout.createSequentialGroup()
-                .add(25, 25, 25)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 311, Short.MAX_VALUE)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(24, 24, 24)));
+                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(jPanel1Layout.createSequentialGroup().add(25, 25, 25).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 311, Short.MAX_VALUE).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(24, 24, 24)));
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         return jPanel1;
     }
@@ -234,7 +210,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         // Appel de la methode de connexion
         try {
             PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
-            boolean ret = ihmLoginModel.connect(selectedProfile,getPasswordField().getPassword());
+            boolean ret = ihmLoginModel.connect(selectedProfile, getPasswordField().getPassword());
             if (ret == false) {
                 JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -242,7 +218,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 this.setVisible(false);
                 this.dispose();
                 listWindow.setVisible(true);
-                
+
 
                 /**
                  * Only model must subscribe to Manager, not the view
@@ -256,7 +232,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 pm.subscribe(listWindow, IhmLoginModel.ADD_PLAYER_CONNECTED);
                 pm.subscribe(listWindow, IhmLoginModel.DELETE_PLAYER_DISCONNECTED);
                 pm.startProfilesDiscovery();
-                */
+                 */
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -311,8 +287,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
         } catch (ProfilePseudoAlreadyExistException ex) {
             importProfileWithPseudoUnicity(p);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -321,20 +296,18 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
      * While the id of profile p already exists, ask to user to change it.
      * @param p a profile to change
      */
-    private void importProfileWithNewId(Profile p){
+    private void importProfileWithNewId(Profile p) {
         try {
-           p.setProfileId(lo23.utils.RandomUUID.RandomStringUUID());
-           ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
-        }  
-        catch (ProfilePseudoAlreadyExistException ex) {
-           importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
-        } 
-        catch (Exception e){
-           e.printStackTrace();
-           JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+            p.setProfileId(lo23.utils.RandomUUID.RandomStringUUID());
+            ihmLoginModel.getApplicationModel().getPManager().createProfile(p.getProfileId(), p.getPseudo(), p.getPassword(), p.getStatus(), p.getIpAddress(), p.getAvatar(), p.getName(), p.getFirstName(), p.getAge());
+        } catch (ProfilePseudoAlreadyExistException ex) {
+            importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
-     }
-    
+    }
+
     /**
      * Méthode retournant le champ "login" du formulaire
      *

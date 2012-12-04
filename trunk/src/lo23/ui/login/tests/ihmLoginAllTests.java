@@ -18,10 +18,10 @@ public class ihmLoginAllTests {
         IhmConnexionWindowTest.main(args);
         
         System.out.println("\n----------------- TEST de IhmListGames ----------------\n");
-        IhmListGamesTest.main(args);
+//        IhmListGamesTest.main(args);
         
         System.out.println("\n----------------- TEST de IhmListPlayers ----------------\n");
-        IhmListPlayersTest.main(args);
+//        IhmListPlayersTest.main(args);
         
         System.out.println("\n----------------- TEST de IhmProfileWindow ----------------\n");
         IhmProfileWindowTest.main(args);
