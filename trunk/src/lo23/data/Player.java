@@ -18,10 +18,10 @@ import lo23.utils.Enums.COLOR;
 public class Player implements Serializable {
 
     private COLOR playerColor;
-    private long time = 0;
-    private long startTime = 0;
-    private long endTime = 0;
-    private long remainingTime = 0;
+    private long time = 0; // Temps de jeu déjà utilisé par le joueur
+    private long startTime = 0; // Temps début du tour
+    private long endTime = 0; // Temps fin du tou
+    private long remainingTime = 0; // Temps total aloué pour jouer
     private ArrayList<GamePiece> pieces;
     private PublicProfile publicProfile;
     
