@@ -78,6 +78,8 @@ public class GamePanel extends JPanel {
         super();
         myModel = model; 
         eventListener = new EventListener(this, myModel);
+        
+        // TO DO : Instancier PlayerColor en fonction du dernier évènement.
     }
  
     public GamePanel(ApplicationModel model, Game gm) {
@@ -239,7 +241,6 @@ public class GamePanel extends JPanel {
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
     	//if a case is already selected, the former selection disapears
-        playerColor = game.getLocalPlayer().getColor();
         if (isFormerSelectionExist) {
         	hidePossibleCase();
             listOfSelection.get(formerPositionSelected).setVisible(false);
@@ -360,6 +361,9 @@ public class GamePanel extends JPanel {
         
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
             // End of game   
+            System.out.append("CheckMate dude !");
+        } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
+            System.out.append("CheckMate dude !");
         }
          
         if (playerColor == COLOR.WHITE) {
@@ -435,8 +439,8 @@ public class GamePanel extends JPanel {
         // Check if the case is selectionable with pieces color...
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
     	if (listOfPiece.get(newSelection) != null) {
-    		if(currentPiece != null && !currentPiece.getPossibleMovesWithCheck().isEmpty()) {
-    				//&& currentPiece.getOwner().getColor() == playerColor 
+    		if(currentPiece != null && !currentPiece.getPossibleMovesWithCheck().isEmpty()
+    				&& currentPiece.getOwner().getColor() == playerColor) {
     				//&& game.getLocalPlayer().getColor() == playerColor) {
     			return true;
     		}
