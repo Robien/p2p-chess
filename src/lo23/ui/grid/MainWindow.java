@@ -170,24 +170,24 @@ public class MainWindow extends JFrame implements ActionListener {
         localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
         panel.add(localPlayerLostPieces, constraints);
 
-        //Chat panel
-//        constraints.insets = new Insets(50,50,0,0);
-        constraints.gridwidth = 6;
-		constraints.gridheight = 10;
-		constraints.gridx = 12;
-		constraints.gridy = 1;
+        
 
+       
+        //Chat panel
+        constraints.gridwidth = 8;
+        constraints.gridheight = 10;
+        constraints.gridx = 12;
+        constraints.gridy = 1;
         ChatPanel2 chatPanel = new ChatPanel2(myModel);
         panel.add(chatPanel, constraints);
         
-        //Review 
-       /*constraints.gridwidth = 6;
-       constraints.gridheight = 1;
-       constraints.gridx = 1;
-       constraints.gridy = 0;
+                //Review 
+       constraints.gridwidth = 1;
+       constraints.gridheight = 10;
+       constraints.gridx = 11;
+       constraints.gridy = 2;
        ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
-
-         panel.add(reviewPanel, constraints);*/
+       panel.add(reviewPanel, constraints);
              
         //Appels à des fins de test TODO : à retirer
         remotePlayerLostPieces.updateBox();
