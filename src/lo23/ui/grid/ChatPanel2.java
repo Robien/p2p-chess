@@ -23,6 +23,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Player;
+import lo23.utils.Enums;
 //import lo23.ui.grid.EventListener;
 
 /** 
@@ -35,7 +36,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
     Style defaultStyle;
     final Style localStyle;
     final Style remoteStyle;
-    final Style gameStyle;
+    Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
     EventListener eventListener; 
@@ -68,9 +69,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         StyleConstants.setFontFamily(remoteStyle, "serif");
         StyleConstants.setForeground(remoteStyle, Color.BLUE);
       
-        gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
-        StyleConstants.setForeground(gameStyle, Color.GRAY);
-        StyleConstants.setFontSize(gameStyle, 12);
+
 
                 // ajout d'un ecouteur de frappe du clavier sur le textField
         jTextField1.addKeyListener(new KeyAdapter() {
@@ -132,7 +131,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         });
 
         jTextPane1.setEditable(false);
-        jTextPane1.setBackground(new java.awt.Color(255, 255, 204));
+        jTextPane1.setBackground(new java.awt.Color(153, 153, 153));
         jTextPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTextPane1.setForeground(new java.awt.Color(102, 102, 102));
         jTextPane1.setToolTipText("");
@@ -244,6 +243,19 @@ public class ChatPanel2 extends javax.swing.JPanel {
         System.out.println("OK");
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
+            
+            if(mv.getPiece().getOwner().getColor() == Enums.COLOR.BLACK){
+                gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
+                StyleConstants.setForeground(gameStyle, Color.BLACK);
+                StyleConstants.setFontSize(gameStyle, 12);
+            }
+            else{
+                gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
+                StyleConstants.setForeground(gameStyle, Color.WHITE);
+                StyleConstants.setFontSize(gameStyle, 12);
+            }
+                
+                
                 // printing on screen
                 doc2.insertString(doc2.getLength(), "[" + getHeure() + "] "+ mv.toString() + "\n", gameStyle);
               //  jTextField1.setText("");
