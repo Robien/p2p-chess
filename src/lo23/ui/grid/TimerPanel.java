@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -48,13 +49,12 @@ public class TimerPanel extends JPanel {
         
         timer.setFont(new Font("Dialog", Font.BOLD, 15));
          border = new LineBorder(new Color(255));
-     
-       
-        setBorder(border);
+
+  //      setBorder(border);
 
         playerTimer = new PlayerTimer(this, am, p);
         playerTimer.startTimer();
-
+        
     }
 
     public JLabel getLabel(){

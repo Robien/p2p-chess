@@ -30,6 +30,7 @@ import lo23.data.Move;
 import lo23.data.Position;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
+import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 
@@ -350,22 +351,22 @@ public class GamePanel extends JPanel {
 
 
   //is Pawn Top
-        if (currentPiece.isPawnTop())
+        if (currentPiece != null && currentPiece.isPawnTop())
         {
              Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(currentPiece);
             try {
                 //create new Piece
-              
-                game.promotePawn(null,piece);
+              Pawn pawn = (Pawn) currentPiece;
+                game.promotePawn(pawn,piece);
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
           
-            //delete old label
-            formerPieceSelected.setVisible(false);
-            
-            listOfPiece.remove(currentPiece);
-            if (playerColor == COLOR.WHITE) 
+            //delete old label or replace with queen
+         /////   ????????????
+         
+         
+            if (playerColor == COLOR.BLACK) 
             {
                  switch(piece)
                  {
@@ -406,7 +407,7 @@ public class GamePanel extends JPanel {
     private void insertPiece(GamePiece currentPiece, String imagePath)
     {
 
-	 Position p = currentPiece.getPosition();
+       Position p = currentPiece.getPosition();
          
     
        constraints.gridx = p.getX();
@@ -416,7 +417,7 @@ public class GamePanel extends JPanel {
        JLabel WLabel = new JLabel("", image, JLabel.CENTER);
        add(WLabel, constraints, 2);
        listOfPiece.put(p, WLabel);
-     //   System.out.println(  "x=  " + p.getX() + "  y=  " + p.getY());           
+        System.out.println(  "x=  " + p.getX() + "  y=  " + p.getY());           
      //   listOfPiece.put(new Position(p.getX(),p.getY()), nWLabel);
     
 
@@ -436,7 +437,7 @@ public class GamePanel extends JPanel {
          positionFrom = new Position(move.getFrom().getWX(), move.getFrom().getWY());
         } else {
           constraints.gridx = move.getTo().getBX();
-        constraints.gridy = move.getTo().getBY();
+          constraints.gridy = move.getTo().getBY();
           positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
         
@@ -845,38 +846,49 @@ public class GamePanel extends JPanel {
     
      void play_sound(GamePiece currentPiece)
     {
-        MainWindow.chess_king.setVisible(false);
+       
+     
       if(Menu.get_noise_on())  
       {  
         
-            if( currentPiece != null && currentPiece.haveDoneARook())
+           
+             if (currentPiece != null && currentPiece.isCheckAndMat())
+            {
+                 new Launch_Sound("chess_mat.wav").play();
+            }
+            else if( currentPiece != null && currentPiece.haveDoneARook())
             {
                new Launch_Sound("chess_king.wav").play();
                MainWindow.chess_king.setVisible(true);
 
-            }
-            else if (currentPiece != null && currentPiece.isCheckAndMat())
-            {
-                 new Launch_Sound("chess_king.wav").play();
             }
             else if (currentPiece != null && currentPiece.isPawnTop())
             {
                  new Launch_Sound("question.wav").play();
 
             }
-    //        else if (currentPiece.isonRock())
-    //        {
-    //        
-    //        }
+            else if (currentPiece != null && currentPiece.haveDoneARook())
+            {
+                new Launch_Sound("roc.wav").play();
+            }
             else if(is_eat)
             {
                 new Launch_Sound("eat_piece.wav").play();
 
             }
-            else if(is_move)
+            else if( is_move)
             {
                 new Launch_Sound("move_piece.wav").play();
             }
+            else
+            {
+            
+            }
+            
+            
+            is_eat=false;
+            is_move=false;
+            MainWindow.chess_king.setVisible(false);
     
       }
     }
