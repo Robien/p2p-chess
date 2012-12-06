@@ -277,9 +277,9 @@ public class GamePanel extends JPanel {
         Iterator it = listOfPossibleMove.iterator();
    
         int i = 0;
-        
+       GamePiece tempPiece = null; 
         while(it.hasNext() && i<listOfPossibleMove.size()) {
-            GamePiece tempPiece = null;
+            
             Position possibleMove = listOfPossibleMove.get(i);
             if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
                 if (possibleMove.getX() == newSelection.getWX() && possibleMove.getY() == newSelection.getWY()) {
@@ -345,55 +345,55 @@ public class GamePanel extends JPanel {
          hidePossibleCase();
          
          
-        play_sound(currentPiece);
+        play_sound(tempPiece);
         
      //in updateBoard      
 
 
   //is Pawn Top
-        if (currentPiece != null && currentPiece.isPawnTop())
+        if (tempPiece != null && tempPiece.isPawnTop())
         {
-             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(currentPiece);
+             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
             try {
                 //create new Piece
-              Pawn pawn = (Pawn) currentPiece;
+              Pawn pawn = (Pawn) tempPiece;
                 game.promotePawn(pawn,piece);
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
           
-            //delete old label or replace with queen
-         /////   ????????????
-         
+            //delete old label 
+         ///
+          
          
             if (playerColor == COLOR.BLACK) 
             {
                  switch(piece)
                  {
-                     case KNIGHT:  insertPiece(currentPiece, "KW.png") ;    
+                     case KNIGHT:  insertPiece(tempPiece, "KW.png") ;    
                                     break;
-                     case BISHOP:  insertPiece(currentPiece, "BW.png") ;    
+                     case BISHOP:  insertPiece(tempPiece, "BW.png") ;    
                                     break;
-                     case QUEEN:  insertPiece(currentPiece, "QW.png") ;    
+                     case QUEEN:  insertPiece(tempPiece, "QW.png") ;    
                                     break;
-                     case ROOK:  insertPiece(currentPiece, "TW.png") ;    
+                     case ROOK:  insertPiece(tempPiece, "TW.png") ;    
                                     break;
-                     default : insertPiece(currentPiece, "QW.png"); 
+                     default : insertPiece(tempPiece, "QW.png"); 
                  }
             }
             else
             {
                  switch(piece)
                  {
-                     case KNIGHT:  insertPiece(currentPiece, "KB.png") ;    
+                     case KNIGHT:  insertPiece(tempPiece, "KB.png") ;    
                                     break;
-                     case BISHOP:  insertPiece(currentPiece, "BB.png") ;    
+                     case BISHOP:  insertPiece(tempPiece, "BB.png") ;    
                                     break;
-                     case QUEEN:  insertPiece(currentPiece, "QB.png") ;    
+                     case QUEEN:  insertPiece(tempPiece, "QB.png") ;    
                                     break;
-                     case ROOK:  insertPiece(currentPiece, "TB.png") ;    
+                     case ROOK:  insertPiece(tempPiece, "TB.png") ;    
                                     break;
-                     default : insertPiece(currentPiece, "QB.png"); 
+                     default : insertPiece(tempPiece, "QB.png"); 
                  }
                 
             }
