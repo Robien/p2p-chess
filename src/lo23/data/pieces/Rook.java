@@ -63,7 +63,7 @@ public class Rook extends GamePiece {
 
         //même fonctionement que le fou (bishop) mais en ligne droite
 
-        System.out.println(getPosition().getY());
+//        System.out.println(getPosition().getY());
 
         for (int i = 1; i < 8 && (xp || xm || yp || ym); i++)
         {
