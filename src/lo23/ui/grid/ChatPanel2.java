@@ -274,12 +274,14 @@ public class ChatPanel2 extends javax.swing.JPanel {
             
             if(mv.getPiece().getOwner().getColor() == Enums.COLOR.BLACK){
                 gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
-                StyleConstants.setForeground(gameStyle, Color.BLACK);
+                Color color_B = new Color(36,38,41);
+                StyleConstants.setForeground(gameStyle, color_B);
                 StyleConstants.setFontSize(gameStyle, 12);
             }
             else{
                 gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
-                StyleConstants.setForeground(gameStyle, Color.WHITE);
+                Color color_W = new Color(158,133,78);
+                StyleConstants.setForeground(gameStyle, color_W);
                 StyleConstants.setFontSize(gameStyle, 12);
             }
                 
