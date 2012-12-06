@@ -166,7 +166,7 @@ public class MainWindow extends JFrame implements ActionListener {
       
           
          //Grid
-        constraints.insets = new Insets(0,-200,0,0);
+        constraints.insets = new Insets(0,-180,0,0);
 		constraints.gridwidth = 10;
 		constraints.gridheight = 8;
 		constraints.gridx = 1;
@@ -175,7 +175,7 @@ public class MainWindow extends JFrame implements ActionListener {
           
           
             //Chat panel
-        constraints.insets = new Insets(0,650,0,0);
+        constraints.insets = new Insets(0,680,0,0);
         constraints.gridwidth = 10;
 	constraints.gridheight = 10;
 	constraints.gridx = 0;
@@ -207,7 +207,7 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.add(localPlayerPanel, constraints,0);
 
         //Timer remote Player
-        constraints.insets = new Insets(-600,-500,0,0);
+        constraints.insets = new Insets(-570,-850,0,0);
         constraints.gridwidth = 10;
 	constraints.gridheight = 10;
 	constraints.gridx = 0;
@@ -229,7 +229,7 @@ public class MainWindow extends JFrame implements ActionListener {
 //        
 
 //       Timer player local 
-        constraints.insets = new Insets(600,-500,0,0);
+        constraints.insets = new Insets(570,-850,0,0);
         constraints.gridwidth = 10;
 	constraints.gridheight = 10;
 	constraints.gridx = 0;

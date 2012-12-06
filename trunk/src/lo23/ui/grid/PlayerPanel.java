@@ -12,6 +12,7 @@
 package lo23.ui.grid;
 
 import java.awt.Image;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
@@ -39,7 +40,9 @@ public class PlayerPanel extends javax.swing.JPanel {
 
         
           avatar.setIcon(new javax.swing.ImageIcon(getClass().getResource(image))); // NOI18N
-    
+     this.setOpaque(false);
+     this.setBorder(BorderFactory.createTitledBorder(""));
+    // this.setBorder(border);
     }
 
     public PlayerPanel(ApplicationModel model) {
