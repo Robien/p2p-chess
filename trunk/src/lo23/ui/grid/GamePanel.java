@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,7 +28,9 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 
 
@@ -34,11 +38,11 @@ import lo23.utils.Enums.COLOR;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
-	private ApplicationModel myModel;
-	private Game game;
-	private GamePiece[][] board;
-	private EventListener eventListener;
-	private BorderLayout borderLayout;
+    private ApplicationModel myModel;
+    private Game game;
+    private GamePiece[][] board;
+    private EventListener eventListener;
+    private BorderLayout borderLayout;
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
       
@@ -72,6 +76,10 @@ public class GamePanel extends JPanel {
     COLOR playerColor; 
     boolean secondClickIsAllowed = false;
     
+    
+    //sound
+    boolean is_eat;
+    boolean is_move;
    
    
     public GamePanel(ApplicationModel model){
@@ -100,6 +108,7 @@ public class GamePanel extends JPanel {
         game = gm;
         board = gm.getBoard();
         playerColor = color;
+
 
         build();
     }
@@ -279,13 +288,14 @@ public class GamePanel extends JPanel {
                             eatPiece(newSelection);
                         }
                         //Eat Sound
-                        if (Menu.get_noise_on()) {
-                            new Launch_Sound("eat_piece.wav").play();
-                        }
+                        is_eat = true;
+                        is_move = false;
 
-                    } else if (Menu.get_noise_on()) {
-                        //displacement sound
-                        new Launch_Sound("move_piece.wav").play();
+                    } 
+                    else
+                    {
+                        is_eat =false;
+                        is_move = true;
                     }
 
                     //Update model
@@ -302,14 +312,16 @@ public class GamePanel extends JPanel {
                             if (game.getPieceAtXY(newSelection.getBX(), newSelection.getBY()).getOwner().getColor() != playerColor) {
                                 eatPiece(newSelection);
                             }
+                        
                             //Eat Sound
-                            if (Menu.get_noise_on()) {
-                                new Launch_Sound("eat_piece.wav").play();
-                            }
+                           is_eat = true;
+                           is_move = false;
 
-                        } else if (Menu.get_noise_on()) {
-                            //displacement sound
-                            new Launch_Sound("move_piece.wav").play();
+                        } 
+                        else
+                        {
+                            is_eat =false;
+                            is_move = true;
                         }
 
                         //Update model
@@ -330,6 +342,84 @@ public class GamePanel extends JPanel {
         }
         
          hidePossibleCase();
+         
+         
+        play_sound(currentPiece);
+        
+     //in updateBoard      
+
+
+  //is Pawn Top
+        if (currentPiece.isPawnTop())
+        {
+             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(currentPiece);
+            try {
+                //create new Piece
+              
+                game.promotePawn(null,piece);
+            } catch (UndefinedGamePieceException ex) {
+                Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          
+            //delete old label
+            formerPieceSelected.setVisible(false);
+            
+            listOfPiece.remove(currentPiece);
+            if (playerColor == COLOR.WHITE) 
+            {
+                 switch(piece)
+                 {
+                     case KNIGHT:  insertPiece(currentPiece, "KW.png") ;    
+                                    break;
+                     case BISHOP:  insertPiece(currentPiece, "BW.png") ;    
+                                    break;
+                     case QUEEN:  insertPiece(currentPiece, "QW.png") ;    
+                                    break;
+                     case ROOK:  insertPiece(currentPiece, "TW.png") ;    
+                                    break;
+                     default : insertPiece(currentPiece, "QW.png"); 
+                 }
+            }
+            else
+            {
+                 switch(piece)
+                 {
+                     case KNIGHT:  insertPiece(currentPiece, "KB.png") ;    
+                                    break;
+                     case BISHOP:  insertPiece(currentPiece, "BB.png") ;    
+                                    break;
+                     case QUEEN:  insertPiece(currentPiece, "QB.png") ;    
+                                    break;
+                     case ROOK:  insertPiece(currentPiece, "TB.png") ;    
+                                    break;
+                     default : insertPiece(currentPiece, "QB.png"); 
+                 }
+                
+            }
+                
+          
+            
+        }
+    }
+    
+    
+    private void insertPiece(GamePiece currentPiece, String imagePath)
+    {
+
+	 Position p = currentPiece.getPosition();
+         
+    
+       constraints.gridx = p.getX();
+       constraints.gridy = 7- p.getY();            
+
+       ImageIcon image = new ImageIcon(path + "lo23/ui/resources/" + imagePath);
+       JLabel WLabel = new JLabel("", image, JLabel.CENTER);
+       add(WLabel, constraints, 2);
+       listOfPiece.put(p, WLabel);
+     //   System.out.println(  "x=  " + p.getX() + "  y=  " + p.getY());           
+     //   listOfPiece.put(new Position(p.getX(),p.getY()), nWLabel);
+    
+
     }
       
     public void updateBoard(Move move){
@@ -378,6 +468,9 @@ public class GamePanel extends JPanel {
         
         // TO DO : Check end of game
         //System.out.println(listOfPiece);  
+        
+        
+        
     }
     
     public void updateReviewBoard(Move move){
@@ -749,4 +842,42 @@ public class GamePanel extends JPanel {
     }
 
 
+    
+     void play_sound(GamePiece currentPiece)
+    {
+        MainWindow.chess_king.setVisible(false);
+      if(Menu.get_noise_on())  
+      {  
+        
+            if( currentPiece != null && currentPiece.haveDoneARook())
+            {
+               new Launch_Sound("chess_king.wav").play();
+               MainWindow.chess_king.setVisible(true);
+
+            }
+            else if (currentPiece != null && currentPiece.isCheckAndMat())
+            {
+                 new Launch_Sound("chess_king.wav").play();
+            }
+            else if (currentPiece != null && currentPiece.isPawnTop())
+            {
+                 new Launch_Sound("question.wav").play();
+
+            }
+    //        else if (currentPiece.isonRock())
+    //        {
+    //        
+    //        }
+            else if(is_eat)
+            {
+                new Launch_Sound("eat_piece.wav").play();
+
+            }
+            else if(is_move)
+            {
+                new Launch_Sound("move_piece.wav").play();
+            }
+    
+      }
+    }
 }

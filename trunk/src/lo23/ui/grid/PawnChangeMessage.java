@@ -13,6 +13,7 @@ import lo23.data.pieces.Knight;
 import lo23.data.pieces.Pawn;
 import lo23.data.pieces.Queen;
 import lo23.data.pieces.Rook;
+import lo23.utils.Enums.PROMOTED_PIECES_TYPES;
 
 /** Message Box for paw tranformation
  * this class provides a personnal managment of the paw tranformation.
@@ -21,6 +22,8 @@ import lo23.data.pieces.Rook;
  */
 
 public class PawnChangeMessage{
+
+    
     private String path = getClass().getClassLoader().getResource(".").getPath();
     Pawn pawn;
     public PawnChangeMessage(Pawn p) {
@@ -31,22 +34,28 @@ public class PawnChangeMessage{
      * Affichage de la fenêtre de message personnalisée
      * @return GamePiece the piece that will replace our pawn
      */
-    public GamePiece display(){
-    String[] pieces = {"Knight", "Bishop", "Queen", "Rook"};
+    
+    
+    static PROMOTED_PIECES_TYPES display(GamePiece currentPiece) 
+    {
+        String[] pieces = {"Knight", "Bishop", "Queen", "Rook"};
       
     // Message creation
     JOptionPane jop = new JOptionPane();
     int rang = jop.showOptionDialog(null, "Transformer le pion en : ", "Pawn", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
       null, pieces, pieces[3]);
     
-    switch(rang){
-        case 0 : return (new Knight(pawn.getPosition(), pawn.getOwner(), pawn.getGame()));
-        case 1 : return (new Bishop(pawn.getPosition(), pawn.getOwner(), pawn.getGame()));
-        case 2 : return (new Queen(pawn.getPosition(), pawn.getOwner(), pawn.getGame()));
-        case 3 : return (new Rook(pawn.getPosition(), pawn.getOwner(), pawn.getGame()));
-        default: return pawn; // There's no reason to pass here, but it could be safer to do this
+        switch(rang)
+        {
+            case 0 : return PROMOTED_PIECES_TYPES.KNIGHT;
+            case 1 : return PROMOTED_PIECES_TYPES.BISHOP;
+            case 2 : return PROMOTED_PIECES_TYPES.QUEEN;
+            case 3 : return PROMOTED_PIECES_TYPES.ROOK;
+            default: return PROMOTED_PIECES_TYPES.QUEEN; // There's no reason to pass here, but it could be safer to do this
+        }
     }
-  }
+    
+  
 }
 
 /*

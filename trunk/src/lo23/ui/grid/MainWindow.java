@@ -8,18 +8,28 @@ package lo23.ui.grid;
  *
  * @author Karim
  */
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,7 +39,9 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.LineBorder;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Player;
@@ -41,15 +53,19 @@ public class MainWindow extends JFrame implements ActionListener {
     Game game;
     PiecesBox remotePlayerLostPieces;
     PiecesBox localPlayerLostPieces;
+    public static JLabel chess_king;
+    public String path = getClass().getClassLoader().getResource(".").getPath();
+ 
+        
     
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
-    
+    //new javax.swing.ImageIcon(getClass().getResource("/lo23/ui/resources/gamer1.png")))
     public MainWindow(ApplicationModel m) {
         super();
 
-        //Launch the Sound
-//       during_party = new Launch_Sound("chess.wav");
-//       during_party.play();
+        
+        
+      
 
 
         myModel = m;
@@ -64,7 +80,7 @@ public class MainWindow extends JFrame implements ActionListener {
        //Launch the Sound
 //       during_party = new Launch_Sound("chess.wav");
 //       during_party.play();
-   
+  
        
         myModel = m;
         game = gm;
@@ -82,23 +98,44 @@ public class MainWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
       
         setContentPane(buildContentPanel());
-      
-        //create the Menu	 
-     
-        
+       
+      try {
+    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+            UIManager.setLookAndFeel(info.getClassName());
+            break;
+        }
+    }
+} catch (Exception e) {
+    // If Nimbus is not available, you can set the GUI to another look and feel.
+}
+
         Menu menu = new Menu(this);
         
      }
     
-    private JPanel buildContentPanel() {
+ private JPanel buildContentPanel() 
+    {
+    JPanel panel = new JPanel();
 
-        //Global Panel
-        JPanel panel = new JPanel();
+     
+        
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel.setLayout(gridBagLayout);
+//        
+//        panel.setBorder(new LineBorder(Color.WHITE, 5));
+     //   panel.setBackground(fond);
+
+         
+    //      JLabel image = new JLabel( new ImageIcon(path + "lo23/ui/resources/backgroundLogin.jpg"));
+     
+     //     panel.setLayout(new BorderLayout());
+    //    panel.setBackground(image);
         
-        panel.setBackground(fond);
-//  
+    //    BackgroundPanel bb = new BackgroundPanel();
+   //     panel.add(bb);
+       
+       
         GridBagConstraints constraints = new GridBagConstraints();
         final GamePanel gamePanel = new GamePanel(myModel, game);
 
@@ -106,99 +143,149 @@ public class MainWindow extends JFrame implements ActionListener {
 
         //The panel is a grid of 6*8 squares
 
+       
         //remote player
-        constraints.insets = new Insets(10,10,10,10);
+  //      constraints.insets = new Insets(10,10,10,10);
         constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.gridwidth = 2;
-		constraints.gridheight = 2;
-		constraints.gridx = 1;
-		constraints.gridy = 0;
+    //    constraints.anchor = GridBagConstraints.CENTER;
+
         
-        PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-        panel.add(remotePlayerPanel, constraints);
-        //   PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-
-        constraints.gridwidth = 2;
-		constraints.gridheight = 2;
-		constraints.gridx = 3;
-		constraints.gridy = 0;
-
-        TimerPanel timerPanelRemotePlayer = new TimerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
-        panel.add(timerPanelRemotePlayer, constraints);
+      
         
-        constraints.gridwidth = 2;
-        constraints.gridheight = 2;
-        constraints.gridx = 5;
-        constraints.gridy = 0;
-        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
-        panel.add(remotePlayerLostPieces, constraints);
-
-        //Grid
-        constraints.insets = new Insets(0,0,0,0);
-		constraints.gridwidth = 8;
+        //Background
+//        constraints.insets = new Insets(50,50,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+        
+    
+          JLabel image = new JLabel( new ImageIcon(path + "lo23/ui/resources/wood.png"));
+          panel.add(image,constraints, -1);
+      
+      
+          
+         //Grid
+        constraints.insets = new Insets(0,-200,0,0);
+		constraints.gridwidth = 10;
 		constraints.gridheight = 8;
 		constraints.gridx = 1;
 		constraints.gridy = 2;
-        panel.add(gamePanel, constraints);
+        panel.add(gamePanel, constraints,0);
+          
+          
+            //Chat panel
+        constraints.insets = new Insets(0,650,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+       
+        ChatPanel2 chatPanel = new ChatPanel2(myModel);
+        panel.add(chatPanel, constraints,1);
+          
+        //remote player
+        constraints.insets = new Insets(-435,-850,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+        PlayerPanel remotePlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer(),"/lo23/ui/resources/gamer1.png");
+  
+        panel.add(remotePlayerPanel, constraints,0);
+        
         
         //local player
-        constraints.insets = new Insets(10,10,10,10);
-        constraints.gridwidth = 2;
-		constraints.gridheight = 2;
-		constraints.gridx = 1;
-		constraints.gridy = 10;
+        constraints.insets = new Insets(435,-850,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
         
-        PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer());
+        PlayerPanel localPlayerPanel = new PlayerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer(),"/lo23/ui/resources/gamer2.png");
         // PlayerPanel localPlayerPanel = new PlayerPanel(myModel);
-        panel.add(localPlayerPanel, constraints);
-        
-        constraints.gridwidth = 2;
-		constraints.gridheight = 2;
-		constraints.gridx = 3;
-		constraints.gridy = 10;
+        panel.add(localPlayerPanel, constraints,0);
 
+        //Timer remote Player
+        constraints.insets = new Insets(-600,-500,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+        TimerPanel timerPanelRemotePlayer = new TimerPanel(myModel, myModel.getGManager().getCurrentGame().getRemotePlayer());
+        panel.add(timerPanelRemotePlayer, constraints);
+        
+        
+        //Piecebox remote Player
+        constraints.insets = new Insets(200,200,800,200);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
+        panel.add(remotePlayerLostPieces, constraints,0);
+//
+   
+//        
+
+//       Timer player local 
+        constraints.insets = new Insets(600,-500,0,0);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
         TimerPanel timerPanelLocalPlayer = new TimerPanel(myModel, myModel.getGManager().getCurrentGame().getLocalPlayer());
         panel.add(timerPanelLocalPlayer, constraints);
         
-        constraints.gridwidth = 2;
-        constraints.gridheight = 2;
-        constraints.gridx = 5;
-        constraints.gridy = 10;
         
+//       Piecebox local player
+        constraints.insets = new Insets(200,200,-380,200);
+        constraints.gridwidth = 10;
+	constraints.gridheight = 10;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
 //        constraints.fill = GridBagConstraints.BOTH ;
         localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
-        panel.add(localPlayerLostPieces, constraints);
+        panel.add(localPlayerLostPieces, constraints,0);
 
         
-
-       
-        //Chat panel
-        constraints.gridwidth = 8;
-        constraints.gridheight = 10;
-        constraints.gridx = 12;
-        constraints.gridy = 1;
-        ChatPanel2 chatPanel = new ChatPanel2(myModel);
-        panel.add(chatPanel, constraints);
-        
-                //Review 
-       constraints.gridwidth = 1;
-       constraints.gridheight = 10;
-       constraints.gridx = 11;
-       constraints.gridy = 2;
+          //Review 
+       /*constraints.gridwidth = 6;
+       constraints.gridheight = 1;
+       constraints.gridx = 1;
+       constraints.gridy = 0;
        ReviewPanel reviewPanel = new ReviewPanel(myModel, chatPanel, gamePanel);
-       panel.add(reviewPanel, constraints);
+
+         panel.add(reviewPanel, constraints);*/
              
         //Appels à des fins de test TODO : à retirer
-        remotePlayerLostPieces.updateBox();
-        localPlayerLostPieces.updateBox();
+ //       remotePlayerLostPieces.updateBox();
+ //       localPlayerLostPieces.updateBox();
          
+        
+        constraints.insets = new Insets(250,-750,100,0); 
+        constraints.gridwidth = 12;
+	constraints.gridheight = 12;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+        
+    //chess king picture
+          chess_king = new JLabel( new ImageIcon(path + "lo23/ui/resources/chess_king2.png"));
+          panel.add(chess_king,constraints,3);
+          chess_king.setVisible(false);
+          
+          
+      
         return panel;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
     }
+    
+    
+  
      
 }
