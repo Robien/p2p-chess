@@ -38,7 +38,7 @@ public class PawnChangeMessage{
     
     static PROMOTED_PIECES_TYPES display(GamePiece currentPiece) 
     {
-        String[] pieces = {"Knight", "Bishop", "Queen", "Rook"};
+        String[] pieces = {"Knight", "Bishop", "Rook", "Queen"};
       
     // Message creation
     JOptionPane jop = new JOptionPane();
@@ -49,8 +49,8 @@ public class PawnChangeMessage{
         {
             case 0 : return PROMOTED_PIECES_TYPES.KNIGHT;
             case 1 : return PROMOTED_PIECES_TYPES.BISHOP;
-            case 2 : return PROMOTED_PIECES_TYPES.QUEEN;
-            case 3 : return PROMOTED_PIECES_TYPES.ROOK;
+            case 2 : return PROMOTED_PIECES_TYPES.ROOK;
+            case 3 : return PROMOTED_PIECES_TYPES.QUEEN;
             default: return PROMOTED_PIECES_TYPES.QUEEN; // There's no reason to pass here, but it could be safer to do this
         }
     }
