@@ -8,6 +8,7 @@ package lo23.ui.grid;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -44,7 +45,11 @@ public class TimerPanel extends JPanel {
         timer = new JLabel();
         add(timer, BorderLayout.NORTH);
 
-        border = new LineBorder(new Color(255));
+        
+        timer.setFont(new Font("Dialog", Font.BOLD, 15));
+         border = new LineBorder(new Color(255));
+     
+       
         setBorder(border);
 
         playerTimer = new PlayerTimer(this, am, p);

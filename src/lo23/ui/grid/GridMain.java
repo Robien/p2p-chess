@@ -70,7 +70,7 @@ public class GridMain
                 myModel = new ApplicationModel();
                 myModel.setGameManager(new GameManager(myModel));
                 myModel.setProfileManager(new ProfileManager(myModel));
-                myModel.setComManager(new ComManager(myModel));
+         //       myModel.setComManager(new ComManager(myModel));
 
                 char[] fakePassword =
                 {
