@@ -159,6 +159,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
         jTextPane1.setMaximumSize(new java.awt.Dimension(6, 20));
         jScrollPane1.setViewportView(jTextPane1);
 
+        jTextField1.setDisabledTextColor(new java.awt.Color(204, 0, 0));
+
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setText("Send");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
