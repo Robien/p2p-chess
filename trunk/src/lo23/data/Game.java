@@ -187,6 +187,8 @@ public class Game implements Serializable {
         }
 
         board[px][py] = np;
+        pawn.getOwner().addPiece(np);
+        
         return np;
     }
 
