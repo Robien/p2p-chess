@@ -224,11 +224,9 @@ public class GamePanel extends JPanel {
     }
     
     private void receiveSelectedCase(int x, int y){ 
-    	
-    	
+    		
     	System.out.println(myModel.getGManager().getCurrentGame().getBoard());
-    	
-    	
+
     	constraints.insets = new Insets(0, 0, 0, 0);
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
@@ -240,10 +238,8 @@ public class GamePanel extends JPanel {
         
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             currentPiece = game.getPieceAtXY(newSelection.getWX(), newSelection.getWY());
-
         } else {
             currentPiece = game.getPieceAtXY(newSelection.getBX(), newSelection.getBY());
-
         }
 
     	if (isCaseSelectionable(newSelection, currentPiece)) {
@@ -274,80 +270,37 @@ public class GamePanel extends JPanel {
         //if a case is already selected, the former selection disapears
         if (isFormerSelectionExist) {
             listOfSelection.get(formerPositionSelected).setVisible(false);
-            repaint();
         }
         isFormerSelectionExist = true;
         
-        Iterator it = listOfPossibleMove.iterator();
-   
-        int i = 0;
-       GamePiece tempPiece = currentPiece;
-       
-        while(it.hasNext() && i<listOfPossibleMove.size()) {
-           // tempPiece = null;
-            Position possibleMove = listOfPossibleMove.get(i);
-            if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
-                if (possibleMove.getX() == newSelection.getWX() && possibleMove.getY() == newSelection.getWY()) {
-
-                    if (game.getPieceAtXY(newSelection.getWX(), newSelection.getWY()) != null) {
-                        if (game.getPieceAtXY(newSelection.getWX(), newSelection.getWY()).getOwner().getColor() != playerColor) {
-                            eatPiece(newSelection);
-                        }
-                        //Eat Sound
-                        is_eat = true;
-                        is_move = false;
-
-                    } 
-                    else {
-                        is_eat =false;
-                        is_move = true;
-                    }
-
-                    //Update model
-                    tempPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
-//                    System.out.println("type pi�ce : " + tempPiece.getClass().getName());
-//                    System.out.println("model position : " + newSelection.toString());
-
-                    Move move = myModel.getGManager().createMove(new Position(newSelection.getWX(), newSelection.getWY()), tempPiece);
-                    myModel.getGManager().playMove(move);
-                } else {
-                    if (possibleMove.getX() == newSelection.getBX() && possibleMove.getY() == newSelection.getBY()) {
-
-                        if (game.getPieceAtXY(newSelection.getBX(), newSelection.getBY()) != null) {
-                            if (game.getPieceAtXY(newSelection.getBX(), newSelection.getBY()).getOwner().getColor() != playerColor) {
-                                eatPiece(newSelection);
-                            }
-                            //Eat Sound
-                           is_eat = true;
-                           is_move = false;
-                        } 
-                        else {
-                            is_eat = false;
-                            is_move = true;
-                        }
-
-                        //Update model
-                        tempPiece = game.getPieceAtXY(formerPositionSelected.getBX(), formerPositionSelected.getBY());
-//                        System.out.println("type piece : " + tempPiece.getClass().getName());
-//                        System.out.println("model position : " + newSelection.toString());
-  
-                        Move move = myModel.getGManager().createMove(new Position(newSelection.getWX(), newSelection.getWY()), tempPiece);
-                        myModel.getGManager().playMove(move);
-                    }
-                }       
-            }
-            i++;
-            it.next();
-           
+        GamePiece tempPiece = currentPiece;
+        
+        for (Position p : listOfPossibleMove){
+        	//if selected position is playable
+        	if (p.getX() == newSelection.getX() && p.getY() == 7 - newSelection.getY()) {
+        		tempPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
+        		//if a piece is already here
+        		if (tempPiece != null) {
+        			if (tempPiece.getOwner().getColor() != playerColor) {
+        				eatPiece(newSelection);
+        			}
+        			//Eat Sound
+        			is_eat = true;
+        			is_move = false;
+        		} else {
+        			is_eat =false;
+        			is_move = true;
+        		}
+        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
+        		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
+        		myModel.getGManager().playMove(move);
+        	}
         }
+            
         hidePossibleCase();
         play_sound(tempPiece);
         
-     //in updateBoard      
-
-        
-  //is Pawn Top
-       
+        //is Pawn Top
         if (tempPiece != null && tempPiece.isPawnTop()) {
             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
             try {
@@ -357,10 +310,7 @@ public class GamePanel extends JPanel {
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-          
-            
-          
-         
+
             if (playerColor == COLOR.BLACK) 
             {
                  switch(piece)
@@ -389,12 +339,8 @@ public class GamePanel extends JPanel {
                      case ROOK:  insertPiece(newSelection, "TB.png") ;    
                                     break;
                      default : insertPiece(newSelection, "QB.png"); 
-                 }
-                
-            }
-                
-          
-            
+                 }   
+            } 
         }
     }
     
@@ -554,7 +500,7 @@ public class GamePanel extends JPanel {
                listOfSquare.get(new Position(p.getBX(),p.getBY())).setVisible(true);
            }
         	
-            listOfPossibleMove.add(p);
+           listOfPossibleMove.add(p);
         }
     }
     
