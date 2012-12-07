@@ -281,9 +281,10 @@ public class GamePanel extends JPanel {
         Iterator it = listOfPossibleMove.iterator();
    
         int i = 0;
-       GamePiece tempPiece = null; 
+       GamePiece tempPiece = currentPiece;
+       
         while(it.hasNext() && i<listOfPossibleMove.size()) {
-            
+           // tempPiece = null;
             Position possibleMove = listOfPossibleMove.get(i);
             if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
                 if (possibleMove.getX() == newSelection.getWX() && possibleMove.getY() == newSelection.getWY()) {
@@ -344,8 +345,9 @@ public class GamePanel extends JPanel {
         
      //in updateBoard      
 
-
+        
   //is Pawn Top
+       
         if (tempPiece != null && tempPiece.isPawnTop()) {
             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
             try {
@@ -356,8 +358,7 @@ public class GamePanel extends JPanel {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
           
-            //delete old label 
-         ///
+            
           
          
             if (playerColor == COLOR.BLACK) 
@@ -853,7 +854,7 @@ public class GamePanel extends JPanel {
             {
                  new Launch_Sound("chess_mat.wav").play();
             }
-            else if( currentPiece != null && currentPiece.haveDoneARook())
+            else if( currentPiece != null && currentPiece.isOncheck())
             {
                new Launch_Sound("chess_king.wav").play();
                MainWindow.chess_king.setVisible(true);
