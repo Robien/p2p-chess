@@ -243,7 +243,7 @@ import javax.swing.UnsupportedLookAndFeelException;
             + "\n\n\nFor more informations, please follow this link : http://en.wikipedia.org/wiki/Rules_of_chess"
             + "\n   \n"
     ,"Rules of Chess",
-            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/KW.png"));
+            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/rules.png"));
             }  
       }
       
