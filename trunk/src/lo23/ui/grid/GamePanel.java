@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
@@ -394,11 +395,25 @@ public class GamePanel extends JPanel {
         }
         add(currentPiece, constraints, 0);
         
-        if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
+        if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
             // End of game   
 //            System.out.append("CheckMate dude !");
+            JOptionPane d = new JOptionPane();
+            int retour = d.showConfirmDialog(this, myModel.getGManager().getCurrentGame().getRemotePlayer().getPublicProfile().getPseudo() + "won ! You can still use the chat, please press quit button to leave this game.", "OK", JOptionPane.YES_NO_OPTION);
+
+            if (retour == 0) { 
+                System.out.println("OK");
+
+            }
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
 //            System.out.append("CheckMate dude !");
+            JOptionPane d = new JOptionPane();
+            int retour = d.showConfirmDialog(this, myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo() + "won ! You can still use the chat, please press quit button to leave this game.", "OK", JOptionPane.YES_NO_OPTION);
+
+            if (retour == 0) { 
+                System.out.println("OK");
+
+            }
         }
          
         if (playerColor == COLOR.WHITE) {
