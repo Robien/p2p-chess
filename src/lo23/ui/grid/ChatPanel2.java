@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -223,7 +224,15 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JOptionPane d = new JOptionPane();
-        int retour = d.showConfirmDialog(this,"Do you really want to propose a draw ?","Drawing",JOptionPane.YES_NO_OPTION);
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(this, 
+        "Do you really want to propose a draw ?",
+        "Drawing",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/time_chess.png"),
+        choice,
+        choice[1]);
 
         if(retour == 0){ // oui je veux proposer la nulle
             System.out.println("je veux proposer la nulle");
@@ -326,7 +335,16 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JOptionPane d = new JOptionPane();
-        int retour = d.showConfirmDialog(this,"Do you want to save the game in order to resume it next ?","Saving",JOptionPane.YES_NO_OPTION);
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(this, 
+        "Do you want to save the game in order to resume it next ?",
+        "Saving",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/chess_icon.png"),
+        choice,
+        choice[1]);
+      //  int retour = d.showConfirmDialog(this,"Do you want to save the game in order to resume it next ?","Saving",JOptionPane.YES_NO_OPTION);
 
         if(retour == 0){ // oui je veux proposer la sauvegarde
             System.out.println(retour);
