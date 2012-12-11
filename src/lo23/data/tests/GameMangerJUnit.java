@@ -18,10 +18,6 @@ import lo23.data.managers.ProfileManager;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.STATUS;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -39,15 +35,6 @@ public class GameMangerJUnit {
     public GameMangerJUnit() {        
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
     public void setUp() {
         app = new ApplicationModel();
         app.setGameManager(new GameManager(app));
@@ -71,7 +58,6 @@ public class GameMangerJUnit {
 
     }
     
-    @After
     public void tearDown() {
     }
 
