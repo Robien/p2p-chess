@@ -4,101 +4,47 @@
  */
 package lo23.data.tests;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import lo23.data.ApplicationModel;
-import lo23.data.Constant;
+import junit.framework.TestCase;
 import lo23.data.Game;
-import lo23.data.Move;
-import lo23.data.NewInvitation;
-import lo23.data.Position;
-import lo23.data.Profile;
-import lo23.data.exceptions.FileNotFoundException;
-import lo23.data.exceptions.IllegalMoveException;
-import lo23.data.exceptions.NoIdException;
-import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
-import lo23.data.exceptions.WrongInvitation;
-import lo23.data.exceptions.WrongInvitation;
-import lo23.data.managers.GameManager;
-import lo23.data.managers.ProfileManager;
+import lo23.data.Player;
+import lo23.data.PublicProfile;
 import lo23.utils.Enums;
-import lo23.utils.Enums.PLAYER_RESULT;
+import lo23.utils.Enums.COLOR;
 
 /**
  *
  * @author ksadorf
  */
-public class GameManagerTest {
+public class GameManagerTest extends TestCase {
 
-    static public void main(String[] args) throws IOException, NoIdException {
-        getListAllGame();
+    private Game game;
+
+
+    public GameManagerTest() {
+        super();
+
+        initializeAttributes();
     }
 
-    static private void getListAllGame() throws IOException, NoIdException {
-        ApplicationModel app;
-        Profile pGuest;
-        NewInvitation inv;
-        Game gm;
+    public GameManagerTest(String str) {
+        super(str);
 
-        app = new ApplicationModel();
-        app.setGameManager(new GameManager(app));
-        app.setProfileManager(new ProfileManager(app));
-
-        char[] fakePassword = {};
-        String profileId = "MIchel";
-        Profile p;
-        try {
-//            try {
-//                p = app.getPManager().createProfile(profileId, "toddto", fakePassword, Enums.STATUS.CONNECTED, "", null, "michel", "titi", 22);
-//            } catch (ProfilePseudoAlreadyExistException ex) {
-//                Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
-            if (app.getPManager().connection(profileId, fakePassword)) {
-
-                pGuest = new Profile("idprofile", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-                Profile phost = new Profile("idple", "host", fakePassword, Enums.STATUS.INGAME, "", null, "", "", 21);
-                inv = new NewInvitation(Enums.COLOR.WHITE, 300, app.getPManager().getCurrentProfile().getPublicProfile(), pGuest.getPublicProfile());
-                try {
-                    gm = app.getGManager().createGame(inv);
-                    long gid = gm.getGameId();
-                    
-                    
-                    Constant c=app.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
-                    app.getGManager().saveConstant(c);   
-                    try {
-                        PLAYER_RESULT reponse = gm.isWinner("idprofile");
-                        System.out.println(reponse+" "+PLAYER_RESULT.WIN+" "+PLAYER_RESULT.LOST);
-                    } catch (Exception ex) {
-                        Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    app.getGManager().save();
-
-                    ArrayList<Game> list = app.getGManager().getListAllGames();
-                    for (Game g : list) {
-                        g.dumpBoard();
-                    }
-                    System.out.println(list.size());
-
-                } catch (NoIdException expt) {
-                    System.out.println(expt.getMessage());
-                    System.out.println(expt.getStackTrace());
-                } catch (WrongInvitation expt) {
-                    System.out.println(expt.getMessage());
-                    System.out.println(expt.getStackTrace());
-                }
-            } else {
-                System.out.println("Probleme lors de la connection.");
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        initializeAttributes();
     }
-};
+
+    private void initializeAttributes() {
+        Player localPlayer = new Player(COLOR.WHITE, 600, new PublicProfile("001", "local", Enums.STATUS.INGAME, "192.168.1.10", null, "Donin", "Stephan", 23, 5, 9, 1));
+        Player remotePlayer = new Player(COLOR.BLACK, 600, new PublicProfile("002", "remote", Enums.STATUS.INGAME, "192.168.1.11", null, "Hamidou", "Karim", 23, 5, 9, 1));
+        game = new Game(localPlayer, remotePlayer);
+    }
+
+    public void simpleTest() {
+        System.out.println("Erreur ?");
+        assertTrue(false);
+    }
+
+
+    static public void main(String[] args) throws Throwable {
+        (new GameManagerTest("rzedcz")).runTest();
+    }
+}
