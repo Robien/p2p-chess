@@ -122,14 +122,14 @@ public class GamePanel extends JPanel {
     }
     
         
-    private void launchGame(){
+    public void launchGame(){
         // Launch a game and build the board with events or not
         	buildBoard();
                 isPlayPossible = true;
                 playerColor = COLOR.WHITE;
     }
     
-    private void launchReviewGame(){
+    public void launchReviewGame(){
          buildReviewBoard();
          isPlayPossible = false;
     }
