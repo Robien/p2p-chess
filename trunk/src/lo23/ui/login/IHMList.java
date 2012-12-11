@@ -308,7 +308,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     private boolean openInvitationDialog(Invitation invit){ 
         int response = 0;
         PublicProfile profile = invit.getHost();
-        response = JOptionPane.showConfirmDialog(null, "Accept/deny invitation from " + profile.getPseudo() + " ?");
+        response = JOptionPane.showConfirmDialog(null,"Accept/deny invitation from " + profile.getPseudo() + " ?", "Accept/deny invitation from " + profile.getPseudo() + " ?", JOptionPane.YES_NO_OPTION);
         if(response == 0)
                return true; 
         else
