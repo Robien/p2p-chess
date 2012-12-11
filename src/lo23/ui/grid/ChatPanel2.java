@@ -252,8 +252,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 if(myModel == null)
                        System.out.print("variable modele nulle");
                 else{
-                  // Message m = myModel.getGManager().createMessage(msg);
-                  // myModel.getGManager().sendMessage(m);
+                   Message m = myModel.getGManager().createMessage(msg);
+                   myModel.getGManager().sendMessage(m);
                 }
 
                 // printing on screen
