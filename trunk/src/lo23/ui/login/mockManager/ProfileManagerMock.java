@@ -29,7 +29,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     private Profile currProfil = null;
     private ArrayList<Profile> profiles = new ArrayList<Profile>();
     public ArrayList<Long> idPlayersConnected;
-    
+
     public ProfileManagerMock(ApplicationModel model){
         super(model);
         char[] passwordAdmin = "admin".toCharArray();
@@ -159,11 +159,11 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     public void startProfilesDiscovery() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    // pour le test 
+    // pour le test
     public ArrayList<Long> getIdPlayersConnected() {
 
         idPlayersConnected= new ArrayList<Long>();
-        
+
         PublicProfile profile = new PublicProfile("1", "totopseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 2);
         PublicProfile profile2 = new PublicProfile("2", "titipseudo", STATUS.INGAME, "127.0.0.1", null, "toto", "toto", 21, 5, 2, 1);
         //Player playerLocal = new Player(COLOR.BLACK, 23, profile);
@@ -177,7 +177,7 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         } catch (InterruptedException ex) {
             Logger.getLogger(ProfileManagerMock.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
         return idPlayersConnected;
     }
 
@@ -188,6 +188,14 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
 
     @Override
     public void notifyProfileDisconnection(PublicProfile publicProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendInvitationAnwser(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sendInvitationAnswer(Invitation invitation, boolean answer) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
