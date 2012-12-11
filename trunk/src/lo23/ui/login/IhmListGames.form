@@ -72,12 +72,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Parties termin&#xe9;es"/>
+        <Property name="text" type="java.lang.String" value="Ended games"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Parties en cours (et adversaires connect&#xe9;s)"/>
+        <Property name="text" type="java.lang.String" value="Started games (and player connected)"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
