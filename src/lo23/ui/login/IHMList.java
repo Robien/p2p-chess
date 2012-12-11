@@ -269,12 +269,10 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
             if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
                 Invitation invitation = (Invitation)pce.getNewValue();
                 boolean b = openInvitationDialog(invitation);
-                if(b){
-                    try {
-                        model.acceptInvitation(invitation);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                    }
+                try {
+                    model.sendInvitationAnswer(invitation,b);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
             }
             if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
@@ -289,13 +287,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                else{
-                    PublicProfile guest = invitation.getGuest();
-                    String idGuest = guest.getProfileId();
-                    for(JButton btn : model.getListLaunchGameBtn()){
-                        if(btn.getClientProperty("id").equals(idGuest)){
-                            btn.setEnabled(true);
-                        }
+                //Enable Button
+                PublicProfile guest = invitation.getGuest();
+                String idGuest = guest.getProfileId();
+                for(JButton btn : model.getListLaunchGameBtn()){
+                    if(btn.getClientProperty("id").equals(idGuest)){
+                        btn.setEnabled(true);
                     }
                 }
             }

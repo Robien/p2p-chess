@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
+import lo23.data.NewInvitation;
 import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
@@ -148,10 +149,16 @@ public class IhmLoginModel implements PropertyChangeListener{
      * @throws ClassNotFoundException
      * @throws WrongInvitation 
      */
-    public void acceptInvitation(Invitation invit) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
-        GameManagerInterface gameManager = appModel.getGManager();
-        gameManager.createGame(invit);
-//        gameManager.load(game.getGameId());
+    public void sendInvitationAnswer(Invitation invit,boolean answer) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
+        if(invit instanceof NewInvitation)
+        {
+            if(answer){
+                GameManagerInterface gameManager = appModel.getGManager();
+                gameManager.createGame(invit);
+            }
+            
+            appModel.getPManager().sendInvitationAnswer(invit,answer);
+        }
     }
 
     
