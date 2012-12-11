@@ -290,13 +290,14 @@ public class ConnectionManager implements ConnectionListener {
         handleMessageMap.remove(socket);
 
         //On met a jour le socket lié a la session active
-        if (socket.equals(socketSession)) {
+        if (socketSession != null && socket.equals(socketSession)) {
             readInvitation.set(true);
             socketSession = null;
+            comManager.getApplicationModel().getGManager().notifyGameEnded();
         } else {
             Invitation invitation = invitationMap.get(socket);
-            comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
             invitationMap.remove(socket);
+            comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
         }
     }
 

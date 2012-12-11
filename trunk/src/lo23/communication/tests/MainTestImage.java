@@ -334,6 +334,11 @@ public class MainTestImage {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        @Override
+        public void sendInvitationAnswer(Invitation invitation, boolean answer) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
 }
