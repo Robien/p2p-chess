@@ -27,6 +27,7 @@ public class EventListener implements PropertyChangeListener {
     
     private GamePanel gamePanel;
     private ChatPanel2 chatPanel;
+    private TimerPanel timerPanel;
     
     public EventListener(GamePanel panel, ApplicationModel model){
         gamePanel = panel;
@@ -36,6 +37,12 @@ public class EventListener implements PropertyChangeListener {
     
     public EventListener(ChatPanel2 panel, ApplicationModel model){
         chatPanel = panel;
+        myModel = model;
+        ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
+    }
+    
+    public EventListener(TimerPanel panel, ApplicationModel model){
+        timerPanel = panel;
         myModel = model;
         ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
@@ -69,6 +76,12 @@ public class EventListener implements PropertyChangeListener {
                      chatPanel.gameMsg((Move)evt.getNewValue());
                  } catch (BadLocationException ex) {
                      Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             } else if(timerPanel != null){
+                 if(timerPanel.playerTimer.isRunning()){
+                     timerPanel.playerTimer.pauseTimer();
+                 } else {
+                     timerPanel.playerTimer.startTimer();
                  }
              }
              

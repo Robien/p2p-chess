@@ -40,7 +40,7 @@ public class PlayerTimer {
         currentTimer = endOfTimer;
         timerPanel.getLabel().setText(getText());
         timer = new Timer(delay, taskPerformer);
-        startTimer();
+        //startTimer();
     }
 
 	public void startTimer(){
@@ -104,6 +104,9 @@ public class PlayerTimer {
         return hoursDisplayed + " : " + minutesDisplayed  + " : " +  secondsDisplayed;
     }
 
+    public boolean isRunning(){
+        return timer.isRunning();
+    }
 
 
 }
