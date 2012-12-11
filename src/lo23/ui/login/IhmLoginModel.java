@@ -236,6 +236,12 @@ public class IhmLoginModel implements PropertyChangeListener{
                     listPlayers.removePlayer(p.getProfileId());
                     listProfileDate.remove(p);
                     System.out.println("Player Removed : "+p.getProfileId());
+                    //Remove games associated
+                    ArrayList<Game> gamesContinue = this.getGamesContinueFromId(p.getProfileId());
+                    for(Game g : gamesContinue){
+                        listIdGame.remove(g.getGameId());
+                        this.listStartGames.removeGame(g.getGameId());
+                    }
                 }
             }
         }

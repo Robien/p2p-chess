@@ -63,7 +63,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         //Implémentation terminé à tester
         
         // Ajoute un listener sur tous les ContinueGameBtn
-        ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
+        /*ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
             btn.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -71,7 +71,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     continueGameBtnActionPerformed(evt);
                 }
             });
-        }
+        }*/
     }
 
     /** This method is called from within the constructor to
