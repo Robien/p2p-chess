@@ -30,6 +30,7 @@ import lo23.communication.message.MoveMsg;
 import lo23.communication.message.MulticastAnswer;
 import lo23.communication.message.MulticastDisconnection;
 import lo23.communication.message.MulticastInvit;
+import lo23.communication.message.MulticastMessage;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Invitation;
@@ -410,8 +411,8 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
             } else if (message instanceof GameEnded) {
                 model.getGManager().notifyGameEnded();
-            } else if (message instanceof MulticastAnswer) {
-                model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
+            } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
+                model.getPManager().notifyAddProfile(((MulticastMessage) message).getProfile());
             }
             else if(message instanceof MulticastDisconnection){
                 model.getPManager().notifyProfileDisconnection(((MulticastDisconnection) message).getProfile());
