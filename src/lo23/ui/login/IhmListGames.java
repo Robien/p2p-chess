@@ -102,9 +102,9 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             }
         });
 
-        jLabel1.setText("Parties terminées");
+        jLabel1.setText("Ended games");
 
-        jLabel2.setText("Parties en cours (et adversaires connectés)");
+        jLabel2.setText("Started games (and player connected)");
 
         endGamesTable.setModel(ihmLoginModel.getEndGameModel());
         endGamesTable.getColumn("").setCellRenderer(new JTableButtonRenderer());
