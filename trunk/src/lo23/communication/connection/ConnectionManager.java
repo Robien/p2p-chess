@@ -366,8 +366,8 @@ public class ConnectionManager implements ConnectionListener {
             if ( comManager.getCurrentUserProfile() != null &&
                 !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
                 replyMulticast(ipAddress);
+                notifyMessage(message);
             }
-            notifyMessage(message);
         }
         else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
             notifyMessage(message);
