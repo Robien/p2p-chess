@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
@@ -34,6 +33,7 @@ import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 
@@ -240,7 +240,7 @@ public class GamePanel extends JPanel {
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             currentPiece = game.getPieceAtXY(newSelection.getWX(), newSelection.getWY());
         } else {
-            currentPiece = game.getPieceAtXY(newSelection.getBX(), newSelection.getBY());
+            currentPiece = game.getPieceAtXY(7-newSelection.getBX(), newSelection.getBY());
         }
 
     	if (isCaseSelectionable(newSelection, currentPiece)) {
@@ -274,6 +274,7 @@ public class GamePanel extends JPanel {
         }
         isFormerSelectionExist = true;
         
+        GamePiece formerPiece = currentPiece;
         GamePiece tempPiece = currentPiece;
         
         for (Position p : listOfPossibleMove){
@@ -292,21 +293,21 @@ public class GamePanel extends JPanel {
         			is_eat =false;
         			is_move = true;
         		}
-        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
+        		formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
         		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
         		myModel.getGManager().playMove(move);
         	}
         }
             
         hidePossibleCase();
-        play_sound(tempPiece);
+        play_sound(formerPiece, currentPiece);
         
         //is Pawn Top
-        if (tempPiece != null && tempPiece.isPawnTop()) {
-            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
+        if (formerPiece != null && formerPiece.isPawnTop()) {
+            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(formerPiece);
             try {
                 //create new Piece
-            	Pawn pawn = (Pawn) tempPiece;
+            	Pawn pawn = (Pawn) formerPiece;
                 game.promotePawn(pawn,piece);
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -395,25 +396,11 @@ public class GamePanel extends JPanel {
         }
         add(currentPiece, constraints, 0);
         
-        if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
+        if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
             // End of game   
 //            System.out.append("CheckMate dude !");
-            JOptionPane d = new JOptionPane();
-            int retour = d.showConfirmDialog(this, myModel.getGManager().getCurrentGame().getRemotePlayer().getPublicProfile().getPseudo() + "won ! You can still use the chat, please press quit button to leave this game.", "OK", JOptionPane.YES_NO_OPTION);
-
-            if (retour == 0) { 
-                System.out.println("OK");
-
-            }
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
 //            System.out.append("CheckMate dude !");
-            JOptionPane d = new JOptionPane();
-            int retour = d.showConfirmDialog(this, myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo() + "won ! You can still use the chat, please press quit button to leave this game.", "OK", JOptionPane.YES_NO_OPTION);
-
-            if (retour == 0) { 
-                System.out.println("OK");
-
-            }
         }
          
         if (playerColor == COLOR.WHITE) {
@@ -803,23 +790,22 @@ public class GamePanel extends JPanel {
 
 
     
-     void play_sound(GamePiece currentPiece)
+     void play_sound(GamePiece currentPiece, GamePiece old_piece)
     {
        
      
       if(Menu.get_noise_on())  
       {  
-        
+         MainWindow.chess_king.setVisible(false);
            
              if (currentPiece != null && currentPiece.isCheckAndMat())
             {
                  new Launch_Sound("chess_mat.wav").play();
             }
-            else if( currentPiece != null && currentPiece.isOncheck())
+            else if ((currentPiece != null  && currentPiece.isOncheck()) || (old_piece !=null && old_piece.isOncheck()))
             {
-               new Launch_Sound("chess_king.wav").play();
                MainWindow.chess_king.setVisible(true);
-
+               new Launch_Sound("sword.wav").play();
             }
             else if (currentPiece != null && currentPiece.isPawnTop())
             {
@@ -828,7 +814,7 @@ public class GamePanel extends JPanel {
             }
             else if (currentPiece != null && currentPiece.haveDoneARook())
             {
-                new Launch_Sound("roc.wav").play();
+                new Launch_Sound("chess_king.wav").play();
             }
             else if(is_eat)
             {
@@ -847,7 +833,7 @@ public class GamePanel extends JPanel {
             
             is_eat=false;
             is_move=false;
-            MainWindow.chess_king.setVisible(false);
+           
     
       }
     }
