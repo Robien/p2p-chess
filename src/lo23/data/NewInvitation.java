@@ -11,8 +11,6 @@ public class NewInvitation extends Invitation {
     private COLOR color;
     private long duration;
     private Date date;
-    private Boolean replyOk;
-
 
     /**
      * Constructor for the NewInvitation class
@@ -51,18 +49,4 @@ public class NewInvitation extends Invitation {
     public Date getDate() {
         return date;
     }
-
-    /*
-     * get and set whether the opponent accepted
-     * or not the invitation.
-     *
-     */
-    public Boolean isReplyOk() {
-        return replyOk;
-    }
-
-    public void setReplyOk(boolean replyOk) {
-        this.replyOk = replyOk;
-    }
-
 }

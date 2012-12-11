@@ -99,6 +99,13 @@ public interface ProfileManagerInterface {
     public void sendInvitation(Invitation invitation);
 
     /**
+     * Send the answer to the given invitation via the ComManager
+     * @param invitation the invitation to send
+     * @param answer wether the invitation has been accepted or not
+     */
+    public void sendInvitationAnwser(Invitation invitation, boolean answer);
+
+    /**
      * Notify the subscribed Managers to add the given PublicProfile
      * @param publicProfile the new publicProfile to notify
      */
