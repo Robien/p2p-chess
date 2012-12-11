@@ -107,7 +107,7 @@ public class Player implements Serializable {
 
                 //List<Position> pos = piece.getPossibleMoves();
              //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
-                if (piece.isResponsableOfCheck(getKing(), new Position(10, 10), new Position(10, 10)))
+                if (!piece.isOutOfBorder() && piece.isResponsableOfCheck(getKing(), new Position(10, 10), new Position(10, 10)))
                 {
 
                     return true;
