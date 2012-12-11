@@ -53,7 +53,7 @@ public class IhmProfileWindow extends JFrame{
     private JTextField gamesLostField = new JTextField();
     private JTextField gamesDrawField = new JTextField();
     
-    private int initialHeight = 450;
+    private int initialHeight = 500;
     private int initialWidth = 450;
     
     public static final int MODIFY = 0;
