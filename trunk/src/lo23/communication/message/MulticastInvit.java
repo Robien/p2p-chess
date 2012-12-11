@@ -6,6 +6,7 @@ import lo23.data.PublicProfile;
  * This message is sent while multicasting.
  */
 public class MulticastInvit extends ConnectionMessage{
+    
     private PublicProfile Profile;
 
     /**

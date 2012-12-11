@@ -410,7 +410,7 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
             } else if (message instanceof GameEnded) {
                 model.getGManager().notifyGameEnded();
-            } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
+            } else if (message instanceof MulticastAnswer) {
                 model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
             }
             else if(message instanceof MulticastDisconnection){
