@@ -55,4 +55,9 @@ public class CommManagerMock extends Manager implements ISender{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void sendMulticastDisconnection() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

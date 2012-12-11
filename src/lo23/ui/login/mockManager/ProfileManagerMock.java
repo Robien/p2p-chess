@@ -181,4 +181,14 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
         return idPlayersConnected;
     }
 
+    @Override
+    public void disconnect() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void notifyProfileDisconnection(PublicProfile publicProfile) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
