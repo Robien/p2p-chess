@@ -1,11 +1,6 @@
 package lo23.data;
 
 import lo23.data.exceptions.UndefinedGamePieceException;
-import lo23.data.Constant;
-import lo23.data.Event;
-import lo23.data.Move;
-import lo23.data.Player;
-import lo23.data.Position;
 
 
 
@@ -13,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import lo23.data.exceptions.IllegalMoveException;
-import lo23.data.managers.GameManager;
 import lo23.data.pieces.Bishop;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
@@ -22,7 +16,6 @@ import lo23.data.pieces.King;
 import lo23.data.pieces.Knight;
 import lo23.data.pieces.Queen;
 import lo23.data.pieces.Rook;
-import lo23.ui.grid.GridConstants;
 
 /**
  *
