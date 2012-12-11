@@ -582,7 +582,7 @@ public class GamePanel extends JPanel {
 	            	String tempName = tempPiece.getClass().getName();
 	            	COLOR tempColor = tempPiece.getOwner().getColor();
                 
-                	if (playerColor == COLOR.WHITE) {
+                	if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
 	            		
 	            		if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.WHITE){
 	            			
