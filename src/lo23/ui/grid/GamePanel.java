@@ -811,11 +811,11 @@ public class GamePanel extends JPanel {
       {  
          MainWindow.chess_king.setVisible(false);
            
-             if (currentPiece != null && currentPiece.isCheckAndMat())
+             if (currentPiece != null && game.getLocalPlayer().isCheckAndMat())
             {
                  new Launch_Sound("chess_mat.wav").play();
             }
-            else if ((currentPiece != null  && currentPiece.isOncheck()) || (old_piece !=null && old_piece.isOncheck()))
+            else if ((currentPiece != null  && game.getLocalPlayer().isOncheck()) || (old_piece !=null && game.getLocalPlayer().isOncheck()))
             {
                MainWindow.chess_king.setVisible(true);
                new Launch_Sound("sword.wav").play();
