@@ -103,7 +103,7 @@ public interface ProfileManagerInterface {
      * @param invitation the invitation to send
      * @param answer wether the invitation has been accepted or not
      */
-    public void sendInvitationAnwser(Invitation invitation, boolean answer);
+    public void sendInvitationAnswer(Invitation invitation, boolean answer);
 
     /**
      * Notify the subscribed Managers to add the given PublicProfile
