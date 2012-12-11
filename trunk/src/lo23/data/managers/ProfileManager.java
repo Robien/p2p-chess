@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.ImageIcon;
+import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.NewInvitation;
@@ -28,6 +30,7 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     private Profile currentProfile;
     private Timer timer;
+    private boolean disconnect;
 
     public ProfileManager(ApplicationModel app) {
         super(app);
@@ -58,16 +61,29 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
             Discoverer(ApplicationModel am) {
                 this.am = am;
+                disconnect = false;
             }
 
             @Override
             public void run() {
-                this.am.getComManager().sendMulticast();
+                if(!disconnect)
+                    this.am.getComManager().sendMulticast();
+                else{
+                    this.cancel();
+                    timer.cancel();
+                    timer.purge();
+                }
             }
         }
 
         this.timer = new Timer();
         this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
+    }
+    
+    public void disconnect(){
+        disconnect = true;
+        this.getApplicationModel().getComManager().sendMulticastDisconnection();
+        this.currentProfile = null;
     }
 
     @Override
@@ -126,6 +142,11 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     @Override
     public void notifyAddProfile(PublicProfile publicProfile) {
         publish(IhmLoginModel.ADD_PLAYER_CONNECTED, publicProfile);
+    }
+    
+    @Override
+    public void notifyProfileDisconnection(PublicProfile publicProfile){
+        publish(IhmLoginModel.DELETE_PLAYER_DISCONNECTED,publicProfile);
     }
 
     @Override

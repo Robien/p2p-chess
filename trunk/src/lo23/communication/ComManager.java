@@ -42,6 +42,11 @@ public class ComManager extends Manager implements ISender {
     public void sendMulticast() {
        connectionManager.sendMulticast();
     }
+    
+    @Override
+    public void sendMulticastDisconnection(){
+        connectionManager.sendMulticastDisconnection();
+    }
 
     @Override
     public void sendInvitation(Invitation invitation) {
