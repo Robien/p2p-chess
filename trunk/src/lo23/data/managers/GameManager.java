@@ -139,12 +139,17 @@ public class GameManager extends Manager implements GameManagerInterface {
 		    currentGame = new Game(local, remote);
 		    currentGame.buildPieces();
 		}
-
+		
 	    } else {
 		//Il s'agit d'un resume game
 		ResumeGame I = (ResumeGame) invitation;
 		currentGame = I.getGame();
 		currentGame.swapPlayer(); // Il faut inverser local et remote player
+		if (currentGame.getEndDate()==null){
+		    // Partie non finie
+		}else{
+		    //Partie finir -> visionnage
+		}
 	    }
 	} else {
 	    throw new WrongInvitation("L'invitation n'est pas pour le profile connecté.");
