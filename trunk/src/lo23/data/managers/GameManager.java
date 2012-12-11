@@ -140,7 +140,10 @@ public class GameManager extends Manager implements GameManagerInterface {
 		    currentGame = new Game(local, remote);
 		    currentGame.buildPieces();
 		}
-		currentGame.setCurrentPlayerColor(COLOR.WHITE);
+                currentGame.setCurrentPlayerColor(COLOR.WHITE);
+                 MainWindow fenetre = new MainWindow(this.getApplicationModel(), false);
+                 fenetre.setVisible(true);
+		
 	    } else {
 		//Il s'agit d'un resume game
 		ResumeGame I = (ResumeGame) invitation;
