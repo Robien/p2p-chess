@@ -13,6 +13,7 @@ import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.managers.Manager;
 
 
@@ -62,11 +63,28 @@ public class EventListener implements PropertyChangeListener {
                     System.out.println("EVENT DETECTED 4 => rook");
                     if (((Move)evt.getNewValue()).getTo().getX() == 1)
                     {
-                         gamePanel.updateBoardWithoutChangeColor(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
+                        Move move = new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null );
+                        try
+                        {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex)
+                        {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        gamePanel.updateBoardWithoutChangeColor(move);
                     }
                     else
                     {
-                         gamePanel.updateBoardWithoutChangeColor(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
+                        Move move = new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null );
+                         try
+                        {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex)
+                        {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        gamePanel.updateBoardWithoutChangeColor(move);
                     }
                  }
                  gamePanel.updateBoard((Move)evt.getNewValue());

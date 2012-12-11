@@ -28,6 +28,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
@@ -424,9 +425,12 @@ public class GamePanel extends JPanel {
         
         // TO DO : Check end of game
         //System.out.println(listOfPiece);  
-        
-        
-        
+   
+    }
+
+    public void majDataBoard(Move move) throws IllegalMoveException
+    {
+        game.playMove(move);
     }
     
     public void updateReviewBoard(Move move){
