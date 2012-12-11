@@ -62,12 +62,12 @@ public class EventListener implements PropertyChangeListener {
                     System.out.println("EVENT DETECTED 4 => rook");
                     if (((Move)evt.getNewValue()).getTo().getX() == 1)
                     {
-                         gamePanel.updateBoard(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
+                         gamePanel.updateBoardWithoutChangeColor(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
 
                     }
                     else
                     {
-                           gamePanel.updateBoard(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
+                         gamePanel.updateBoardWithoutChangeColor(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
                     }
                  }
                  
