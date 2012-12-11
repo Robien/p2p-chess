@@ -5,22 +5,13 @@ import lo23.data.PublicProfile;
 /**
  * This message is sent while multicasting.
  */
-public class MulticastInvit extends ConnectionMessage{
+public class MulticastInvit extends MulticastMessage {
     
-    private PublicProfile Profile;
-
     /**
      * Constructor of the MulticastInvit.
      */
-    public MulticastInvit(PublicProfile Profile){
-        this.Profile = Profile;
-    }
-
-    public void setProfile(PublicProfile Profile) {
-        this.Profile = Profile;
+    public MulticastInvit(PublicProfile profile) {
+       super(profile);
     }
     
-    public PublicProfile getProfile() {
-        return Profile;
-    }
 }

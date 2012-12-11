@@ -5,23 +5,14 @@ import lo23.data.PublicProfile;
 /**
  * This message is sent by distant client to answer MulticastInvit.
  */
-public class MulticastAnswer extends ConnectionMessage{
-
-    private PublicProfile guest;
+public class MulticastAnswer extends MulticastMessage {
 
     /**
      * Constructor of the MulticastAnswer.
      * @param guest the distant PublicProfile to add to the local PublicProfile list of the current client.
      */
-    public MulticastAnswer(PublicProfile guest) {
-        this.guest = guest;
+    public MulticastAnswer(PublicProfile profile) {
+        super(profile);
     }
 
-    public PublicProfile getGuest() {
-        return guest;
-    }
-
-    public void setGuest(PublicProfile guest) {
-        this.guest = guest;
-    }
 }
