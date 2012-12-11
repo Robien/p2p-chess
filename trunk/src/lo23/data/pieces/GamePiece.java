@@ -51,6 +51,7 @@ public abstract class GamePiece implements Serializable {
 
     public boolean setOutOfBorder(boolean val) {
         outOfBorder = val;
+        return outOfBorder;
     }
 
     /**
