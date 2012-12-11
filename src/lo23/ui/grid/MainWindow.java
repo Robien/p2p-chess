@@ -263,14 +263,14 @@ public class MainWindow extends JFrame implements ActionListener {
  //       localPlayerLostPieces.updateBox();
          
         
-        constraints.insets = new Insets(250,-750,100,0); 
+        constraints.insets = new Insets(100,-850,100,0); 
         constraints.gridwidth = 12;
 	constraints.gridheight = 12;
 	constraints.gridx = 0;
 	constraints.gridy = 0;
         
     //chess king picture
-          chess_king = new JLabel( new ImageIcon(path + "lo23/ui/resources/chess_king2.png"));
+          chess_king = new JLabel( new ImageIcon(path + "lo23/ui/resources/swords.png"));
           panel.add(chess_king,constraints,3);
           chess_king.setVisible(false);
           
