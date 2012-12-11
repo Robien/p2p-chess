@@ -150,15 +150,12 @@ public class IhmLoginModel implements PropertyChangeListener{
      * @throws WrongInvitation 
      */
     public void sendInvitationAnswer(Invitation invit,boolean answer) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
-        if(invit instanceof NewInvitation)
-        {
-            if(answer){
-                GameManagerInterface gameManager = appModel.getGManager();
-                gameManager.createGame(invit);
-            }
-            
-            appModel.getPManager().sendInvitationAnswer(invit,answer);
+        if(answer){
+            GameManagerInterface gameManager = appModel.getGManager();
+            gameManager.createGame(invit);
         }
+
+        appModel.getPManager().sendInvitationAnswer(invit,answer);
     }
 
     
