@@ -117,7 +117,6 @@ public class ConnectionManager implements ConnectionListener {
      */
     private void replyMulticast(String ipAddress) {
         if ( comManager.getCurrentUserProfile() != null) {
-            //FIXME mettre ici le resizedImage
             PublicProfile profile = comManager.getCurrentUserProfile();
             MulticastAnswer message = new MulticastAnswer(profile);
             HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
@@ -310,7 +309,7 @@ public class ConnectionManager implements ConnectionListener {
 
     /**
      * Method which be notified when we receive a message
-     * @param socket the socket which sended the message
+     * @param socket the socket which sent the message
      * @param message the received message
      */
     @Override
@@ -366,7 +365,8 @@ public class ConnectionManager implements ConnectionListener {
             if ( comManager.getCurrentUserProfile() != null &&
                 !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
                 replyMulticast(ipAddress);
-            }    
+            }
+            notifyMessage(message);
         }
         else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
             notifyMessage(message);
@@ -410,7 +410,7 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
             } else if (message instanceof GameEnded) {
                 model.getGManager().notifyGameEnded();
-            } else if (message instanceof MulticastAnswer) {
+            } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
                 model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
             }
             else if(message instanceof MulticastDisconnection){

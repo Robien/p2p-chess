@@ -9,7 +9,7 @@ public class MulticastInvit extends ConnectionMessage{
     private PublicProfile Profile;
 
     /**
-     * Contructor of the MulticastInvit.
+     * Constructor of the MulticastInvit.
      */
     public MulticastInvit(PublicProfile Profile){
         this.Profile = Profile;

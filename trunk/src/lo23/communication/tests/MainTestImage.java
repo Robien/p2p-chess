@@ -324,6 +324,16 @@ public class MainTestImage {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        @Override
+        public void disconnect() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void notifyProfileDisconnection(PublicProfile publicProfile) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
 }

@@ -75,7 +75,7 @@ public class MainTest1 {
                 }
             }
             
-            hostProfile = new Profile("1", "Moi", "pass".toCharArray(), Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23);
+            hostProfile = new Profile("1", "Luc", "pass".toCharArray(), Enums.STATUS.CONNECTED, addressIp, null, "Nom", "Prénom", 23);
             
             appModel = new ApplicationModel();
             appModel.setComManager(new ComManager(appModel));
@@ -329,6 +329,16 @@ public class MainTest1 {
 
         @Override
         public void importProfile(String filePath) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void disconnect() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void notifyProfileDisconnection(PublicProfile publicProfile) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
         
