@@ -283,28 +283,53 @@ public class GamePanel extends JPanel {
         
         GamePiece tempPiece = currentPiece;
         
-        for (Position p : listOfPossibleMove){
-        	//if selected position is playable
-        	if (p.getX() == newSelection.getX() && p.getY() == 7 - newSelection.getY()) {
-        		tempPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
-        		//if a piece is already here
-        		if (tempPiece != null) {
-        			if (tempPiece.getOwner().getColor() != playerColor) {
-        				eatPiece(newSelection);
-        			}
-        			//Eat Sound
-        			is_eat = true;
-        			is_move = false;
-        		} else {
-        			is_eat =false;
-        			is_move = true;
-        		}
-        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
-        		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
-        		myModel.getGManager().playMove(move);
-        	}
+        if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+	        	
+	        for (Position p : listOfPossibleMove){
+	        	//if selected position is playable
+	        	if (p.getX() == newSelection.getX() && p.getY() == 7 - newSelection.getY()) {
+	        		tempPiece = game.getPieceAtXY(newSelection.getX(), 7 - newSelection.getY());
+	        		//if a piece is already here
+	        		if (tempPiece != null) {
+	        			if (tempPiece.getOwner().getColor() != playerColor) {
+	        				eatPiece(newSelection);
+	        			}
+	        			//Eat Sound
+	        			is_eat = true;
+	        			is_move = false;
+	        		} else {
+	        			is_eat =false;
+	        			is_move = true;
+	        		}
+	        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
+	        		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
+	        		myModel.getGManager().playMove(move);
+	        	}
+	        }
+        } else {
+        	
+        	for (Position p : listOfPossibleMove){
+	        	//if selected position is playable
+	        	if (p.getX() == 7 - newSelection.getX() && p.getY() == newSelection.getY()) {
+	        		tempPiece = game.getPieceAtXY(7 - newSelection.getX(), newSelection.getY());
+	        		//if a piece is already here
+	        		if (tempPiece != null) {
+	        			if (tempPiece.getOwner().getColor() != playerColor) {
+	        				eatPiece(newSelection);
+	        			}
+	        			//Eat Sound
+	        			is_eat = true;
+	        			is_move = false;
+	        		} else {
+	        			is_eat =false;
+	        			is_move = true;
+	        		}
+	        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getBX(), formerPositionSelected.getBY());
+	        		Move move = myModel.getGManager().createMove(new Position(7 - newSelection.getX(), newSelection.getY()), formerPiece);
+	        		myModel.getGManager().playMove(move);
+	        	}
+	        }
         }
-            
         hidePossibleCase();
         play_sound(tempPiece);
         
