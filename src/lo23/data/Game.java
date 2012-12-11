@@ -1,5 +1,9 @@
 package lo23.data;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import lo23.data.exceptions.UndefinedGamePieceException;
 
 
@@ -7,6 +11,7 @@ import lo23.data.exceptions.UndefinedGamePieceException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.pieces.Bishop;
 import lo23.data.pieces.Pawn;
@@ -150,6 +155,52 @@ public class Game implements Serializable {
 	King ki2 = new King(new Position(4, 7), blackPlayer, this);
 	board[4][7] = ki2;
 	blackPlayer.addPiece(ki2);
+
+    }
+
+    public void loadBoard(String filename) throws FileNotFoundException {        
+        Scanner sc = new Scanner(new File(filename));
+        pieces.clear();
+        for(int x = 0; x < 8; x++)
+            for(int y = 0; y < 8; y++) {
+                char b = (char) sc.nextByte();
+                char playerByte = (char) sc.nextByte();
+                Player player = null;
+                if(playerByte == 'L') {
+                    player = localPlayer;
+                } else {
+                    player = remotePlayer;
+                }
+
+                // remove previously allocated pieces.
+                board[x][y] = null;
+                GamePiece p;
+                switch(b) {
+                    case 'K':
+                            p = new King(new Position(x, y), player, this);
+                            break;
+                    case 'N':
+                            p = new Knight(new Position(x, y), player, this);
+                            break;
+                    case 'Q':
+                            p = new Queen(new Position(x, y), player, this);
+                            break;
+                    case 'B':
+                            p = new Bishop(new Position(x, y), player, this);
+                            break;
+                    case 'P':
+                            p = new Pawn(new Position(x, y), player, this);
+                            break;
+                    case 'R':
+                            p = new Rook(new Position(x, y), player, this);
+                            break;
+                    default:
+                        continue;
+                }
+
+                pieces.add(p);
+                board[x][y] = p;
+            }
 
     }
 
