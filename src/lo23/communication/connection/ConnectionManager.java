@@ -173,7 +173,7 @@ public class ConnectionManager implements ConnectionListener {
             HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
             handleMessage.send(message);
 
-            //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'aap distante)
+            //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
             readInvitation.set(false);
             socketSession = socketDirectory.get(distantIpAddr);
             disconnectOthers();
@@ -293,6 +293,10 @@ public class ConnectionManager implements ConnectionListener {
         if (socket.equals(socketSession)) {
             readInvitation.set(true);
             socketSession = null;
+        } else {
+            Invitation invitation = invitationMap.get(socket);
+            comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+            invitationMap.remove(socket);
         }
     }
 
@@ -364,7 +368,7 @@ public class ConnectionManager implements ConnectionListener {
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
             if ( comManager.getCurrentUserProfile() != null &&
-                !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
+                !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress()) ) {
                 replyMulticast(ipAddress);
                 notifyMessage(message);
             }
@@ -413,8 +417,7 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
                 model.getPManager().notifyAddProfile(((MulticastMessage) message).getProfile());
-            }
-            else if(message instanceof MulticastDisconnection){
+            } else if(message instanceof MulticastDisconnection) {
                 model.getPManager().notifyProfileDisconnection(((MulticastDisconnection) message).getProfile());
             }
         }
