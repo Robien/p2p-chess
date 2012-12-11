@@ -217,6 +217,8 @@ public class IhmProfileWindow extends JFrame{
                 applyButton.setText("Validate");
                 changeImageButton.setText("Change your avatar");
                 try{
+                    if(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar()!=null)
+                        icon = ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar();
                     profileImage.setIcon(ihmLoginModel.getApplicationModel().getPManager().getCurrentProfile().getAvatar());
                     profileImage.repaint();
                     profileImage.setText("");
