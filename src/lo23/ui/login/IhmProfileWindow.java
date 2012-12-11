@@ -4,6 +4,7 @@
  */
 package lo23.ui.login;
 
+import java.awt.Font;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -122,15 +123,15 @@ public class IhmProfileWindow extends JFrame{
 
         //PROFILE INFORMATION PART
         JLabel login = new JLabel();
-        login.setText("Login");
+        login.setText("Login*");
         
 
         JLabel password = new JLabel();
-        password.setText("Password");
+        password.setText("Password*");
         
 
         JLabel passwordConfirm = new JLabel();
-        passwordConfirm.setText("Password confirm");
+        passwordConfirm.setText("Password confirm*");
         
 
         JLabel firstName = new JLabel();
@@ -143,6 +144,10 @@ public class IhmProfileWindow extends JFrame{
 
         JLabel age = new JLabel();
         age.setText("Age");
+        
+        JLabel required = new JLabel();
+        required.setText("* Required");
+        required.setFont(required.getFont().deriveFont(Font.ITALIC));
         
         
         
@@ -242,6 +247,10 @@ public class IhmProfileWindow extends JFrame{
                 changeImageButton.setVisible(false);
                 exportProfileButton.setVisible(false);
                 applyButton.setVisible(false);
+                required.setVisible(false);
+                password.setText("Password");
+                passwordConfirm.setText("Password confirm");
+                login.setText("Login");
                 
                 
                 loginField.setText(publicProfile.getPseudo());
@@ -304,7 +313,8 @@ public class IhmProfileWindow extends JFrame{
                             .addComponent(lastName)
                             .addComponent(firstName)
                             .addComponent(passwordConfirm)
-                            .addComponent(password))
+                            .addComponent(password)
+                            .addComponent(required))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPasswordField1)
@@ -357,6 +367,9 @@ public class IhmProfileWindow extends JFrame{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(age)
                     .addComponent(ageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(required))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
