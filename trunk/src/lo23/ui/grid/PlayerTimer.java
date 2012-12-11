@@ -9,7 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Player;
+import lo23.data.managers.Manager;
+import lo23.utils.Enums;
+import lo23.utils.Enums.CONSTANT_TYPE;
+
 
 /**
  *
@@ -22,18 +27,36 @@ public class PlayerTimer {
     private Timer timer;
     private int currentTimer;
     private int endOfTimer;
+    private ApplicationModel myModel;
     Player p;
+    
+    public static final String NEW_EVENT_ADDED = "new_event_added";
 
-    public PlayerTimer(final TimerPanel timerPanel, ApplicationModel am, Player player) {
 
+    public PlayerTimer(final TimerPanel timerPanel, ApplicationModel am, final Player player) {
+        myModel = am;
         localTimerPanel = timerPanel;
         p = player;
         endOfTimer = (int) p.getRemainingTime();
+      
         
         ActionListener taskPerformer = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 currentTimer--;
                 timerPanel.getLabel().setText(getText());
+                
+                if(currentTimer == 0){
+                    if(myModel.getGManager().getCurrentGame().getLocalPlayer() == p){
+                         Constant out_of_time = new Constant(CONSTANT_TYPE.OUT_OF_TIME, myModel.getGManager().getCurrentGame().getLocalPlayer(), p);
+                   ((Manager)myModel.getGManager()).publish(NEW_EVENT_ADDED, out_of_time);
+                    } else {
+                         Constant out_of_time = new Constant(CONSTANT_TYPE.OUT_OF_TIME, p, myModel.getGManager().getCurrentGame().getRemotePlayer());
+                   ((Manager)myModel.getGManager()).publish(NEW_EVENT_ADDED, out_of_time);
+                    }
+                   
+                   
+                }
             }
         };
         
@@ -46,6 +69,7 @@ public class PlayerTimer {
 	public void startTimer(){
     	p.startTime();
         timer.start();
+        
     }
 
     public void stopTimer(){

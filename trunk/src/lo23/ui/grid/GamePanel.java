@@ -22,19 +22,19 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Move;
+import lo23.data.Player;
 import lo23.data.Position;
-import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 
@@ -83,7 +83,10 @@ public class GamePanel extends JPanel {
     //sound
     boolean is_eat;
     boolean is_move;
-   
+    
+    
+   //playable game
+    boolean isPlayPossible;
    
     public GamePanel(ApplicationModel model){
         super();
@@ -101,6 +104,7 @@ public class GamePanel extends JPanel {
         board = gm.getBoard();
         playerColor = COLOR.WHITE;
       
+        
         build();
     }
     
@@ -119,14 +123,14 @@ public class GamePanel extends JPanel {
         
     private void launchGame(){
         // Launch a game and build the board with events or not
-        
-       
-        if(myModel.getGManager().getCurrentGame().getEvents().isEmpty()){
         	buildBoard();
-        }else {
-            // TO DO : Parcourir la liste des events et reconstituer la partie.
-            buildReviewBoard();
-        }
+                isPlayPossible = true;
+                playerColor = COLOR.WHITE;
+    }
+    
+    private void launchReviewGame(){
+         buildReviewBoard();
+         isPlayPossible = false;
     }
 
     private void buildReviewBoard(){
@@ -222,33 +226,34 @@ public class GamePanel extends JPanel {
           
         addPropertyChangeListener(eventListener);
        
-        launchGame();
+        launchGame(); //comment for integration
     }
     
     private void receiveSelectedCase(int x, int y){ 
-    		
-    	System.out.println(myModel.getGManager().getCurrentGame().getBoard());
+        if (isPlayPossible) {
+            System.out.println(myModel.getGManager().getCurrentGame().getBoard());
 
-    	constraints.insets = new Insets(0, 0, 0, 0);
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = x;
-        constraints.gridy = y;
- 
-        Position newSelection = new Position(x,y);
-        GamePiece currentPiece = null;
-        
-        if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
-            currentPiece = game.getPieceAtXY(newSelection.getWX(), newSelection.getWY());
-        } else {
-            currentPiece = game.getPieceAtXY(7-newSelection.getBX(), newSelection.getBY());
+            constraints.insets = new Insets(0, 0, 0, 0);
+            constraints.gridwidth = 1;
+            constraints.gridheight = 1;
+            constraints.gridx = x;
+            constraints.gridy = y;
+
+            Position newSelection = new Position(x, y);
+            GamePiece currentPiece = null;
+
+            if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+                currentPiece = game.getPieceAtXY(newSelection.getWX(), newSelection.getWY());
+            } else {
+                currentPiece = game.getPieceAtXY(newSelection.getBX(), newSelection.getBY());
+            }
+
+            if (isCaseSelectionable(newSelection, currentPiece)) {
+                receiveFirstClick(newSelection, currentPiece);
+            } else if (isFormerSelectionExist) {
+                receiveSecondClick(newSelection, currentPiece);
+            }
         }
-
-    	if (isCaseSelectionable(newSelection, currentPiece)) {
-    		receiveFirstClick(newSelection, currentPiece);
-        } else if (isFormerSelectionExist) {
-        	receiveSecondClick(newSelection, currentPiece);
-        }   
     }
     
     private void receiveFirstClick(Position newSelection, GamePiece currentPiece){
@@ -275,7 +280,6 @@ public class GamePanel extends JPanel {
         }
         isFormerSelectionExist = true;
         
-        GamePiece formerPiece = currentPiece;
         GamePiece tempPiece = currentPiece;
         
         for (Position p : listOfPossibleMove){
@@ -294,21 +298,21 @@ public class GamePanel extends JPanel {
         			is_eat =false;
         			is_move = true;
         		}
-        		formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
+        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
         		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
         		myModel.getGManager().playMove(move);
         	}
         }
             
         hidePossibleCase();
-        play_sound(formerPiece, currentPiece);
+        play_sound(tempPiece);
         
         //is Pawn Top
-        if (formerPiece != null && formerPiece.isPawnTop()) {
-            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(formerPiece);
+        if (tempPiece != null && tempPiece.isPawnTop()) {
+            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
             try {
                 //create new Piece
-            	Pawn pawn = (Pawn) formerPiece;
+            	Pawn pawn = (Pawn) tempPiece;
                 game.promotePawn(pawn,piece);
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,12 +374,14 @@ public class GamePanel extends JPanel {
             listOfPiece.put(p, WLabel);
         }
     }
-
-    public void updateBoardWithoutChangeColor(Move move)
-    {
-        
+      
+    public void updateBoard(Move move){
+        // Update board after player play a move
+//    	System.out.println("position d�part grid : " + move.getFrom().toString());
+//    	System.out.println("position arriv�e grid : " + move.getTo().toString());
+    
         Position positionFrom = null;
-
+        
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
         constraints.gridx = move.getTo().getWX();
         constraints.gridy = move.getTo().getWY();
@@ -385,7 +391,7 @@ public class GamePanel extends JPanel {
           constraints.gridy = move.getTo().getBY();
           positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
-
+        
         JLabel currentPiece = listOfPiece.get(positionFrom);
         listOfPiece.remove(positionFrom);
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
@@ -394,25 +400,14 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
         }
         add(currentPiece, constraints, 0);
-
-        if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
-            // End of game
-//            System.out.append("CheckMate dude !");
-        } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
-//            System.out.append("CheckMate dude !");
-        }
         
-        myModel.getGManager().getCurrentGame().dumpBoard();
-    }
-
-
-    public void updateBoard(Move move){
-        // Update board after player play a move
-//    	System.out.println("position d�part grid : " + move.getFrom().toString());
-//    	System.out.println("position arriv�e grid : " + move.getTo().toString());
-    
-       updateBoardWithoutChangeColor(move);
-       
+        if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
+            // End of game   
+            endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
+        } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
+            endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
+        }
+         
         if (playerColor == COLOR.WHITE) {
             playerColor = COLOR.BLACK;
 //            System.out.println("1" + playerColor);
@@ -421,16 +416,13 @@ public class GamePanel extends JPanel {
 //            System.out.println("2" + playerColor);
         }
         
- 
+        myModel.getGManager().getCurrentGame().dumpBoard();
         
         // TO DO : Check end of game
         //System.out.println(listOfPiece);  
-   
-    }
-
-    public void majDataBoard(Move move) throws IllegalMoveException
-    {
-        game.playMove(move);
+        
+        
+        
     }
     
     public void updateReviewBoard(Move move){
@@ -438,24 +430,26 @@ public class GamePanel extends JPanel {
 //        System.out.println("position départ grid : " + move.getFrom().toString());
 //    	System.out.println("position arrivée grid : " + move.getTo().toString());
         
+   
         Position positionFrom = null;
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             constraints.gridx = move.getTo().getWX();
             constraints.gridy = move.getTo().getWY();
-            
             positionFrom = new Position(move.getFrom().getWX(), move.getFrom().getWY());
         } else {
             constraints.gridx = move.getTo().getBX();
             constraints.gridy = move.getTo().getBY();
-            
             positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
-    	
-    	
-       
+
         JLabel currentPiece = listOfPiece.get(positionFrom);
         listOfPiece.remove(positionFrom);
-        listOfPiece.put(move.getTo(), currentPiece);
+        if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+            listOfPiece.put(new Position(move.getTo().getWX(), move.getTo().getWY()), currentPiece);
+        } else {
+            listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
+        }
         add(currentPiece, constraints, 0);
          
          //System.out.println(move);
@@ -803,22 +797,23 @@ public class GamePanel extends JPanel {
 
 
     
-     void play_sound(GamePiece currentPiece, GamePiece old_piece)
+     void play_sound(GamePiece currentPiece)
     {
        
      
       if(Menu.get_noise_on())  
       {  
-         MainWindow.chess_king.setVisible(false);
+        
            
-             if (currentPiece != null && game.getLocalPlayer().isCheckAndMat())
+             if (currentPiece != null && currentPiece.isCheckAndMat())
             {
                  new Launch_Sound("chess_mat.wav").play();
             }
-            else if ((currentPiece != null  && game.getLocalPlayer().isOncheck()) || (old_piece !=null && game.getLocalPlayer().isOncheck()))
+            else if( currentPiece != null && currentPiece.isOncheck())
             {
+               new Launch_Sound("chess_king.wav").play();
                MainWindow.chess_king.setVisible(true);
-               new Launch_Sound("sword.wav").play();
+
             }
             else if (currentPiece != null && currentPiece.isPawnTop())
             {
@@ -827,7 +822,7 @@ public class GamePanel extends JPanel {
             }
             else if (currentPiece != null && currentPiece.haveDoneARook())
             {
-                new Launch_Sound("chess_king.wav").play();
+                new Launch_Sound("roc.wav").play();
             }
             else if(is_eat)
             {
@@ -846,8 +841,12 @@ public class GamePanel extends JPanel {
             
             is_eat=false;
             is_move=false;
-           
+            MainWindow.chess_king.setVisible(false);
     
       }
+    }
+     
+    public void endOfGame(Player winner) {
+      JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
     }
 }

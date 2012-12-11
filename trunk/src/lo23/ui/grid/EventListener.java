@@ -11,10 +11,13 @@ import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
 import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Move;
+import lo23.data.Player;
 import lo23.data.Position;
-import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.managers.Manager;
+import lo23.utils.Enums;
+import lo23.utils.Enums.CONSTANT_TYPE;
 
 
 
@@ -56,38 +59,21 @@ public class EventListener implements PropertyChangeListener {
              System.out.println("EVENT DETECTED 3");
              if(gamePanel != null){
                  System.out.println("EVENT DETECTED 4");
-
+                 gamePanel.updateBoard((Move)evt.getNewValue());
 
                  if (((Move)evt.getNewValue()).getPiece().haveDoneARook())
                  {
                     System.out.println("EVENT DETECTED 4 => rook");
                     if (((Move)evt.getNewValue()).getTo().getX() == 1)
                     {
-                        Move move = new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null );
-                        try
-                        {
-                            gamePanel.majDataBoard(move);
-                        } catch (IllegalMoveException ex)
-                        {
-                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        gamePanel.updateBoardWithoutChangeColor(move);
+                         gamePanel.updateBoard(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
+
                     }
                     else
                     {
-                        Move move = new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null );
-                         try
-                        {
-                            gamePanel.majDataBoard(move);
-                        } catch (IllegalMoveException ex)
-                        {
-                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        gamePanel.updateBoardWithoutChangeColor(move);
+                           gamePanel.updateBoard(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
                     }
                  }
-                 gamePanel.updateBoard((Move)evt.getNewValue());
                  
              } else if(chatPanel != null){
                  try {
@@ -98,8 +84,10 @@ public class EventListener implements PropertyChangeListener {
              } else if(timerPanel != null){
                  if(timerPanel.playerTimer.isRunning()){
                      timerPanel.playerTimer.pauseTimer();
+                     timerPanel.player.stopTime();
                  } else {
                      timerPanel.playerTimer.startTimer();
+                     timerPanel.player.startTime();
                  }
              }
              
@@ -109,6 +97,23 @@ public class EventListener implements PropertyChangeListener {
                 } catch (BadLocationException ex) {
                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
+         } else if(evt.getNewValue() instanceof Constant){
+             Constant cst = (Constant)evt.getNewValue();
+             CONSTANT_TYPE type = cst.getConstant();
+             
+             if(type == CONSTANT_TYPE.OUT_OF_TIME){
+                 if(gamePanel != null){
+                     gamePanel.endOfGame(cst.getSender());
+                 }
+             }
+            
+             if(gamePanel != null){
+                 if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
+                     gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
+                 } else {
+                     gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
+                 }     
+             }
          } else {
              System.out.println("EVENT DETECTED BUT INSTANCE FAILED");
          }
