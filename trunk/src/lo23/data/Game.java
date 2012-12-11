@@ -265,6 +265,11 @@ public class Game implements Serializable {
 
         GamePiece piece = board[xfrom][yfrom];
         board[xfrom][yfrom] = null;
+        if(board[xto][yto] != null) {
+            GamePiece eatenPiece = board[xto][yto];
+            eatenPiece.setOutOfBorder(true);
+        }
+
         board[xto][yto] = piece;
 
         piece.movePiece(move.to);

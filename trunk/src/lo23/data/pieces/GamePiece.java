@@ -48,7 +48,11 @@ public abstract class GamePiece implements Serializable {
     public boolean isOutOfBorder() {
         return outOfBorder;
     }
-    
+
+    public boolean setOutOfBorder(boolean val) {
+        outOfBorder = val;
+    }
+
     /**
      * This method simply returns the GamePiece position
      * 
