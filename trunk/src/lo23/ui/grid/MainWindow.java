@@ -78,7 +78,7 @@ public class MainWindow extends JFrame implements ActionListener {
         super();
         isReviewGame = reviewGame;
         myModel = m;
-        
+        game = m.getGManager().getCurrentGame();
         build();
     }
  
