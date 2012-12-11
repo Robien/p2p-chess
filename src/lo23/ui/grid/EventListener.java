@@ -15,6 +15,7 @@ import lo23.data.Constant;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.managers.Manager;
 import lo23.utils.Enums;
 import lo23.utils.Enums.CONSTANT_TYPE;
@@ -59,21 +60,38 @@ public class EventListener implements PropertyChangeListener {
              System.out.println("EVENT DETECTED 3");
              if(gamePanel != null){
                  System.out.println("EVENT DETECTED 4");
-                 gamePanel.updateBoard((Move)evt.getNewValue());
+
 
                  if (((Move)evt.getNewValue()).getPiece().haveDoneARook())
                  {
                     System.out.println("EVENT DETECTED 4 => rook");
                     if (((Move)evt.getNewValue()).getTo().getX() == 1)
                     {
-                         gamePanel.updateBoard(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
+                        Move move = new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null );
+                        try
+                        {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex)
+                        {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        gamePanel.updateBoardWithoutChangeColor(move);
 
                     }
                     else
                     {
-                           gamePanel.updateBoard(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
+                        Move move = new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null );
+                        try
+                        {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex)
+                        {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        gamePanel.updateBoardWithoutChangeColor(move);
                     }
                  }
+               gamePanel.updateBoard((Move)evt.getNewValue());
                  
              } else if(chatPanel != null){
                  try {

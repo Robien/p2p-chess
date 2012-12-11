@@ -30,6 +30,7 @@ import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
+import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
@@ -374,14 +375,16 @@ public class GamePanel extends JPanel {
             listOfPiece.put(p, WLabel);
         }
     }
-      
-    public void updateBoard(Move move){
-        // Update board after player play a move
+
+
+    public void updateBoardWithoutChangeColor(Move move)
+    {
+          // Update board after player play a move
 //    	System.out.println("position d�part grid : " + move.getFrom().toString());
 //    	System.out.println("position arriv�e grid : " + move.getTo().toString());
-    
+
         Position positionFrom = null;
-        
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
         constraints.gridx = move.getTo().getWX();
         constraints.gridy = move.getTo().getWY();
@@ -391,7 +394,7 @@ public class GamePanel extends JPanel {
           constraints.gridy = move.getTo().getBY();
           positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
-        
+
         JLabel currentPiece = listOfPiece.get(positionFrom);
         listOfPiece.remove(positionFrom);
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
@@ -400,14 +403,26 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
         }
         add(currentPiece, constraints, 0);
-        
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
-            // End of game   
+            // End of game
             endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
-         
+
+    }
+
+    public void majDataBoard(Move move) throws IllegalMoveException
+    {
+        game.playMove(move);
+    }
+
+
+    public void updateBoard(Move move){
+
+        updateBoardWithoutChangeColor(move);
+
         if (playerColor == COLOR.WHITE) {
             playerColor = COLOR.BLACK;
 //            System.out.println("1" + playerColor);
