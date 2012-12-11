@@ -55,7 +55,7 @@ public class MainWindow extends JFrame implements ActionListener {
     PiecesBox localPlayerLostPieces;
     public static JLabel chess_king;
     public String path = getClass().getClassLoader().getResource(".").getPath();
- 
+    boolean isReviewGame;
         
     
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
@@ -72,6 +72,14 @@ public class MainWindow extends JFrame implements ActionListener {
   
         build();//On initialise notre fenêtre
 
+    }
+    
+    public MainWindow(ApplicationModel m, boolean reviewGame){
+        super();
+        isReviewGame = reviewGame;
+        myModel = m;
+        
+        build();
     }
  
     public MainWindow(ApplicationModel m, Game gm) {
@@ -149,7 +157,11 @@ public class MainWindow extends JFrame implements ActionListener {
         constraints.fill = GridBagConstraints.NONE;
     //    constraints.anchor = GridBagConstraints.CENTER;
 
-        
+        if(isReviewGame){
+            gamePanel.launchReviewGame();
+        } else {
+            gamePanel.launchGame();
+        }
       
         
         //Background
