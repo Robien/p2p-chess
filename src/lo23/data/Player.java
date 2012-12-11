@@ -89,13 +89,13 @@ public class Player implements Serializable {
 
 
         Player player = this;
-        if (player == getKing().getGame().getLocalPlayer())
+        if (player == getGame().getLocalPlayer())
         {
-            player = getKing().getGame().getRemotePlayer();
+            player = getGame().getRemotePlayer();
         }
         else
         {
-            player = getKing().getGame().getLocalPlayer();
+            player = getGame().getLocalPlayer();
         }
 
         ArrayList<GamePiece> gamePieces = player.getPieces();
