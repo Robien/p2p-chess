@@ -151,7 +151,7 @@ public class Pawn extends GamePiece {
                     return true;
                 }
              //if you can kill someone  (2)
-                if (isThereAKingHere(x - 1, y + 1, from, to, king))
+                if (isThereAKingHere(x + 1, y + 1, from, to, king))
                 {
 
                     return true;
