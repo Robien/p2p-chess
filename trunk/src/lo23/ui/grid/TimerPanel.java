@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import lo23.data.ApplicationModel;
 import lo23.data.Player;
+import lo23.utils.Enums;
 
 /**
  *
@@ -29,18 +30,23 @@ import lo23.data.Player;
 @SuppressWarnings("serial")
 public class TimerPanel extends JPanel {
 
-    private PlayerTimer playerTimer;
+    public PlayerTimer playerTimer;
     private Border border;
+    private ApplicationModel myModel;
+    public Player player;
+    EventListener eventListener;
     JLabel timer;
     JButton start;
     JButton stop;
     JButton pause;
     JButton recovery;
 
-    public TimerPanel(ApplicationModel am, Player p) {
+    public TimerPanel(ApplicationModel model, Player p) {
+        myModel = model;
+        player = p;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(100,100));
-        
+        eventListener = new EventListener(this, myModel);
         //setHorizontalTextPosition(SwingConstants.CENTER);
 
         timer = new JLabel();
@@ -52,9 +58,14 @@ public class TimerPanel extends JPanel {
 
   //      setBorder(border);
 
-        playerTimer = new PlayerTimer(this, am, p);
-        playerTimer.startTimer();
+        playerTimer = new PlayerTimer(this, myModel, player);
+        //playerTimer.startTimer();
         
+           if(p.getColor() == Enums.COLOR.WHITE){
+            playerTimer.startTimer();
+        } 
+        
+        addPropertyChangeListener(eventListener);
     }
 
     public JLabel getLabel(){
