@@ -148,8 +148,12 @@ public class GameManager extends Manager implements GameManagerInterface {
 		currentGame.swapPlayer(); // Il faut inverser local et remote player
 		if (currentGame.getEndDate()==null){
 		    // Partie non finie
+                    MainWindow fenetre = new MainWindow(this.getApplicationModel(), false);
+                    fenetre.setVisible(true);
 		}else{
 		    //Partie finir -> visionnage
+                    MainWindow fenetre = new MainWindow(this.getApplicationModel(), true);
+                    fenetre.setVisible(true);
 		}
 	    }
 	} else {
