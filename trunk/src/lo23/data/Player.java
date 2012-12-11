@@ -121,7 +121,7 @@ public class Player implements Serializable {
 
     public boolean isCheckAndMat()
     {
-        return getKing().getPossibleMoves().isEmpty() && isOncheck();
+        return getKing().getPossibleMovesWithCheck().isEmpty() && isOncheck();
     }
 
 
