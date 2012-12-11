@@ -201,7 +201,7 @@ public class Queen extends GamePiece {
 
 
 
-        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym); i++)
+        for (int i = 1; i < 8 && (xpyp || xmyp || xpym || xmym || xp || xm || yp || ym); i++)
         {
 
             //moves in Bishop
@@ -267,7 +267,7 @@ public class Queen extends GamePiece {
             }
             else
             {
-                if (xp &&isThereAKingHere(x + i, y, from, to, king))
+                if (xp && isThereAKingHere(x + i, y, from, to, king))
                 {
                    return true;
                 }
