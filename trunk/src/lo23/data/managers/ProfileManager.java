@@ -130,6 +130,11 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     }
 
     @Override
+    public void sendInvitationAnwser(Invitation invitation, boolean answer) {
+        getApplicationModel().getComManager().sendInvitationAnswer(invitation, answer);
+    }
+
+    @Override
     public void notifyInvitation(Invitation invitation) {
         publish(IhmLoginModel.INVIT_RECEIVE, invitation);
     }
