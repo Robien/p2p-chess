@@ -11,20 +11,21 @@ import lo23.data.PublicProfile;
  * @author Esteban
  */
 public class MulticastDisconnection extends ConnectionMessage{
-    private PublicProfile Profile;
+    
+    private PublicProfile profile;
 
     /**
-     * Contructor of the MulticastInvit.
+     * Constructor of the MulticastDisconnection.
      */
     public MulticastDisconnection(PublicProfile Profile){
-        this.Profile = Profile;
+        this.profile = Profile;
     }
 
     public void setProfile(PublicProfile Profile) {
-        this.Profile = Profile;
+        this.profile = Profile;
     }
     
     public PublicProfile getProfile() {
-        return Profile;
+        return profile;
     }
 }
