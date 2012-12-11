@@ -19,6 +19,13 @@ public interface ISender {
      */
     public void sendMulticast();
     
+    
+    /**
+     * Send a message to all users in order to receive a response
+     * from each users.
+     */
+    public void sendMulticastDisconnection();
+    
     /**
      * Send a invitation to a user.
      * @param invitation the invitation from a user

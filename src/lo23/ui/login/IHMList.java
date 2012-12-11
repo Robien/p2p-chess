@@ -222,8 +222,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
         this.setVisible(false);
+        model.disconnect();
         IhmLoginModel ihmLoginModel = new IhmLoginModel(model.getApplicationModel());
-        ihmLoginModel.disconnect();
         
         this.dispose();
         

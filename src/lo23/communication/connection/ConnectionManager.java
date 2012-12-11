@@ -28,6 +28,7 @@ import lo23.communication.message.InvitMsg;
 import lo23.communication.message.Message;
 import lo23.communication.message.MoveMsg;
 import lo23.communication.message.MulticastAnswer;
+import lo23.communication.message.MulticastDisconnection;
 import lo23.communication.message.MulticastInvit;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
@@ -95,6 +96,18 @@ public class ConnectionManager implements ConnectionListener {
             HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
             handler.sendMulticast(message);
         } else {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Send multicast without publicProfile");
+        }
+    }
+    
+    public void sendMulticastDisconnection(){
+        if(comManager.getCurrentUserProfile() != null){
+            PublicProfile profile = comManager.getCurrentUserProfile();
+            MulticastDisconnection message = new MulticastDisconnection(profile);
+            HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
+            handler.sendMulticast(message);
+        }
+        else{
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Send multicast without publicProfile");
         }
     }
@@ -347,13 +360,15 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {
+        System.out.println("Message Received"+message);
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
             if ( comManager.getCurrentUserProfile() != null &&
                 !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
                 replyMulticast(ipAddress);
             }    
-        } else if (message instanceof MulticastAnswer) {
+        }
+        else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
             notifyMessage(message);
         }
     }
@@ -397,6 +412,9 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer) {
                 model.getPManager().notifyAddProfile(((MulticastAnswer) message).getGuest());
+            }
+            else if(message instanceof MulticastDisconnection){
+                model.getPManager().notifyProfileDisconnection(((MulticastDisconnection) message).getProfile());
             }
         }
    }

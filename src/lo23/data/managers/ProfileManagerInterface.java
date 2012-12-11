@@ -54,7 +54,10 @@ public interface ProfileManagerInterface {
      * @return true if the connection succeeded
      */
     public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException;
-
+    /**
+     * Send a disconnection message
+     */
+    public void disconnect();
     /**
      * Get PublicProfiles for the local Profiles
      *
@@ -100,6 +103,13 @@ public interface ProfileManagerInterface {
      * @param publicProfile the new publicProfile to notify
      */
     public void notifyAddProfile(PublicProfile publicProfile);
+    
+    
+    /**
+     * Notify the subscribed Managers to remove the given PublicProfile
+     * @param publicProfile the new publicProfile to notify
+     */
+    public void notifyProfileDisconnection(PublicProfile publicProfile);
 
     /**
      * Notify the answer to an invitation to the subscribed Managers

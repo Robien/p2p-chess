@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -195,11 +197,14 @@ public class IhmLoginModel implements PropertyChangeListener{
             PublicProfile profile = (PublicProfile)evt.getNewValue();
 
             PublicProfile p = getRemoteProfile(profile.getProfileId());
+            
             if(p == null){
                 //Add remote profile to Jtable model
                 listPlayers.addPlayer(profile.getProfileId(),profile.getPseudo(),profile.getFirstName(),getIconStatus(profile));
                 
-                //Get all games stopped which have the id of the current profile p
+                System.out.println("Player : "+profile.getPseudo()+" added");
+                
+                //Get all games stopped which have the id of the current remote profile
                 ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
                 for(Game g : gamesContinue){
                     listIdGame.put(g.getGameId(), g);
@@ -212,28 +217,39 @@ public class IhmLoginModel implements PropertyChangeListener{
             }
             else{
                 //update info of p
-                listPlayers.updatePlayer(profile.getProfileId(), profile.getName(), profile.getFirstName(), getIconStatus(profile));
+                listPlayers.updatePlayer(profile.getProfileId(), profile.getPseudo(), profile.getFirstName(), getIconStatus(profile));
+                listProfileDate.remove(p);
+                p = profile;
+                System.out.println("Update Player ");
             }
             //put p to list
             listProfileDate.put(p,new Date());
-            
-            
-            
-            
-            System.out.println("Player : "+profile.getPseudo()+" added");
-
-            removeDisconnectedProfilesAndGames();
+     
+            //removeDisconnectedProfilesAndGames();
             
         }
-        if(evt.getPropertyName().equals(INVIT_RECEIVE)){
+        else if(evt.getPropertyName().equals(DELETE_PLAYER_DISCONNECTED)){
+            PublicProfile profile = (PublicProfile) evt.getNewValue();
+            if(profile != null){
+                PublicProfile p = this.getRemoteProfile(profile.getProfileId());
+                if(p != null){
+                    listPlayers.removePlayer(p.getProfileId());
+                    listProfileDate.remove(p);
+                    System.out.println("Player Removed : "+p.getProfileId());
+                }
+            }
+        }
+        else if(evt.getPropertyName().equals(INVIT_RECEIVE)){
             pcs.firePropertyChange(INVIT_RECEIVE, evt.getOldValue(), evt.getNewValue());
         }
-        if(evt.getPropertyName().equals(REQUEST_GAME_RESPONSE)){
+        else if(evt.getPropertyName().equals(REQUEST_GAME_RESPONSE)){
             pcs.firePropertyChange(REQUEST_GAME_RESPONSE, evt.getOldValue(), evt.getNewValue());
         }
-        if(evt.getPropertyName().equals(INVIT_EXPIRED)){
+        else if(evt.getPropertyName().equals(INVIT_EXPIRED)){
             pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
+        else
+            System.out.println("Event Received : "+evt.getPropertyName());
     }
     
     
@@ -252,7 +268,7 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     /**
      * Remove disconnect Profiles and Games from the JTable models
-     * if the profile wasn't modified since 30 sec, it will be deleted
+     * if the profile wasn't modified since 3 sec, it will be deleted
      */
     private void removeDisconnectedProfilesAndGames(){
         Date now = new Date();
@@ -262,6 +278,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             if(now.getTime() - currDate.getTime() >= 3*1000){
                 //Remove profile from two list
                 listProfileDate.remove(p);
+                System.out.println("Player Removed : "+p.getPseudo());
                 listPlayers.removePlayer(p.getProfileId());
                 
                 //Remove games associated
@@ -350,7 +367,8 @@ public class IhmLoginModel implements PropertyChangeListener{
             ((Manager)pmi).subscribe(this, INVIT_EXPIRED);
             ((Manager)pmi).subscribe(this, ADD_PLAYER_CONNECTED);
             ((Manager)pmi).subscribe(this, REQUEST_GAME_RESPONSE);
-            pmi.startProfilesDiscovery();
+            ((Manager)pmi).subscribe(this, DELETE_PLAYER_DISCONNECTED);
+            pmi.startProfilesDiscovery();            
         }
         return ret;
     }
@@ -365,6 +383,8 @@ public class IhmLoginModel implements PropertyChangeListener{
         ((Manager)pmi).unsubscribe(this, INVIT_EXPIRED);
         ((Manager)pmi).unsubscribe(this, ADD_PLAYER_CONNECTED);
         ((Manager)pmi).unsubscribe(this, REQUEST_GAME_RESPONSE);
+        ((Manager)pmi).unsubscribe(this, DELETE_PLAYER_DISCONNECTED);
+        pmi.disconnect();
     }
  
 
@@ -388,10 +408,11 @@ public class IhmLoginModel implements PropertyChangeListener{
         
         public void updatePlayer(String id,String name,String firstname,ImageIcon ico){
             for (int i = 0; i < this.getRowCount(); i++) {
-                if (this.getValueAt(i, 0) == id) {
+                if (this.getValueAt(i, 0).equals(id)) {
                     this.setValueAt(name, i, 1);
                     this.setValueAt(firstname,i,2);
                     this.setValueAt(ico, i, 3);
+                    System.out.println("Player found and updated : "+name);
                     return;
                 }
             }
@@ -411,7 +432,8 @@ public class IhmLoginModel implements PropertyChangeListener{
 
         public void removePlayer(String id) {
             for (int i = 0; i < this.getRowCount(); i++) {
-                if (this.getValueAt(i, 0) == id) {
+                if (this.getValueAt(i, 0).equals(id)){
+                    System.out.println("Player found and removed : "+this.getValueAt(i,1));
                     this.removeRow(i);
                     return;
                 }
