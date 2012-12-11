@@ -7,5 +7,5 @@ public class Configuration {
     /**
      * Refresh rate for the discovery of the distant profiles, in milliseconds
      */
-    static public final long PROFILES_DISCOVERY_REFRESH_RATE = 1000;
+    static public final long PROFILES_DISCOVERY_REFRESH_RATE = 20000;
 }
