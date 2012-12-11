@@ -30,6 +30,7 @@ import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
 import lo23.ui.grid.GridConstants;
 import lo23.ui.grid.MainWindow;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -116,6 +117,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 		hostprofileId = invitation.getHost().getProfileId();
 	if (curr_pofileId.equals(guestProfileId)
 		|| curr_pofileId.equals(hostprofileId)) {
+	    getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.INGAME);
 	    if (invitation instanceof NewInvitation) {
 		NewInvitation I = (NewInvitation) invitation;
 		COLOR guestColor;
