@@ -121,9 +121,25 @@ public class Player implements Serializable {
 
     public boolean isCheckAndMat()
     {
-        return getKing().getPossibleMovesWithCheck().isEmpty() && isOncheck();
-    }
+          Player player = this;
 
+        ArrayList<GamePiece> gamePieces = player.getPieces();
+
+
+        for (int i = 0; i < gamePieces.size(); ++i)
+        {
+            GamePiece piece = gamePieces.get(i);
+
+                //List<Position> pos = piece.getPossibleMoves();
+             //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
+                if (!piece.getPossibleMovesWithCheck().isEmpty())
+                {
+                    return false;
+                }
+        }
+
+        return isOncheck();
+    }
 
     
     public PublicProfile getPublicProfile() {

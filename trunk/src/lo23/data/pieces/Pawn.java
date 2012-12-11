@@ -81,6 +81,8 @@ public class Pawn extends GamePiece {
                 if (thereIsAnEnemyAt(x + 1, y + 1))
                 {
 
+
+
                     positions.add(new Position(x + 1, y + 1));
                 }
             
