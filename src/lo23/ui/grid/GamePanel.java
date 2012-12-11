@@ -126,7 +126,7 @@ public class GamePanel extends JPanel {
         // Launch a game and build the board with events or not
         	buildBoard();
                 isPlayPossible = true;
-                playerColor = COLOR.WHITE;
+                playerColor = myModel.getGManager().getCurrentGame().getCurrentPlayerColor();
     }
     
     public void launchReviewGame(){
@@ -227,7 +227,7 @@ public class GamePanel extends JPanel {
           
         addPropertyChangeListener(eventListener);
        
-        launchGame(); //comment for integration
+       // launchGame(); //comment for integration
     }
     
     private void receiveSelectedCase(int x, int y){ 
@@ -502,8 +502,8 @@ public class GamePanel extends JPanel {
     	//commenter le dernier test sur la couleur du joueur pour pouvoir joueur les noirs!
     	if (listOfPiece.get(newSelection) != null) {
     		if(currentPiece != null && !currentPiece.getPossibleMovesWithCheck().isEmpty()
-    				&& currentPiece.getOwner().getColor() == playerColor) {
-    				//&& game.getLocalPlayer().getColor() == playerColor) {
+    				&& currentPiece.getOwner().getColor() == playerColor
+    				&& game.getLocalPlayer().getColor() == playerColor) {
     			return true;
     		}
     		return false;
