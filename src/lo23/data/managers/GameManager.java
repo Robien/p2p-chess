@@ -66,6 +66,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     public void playMove(Move move) {
 	try {
 	    currentGame.playMove(move);
+	    currentGame.swapCurrentPlayerColor();
 	} catch (IllegalMoveException ex) {
 	    Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -139,7 +140,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 		    currentGame = new Game(local, remote);
 		    currentGame.buildPieces();
 		}
-		
+		currentGame.setCurrentPlayerColor(COLOR.WHITE);
 	    } else {
 		//Il s'agit d'un resume game
 		ResumeGame I = (ResumeGame) invitation;
@@ -248,6 +249,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 	    GamePiece p = getPieceAtXY(xfrom, yfrom);
 	    try {
 		currentGame.playMove(move);
+		currentGame.swapCurrentPlayerColor();
 	    } catch (IllegalMoveException ex) {
 		System.out.println("Error : received illegal move. Shouldn't happen "
 			+ move.getFrom() + " - " + move.getTo());
