@@ -1,7 +1,5 @@
 package lo23.communication;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
 import lo23.communication.connection.ConnectionManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
@@ -31,11 +29,11 @@ public class ComManager extends Manager implements ISender {
     }
     
     public PublicProfile getCurrentUserProfile() {
-        if (applicationModel.getPManager().getCurrentProfile() == null ) {
-            return null;
-        } else {
-            return applicationModel.getPManager().getCurrentProfile().getPublicProfile();
+        PublicProfile profile = null;
+        if (applicationModel.getPManager().getCurrentProfile() != null ) {
+            profile = applicationModel.getPManager().getCurrentProfile().getPublicProfile();
         }
+        return profile;
     }
     
     @Override
