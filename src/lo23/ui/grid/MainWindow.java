@@ -234,7 +234,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	constraints.gridheight = 10;
 	constraints.gridx = 0;
 	constraints.gridy = 0;
-        remotePlayerLostPieces = new PiecesBox(COLOR.WHITE, myModel, gamePanel);
+        remotePlayerLostPieces = new PiecesBox(game.getLocalPlayer().getColor(), myModel, gamePanel);
         panel.add(remotePlayerLostPieces, constraints,0);
 //
    
@@ -257,7 +257,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	constraints.gridx = 0;
 	constraints.gridy = 0;
 //        constraints.fill = GridBagConstraints.BOTH ;
-        localPlayerLostPieces = new PiecesBox(COLOR.BLACK, myModel, gamePanel);
+        localPlayerLostPieces = new PiecesBox(myModel.getGManager().getCurrentGame().getRemotePlayer().getColor(), myModel, gamePanel);
         panel.add(localPlayerLostPieces, constraints,0);
 
         
