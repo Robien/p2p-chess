@@ -114,7 +114,7 @@ public class Knight extends GamePiece {
                 }
             }
             
-              if (x - 1  < 8 && y - 2 >=0 && game.getPieceAtXY(x - 1, y - 2) == null)
+              if (x - 1  >= 0 && y - 2 >=0 && game.getPieceAtXY(x - 1, y - 2) == null)
             {
                 positions.add(new Position(x - 1, y - 2));
             }
