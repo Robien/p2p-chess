@@ -372,7 +372,8 @@ public class GamePanel extends JPanel {
 
     public void updateBoardWithoutChangeColor(Move move)
     {
- Position positionFrom = null;
+        
+        Position positionFrom = null;
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
         constraints.gridx = move.getTo().getWX();
@@ -399,7 +400,8 @@ public class GamePanel extends JPanel {
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
 //            System.out.append("CheckMate dude !");
         }
-
+        
+        myModel.getGManager().getCurrentGame().dumpBoard();
     }
 
 
@@ -418,7 +420,7 @@ public class GamePanel extends JPanel {
 //            System.out.println("2" + playerColor);
         }
         
-        myModel.getGManager().getCurrentGame().dumpBoard();
+ 
         
         // TO DO : Check end of game
         //System.out.println(listOfPiece);  

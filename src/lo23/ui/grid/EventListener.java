@@ -55,7 +55,7 @@ public class EventListener implements PropertyChangeListener {
              System.out.println("EVENT DETECTED 3");
              if(gamePanel != null){
                  System.out.println("EVENT DETECTED 4");
-                 gamePanel.updateBoard((Move)evt.getNewValue());
+
 
                  if (((Move)evt.getNewValue()).getPiece().haveDoneARook())
                  {
@@ -63,13 +63,13 @@ public class EventListener implements PropertyChangeListener {
                     if (((Move)evt.getNewValue()).getTo().getX() == 1)
                     {
                          gamePanel.updateBoardWithoutChangeColor(new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null ));
-
                     }
                     else
                     {
                          gamePanel.updateBoardWithoutChangeColor(new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null ));
                     }
                  }
+                 gamePanel.updateBoard((Move)evt.getNewValue());
                  
              } else if(chatPanel != null){
                  try {
