@@ -369,14 +369,11 @@ public class GamePanel extends JPanel {
             listOfPiece.put(p, WLabel);
         }
     }
-      
-    public void updateBoard(Move move){
-        // Update board after player play a move
-//    	System.out.println("position d�part grid : " + move.getFrom().toString());
-//    	System.out.println("position arriv�e grid : " + move.getTo().toString());
-    
-        Position positionFrom = null;
-        
+
+    public void updateBoardWithoutChangeColor(Move move)
+    {
+ Position positionFrom = null;
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
         constraints.gridx = move.getTo().getWX();
         constraints.gridy = move.getTo().getWY();
@@ -386,7 +383,7 @@ public class GamePanel extends JPanel {
           constraints.gridy = move.getTo().getBY();
           positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
-        
+
         JLabel currentPiece = listOfPiece.get(positionFrom);
         listOfPiece.remove(positionFrom);
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
@@ -395,14 +392,24 @@ public class GamePanel extends JPanel {
             listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
         }
         add(currentPiece, constraints, 0);
-        
+
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()){
-            // End of game   
+            // End of game
 //            System.out.append("CheckMate dude !");
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
 //            System.out.append("CheckMate dude !");
         }
-         
+
+    }
+
+
+    public void updateBoard(Move move){
+        // Update board after player play a move
+//    	System.out.println("position d�part grid : " + move.getFrom().toString());
+//    	System.out.println("position arriv�e grid : " + move.getTo().toString());
+    
+       updateBoardWithoutChangeColor(move);
+       
         if (playerColor == COLOR.WHITE) {
             playerColor = COLOR.BLACK;
 //            System.out.println("1" + playerColor);
