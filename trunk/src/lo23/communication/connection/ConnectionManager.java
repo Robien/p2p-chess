@@ -151,10 +151,10 @@ public class ConnectionManager implements ConnectionListener {
     public void sendInvitationAnswer(Invitation invitation, boolean answer) {
         PublicProfile hostProfile = invitation.getHost();
         AnswerMsg answerMsg = new AnswerMsg(invitation, answer);
-        InetAddress adress;
+        InetAddress address;
         try {
-            adress = InetAddress.getByName(hostProfile.getIpAddress());
-            Socket socket = socketDirectory.get(adress);
+            address = InetAddress.getByName(hostProfile.getIpAddress());
+            Socket socket = socketDirectory.get(address);
             HandleMessage handleMessage = handleMessageMap.get(socket);
             handleMessage.send(answerMsg);
         } catch (UnknownHostException ex) {
@@ -320,6 +320,7 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedMessage(Socket socket, final Message message) {
+        System.out.println("Message TCP Received : "+message);
         if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             if (readInvitation.get()) {
@@ -365,7 +366,7 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {
-        System.out.println("Message Received"+message);
+        System.out.println("Message UDP Received : "+message);
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
             if ( comManager.getCurrentUserProfile() != null &&
