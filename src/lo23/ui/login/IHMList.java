@@ -72,6 +72,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         model.addPropertyChangeListener(IhmLoginModel.INVIT_RECEIVE,this);
         model.addPropertyChangeListener(IhmLoginModel.ADD_PLAYER_CONNECTED,this);
         model.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
+        model.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         
         
         //TEST
