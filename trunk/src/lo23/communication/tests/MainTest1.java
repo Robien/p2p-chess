@@ -318,7 +318,7 @@ public class MainTest1 {
         public void notifyInvitAnswer(Invitation invitation, boolean answer) {
             if ( answer ) {
                 //invitation.g
-                getApplicationModel().getComManager().sendGameStarted(hostProfile.getPublicProfile());
+                //getApplicationModel().getComManager().sendGameStarted(hostProfile.getPublicProfile(), true);
             }
         }
 

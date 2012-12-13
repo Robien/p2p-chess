@@ -124,7 +124,7 @@ public class SuperMain implements PropertyChangeListener {
                         NewInvitation invitation = new NewInvitation(COLOR.BLACK, 3600, hostProfile, profile);
 
                         appModel.getComManager().sendInvitation(invitation);
-                        appModel.getComManager().sendGameStarted(invitation.getGuest());
+                        //appModel.getComManager().sendGameStarted(invitation.getGuest(), true);
 
                         Player p1 = new Player(COLOR.WHITE, 0, null);
                         Player p2 = new Player(COLOR.BLACK, 0, null);
