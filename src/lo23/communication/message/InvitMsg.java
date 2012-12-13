@@ -10,7 +10,7 @@ public class InvitMsg extends ConnectionMessage {
     private Invitation invitation;
 
     /**
-     * Contructor of the InvitMsg.
+     * Constructor of the InvitMsg.
      * @param invitation the invitation sent by the current user which refers to a new game or a loaded game.
      */
     public InvitMsg(Invitation invitation) {

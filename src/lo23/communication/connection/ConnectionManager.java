@@ -22,8 +22,8 @@ import lo23.communication.handle.HandleServerConnection;
 import lo23.communication.message.AnswerMsg;
 import lo23.communication.message.ChatMsg;
 import lo23.communication.message.ConstantMsg;
-import lo23.communication.message.GameEnded;
-import lo23.communication.message.GameStarted;
+import lo23.communication.message.GameEndedMsg;
+import lo23.communication.message.GameStartedMsg;
 import lo23.communication.message.InvitMsg;
 import lo23.communication.message.Message;
 import lo23.communication.message.MoveMsg;
@@ -165,10 +165,11 @@ public class ConnectionManager implements ConnectionListener {
     /**
      * Start a game session with a user.
      * @param userProfile the user who will be the opponent
+     * @param started indicates is the game have to be started
      */
-    public void sendGameStarted(PublicProfile userProfile) {
+    public void sendGameStarted(PublicProfile userProfile, boolean started) {
         try {
-            GameStarted message = new GameStarted(userProfile);
+            GameStartedMsg message = new GameStartedMsg(userProfile, started);
             InetAddress distantIpAddr = InetAddress.getByName(userProfile.getIpAddress());
             HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
             handleMessage.send(message);
@@ -234,7 +235,7 @@ public class ConnectionManager implements ConnectionListener {
      * (available only when a game session is started)
      */
     public void sendGameEnded() {
-        GameEnded message = new GameEnded();
+        GameEndedMsg message = new GameEndedMsg();
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(message);
         readInvitation.set(true);
@@ -338,10 +339,13 @@ public class ConnectionManager implements ConnectionListener {
             }
             notifyMessage(message);
 
-        } else if (message instanceof GameStarted) {
-            readInvitation.set(false);
-            socketSession = socket;
-            disconnectOthers();
+        } else if (message instanceof GameStartedMsg) {
+            GameStartedMsg gameStartedMsg = (GameStartedMsg) message;
+            if (gameStartedMsg.isStarted()) {
+                readInvitation.set(false);
+                socketSession = socket;
+                disconnectOthers();
+            }
             notifyMessage(message);
 
         } else if (message instanceof ChatMsg) {
@@ -353,7 +357,7 @@ public class ConnectionManager implements ConnectionListener {
         } else if (message instanceof ConstantMsg) {
             notifyMessage(message);
 
-        } else if (message instanceof GameEnded) {
+        } else if (message instanceof GameEndedMsg) {
             disconnect(socketSession);
             notifyMessage(message);
             
@@ -407,15 +411,15 @@ public class ConnectionManager implements ConnectionListener {
                 model.getPManager().notifyInvitation(((InvitMsg) message).getInvitation());
             } else if (message instanceof AnswerMsg) {
                 model.getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
-            } else if (message instanceof GameStarted) {
-                model.getGManager().notifyGameStarted(((GameStarted) message).getGuest());
+            } else if (message instanceof GameStartedMsg) {
+                model.getGManager().notifyGameStarted(((GameStartedMsg) message).getGuest());
             } else if (message instanceof ChatMsg) {
                 model.getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
             } else if (message instanceof MoveMsg) {
                 model.getGManager().notifyMovement(((MoveMsg) message).getMove());
             } else if (message instanceof ConstantMsg) {
                 model.getGManager().notifyConstantMessage(((ConstantMsg) message).getConstant());
-            } else if (message instanceof GameEnded) {
+            } else if (message instanceof GameEndedMsg) {
                 model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
                 model.getPManager().notifyAddProfile(((MulticastMessage) message).getProfile());

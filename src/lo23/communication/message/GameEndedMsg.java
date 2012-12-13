@@ -3,11 +3,11 @@ package lo23.communication.message;
 /**
  * This message is sent to notify the distant client that the game is ended.
  */
-public class GameEnded extends ConnectionMessage{
+public class GameEndedMsg extends ConnectionMessage{
 
     /**
-     * Contructor of the GameEnded.
+     * Constructor of the GameEnded.
      */
-    public GameEnded() {
+    public GameEndedMsg() {
     }
 }

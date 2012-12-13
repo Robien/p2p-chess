@@ -5,16 +5,18 @@ import lo23.data.PublicProfile;
 /**
  * This message is sent to notify the distant client that the game is started.
  */
-public class GameStarted extends ConnectionMessage{
+public class GameStartedMsg extends ConnectionMessage{
 
     private PublicProfile guest;
+    private boolean started;
 
     /**
-     * Contructor of the GameStarted.
+     * Constructor of the GameStarted.
      * @param guest the distant PublicProfile connected to the current client.
      */
-    public GameStarted(PublicProfile guest) {
+    public GameStartedMsg(PublicProfile guest, boolean started) {
         this.guest = guest;
+        this.started = started;
     }
 
     public void setGuest(PublicProfile guest) {
@@ -25,4 +27,11 @@ public class GameStarted extends ConnectionMessage{
         return guest;
     }
 
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 }

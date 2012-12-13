@@ -11,7 +11,7 @@ public class ChatMsg extends GameMessage {
     private Message message;
 
     /**
-    * Contructor of the MessageMsg.
+    * Constructor of the MessageMsg.
     */
     public ChatMsg(Message msg){
         this.message = msg;

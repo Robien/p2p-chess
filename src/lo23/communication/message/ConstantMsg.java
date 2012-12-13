@@ -9,7 +9,7 @@ public class ConstantMsg extends GameMessage {
     private Constant constant;
 
     /**
-     * Contructor of the Constant message.
+     * Constructor of the Constant message.
      */
     public ConstantMsg(Constant constant){
         this.constant = constant;

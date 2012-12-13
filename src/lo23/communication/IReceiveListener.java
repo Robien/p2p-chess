@@ -35,8 +35,9 @@ public interface IReceiveListener {
     /**
      * Notify the start of a game session.
      * @param userProfile the user who start the game session
+     * @param started indicates is the game have to be started
      */
-    public void notifyGameStarted(PublicProfile userProfile);
+    public void notifyGameStarted(PublicProfile userProfile, boolean started);
     
     /**
      * Notify a chat message.
