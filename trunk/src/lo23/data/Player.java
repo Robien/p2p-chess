@@ -121,23 +121,24 @@ public class Player implements Serializable {
 
     public boolean isCheckAndMat()
     {
-          Player player = this;
+        Player player = this;
 
         ArrayList<GamePiece> gamePieces = player.getPieces();
 
-
+       
         for (int i = 0; i < gamePieces.size(); ++i)
         {
             GamePiece piece = gamePieces.get(i);
 
                 //List<Position> pos = piece.getPossibleMoves();
              //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
-                if (!piece.getPossibleMovesWithCheck().isEmpty())
+                if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty())
                 {
+                  System.out.println("TAILLE DES COUPS " + piece.getClass() + " position : (" + piece.getPosition().getX() + ")("+ piece.getPosition().getX()+")  coups : " + piece.getPossibleMovesWithCheck().size());
                     return false;
                 }
         }
-
+       
         return isOncheck();
     }
 
