@@ -164,6 +164,7 @@ public interface GameManagerInterface
      */
     public Game notifyGameStarted(Invitation invitation);
     
+    
     /**
      * This method returns a list of ended games.
      * 
@@ -196,7 +197,12 @@ public interface GameManagerInterface
      * Notify the start of a game session.
      * @param userProfile the user who start the game session
      */
-    public void notifyGameStarted(PublicProfile userProfile);
+    public void notifyGameStarted(PublicProfile userProfile, boolean ans);
+    /**
+     * send the start of a game session.
+     * @param userProfile the user who start the game session
+     */
+    public void sendGameStarted(PublicProfile userProfile, boolean ans);
 
     /**
      * Notify a movement of a piece.

@@ -242,8 +242,12 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
-    public void notifyGameStarted(PublicProfile userProfile) {
-	publish("gameStarted", userProfile);
+    public void notifyGameStarted(PublicProfile userProfile,boolean ans) {
+	publish("gameStarted", userProfile,ans);
+    }
+    @Override
+    public void sendGameStarted(PublicProfile userProfile, boolean ans){
+	getApplicationModel().getComManager().sendGameStarted(userProfile, ans);
     }
 
     @Override
