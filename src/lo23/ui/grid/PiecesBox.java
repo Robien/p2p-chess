@@ -31,7 +31,6 @@ public class PiecesBox extends JPanel{
     
     private COLOR boxDisplayColor;
     ApplicationModel myModel;
-    GamePanel refPanel;
     GridBagLayout boxLayout;
     GridBagConstraints c;
     
@@ -42,13 +41,13 @@ public class PiecesBox extends JPanel{
      * donné.Selon ce paramètre, on choisira les pièces qui doivent être affichées.
      * @param type le type de boîte à créer.
      */
-    public PiecesBox(COLOR playerColor, ApplicationModel model, GamePanel game) {
+    public PiecesBox(COLOR playerColor, ApplicationModel model) {
         super();
         this.boxDisplayColor = playerColor; // set the playerColor. It specify the color we want to display in our box
         boxLayout = new GridBagLayout(); // set the gridbagLayout
         this.setLayout(boxLayout); // set the created gridbaglayout as layout for the JPanel        
         this.myModel = model ; // set the model
-        this.refPanel = game ; // set the game panel that allow to get the eaten pieces
+        //this.refPanel = game ; // set the game panel that allow to get the eaten pieces
         c = new GridBagConstraints(); //Create the constraints for the GridBagLayout
         
         // Set the display parameter
@@ -67,34 +66,19 @@ public class PiecesBox extends JPanel{
      * des pièces composant le jeu, si l'une d'elle est hors de l'échiquier, on regarde si
      * son type correspond à celui de la box. Si oui on l'ajoute, sinon on continue.
      */
-    public void updateBox(){
+    public void updateBox(GamePanel refPanel){
         //On vide l'objet pour le remplir à nouveau ensuite
         this.removeAll();
         // Récupération des Labels ;
         ArrayList<JLabel> pieces ;
         //Iterator ite = pieces.iterator();
         if (boxDisplayColor == COLOR.WHITE){
-            pieces = refPanel.getWhiteAtePieces();
-            
-            // Création et ajout de pièces à retirer après [pour TEST]
-            
-            ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KW.png");
-            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
-            for (int i=0;i<9;i++){
-            pieces.add(knightLabel);
-            }
-            
+            pieces = refPanel.getWhiteAtePieces();            
             //vérifie qu'on ajoute le bon nombre de pièces à la liste
             System.out.println("Taille du conteneur de Label : " + pieces.size());
         }
         else{
             pieces = refPanel.getBlackAtePieces();
-            
-            // Création et ajout de pièces à retirer après [pour TEST]
-            ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/BB.png");
-            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
-            pieces.add(knightLabel);
-            
             //vérifie qu'on ajoute le bon nombre de pièces à la liste
             System.out.println("Taille du conteneur de Label : " + pieces.size());
         }
