@@ -88,16 +88,21 @@ public class GamePanel extends JPanel {
     
    //playable game
     boolean isPlayPossible;
-   
+    
+    private PiecesBox localBox;
+    private PiecesBox remoteBox;
+    
     public GamePanel(ApplicationModel model){
         super();
         myModel = model; 
         eventListener = new EventListener(this, myModel);
+        localBox=null;
+        remoteBox=null;
         
         // TO DO : Instancier PlayerColor en fonction du dernier évènement.
     }
  
-    public GamePanel(ApplicationModel model, Game gm) {
+    public GamePanel(ApplicationModel model, Game gm, PiecesBox local, PiecesBox remote) {
         super();
         myModel = model;
         eventListener = new EventListener(this, myModel);
@@ -105,6 +110,8 @@ public class GamePanel extends JPanel {
         board = gm.getBoard();
         playerColor = COLOR.WHITE;
       
+        localBox=local;
+        remoteBox=remote;
         
         build();
     }
@@ -504,6 +511,8 @@ public class GamePanel extends JPanel {
     	} else {
             whiteAtePieces.add(atePiece);
         }
+        localBox.updateBox(this);
+        remoteBox.updateBox(this);
     }
     
     private boolean amongListOfPossiblesMoves (Position p){
