@@ -254,7 +254,10 @@ public class IhmLoginModel implements PropertyChangeListener{
             pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
         else if(evt.getPropertyName().equals(GAME_STARTED)){
-            pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
+            pcs.firePropertyChange(GAME_STARTED,evt.getOldValue(),evt.getNewValue());
+        }
+        else if(evt.getPropertyName().equals(GAME_ENDED)){
+            pcs.firePropertyChange(GAME_ENDED,evt.getOldValue(),evt.getNewValue());
         }
         else
             System.out.println("Event Received : "+evt.getPropertyName());
