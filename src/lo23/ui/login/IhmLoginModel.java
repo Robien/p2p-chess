@@ -34,7 +34,6 @@ import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
-import lo23.ui.login.mockManager.GameManagerMock;
 import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
@@ -44,11 +43,12 @@ import lo23.utils.Enums.STATUS;
  * @author Esteban
  */
 public class IhmLoginModel implements PropertyChangeListener{
+   
     
-    public static final String VIEW_PROFILE_RESPONSE = "view-profile-response";//DEPRECATED
     public static final String ADD_PLAYER_CONNECTED = "add-player-connected";
-    public static final String DELETE_PLAYER_DISCONNECTED = "delete-player-disconnected";//DEPRECATED
+    public static final String DELETE_PLAYER_DISCONNECTED = "delete-player-disconnected";
     public static final String REQUEST_GAME_RESPONSE = "request-game-response";
+    public static final String GAME_STARTED = "game_started";
     public static final String INVIT_RECEIVE = "invit-receive";
     public static final String INVIT_EXPIRED = "invit-expired";
     public static final String GAME_ENDED = "game-ended";
@@ -150,11 +150,6 @@ public class IhmLoginModel implements PropertyChangeListener{
      * @throws WrongInvitation 
      */
     public void sendInvitationAnswer(Invitation invit,boolean answer) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation{
-        if(answer){
-            GameManagerInterface gameManager = appModel.getGManager();
-            gameManager.createGame(invit);
-        }
-
         appModel.getPManager().sendInvitationAnswer(invit,answer);
     }
 
@@ -258,6 +253,9 @@ public class IhmLoginModel implements PropertyChangeListener{
         else if(evt.getPropertyName().equals(INVIT_EXPIRED)){
             pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
         }
+        else if(evt.getPropertyName().equals(GAME_STARTED)){
+            pcs.firePropertyChange(INVIT_EXPIRED,evt.getOldValue(),evt.getNewValue());
+        }
         else
             System.out.println("Event Received : "+evt.getPropertyName());
     }
@@ -324,10 +322,9 @@ public class IhmLoginModel implements PropertyChangeListener{
      * @throws WrongInvitation 
      */
     public void loadGame(Invitation invitation) throws FileNotFoundException, IOException, ClassNotFoundException, WrongInvitation {
-        Game game = appModel.getGManager().createGame(invitation);
-        appModel.getGManager().load(game.getGameId());
+        appModel.getGManager().createGame(invitation);
     }
-
+    
     /**
      * Fire REFRESH_LIST evt to refresh local profile list
      */
@@ -371,6 +368,7 @@ public class IhmLoginModel implements PropertyChangeListener{
      */
     boolean connect(PublicProfile profile,char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
         ProfileManagerInterface pmi = appModel.getPManager();
+        GameManagerInterface gmi = appModel.getGManager();
         boolean ret = pmi.connection(profile.getProfileId(),password);
         if(ret){
             ((Manager)pmi).subscribe(this, INVIT_RECEIVE);
@@ -378,6 +376,8 @@ public class IhmLoginModel implements PropertyChangeListener{
             ((Manager)pmi).subscribe(this, ADD_PLAYER_CONNECTED);
             ((Manager)pmi).subscribe(this, REQUEST_GAME_RESPONSE);
             ((Manager)pmi).subscribe(this, DELETE_PLAYER_DISCONNECTED);
+            ((Manager)gmi).subscribe(this, GAME_STARTED);
+            ((Manager)gmi).subscribe(this, GAME_ENDED);
             pmi.startProfilesDiscovery();            
         }
         return ret;
@@ -389,12 +389,19 @@ public class IhmLoginModel implements PropertyChangeListener{
      */
     void disconnect() {
         ProfileManagerInterface pmi = appModel.getPManager();
+        GameManagerInterface gmi = appModel.getGManager();
         ((Manager)pmi).unsubscribe(this, INVIT_RECEIVE);
         ((Manager)pmi).unsubscribe(this, INVIT_EXPIRED);
         ((Manager)pmi).unsubscribe(this, ADD_PLAYER_CONNECTED);
         ((Manager)pmi).unsubscribe(this, REQUEST_GAME_RESPONSE);
         ((Manager)pmi).unsubscribe(this, DELETE_PLAYER_DISCONNECTED);
+        ((Manager)gmi).unsubscribe(this, GAME_STARTED);
+        ((Manager)gmi).unsubscribe(this, GAME_ENDED);
         pmi.disconnect();
+    }
+
+    void sendGameStarted(Invitation invitation) {
+        appModel.getGManager().sendGameStarted(invitation, true);
     }
  
 
