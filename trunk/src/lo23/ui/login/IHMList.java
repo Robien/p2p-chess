@@ -10,6 +10,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -18,6 +21,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import lo23.data.Invitation;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
+import lo23.data.exceptions.WrongInvitation;
+import lo23.ui.grid.MainWindow;
 import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
 
@@ -34,6 +40,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     private final ImageIcon pawnWhite = new ImageIcon(getClass().getResource("/lo23/ui/resources/PW.png"));
     private final ImageIcon pawnBlack = new ImageIcon(getClass().getResource("/lo23/ui/resources/PB.png"));
     public static String TITLE = "Players list";
+    private WaitingDialog waitingDialog;
     
    
     
@@ -73,6 +80,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
         model.addPropertyChangeListener(IhmLoginModel.ADD_PLAYER_CONNECTED,this);
         model.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
         model.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
+        model.addPropertyChangeListener(IhmLoginModel.GAME_ENDED, this);
+        model.addPropertyChangeListener(IhmLoginModel.GAME_STARTED, this);
         
         
         //TEST
@@ -272,7 +281,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 boolean b = openInvitationDialog(invitation);
                 try {
                     model.sendInvitationAnswer(invitation,b);
+                    if(b){
+                       waitingDialog = new WaitingDialog(this,true);
+                       waitingDialog.setVisible(true);
+                    }
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -282,13 +296,16 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 if(resp){
                     try {
                         model.loadGame(invitation);
-                        new lo23.ui.grid.MainWindow(model.getApplicationModel());
+                        //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
+                        //mainWindow.setVisible(true);
                         this.setVisible(false);
+                        model.sendGameStarted(invitation);
                     } catch (Exception ex) {
+                        ex.printStackTrace();
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                //Enable Button
+                
                 PublicProfile guest = invitation.getGuest();
                 String idGuest = guest.getProfileId();
                 for(JButton btn : model.getListLaunchGameBtn()){
@@ -297,19 +314,38 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     }
                 }
             }
+            if(pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED)){
+                Boolean isReady = (Boolean) pce.getOldValue();
+                Invitation invit = (Invitation)pce.getNewValue();
+                if(isReady){
+                    try {
+                        model.loadGame(invit);
+                        //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
+                        //mainWindow.setVisible(true);
+                        this.setVisible(false);
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                waitingDialog.dispose();
+            }
         }
         if(pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)){
             this.setVisible(true);
         }
     }
+   
+    
     /*
      * Dialog to accept or deny an invitation from a remote user 
      * @param invit : the invitation 
      */
     private boolean openInvitationDialog(Invitation invit){ 
-        int response = 0;
+        int response = -1;
         PublicProfile profile = invit.getHost();
         response = JOptionPane.showConfirmDialog(null,"Accept/deny invitation from " + profile.getPseudo() + " ?", "Accept/deny invitation from " + profile.getPseudo() + " ?", JOptionPane.YES_NO_OPTION);
+        System.out.println("Invitation : "+response);
         if(response == 0)
                return true; 
         else

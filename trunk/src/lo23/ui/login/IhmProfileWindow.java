@@ -9,9 +9,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.DatagramSocket;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -492,12 +494,16 @@ public class IhmProfileWindow extends JFrame{
                     try {
                         //Get a IP which is not a loopback address and is not a IPv6
                         Enumeration<NetworkInterface> interfaceEnum = NetworkInterface.getNetworkInterfaces(); 
-                        while (interfaceEnum.hasMoreElements() && thisIp == null) { 
-                            Enumeration<InetAddress> inetAddressEnum = interfaceEnum.nextElement().getInetAddresses(); 
+                        while (interfaceEnum.hasMoreElements() && thisIp == null){ 
+                            NetworkInterface ni = interfaceEnum.nextElement();
+                            Enumeration<InetAddress> inetAddressEnum = ni.getInetAddresses();
                             while (inetAddressEnum.hasMoreElements() && thisIp == null) { 
                                 InetAddress a = inetAddressEnum.nextElement();
                                 if (!a.isLoopbackAddress() && !(a instanceof Inet6Address)) {
+                                   System.out.println(a.getHostAddress());
+                                   if(!a.getHostAddress().contains("10"))
                                     thisIp = a;
+                                   
                                 }
                             }
                         }
