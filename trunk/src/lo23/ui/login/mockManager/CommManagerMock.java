@@ -61,7 +61,7 @@ public class CommManagerMock extends Manager implements ISender{
     }
 
     @Override
-    public void sendGameStarted(PublicProfile userProfile, boolean started) {
+    public void sendGameStarted(Invitation invit, boolean started) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

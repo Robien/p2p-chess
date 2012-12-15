@@ -196,4 +196,14 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     public ArrayList<Long> getIdStartGames() {
         return idStartGames;
     }
+
+    @Override
+    public void notifyGameStarted(Invitation invit, boolean ans) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void sendGameStarted(Invitation invit, boolean ans) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
