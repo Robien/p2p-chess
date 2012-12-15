@@ -57,8 +57,8 @@ public class ComManager extends Manager implements ISender {
     }
 
     @Override
-    public void sendGameStarted(PublicProfile userProfile, boolean started) {
-        connectionManager.sendGameStarted(userProfile, started);
+    public void sendGameStarted(Invitation invit, boolean started) {
+        connectionManager.sendGameStarted(invit, started);
     }
 
     @Override
