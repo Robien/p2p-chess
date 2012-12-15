@@ -295,7 +295,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 Invitation invitation = (Invitation)pce.getNewValue();
                 if(resp){
                     try {
-                        model.loadGame(invitation);
+                        //model.loadGame(invitation);
+                        System.out.println("Launching Game...");
                         //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
                         //mainWindow.setVisible(true);
                         this.setVisible(false);
@@ -319,7 +320,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 Invitation invit = (Invitation)pce.getNewValue();
                 if(isReady){
                     try {
-                        model.loadGame(invit);
+                        //model.loadGame(invit);
+                        System.out.println("Launching Game...");
                         //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
                         //mainWindow.setVisible(true);
                         this.setVisible(false);
