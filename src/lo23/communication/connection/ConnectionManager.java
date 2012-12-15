@@ -74,9 +74,12 @@ public class ConnectionManager implements ConnectionListener {
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
             handleMulticast = new HandleReceiveUDPMessage(multicastSocket, this);
             new Thread(handleMulticast).start();
+            
             datagramSocket = new DatagramSocket();
+            
 
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
+            
             serverConnection = new HandleServerConnection(serverSocket, this);
             new Thread(serverConnection).start();
             serverConnection.waitStarted();
@@ -167,7 +170,7 @@ public class ConnectionManager implements ConnectionListener {
      * @param userProfile the user who will be the opponent
      * @param started indicates is the game have to be started
      */
-    public void sendGameStarted(PublicProfile userProfile, boolean started) {
+    /*public void sendGameStarted(PublicProfile userProfile, boolean started) {
         try {
             GameStartedMsg message = new GameStartedMsg(userProfile, started);
             InetAddress distantIpAddr = InetAddress.getByName(userProfile.getIpAddress());
@@ -178,6 +181,25 @@ public class ConnectionManager implements ConnectionListener {
             readInvitation.set(false);
             socketSession = socketDirectory.get(distantIpAddr);
             disconnectOthers();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }*/
+    
+    public void sendGameStarted(Invitation invitation, boolean started) {
+        try {
+            GameStartedMsg message = new GameStartedMsg(invitation, started);
+            InetAddress distantIpAddr = InetAddress.getByName(invitation.getGuest().getIpAddress());
+            HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
+            handleMessage.send(message);
+
+            //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
+            readInvitation.set(false);
+            if(started){
+                socketSession = socketDirectory.get(distantIpAddr);
+                disconnectOthers();
+            }
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -250,7 +272,6 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedConnection(Socket socket) {
         HandleMessage handleMessage = new HandleMessage(socket, this);
         handleMessage.startHandleReceive();
-
         socketDirectory.put(socket.getInetAddress(), socket);
         handleMessageMap.put(socket, handleMessage);
     }
@@ -335,7 +356,10 @@ public class ConnectionManager implements ConnectionListener {
 
         } else if (message instanceof AnswerMsg) {
             if (!((AnswerMsg) message).isAnswer()) {
-                disconnect(socket);
+                //disconnect(socket);
+            }else{
+                if(!readInvitation.get())
+                    this.sendGameStarted(((AnswerMsg)message).getInvitation(), false);
             }
             notifyMessage(message);
 
@@ -412,7 +436,7 @@ public class ConnectionManager implements ConnectionListener {
             } else if (message instanceof AnswerMsg) {
                 model.getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             } else if (message instanceof GameStartedMsg) {
-                model.getGManager().notifyGameStarted(((GameStartedMsg) message).getGuest());
+                model.getGManager().notifyGameStarted(((GameStartedMsg) message).getInvit(),((GameStartedMsg) message).isStarted());
             } else if (message instanceof ChatMsg) {
                 model.getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
             } else if (message instanceof MoveMsg) {

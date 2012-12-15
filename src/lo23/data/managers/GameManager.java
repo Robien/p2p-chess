@@ -30,6 +30,7 @@ import lo23.data.serializer.Constants;
 import lo23.data.serializer.Serializer;
 import lo23.ui.grid.GridConstants;
 import lo23.ui.grid.MainWindow;
+import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
@@ -198,7 +199,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyGameEnded() {
-	publish("gameEnded", null);
+	publish(IhmLoginModel.GAME_ENDED, null);
     }
 
     @Override
@@ -242,12 +243,12 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
-    public void notifyGameStarted(PublicProfile userProfile,boolean ans) {
-	publish("gameStarted", userProfile,ans);
+    public void notifyGameStarted(Invitation invit,boolean ans) {
+	publish(IhmLoginModel.GAME_STARTED, invit,ans);
     }
     @Override
-    public void sendGameStarted(PublicProfile userProfile, boolean ans){
-	getApplicationModel().getComManager().sendGameStarted(userProfile, ans);
+    public void sendGameStarted(Invitation invit, boolean ans){
+	getApplicationModel().getComManager().sendGameStarted(invit, ans);
     }
 
     @Override
@@ -276,7 +277,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 	String[] fileList = games.list();
 
 	ArrayList<Game> gameList = new ArrayList<Game>();
-	System.out.println("toto = " + fileList);
+	
 	if (fileList == null) {
 	    return new ArrayList<Game>();
 	}

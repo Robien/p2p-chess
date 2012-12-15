@@ -197,12 +197,12 @@ public interface GameManagerInterface
      * Notify the start of a game session.
      * @param userProfile the user who start the game session
      */
-    public void notifyGameStarted(PublicProfile userProfile, boolean ans);
+    public void notifyGameStarted(Invitation invit, boolean ans);
     /**
      * send the start of a game session.
      * @param userProfile the user who start the game session
      */
-    public void sendGameStarted(PublicProfile userProfile, boolean ans);
+    public void sendGameStarted(Invitation invit, boolean ans);
 
     /**
      * Notify a movement of a piece.

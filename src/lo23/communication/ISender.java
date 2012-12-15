@@ -44,7 +44,7 @@ public interface ISender {
      * @param userProfile the user who will be the opponent
      * @param started indicates is the game have to be started
      */
-    public void sendGameStarted(PublicProfile userProfile, boolean started);
+    public void sendGameStarted(Invitation invit, boolean started);
     
     /**
      * Send a chat message.

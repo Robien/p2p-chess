@@ -106,7 +106,6 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
     @Override
     public ArrayList<PublicProfile> getLocalPublicProfiles() throws ClassNotFoundException, IOException, FileNotFoundException {
         ArrayList<PublicProfile> publicProfiles = new ArrayList<PublicProfile>();
-        System.out.println(System.getProperty("user.dir"));
         for (String name : Serializer.getProfileIds()) {
             publicProfiles.add(Serializer.readProfile(name).getPublicProfile());
         }
