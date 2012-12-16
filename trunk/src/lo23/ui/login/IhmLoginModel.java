@@ -37,6 +37,7 @@ import lo23.data.managers.ProfileManagerInterface;
 import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
+import lo23.utils.ResourceManager;
 
 /**
  * IHMLogin model
@@ -53,8 +54,8 @@ public class IhmLoginModel implements PropertyChangeListener{
     public static final String INVIT_EXPIRED = "invit-expired";
     public static final String GAME_ENDED = "game-ended";
 
-    private final ImageIcon ONLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_online.png.png"));
-    private final ImageIcon OFFLINEICON = new ImageIcon(getClass().getResource("/lo23/ui/resources/status_offline.png"));
+    private final ImageIcon ONLINEICON = new ImageIcon(ResourceManager.getInstance().getResource("status_online.png.png"));
+    private final ImageIcon OFFLINEICON = new ImageIcon(ResourceManager.getInstance().getResource("status_offline.png"));
     
     public PropertyChangeSupport pcs;
     public ArrayList<Long> idEndGames;

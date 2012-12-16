@@ -24,7 +24,6 @@ import lo23.utils.Enums.PROMOTED_PIECES_TYPES;
 public class PawnChangeMessage{
 
     
-    private String path = getClass().getClassLoader().getResource(".").getPath();
     Pawn pawn;
     public PawnChangeMessage(Pawn p) {
         this.pawn = p ;

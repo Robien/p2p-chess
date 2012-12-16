@@ -34,7 +34,7 @@ public class PiecesBox extends JPanel{
     GridBagLayout boxLayout;
     GridBagConstraints c;
     
-    private String path = getClass().getClassLoader().getResource(".").getPath();
+    
     /** Constructeur de la classe
      * 
      * Ce constructeur permet de créer deux types de boîtes en fonction du paramètre

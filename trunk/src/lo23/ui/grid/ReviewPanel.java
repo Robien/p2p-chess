@@ -22,6 +22,7 @@ import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.pieces.Bishop;
 import lo23.data.pieces.GamePiece;
+import lo23.utils.ResourceManager;
 
 /**
  *
@@ -33,7 +34,6 @@ public class ReviewPanel extends javax.swing.JPanel {
     private GamePanel myGamePanel;
     private ArrayList<Event> listEvents;
     private int currentEvent;
-    private String path = getClass().getClassLoader().getResource(".").getPath();
     /**
      * Creates new form ReviewPanel
      */
@@ -50,16 +50,16 @@ ImageIcon img;
         currentEvent = 0;
         listEvents = new ArrayList<Event>();
        //listEvents = myModel.getGManager().getCurrentGame().getEvents();
-        img = new ImageIcon(path + "lo23/ui/resources/begin.png");
+        img = new ImageIcon(ResourceManager.getInstance().getResource("begin.png"));
         begin.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
 
-        img = new ImageIcon(path + "lo23/ui/resources/previous.png");
+        img = new ImageIcon(ResourceManager.getInstance().getResource("previous.png"));
         previous.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
 
-        img = new ImageIcon(path + "lo23/ui/resources/next.png");
+        img = new ImageIcon(ResourceManager.getInstance().getResource("next.png"));
         next.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
 
-        img = new ImageIcon(path + "lo23/ui/resources/end.png");
+        img = new ImageIcon(ResourceManager.getInstance().getResource("end.png"));
         end.setIcon(new ImageIcon(getScaledImage(img.getImage(), 30,30)));
 }
     /**

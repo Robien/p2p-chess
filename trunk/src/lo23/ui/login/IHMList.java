@@ -26,6 +26,7 @@ import lo23.data.exceptions.WrongInvitation;
 import lo23.ui.grid.MainWindow;
 import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
+import lo23.utils.ResourceManager;
 
 /**
  * Class IHMList Window 
@@ -37,8 +38,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     
     private final IhmLoginModel model;
-    private final ImageIcon pawnWhite = new ImageIcon(getClass().getResource("/lo23/ui/resources/PW.png"));
-    private final ImageIcon pawnBlack = new ImageIcon(getClass().getResource("/lo23/ui/resources/PB.png"));
+    private final ImageIcon pawnWhite = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
+    private final ImageIcon pawnBlack = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
     public static String TITLE = "Players list";
     private WaitingDialog waitingDialog;
     
@@ -295,8 +296,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 Invitation invitation = (Invitation)pce.getNewValue();
                 if(resp){
                     try {
-                        //model.loadGame(invitation);
-                        System.out.println("Launching Game...");
+                        model.loadGame(invitation);
+                        //System.out.println("Launching Game...");
                         //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
                         //mainWindow.setVisible(true);
                         this.setVisible(false);
@@ -320,8 +321,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 Invitation invit = (Invitation)pce.getNewValue();
                 if(isReady){
                     try {
-                        //model.loadGame(invit);
-                        System.out.println("Launching Game...");
+                        model.loadGame(invit);
+                        //System.out.println("Launching Game...");
                         //MainWindow mainWindow = new lo23.ui.grid.MainWindow(model.getApplicationModel());
                         //mainWindow.setVisible(true);
                         this.setVisible(false);
@@ -330,6 +331,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
+                waitingDialog.setVisible(false);
                 waitingDialog.dispose();
             }
         }

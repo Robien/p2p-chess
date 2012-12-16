@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lo23.utils.ResourceManager;
 
 /**
  *
@@ -43,7 +44,7 @@ public class Launch_Sound extends Thread implements Runnable{
         public void run()
         {    
             
-                String path = getClass().getClassLoader().getResource(".").getPath();
+                String path = getClass().getResource("/lo23/ui/resources/").getPath();
 //                File dir1 = new File(".");
 //                try
 //                {
@@ -59,13 +60,13 @@ public class Launch_Sound extends Thread implements Runnable{
                     if(sound.equals("chess.wav"))
                     {
                         // System.out.println("son en boucle");
-                         this.s.readAudioFile(path + "lo23/ui/resources/" + sound);
+                         this.s.readAudioFile(ResourceManager.getInstance().getResource(sound));
                          
                     }
                     else
                     {
                        // System.out.println("son court");
-                        this.n.readAudioFile(path + "lo23/ui/resources/" + sound);
+                        this.n.readAudioFile(ResourceManager.getInstance().getResource(sound));
                     }
 
                 } catch (Exception ex) 

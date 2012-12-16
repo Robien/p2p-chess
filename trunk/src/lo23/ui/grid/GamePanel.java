@@ -36,6 +36,7 @@ import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
+import lo23.utils.ResourceManager;
 
 
 
@@ -50,12 +51,12 @@ public class GamePanel extends JPanel {
     private GridBagLayout gameBoard = new GridBagLayout();
     private GridBagConstraints constraints = new GridBagConstraints();
       
-    private String path = getClass().getClassLoader().getResource(".").getPath();
-    private ImageIcon squareBorder = new ImageIcon(path + "lo23/ui/resources/squareBorder.png");
-    private ImageIcon filledSquare = new ImageIcon(path + "lo23/ui/resources/PossibleSquare.png");
-    private ImageIcon imageCaseB = new ImageIcon(path + "lo23/ui/resources/caseB.JPG");
-    private ImageIcon imageCaseN = new ImageIcon(path + "lo23/ui/resources/caseN.JPG");
-    private ImageIcon preSelection = new ImageIcon(path + "lo23/ui/resources/preSelection.png");
+    
+    private ImageIcon squareBorder = new ImageIcon(ResourceManager.getInstance().getResource("SquareBorder.png"));
+    private ImageIcon filledSquare = new ImageIcon(ResourceManager.getInstance().getResource("PossibleSquare.png"));
+    private ImageIcon imageCaseB = new ImageIcon(ResourceManager.getInstance().getResource("caseB.JPG"));
+    private ImageIcon imageCaseN = new ImageIcon(ResourceManager.getInstance().getResource("caseN.JPG"));
+    private ImageIcon preSelection = new ImageIcon(ResourceManager.getInstance().getResource("preSelection.png"));
     
 	//hashmap with JLabel and their positions
     private HashMap<Position, JLabel> listOfPiece = new HashMap<Position, JLabel>();
@@ -393,7 +394,7 @@ public class GamePanel extends JPanel {
             constraints.gridx = p.getWX();
             constraints.gridy = 7 - p.getWY();            
 
-            ImageIcon image = new ImageIcon(path + "lo23/ui/resources/" + imagePath);
+            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
             add(WLabel, constraints, 2);
             listOfPiece.put(p, WLabel);
@@ -401,7 +402,7 @@ public class GamePanel extends JPanel {
             constraints.gridx = p.getBX();
             constraints.gridy = 7 - p.getBY();            
 
-            ImageIcon image = new ImageIcon(path + "lo23/ui/resources/" + imagePath);
+            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
             add(WLabel, constraints, 2);
             listOfPiece.put(p, WLabel);
@@ -614,6 +615,7 @@ public class GamePanel extends JPanel {
                 	
 	            	Position tempPosition = tempPiece.getPosition();
 	            	String tempName = tempPiece.getClass().getName();
+                        //System.out.println("TempName = "+tempName);
 	            	COLOR tempColor = tempPiece.getOwner().getColor();
                 
                 	if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
@@ -622,7 +624,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PW.png");
+	                        ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
 	                        JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
 	                        add(pawnLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), pawnLabel);
@@ -631,7 +633,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TW.png");
+	                        ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TW.png"));
 	                        JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
 	                        add(towerLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), towerLabel);
@@ -640,7 +642,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KW.png");
+	                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KW.png"));
 	                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 	                        add(knightLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), knightLabel);
@@ -649,7 +651,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon bishop = new ImageIcon(path + "lo23/ui/resources/BW.png");
+	                        ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BW.png"));
 	                        JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
 	                        add(bishopLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), bishopLabel);
@@ -658,7 +660,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QW.png");
+	                        ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QW.png"));
 	                        JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
 	                        add(queenLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), queenLabel);
@@ -667,7 +669,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKW.png");
+	                        ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKW.png"));
 	                        JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
 	                        add(kingLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), kingLabel);
@@ -676,7 +678,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
+	                        ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
 	                        JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
 	                        add(pawnLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), pawnLabel);
@@ -685,7 +687,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TB.png");
+	                        ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TB.png"));
 	                        JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
 	                        add(towerLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), towerLabel);
@@ -694,7 +696,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KB.png");
+	                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));//change to KB
 	                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 	                        add(knightLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), knightLabel);
@@ -703,7 +705,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon bishop = new ImageIcon(path + "lo23/ui/resources/BB.png");
+	                        ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BB.png"));
 	                        JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
 	                        add(bishopLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), bishopLabel);
@@ -712,7 +714,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QB.png");
+	                        ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QB.png"));
 	                        JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
 	                        add(queenLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), queenLabel);
@@ -721,7 +723,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKB.png");
+	                        ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKB.png"));
 	                        JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
 	                        add(kingLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), kingLabel);
@@ -733,7 +735,7 @@ public class GamePanel extends JPanel {
 		            			
 		            		constraints.gridx = 7 - tempPosition.getX();
 		                    constraints.gridy = tempPosition.getY(); 
-		                    ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PW.png");
+		                    ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
 		                    JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
 		                    add(pawnLabel, constraints, 2);
 		                    listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), pawnLabel);
@@ -742,7 +744,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TW.png");
+		                        ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TW.png"));
 		                        JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
 		                        add(towerLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), towerLabel);
@@ -751,7 +753,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KW.png");
+		                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KW.png"));
 		                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 		                        add(knightLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), knightLabel);
@@ -760,7 +762,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon bishop = new ImageIcon(path + "lo23/ui/resources/BW.png");
+		                        ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BW.png"));
 		                        JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
 		                        add(bishopLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), bishopLabel);
@@ -769,7 +771,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QW.png");
+		                        ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QW.png"));
 		                        JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
 		                        add(queenLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), queenLabel);
@@ -778,7 +780,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKW.png");
+		                        ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKW.png"));
 		                        JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
 		                        add(kingLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), kingLabel);
@@ -787,7 +789,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon image = new ImageIcon(path + "lo23/ui/resources/PB.png");
+		                        ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
 		                        JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
 		                        add(pawnLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), pawnLabel);
@@ -796,7 +798,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon tower = new ImageIcon(path + "lo23/ui/resources/TB.png");
+		                        ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TB.png"));
 		                        JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
 		                        add(towerLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), towerLabel);
@@ -805,7 +807,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon knight = new ImageIcon(path + "lo23/ui/resources/KB.png");
+		                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));//change to KB
 		                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 		                        add(knightLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), knightLabel);
@@ -814,7 +816,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon bishop = new ImageIcon(path + "lo23/ui/resources/BB.png");
+		                        ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BB.png"));
 		                        JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
 		                        add(bishopLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), bishopLabel);
@@ -823,7 +825,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon queen = new ImageIcon(path + "lo23/ui/resources/QB.png");
+		                        ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QB.png"));
 		                        JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
 		                        add(queenLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), queenLabel);
@@ -832,7 +834,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon king = new ImageIcon(path + "lo23/ui/resources/KKB.png");
+		                        ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKB.png"));
 		                        JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
 		                        add(kingLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), kingLabel);
