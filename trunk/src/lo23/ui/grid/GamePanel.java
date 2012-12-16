@@ -696,7 +696,7 @@ public class GamePanel extends JPanel {
 	            			
 	            			constraints.gridx = tempPosition.getX();
 	                        constraints.gridy = 7 - tempPosition.getY(); 
-	                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));//change to KB
+	                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KB.png"));
 	                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 	                        add(knightLabel, constraints, 2);
 	                        listOfPiece.put(new Position(tempPosition.getX(),7 - tempPosition.getY()), knightLabel);
@@ -807,7 +807,7 @@ public class GamePanel extends JPanel {
 		            			
 		            			constraints.gridx = 7 - tempPosition.getX();
 		                        constraints.gridy = tempPosition.getY(); 
-		                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));//change to KB
+		                        ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KB.png"));
 		                        JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
 		                        add(knightLabel, constraints, 2);
 		                        listOfPiece.put(new Position(7 - tempPosition.getX(),tempPosition.getY()), knightLabel);
