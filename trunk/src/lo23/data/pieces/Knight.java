@@ -230,6 +230,32 @@ public class Knight extends GamePiece {
                     return true;
                 }
             }
+            
+           
+            if (x - 1  >= 0 && y - 2 >=0 && isThereSomebodyHere(x - 1, y - 2, from, to))
+            {
+              
+            }
+            else
+            {
+                if (isThereAKingHere(x - 1, y - 2, from, to, king))
+                {
+                    return true;
+                }
+            }
+              
+            if (x + 1 < 8 && y - 2 >=0 && isThereSomebodyHere(x + 1, y - 2, from, to))
+            {
+               
+            }
+            else
+            {
+                if (isThereAKingHere(x + 1, y - 2, from, to, king))
+                {
+                   return true;
+                }
+            }
+            
 
         return false;
     }
