@@ -22,6 +22,8 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import lo23.data.ApplicationModel;
+import lo23.utils.ResourceManager;
 
 /**
  *
@@ -120,7 +122,7 @@ import javax.swing.UnsupportedLookAndFeelException;
         
         
         
-        Quit quit=new Quit();
+        Quit quit=new Quit(mw);
         close.addActionListener(quit);
 
         Full screen=new Full(mw);
@@ -138,10 +140,19 @@ import javax.swing.UnsupportedLookAndFeelException;
 
     private  class Quit implements ActionListener{
 
+        MainWindow mw;
+        
+        public Quit(MainWindow mw){
+            this.mw = mw;
+        }
+        
+        
         @Override
         public void actionPerformed(ActionEvent e)
             {
-                System.exit(0);
+                mw.setVisible(false);
+                mw.myModel.getGManager().notifyGameEnded();
+                mw.dispose();
             } 
         }  
     
@@ -243,7 +254,7 @@ import javax.swing.UnsupportedLookAndFeelException;
             + "\n\n\nFor more informations, please follow this link : http://en.wikipedia.org/wiki/Rules_of_chess"
             + "\n   \n"
     ,"Rules of Chess",
-            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/rules.png"));
+            JOptionPane.INFORMATION_MESSAGE,new ImageIcon(ResourceManager.getInstance().getResource("rules.png")));
             }  
       }
       
@@ -256,7 +267,7 @@ import javax.swing.UnsupportedLookAndFeelException;
                JOptionPane.showMessageDialog(this,
             "Game developed by UTC Students"
              + "\n" + "        LO23 Project - 2012", "About",
-            JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/logo_utc.png"));
+            JOptionPane.INFORMATION_MESSAGE, new ImageIcon(ResourceManager.getInstance().getResource("logo_utc.png")));
            }
        }
        

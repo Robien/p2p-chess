@@ -2,6 +2,7 @@ package lo23.ui.grid;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,12 +21,19 @@ public class Sound
     
     public  void readAudioFile(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException
     {
+        URL url = new URL(fileName);
+        readAudioFile(url);
+    }
+    
+    
+    public  void readAudioFile(URL url) throws IOException, UnsupportedAudioFileException, LineUnavailableException
+    {
      
          lancer = true;
       
             while(boucle)
             {
-                AudioInputStream ais = AudioSystem.getAudioInputStream(new File(fileName));
+                AudioInputStream ais = AudioSystem.getAudioInputStream(url);
           
         
             AudioFormat format = ais.getFormat();
@@ -56,6 +64,7 @@ public class Sound
         { 
             System.out.println("entre dans stop sound");
             source.drain();
+            boucle = false;
           //  source.close();
           
         }

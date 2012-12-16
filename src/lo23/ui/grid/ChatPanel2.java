@@ -31,6 +31,7 @@ import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.exceptions.NoIdException;
 import lo23.utils.Enums;
+import lo23.utils.ResourceManager;
 //import lo23.ui.grid.EventListener;
 
 /** 
@@ -230,7 +231,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         "Drawing",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
-        new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/time_chess.png"),
+        new ImageIcon(ResourceManager.getInstance().getResource("time_chess.png")),
         choice,
         choice[1]);
 
@@ -341,7 +342,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         "Saving",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
-        new ImageIcon(getClass().getClassLoader().getResource(".").getPath() + "lo23/ui/resources/chess_icon.png"),
+        new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
         choice,
         choice[1]);
       //  int retour = d.showConfirmDialog(this,"Do you want to save the game in order to resume it next ?","Saving",JOptionPane.YES_NO_OPTION);
