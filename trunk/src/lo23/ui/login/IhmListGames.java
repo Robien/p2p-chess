@@ -13,11 +13,20 @@ package lo23.ui.login;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import lo23.data.Game;
+import lo23.data.Invitation;
+import lo23.data.PublicProfile;
+import lo23.data.ResumeGame;
+import lo23.data.exceptions.WrongInvitation;
 import lo23.utils.JTableButtonMouseListener;
 import lo23.utils.JTableButtonRenderer;
 
@@ -26,10 +35,11 @@ import lo23.utils.JTableButtonRenderer;
  * Class which manages the window of ended games to review or stopped games to continue
  * @author remi clermont
  */
-public class IhmListGames extends javax.swing.JFrame implements TableModelListener{
+public class IhmListGames extends javax.swing.JFrame implements TableModelListener,PropertyChangeListener{
 
     private IhmLoginModel ihmLoginModel;
     private IHMList listPlayers;
+    private WaitingDialog waitingDialog;
     
     /** 
      * Constructor
@@ -58,6 +68,12 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         //Add listener when table model change
         this.stopGamesTable.getModel().addTableModelListener(this);
         
+        
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.INVIT_RECEIVE,this);
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED, this);
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_STARTED, this);
         
         //Seulement lorsque l'utilisateur distant est en ligne
         //Implémentation terminé à tester
@@ -156,13 +172,19 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
         this.dispose();
         this.listPlayers.setEnabled(true);
+        this.listPlayers.dispatchInvit = false;
     }//GEN-LAST:event_previousBtnActionPerformed
 
     private void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        long idGame;
-        JButton btn = (JButton) evt.getSource();
-        idGame = (Long) btn.getClientProperty("id");
-        ihmLoginModel.sendInvitationResumeGame(idGame);
+        try {
+            long idGame;
+            JButton btn = (JButton) evt.getSource();
+            idGame = (Long) btn.getClientProperty("id");
+            ihmLoginModel.loadEndedGame(idGame);
+            this.setVisible(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }    
     
     private void continueGameBtnActionPerformed(java.awt.event.ActionEvent evt) {  
@@ -170,6 +192,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         JButton btn = (JButton) evt.getSource();
         idGame = (Long) btn.getClientProperty("id");
         ihmLoginModel.sendInvitationResumeGame(idGame);
+        btn.setEnabled(false);
     }                                        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,6 +219,81 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                 });
             }
         }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        if(this.isVisible() && this.isEnabled()){
+            if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
+                Invitation invitation = (Invitation)pce.getNewValue();
+                boolean b = openInvitationDialog(invitation);
+                try {
+                    ihmLoginModel.sendInvitationAnswer(invitation,b);
+                    if(b){
+                       waitingDialog = new WaitingDialog(this,true);
+                       waitingDialog.setVisible(true);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
+                boolean resp = (Boolean)pce.getOldValue();
+                Invitation invitation = (Invitation)pce.getNewValue();
+                if(resp){
+                    try {
+                        ihmLoginModel.loadGame(invitation);
+                        
+                        this.setVisible(false);
+                        this.listPlayers.setVisible(false);
+                        ihmLoginModel.sendGameStarted(invitation);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                
+                if(invitation instanceof ResumeGame){
+                    Game g = ((ResumeGame)invitation).getGame();
+                    for(JButton btn : ihmLoginModel.getListContinueGameBtn()){
+                        if(btn.getClientProperty("id").equals(g.getGameId())){
+                            btn.setEnabled(true);
+                        }
+                    }
+                }
+            }
+            if(pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED)){
+                Boolean isReady = (Boolean) pce.getOldValue();
+                Invitation invit = (Invitation)pce.getNewValue();
+                if(isReady){
+                    try {
+                        ihmLoginModel.loadGame(invit);
+                       
+                        this.setVisible(false);
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                waitingDialog.setVisible(false);
+                waitingDialog.dispose();
+            }
+        }
+        if(pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)){
+            this.setVisible(true);
+        }
+    }
+    
+    private boolean openInvitationDialog(Invitation invit){ 
+        int response = -1;
+        PublicProfile profile = invit.getHost();
+        response = JOptionPane.showConfirmDialog(null,"Accept/deny invitation from " + profile.getPseudo() + " ?", "Accept/deny invitation from " + profile.getPseudo() + " ?", JOptionPane.YES_NO_OPTION);
+        System.out.println("Invitation : "+response);
+        if(response == 0)
+               return true; 
+        else
+               return false; 
     }
 
 }
