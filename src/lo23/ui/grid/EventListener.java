@@ -9,7 +9,6 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
-import lo23.communication.message.Message;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Move;
@@ -109,7 +108,7 @@ public class EventListener implements PropertyChangeListener {
                  }
              }
              
-         } else if(evt.getNewValue() instanceof Message){
+         } else if(evt.getNewValue() instanceof lo23.data.Message){
                 try {
                     System.out.println("j'ai reçu l'evenement");
                     chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
