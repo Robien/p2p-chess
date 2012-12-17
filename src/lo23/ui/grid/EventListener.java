@@ -93,11 +93,11 @@ public class EventListener implements PropertyChangeListener {
                gamePanel.updateBoard((Move)evt.getNewValue());
                  
              } else if(chatPanel != null){
-                 try {
-                     chatPanel.gameMsg((Move)evt.getNewValue());
-                 } catch (BadLocationException ex) {
-                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+                     try {
+                         chatPanel.gameMsg((Move) evt.getNewValue());
+                     } catch (BadLocationException ex) {
+                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                     }
              } else if(timerPanel != null){
                  if(timerPanel.playerTimer.isRunning()){
                      timerPanel.playerTimer.pauseTimer();
@@ -109,12 +109,14 @@ public class EventListener implements PropertyChangeListener {
              }
              
          } else if(evt.getNewValue() instanceof lo23.data.Message){
+             if(chatPanel != null){
                 try {
                     System.out.println("j'ai reçu l'evenement");
                     chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
                 } catch (BadLocationException ex) {
                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
+             }
          } else if(evt.getNewValue() instanceof Constant){
              Constant cst = (Constant)evt.getNewValue();
              CONSTANT_TYPE type = cst.getConstant();
