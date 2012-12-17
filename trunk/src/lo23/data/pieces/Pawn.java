@@ -148,17 +148,31 @@ public class Pawn extends GamePiece {
  
      
              //if you can kill someone 
+             if (x - 1 >=0 && y + 1 < 8 && isThereSomebodyHere(x - 1, y + 1, from, to))
+            {
+
+            }
+            else
+            {
                 if (isThereAKingHere(x - 1, y + 1, from, to, king))
                 {
                     return true;
                 }
+            }
+              if (x + 1 < 8 && y + 1 < 8 && isThereSomebodyHere(x + 1, y + 1, from, to))
+            {
+
+            }
+            else
+            {
+              
              //if you can kill someone  (2)
                 if (isThereAKingHere(x + 1, y + 1, from, to, king))
                 {
 
                     return true;
                 }
-            
+            }
         }
         else //a black Pawn
         {
@@ -166,17 +180,33 @@ public class Pawn extends GamePiece {
 //System.out.println((x-1) + " - " + (y-1) + " -> " + to.getX() + " - " + to.getY());
         //System.out.println(getPosition().getX() +  " - " + getPosition().getY());
              //if you can kill someone
+            
+            
+              if (x - 1 >=0 && y - 1 >=0 && isThereSomebodyHere(x - 1, y - 1, from, to))
+            {
+
+            }
+            else
+            {
                 if (isThereAKingHere(x - 1, y - 1, from, to, king))
                 {
 
                     return true;
                 }
+            }
              //if you can kill someone  (2)
+               if (x + 1 <8 && y - 1 >=0 && isThereSomebodyHere(x + 1, y - 1, from, to))
+            {
+
+            }
+            else
+            {
                 if (isThereAKingHere(x + 1, y - 1, from, to, king))
                 {
 
                     return true;
                 }
+            }
         }
 
         return false;   

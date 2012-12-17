@@ -235,7 +235,7 @@ public class King extends GamePiece {
         // prend en compte la grille + un déplacement (permet de tester un Move sans modifier la grille)
 
 
-              int x = getPosition().getX();
+        int x = getPosition().getX();
         int y = getPosition().getY();
 
         Game game = getGame();
