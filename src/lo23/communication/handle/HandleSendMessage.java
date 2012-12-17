@@ -32,6 +32,7 @@ public class HandleSendMessage {
      */
     public void send(Message message) {
         try {
+            System.out.println("Send Message : " + message);
             objectOutput.writeObject(message);
         } catch (IOException e) {
             Logger.getLogger(HandleSendMessage.class.getName()).log(Level.SEVERE, "Error for sending a message", e);
