@@ -56,6 +56,7 @@ public class MainWindow extends JFrame implements ActionListener {
     PiecesBox remotePlayerLostPieces;
     PiecesBox localPlayerLostPieces;
     public static JLabel chess_king;
+    public static JLabel chess_king_crown;
     boolean isReviewGame;
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
     //new javax.swing.ImageIcon(getClass().getResource("/lo23/ui/resources/gamer1.png")))
@@ -286,16 +287,21 @@ public class MainWindow extends JFrame implements ActionListener {
         //       localPlayerLostPieces.updateBox();
 
 
-        constraints.insets = new Insets(100, -850, 100, 0);
+        constraints.insets = new Insets(100,-850,100,0);
         constraints.gridwidth = 12;
-        constraints.gridheight = 12;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
+	constraints.gridheight = 12;
+	constraints.gridx = 0;
+	constraints.gridy = 0;
+
+    //chess king picture
+          chess_king = new JLabel( new ImageIcon(ResourceManager.getInstance().getResource("swords.png")));
+          panel.add(chess_king,constraints,3);
+          chess_king.setVisible(false);
 
         //chess king picture
-        chess_king = new JLabel(new ImageIcon(ResourceManager.getInstance().getResource("swords.png")));
-        panel.add(chess_king, constraints, 3);
-        chess_king.setVisible(false);
+          chess_king_crown = new JLabel( new ImageIcon(ResourceManager.getInstance().getResource("king_crown.png")));
+          panel.add(chess_king_crown,constraints,3);
+          chess_king_crown.setVisible(false);
 
 
 
