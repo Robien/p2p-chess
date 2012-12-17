@@ -312,7 +312,7 @@ public class GamePanel extends JPanel {
 	        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getWX(), formerPositionSelected.getWY());
 	        		Move move = myModel.getGManager().createMove(new Position(newSelection.getX(), 7 - newSelection.getY()), formerPiece);
 	        		myModel.getGManager().playMove(move);
-                                myModel.getGManager().sendMove(move);
+                    myModel.getGManager().sendMove(move);
 	        	}
 	        }
         } else {
@@ -336,7 +336,7 @@ public class GamePanel extends JPanel {
 	        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getBX(), formerPositionSelected.getBY());
 	        		Move move = myModel.getGManager().createMove(new Position(7 - newSelection.getX(), newSelection.getY()), formerPiece);
 	        		myModel.getGManager().playMove(move);
-                                myModel.getGManager().sendMove(move);
+                    myModel.getGManager().sendMove(move);
 	        	}
 	        }
         }
@@ -421,30 +421,42 @@ public class GamePanel extends JPanel {
         Position positionFrom = null;
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
-        constraints.gridx = move.getTo().getWX();
-        constraints.gridy = move.getTo().getWY();
-         positionFrom = new Position(move.getFrom().getWX(), move.getFrom().getWY());
+	        constraints.gridx = move.getTo().getWX();
+	        constraints.gridy = move.getTo().getWY();
+	        positionFrom = new Position(move.getFrom().getWX(), move.getFrom().getWY());
         } else {
-          constraints.gridx = move.getTo().getBX();
-          constraints.gridy = move.getTo().getBY();
-          positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
+        	constraints.gridx = move.getTo().getBX();
+	        constraints.gridy = move.getTo().getBY();
+	        positionFrom = new Position(move.getFrom().getBX(), move.getFrom().getBY());
         }
 
         JLabel currentPiece = listOfPiece.get(positionFrom);
         GamePiece tempPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getTo().getX(), move.getTo().getY());
-        if(tempPiece != null){
-            if (tempPiece.getOwner().getColor() != playerColor) {
-                eatPiece(move.getTo());
+        
+        if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+            if(tempPiece != null){
+                if (tempPiece.getOwner().getColor() != playerColor) {
+                    updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
+                }
+            }
+        } else {
+            if(tempPiece != null){
+                if (tempPiece.getOwner().getColor() != playerColor) {
+                    updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
+                }
             }
         }
+        
 
         System.out.println("listOfPiece :" + listOfPiece.get(positionFrom));
         listOfPiece.remove(positionFrom);
+        
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
             listOfPiece.put(new Position(move.getTo().getWX(), move.getTo().getWY()), currentPiece);
         } else {
             listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
         }
+        
         System.out.println("CurrentPiece :" + currentPiece);
         add(currentPiece, constraints, 0);
 
@@ -453,11 +465,11 @@ public class GamePanel extends JPanel {
             end_party=true;
             endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
-             end_party=true;
+        	end_party=true;
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
-         repaint();
-         revalidate();
+        	repaint();
+        	revalidate();
     }
 
     public void majDataBoard(Move move) throws IllegalMoveException
@@ -522,6 +534,19 @@ public class GamePanel extends JPanel {
     	JLabel atePiece = listOfPiece.remove(p);
 
     	if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+    		blackAtePieces.add(atePiece);
+    	} else {
+            whiteAtePieces.add(atePiece);
+        }
+        localBox.updateBox(this);
+        remoteBox.updateBox(this);
+    }
+    
+    public void updateEatPiece(Position p){
+    	listOfPiece.get(p).setVisible(false);
+    	JLabel atePiece = listOfPiece.remove(p);
+
+    	if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.BLACK) {
     		blackAtePieces.add(atePiece);
     	} else {
             whiteAtePieces.add(atePiece);
