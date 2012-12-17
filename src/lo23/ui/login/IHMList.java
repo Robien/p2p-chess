@@ -42,7 +42,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     private final ImageIcon pawnBlack = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
     public static String TITLE = "Players list";
     private WaitingDialog waitingDialog;
-    
+    public boolean dispatchInvit = false;
    
     
     /**
@@ -248,6 +248,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
 
     private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
         this.setEnabled(false);
+        this.dispatchInvit = true;
         new IhmListGames(model, this).setVisible(true);
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
@@ -277,7 +278,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
      */
     public void propertyChange(PropertyChangeEvent pce) {
         if(this.isVisible()){
-            if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
+            if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE) && !dispatchInvit){
                 Invitation invitation = (Invitation)pce.getNewValue();
                 boolean b = openInvitationDialog(invitation);
                 try {
@@ -291,7 +292,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
+            if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE) && !dispatchInvit){
                 boolean resp = (Boolean)pce.getOldValue();
                 Invitation invitation = (Invitation)pce.getNewValue();
                 if(resp){
@@ -316,7 +317,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     }
                 }
             }
-            if(pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED)){
+            if(pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED) && !dispatchInvit){
                 Boolean isReady = (Boolean) pce.getOldValue();
                 Invitation invit = (Invitation)pce.getNewValue();
                 if(isReady){

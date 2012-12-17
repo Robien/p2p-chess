@@ -34,6 +34,7 @@ import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
+import lo23.ui.grid.MainWindow;
 import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
@@ -90,39 +91,39 @@ public class IhmLoginModel implements PropertyChangeListener{
          
         // Liste des parties terminées
         listIdGame = new HashMap<Long, Game>();
-        GameManager gameManager = new GameManager(appModel);
+        
         String[] entetesEndGames = {"Date","Adversary", "Result", ""};
         listEndGames = new EndGameModel();
         listEndGames.setDataVector(donnees, entetesEndGames);
         listReviewGameBtn = new ArrayList<JButton>();
 
 //        idEndGames = gameManager.getIdStopGames(); // Pour les tests
-        ArrayList<Game> endGames = new ArrayList<Game>();
-        try {
-            endGames = gameManager.getListStopGames();
-        } catch (Exception ex) {
-              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
-        }
-        for (Game game : endGames ) {
-            listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
-        }
+//        ArrayList<Game> endGames = new ArrayList<Game>();
+//        try {
+//            endGames = gameManager.getListStopGames();
+//        } catch (Exception ex) {
+//              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
+//        }
+//        for (Game game : endGames ) {
+//            listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
+//        }
         
         // Liste des parties en cours
         String[] entetesStopGames = {"Date","Adversary", ""};
         listStartGames = new StopGameModel();
         listStartGames.setDataVector(donnees, entetesStopGames);
         listContinueGameBtn = new ArrayList<JButton>();
-        ArrayList<Game> stopGames = new ArrayList<Game>();
-        try {
-            stopGames = gameManager.getListStartGames();
-        } catch (Exception ex) {
-              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception StopGame", JOptionPane.ERROR_MESSAGE);
-        }
-        
-//        idStartGames = gameManager.getIdStartGames(); // Pour les tests
-        for (Game game : stopGames ) {
-            listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId(),game.getRemotePlayer().getPublicProfile().getStatus());
-        }
+//        ArrayList<Game> stopGames = new ArrayList<Game>();
+//        try {
+//            stopGames = gameManager.getListStartGames();
+//        } catch (Exception ex) {
+//              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception StopGame", JOptionPane.ERROR_MESSAGE);
+//        }
+//        
+////        idStartGames = gameManager.getIdStartGames(); // Pour les tests
+//        for (Game game : stopGames ) {
+//            listStartGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(), game.getGameId(),game.getRemotePlayer().getPublicProfile().getStatus());
+//        }
         
         listProfileDate = new HashMap<PublicProfile,Date>();
 
@@ -382,9 +383,23 @@ public class IhmLoginModel implements PropertyChangeListener{
             ((Manager)pmi).subscribe(this, DELETE_PLAYER_DISCONNECTED);
             ((Manager)gmi).subscribe(this, GAME_STARTED);
             ((Manager)gmi).subscribe(this, GAME_ENDED);
+            initEndGames();
             pmi.startProfilesDiscovery();            
         }
         return ret;
+    }
+    
+    private void initEndGames(){
+        ArrayList<Game> endGames = new ArrayList<Game>();
+        try {
+            endGames = appModel.getGManager().getListStopGames();
+        } catch (Exception ex) {
+              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
+        }
+        for (Game game : endGames ) {
+            listIdGame.put(game.getGameId(), game);
+            listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
+        }
     }
 
     
@@ -406,6 +421,17 @@ public class IhmLoginModel implements PropertyChangeListener{
 
     void sendGameStarted(Invitation invitation) {
         appModel.getGManager().sendGameStarted(invitation, true);
+    }
+
+    void loadEndedGame(long idGame) throws WrongInvitation {
+        Game game = listIdGame.get(idGame);
+        PublicProfile localP = appModel.getPManager().getCurrentProfile().getPublicProfile();
+        ResumeGame rg = null;
+        if(game.getLocalPlayer().getPublicProfile().getProfileId().equals(localP.getProfileId()))
+            rg= new ResumeGame(localP,game.getRemotePlayer().getPublicProfile(),game);
+        else
+            rg = new ResumeGame(game.getRemotePlayer().getPublicProfile(),localP,game);
+        appModel.getGManager().createGame(rg);
     }
  
 
