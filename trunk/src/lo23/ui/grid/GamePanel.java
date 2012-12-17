@@ -447,7 +447,8 @@ public class GamePanel extends JPanel {
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
-
+         repaint();
+         revalidate();
     }
 
     public void majDataBoard(Move move) throws IllegalMoveException
