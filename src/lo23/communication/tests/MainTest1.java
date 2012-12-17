@@ -236,12 +236,17 @@ public class MainTest1 {
         }
 
         @Override
-        public void notifyGameStarted(PublicProfile userProfile) {
+        public void notifyMovement(Move move) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void notifyMovement(Move move) {
+        public void notifyGameStarted(Invitation invit, boolean ans) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void sendGameStarted(Invitation invit, boolean ans) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }
