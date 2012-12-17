@@ -273,6 +273,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * @throws BadLocationException
      */
     public void receivedMsg(Message msg) throws BadLocationException{
+       System.out.println("J'ai bien reçu un message");
+
        if (!msg.getContents().equals("")) { // if not null
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
@@ -283,6 +285,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
             doc2.insertString(doc2.getLength(), "[" + getHeure() + "]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
 
 
+       }
+       else{
+           System.out.println("le message reçu est null");
        }
     }
 
