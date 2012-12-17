@@ -111,6 +111,7 @@ public class EventListener implements PropertyChangeListener {
              
          } else if(evt.getNewValue() instanceof Message){
                 try {
+                    System.out.println("j'ai reçu l'evenement");
                     chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
                 } catch (BadLocationException ex) {
                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
