@@ -436,12 +436,14 @@ public class GamePanel extends JPanel {
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
+                	System.out.println("mangé");
                     updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
                 }
             }
         } else {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
+                	System.out.println("mangé");
                     updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
                 }
             }
