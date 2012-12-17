@@ -226,7 +226,7 @@ public class IhmLoginModel implements PropertyChangeListener{
             //put p to list
             listProfileDate.put(p,new Date());
      
-            removeDisconnectedProfilesAndGames();
+            //removeDisconnectedProfilesAndGames();
             
         }
         else if(evt.getPropertyName().equals(DELETE_PLAYER_DISCONNECTED)){
