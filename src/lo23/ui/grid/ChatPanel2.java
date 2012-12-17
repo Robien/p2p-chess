@@ -293,10 +293,14 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 StyleConstants.setForeground(gameStyle, color_W);
                 StyleConstants.setFontSize(gameStyle, 12);
             }
+                   doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", gameStyle);
+          
        }
        else{
            System.out.println("le message reçu est null");
        }
+
+      
     }
 
     /**
