@@ -47,6 +47,7 @@ import lo23.data.Game;
 import lo23.data.Player;
 import lo23.ui.grid.PlayerPanel;
 import lo23.utils.Enums.COLOR;
+import lo23.utils.ResourceManager;
 
 public class MainWindow extends JFrame implements ActionListener {
 
@@ -182,7 +183,7 @@ public class MainWindow extends JFrame implements ActionListener {
         constraints.gridy = 0;
 
 
-        JLabel image = new JLabel(new ImageIcon(getClass().getResource("/lo23/ui/resources/wood.png")));
+        JLabel image = new JLabel(new ImageIcon(ResourceManager.getInstance().getResource("wood.png")));
         panel.add(image, constraints, -1);
 
 
@@ -292,7 +293,7 @@ public class MainWindow extends JFrame implements ActionListener {
         constraints.gridy = 0;
 
         //chess king picture
-        chess_king = new JLabel(new ImageIcon(getClass().getResource("/lo23/ui/resources/swords.png")));
+        chess_king = new JLabel(new ImageIcon(ResourceManager.getInstance().getResource("swords.png")));
         panel.add(chess_king, constraints, 3);
         chess_king.setVisible(false);
 
