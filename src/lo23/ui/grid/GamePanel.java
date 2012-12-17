@@ -431,6 +431,13 @@ public class GamePanel extends JPanel {
         }
 
         JLabel currentPiece = listOfPiece.get(positionFrom);
+        GamePiece tempPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getTo().getX(), move.getTo().getY());
+        if(tempPiece != null){
+            if (tempPiece.getOwner().getColor() != playerColor) {
+                eatPiece(move.getTo());
+            }
+        }
+
         System.out.println("listOfPiece :" + listOfPiece.get(positionFrom));
         listOfPiece.remove(positionFrom);
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
@@ -512,7 +519,7 @@ public class GamePanel extends JPanel {
     	listOfPiece.get(p).setVisible(false);
     	JLabel atePiece = listOfPiece.remove(p);
 
-    	if (playerColor == COLOR.WHITE) {
+    	if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
     		blackAtePieces.add(atePiece);
     	} else {
             whiteAtePieces.add(atePiece);
