@@ -431,12 +431,14 @@ public class GamePanel extends JPanel {
         }
 
         JLabel currentPiece = listOfPiece.get(positionFrom);
+        System.out.println("listOfPiece :" + listOfPiece.get(positionFrom));
         listOfPiece.remove(positionFrom);
         if(myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE){
             listOfPiece.put(new Position(move.getTo().getWX(), move.getTo().getWY()), currentPiece);
         } else {
             listOfPiece.put(new Position(move.getTo().getBX(), move.getTo().getBY()), currentPiece);
         }
+        System.out.println("CurrentPiece :" + currentPiece);
         add(currentPiece, constraints, 0);
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
