@@ -259,14 +259,9 @@ public class GameManager extends Manager implements GameManagerInterface {
 	    int xfrom = move.getFrom().getX();
 	    int yfrom = move.getFrom().getY();
 	    GamePiece p = getPieceAtXY(xfrom, yfrom);
-	    try {
-		currentGame.playMove(move);
-		currentGame.swapCurrentPlayerColor();
-	    } catch (IllegalMoveException ex) {
-		System.out.println("Error : received illegal move. Shouldn't happen "
-			+ move.getFrom() + " - " + move.getTo());
-		Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+            playMove(move);
+            currentGame.swapCurrentPlayerColor();
+
 	    publish("move", move);
 	}
     }
