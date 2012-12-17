@@ -258,7 +258,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 }
 
                 // printing on screen
-                doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", localStyle);
+             //   doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + jTextField1.getText() + "\n", localStyle);
                 jTextField1.setText("");
                 jTextField1.setFocusable(true);
                 
