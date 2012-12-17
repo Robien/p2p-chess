@@ -41,7 +41,7 @@ public class Position implements Serializable {
     }
     
     public int getBY(){
-        return 7 - x;
+        return y;
     }
     public String toString() {
         return "(" + x + ", " + y + ")";
