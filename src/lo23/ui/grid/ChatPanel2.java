@@ -280,14 +280,6 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
             Player sender = msg.getSender();
 
-            // joueur local qui a envoyé
-           if(sender == myModel.getGManager().getCurrentGame().getLocalPlayer()){
-               // printing on screen
-                doc2.insertString(doc2.getLength(), "[" + getHeure() + "]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
-
-
-           }
-
 
            if(sender.getColor()  == Enums.COLOR.BLACK){
                 gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
