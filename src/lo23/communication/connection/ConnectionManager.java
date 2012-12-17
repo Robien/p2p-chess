@@ -76,8 +76,6 @@ public class ConnectionManager implements ConnectionListener {
             new Thread(handleMulticast).start();
             
             datagramSocket = new DatagramSocket();
-            
-
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
             
             serverConnection = new HandleServerConnection(serverSocket, this);
@@ -105,7 +103,7 @@ public class ConnectionManager implements ConnectionListener {
     }
     
     public void sendMulticastDisconnection(){
-        if(comManager.getCurrentUserProfile() != null){
+        if (comManager.getCurrentUserProfile() != null) {
             PublicProfile profile = comManager.getCurrentUserProfile();
             MulticastDisconnection message = new MulticastDisconnection(profile);
             HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
@@ -165,11 +163,7 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
 
-    /**
-     * Start a game session with a user.
-     * @param userProfile the user who will be the opponent
-     * @param started indicates is the game have to be started
-     */
+
     /*public void sendGameStarted(PublicProfile userProfile, boolean started) {
         try {
             GameStartedMsg message = new GameStartedMsg(userProfile, started);
@@ -187,6 +181,11 @@ public class ConnectionManager implements ConnectionListener {
 
     }*/
     
+    /**
+     * Start a game session with a user.
+     * @param invitation the invitation
+     * @param started indicates is the game have to be started
+     */
     public void sendGameStarted(Invitation invitation, boolean started) {
         try {
             GameStartedMsg message = new GameStartedMsg(invitation, started);
@@ -194,11 +193,11 @@ public class ConnectionManager implements ConnectionListener {
             HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
             handleMessage.send(message);
 
-            //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
-            readInvitation.set(false);
-            if(started){
+            //Ne pas oublier d'annuler les invitations sur l'app locale.
+            if (started) {
+                readInvitation.set(false);
                 socketSession = socketDirectory.get(distantIpAddr);
-                disconnectOthers();
+                cancelInvitations();
             }
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,15 +208,14 @@ public class ConnectionManager implements ConnectionListener {
     /**
      * Send a negative answer to each invitations excepted the one which has been accepted.
      */
-    private void disconnectOthers() {
+    private void cancelInvitations() {
         //Envoie d'une reponse négative à toute les demandes précédement reçues
+        invitationMap.remove(socketSession);
         HashMap<Socket, Invitation> copyInvitMap = new HashMap<Socket, Invitation>(invitationMap);
         for (Socket invitSock : invitationMap.keySet()) {
-            if (!invitSock.equals(socketSession)) {
-                AnswerMsg disconnectionMessage = new AnswerMsg(copyInvitMap.get(invitSock), false);
-                HandleMessage handleMessageReceivedInvit = handleMessageMap.get(invitSock);
-                handleMessageReceivedInvit.send(disconnectionMessage);
-            }
+            AnswerMsg answerNot = new AnswerMsg(copyInvitMap.get(invitSock), false);
+            HandleMessage handleMessageReceivedInvit = handleMessageMap.get(invitSock);
+            handleMessageReceivedInvit.send(answerNot);
         }
     }
 
@@ -265,7 +263,7 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Method which notifies the connection on the server socket.
+     * Method which notifies the connection on the server socket. (distant)
      * @param socket the new client socket
      */
     @Override
@@ -277,7 +275,7 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Allow to connect to a distant user.
+     * Allow to connect to a distant user. (local)
      * (Update socketDirectory and handleMessageMap)
      * @param inetAddress 
      */
@@ -295,7 +293,7 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Method which notifies the closure of a socket.
+     * Method which notifies the closure of a socket. (local or distant)
      * @param socket the closed socket
      */
     @Override
@@ -308,18 +306,21 @@ public class ConnectionManager implements ConnectionListener {
                 Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
             }
         }
+        
         socketDirectory.remove(socket.getInetAddress());
         handleMessageMap.remove(socket);
 
-        //On met a jour le socket lié a la session active
+        //Si le joueur est en partie
         if (socketSession != null && socket.equals(socketSession)) {
             readInvitation.set(true);
             socketSession = null;
             comManager.getApplicationModel().getGManager().notifyGameEnded();
-        } else {
+        } else { // Si le joueur n'est pas en partie (lit les invitations)
             Invitation invitation = invitationMap.get(socket);
-            invitationMap.remove(socket);
-            comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+            if (invitation != null) {
+                invitationMap.remove(socket);
+                comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+            }
         }
     }
 
@@ -342,7 +343,7 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedMessage(Socket socket, final Message message) {
-        System.out.println("Message TCP Received : "+message);
+        System.out.println("Message TCP Received : " + message);
         if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             if (readInvitation.get()) {
@@ -356,10 +357,11 @@ public class ConnectionManager implements ConnectionListener {
 
         } else if (message instanceof AnswerMsg) {
             if (!((AnswerMsg) message).isAnswer()) {
-                //disconnect(socket);
-            }else{
-                if(!readInvitation.get())
-                    this.sendGameStarted(((AnswerMsg)message).getInvitation(), false);
+                disconnect(socket);
+            } else {
+                if(!readInvitation.get()) {
+                    sendGameStarted(((AnswerMsg)message).getInvitation(), false);
+                }
             }
             notifyMessage(message);
 
@@ -368,7 +370,7 @@ public class ConnectionManager implements ConnectionListener {
             if (gameStartedMsg.isStarted()) {
                 readInvitation.set(false);
                 socketSession = socket;
-                disconnectOthers();
+                cancelInvitations();
             }
             notifyMessage(message);
 
