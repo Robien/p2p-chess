@@ -38,8 +38,17 @@ public class PlayerPanel extends javax.swing.JPanel {
         age.setText(String.valueOf(player.getPublicProfile().getAge()) + " ans");
         
 
-        
-          avatar.setIcon(new javax.swing.ImageIcon(getClass().getResource(image))); // NOI18N
+
+     
+     if(player.getPublicProfile().getAvatar()==null)
+     {
+         avatar.setIcon(new javax.swing.ImageIcon(getClass().getResource(image))); // NOI18N
+     }
+     else
+     {
+          avatar.setIcon(player.getPublicProfile().getAvatar());
+     }
+
      this.setOpaque(false);
      this.setBorder(BorderFactory.createTitledBorder(""));
     // this.setBorder(border);
@@ -68,41 +77,42 @@ public class PlayerPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         avatar = new javax.swing.JLabel();
-        nickName = new javax.swing.JLabel();
         age = new javax.swing.JLabel();
+        nickName = new javax.swing.JLabel();
 
         avatar.setBackground(new java.awt.Color(51, 255, 51));
 
-        nickName.setFont(new java.awt.Font("Viner Hand ITC", 1, 18)); // NOI18N
-        nickName.setForeground(new java.awt.Color(139, 23, 23));
-        nickName.setText("Nom du joueur");
-
-        age.setFont(new java.awt.Font("Tempus Sans ITC", 0, 10)); // NOI18N
+        age.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        age.setForeground(new java.awt.Color(255, 255, 255));
         age.setText("Age");
+
+        nickName.setFont(new java.awt.Font("Viner Hand ITC", 1, 14)); // NOI18N
+        nickName.setForeground(new java.awt.Color(139, 23, 23));
+        nickName.setText("Nom");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nickName)
-                    .addComponent(age)))
+                    .addComponent(nickName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(age))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(avatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(nickName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(age)
-                        .addGap(0, 29, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(age)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
