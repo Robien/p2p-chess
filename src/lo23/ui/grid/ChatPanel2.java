@@ -279,12 +279,28 @@ public class ChatPanel2 extends javax.swing.JPanel {
             StyledDocument doc2 = (StyledDocument) jTextPane1.getDocument();
 
             Player sender = msg.getSender();
-           // Player receiver = msg.getReceiver();
 
-            // printing on screen
-            doc2.insertString(doc2.getLength(), "[" + getHeure() + "]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
+            // joueur local qui a envoyé
+           if(sender == myModel.getGManager().getCurrentGame().getLocalPlayer()){
+               // printing on screen
+                doc2.insertString(doc2.getLength(), "[" + getHeure() + "]["+sender.getPublicProfile().getPseudo()+"] : " + msg.getContents() + "\n", remoteStyle);
 
 
+           }
+
+
+           if(sender.getColor()  == Enums.COLOR.BLACK){
+                gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
+                Color color_B = new Color(36,38,41);
+                StyleConstants.setForeground(gameStyle, color_B);
+                StyleConstants.setFontSize(gameStyle, 12);
+            }
+            else{
+                gameStyle = jTextPane1.addStyle("gameStyle", remoteStyle);
+                Color color_W = new Color(158,133,78);
+                StyleConstants.setForeground(gameStyle, color_W);
+                StyleConstants.setFontSize(gameStyle, 12);
+            }
        }
        else{
            System.out.println("le message reçu est null");
