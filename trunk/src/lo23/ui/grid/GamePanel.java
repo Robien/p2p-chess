@@ -85,7 +85,7 @@ public class GamePanel extends JPanel {
     //sound
     boolean is_eat;
     boolean is_move;
-    
+    boolean end_party;
     
    //playable game
     boolean isPlayPossible;
@@ -234,7 +234,7 @@ public class GamePanel extends JPanel {
         });
           
         addPropertyChangeListener(eventListener);
-       
+       end_party=false;
        // launchGame(); //comment for integration
     }
     
@@ -450,8 +450,10 @@ public class GamePanel extends JPanel {
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
             // End of game
+            end_party=true;
             endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
         } else if (myModel.getGManager().getCurrentGame().getRemotePlayer().isCheckAndMat()) {
+             end_party=true;
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
          repaint();
@@ -863,19 +865,22 @@ public class GamePanel extends JPanel {
     
      void play_sound(GamePiece currentPiece)
     {
-       
-     
-      if(Menu.get_noise_on())  
-      {  
-        
-           
-             if (currentPiece != null && game.getLocalPlayer().isCheckAndMat())
+
+
+      if(Menu.get_noise_on() && end_party==false)
+      {
+         MainWindow.chess_king.setVisible(false);
+         MainWindow.chess_king_crown.setVisible(false);
+            if (game.getLocalPlayer().isCheckAndMat() || game.getRemotePlayer().isCheckAndMat())
             {
+
                  new Launch_Sound("chess_mat.wav").play();
+                 MainWindow.chess_king_crown.setVisible(true);
+
             }
-            else if( currentPiece != null && game.getLocalPlayer().isOncheck())
+            else if(game.getLocalPlayer().isOncheck() || game.getRemotePlayer().isOncheck())
             {
-               new Launch_Sound("chess_king.wav").play();
+               new Launch_Sound("sword.wav").play();
                MainWindow.chess_king.setVisible(true);
 
             }
@@ -899,15 +904,16 @@ public class GamePanel extends JPanel {
             }
             else
             {
-            
+             //no sound
             }
-            
-            
+
+
             is_eat=false;
             is_move=false;
-            MainWindow.chess_king.setVisible(false);
-    
+
       }
+
+
     }
      
     public void endOfGame(Player winner) {
