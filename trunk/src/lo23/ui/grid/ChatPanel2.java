@@ -348,13 +348,40 @@ public class ChatPanel2 extends javax.swing.JPanel {
       //  int retour = d.showConfirmDialog(this,"Do you want to save the game in order to resume it next ?","Saving",JOptionPane.YES_NO_OPTION);
 
         if(retour == 0){ // oui je veux proposer la sauvegarde
-            System.out.println(retour);
+            saveGame();
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
-
+   
+    private void saveGame(){
+            try {
+                myModel.getGManager().save();
+            } catch (NoIdException ex) {
+                Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    // quitter
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        JOptionPane d = new JOptionPane();
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(this, 
+        "Do you want to save the game before leaving ?",
+        "Exit",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
+        choice,
+        choice[1]);
+
+        if(retour == 0){ // oui je sauvegarder avant de quitter
+            saveGame();
+        }
+        
+        
+        // mettre du code pour quitter
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
