@@ -335,6 +335,7 @@ public class GamePanel extends JPanel {
 	        		GamePiece formerPiece = game.getPieceAtXY(formerPositionSelected.getBX(), formerPositionSelected.getBY());
 	        		Move move = myModel.getGManager().createMove(new Position(7 - newSelection.getX(), newSelection.getY()), formerPiece);
 	        		myModel.getGManager().playMove(move);
+                                myModel.getGManager().sendMove(move);
 	        	}
 	        }
         }
