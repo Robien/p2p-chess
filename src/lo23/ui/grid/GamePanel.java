@@ -847,7 +847,8 @@ public class GamePanel extends JPanel {
 	            	}
             	}
             }
-        }    
+        }
+        System.out.println("ListOfPiece Black :" + listOfPiece);
     }
 
 
