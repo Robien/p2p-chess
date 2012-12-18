@@ -1,7 +1,6 @@
 package lo23.communication.message;
 
 import lo23.data.Invitation;
-import lo23.data.PublicProfile;
 
 /**
  * This message is sent to notify the distant client that the game is started.
