@@ -209,7 +209,7 @@ public class IhmLoginModel implements PropertyChangeListener{
                 ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
                 for(Game g : gamesContinue){
                     listIdGame.put(g.getGameId(), g);
-                    listStartGames.addGame(g.getEndDate(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(),profile.getStatus());
+                    listStartGames.addGame(g.getStart(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(),profile.getStatus());
                 }
                 
                 //Set profile to p
