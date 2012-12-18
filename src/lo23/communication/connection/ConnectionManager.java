@@ -342,8 +342,11 @@ public class ConnectionManager implements ConnectionListener {
      * @param message the received message
      */
     @Override
-    public synchronized void receivedMessage(Socket socket, final Message message) {
+    public synchronized void receivedMessage(Socket socket, Message message) {
         System.out.println("Message TCP Received : " + message);
+        
+        correctIpAddress(socket.getInetAddress(), message);
+        
         if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             if (readInvitation.get()) {
@@ -408,6 +411,10 @@ public class ConnectionManager implements ConnectionListener {
         else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
             notifyMessage(message);
         }
+    }
+    
+    private void correctIpAddress(InetAddress remoteAddress, Message message) {
+        
     }
 
     /**
