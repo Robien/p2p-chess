@@ -40,7 +40,6 @@ public class Game implements Serializable {
     private Player remotePlayer;
     private ArrayList<Event> events;
     private Enums.COLOR currentPlayerColor;
-    private Stack<GridState> gridStates;
 
     //add by Romain
     private Move lastMove; // dernier coup joué : on en a besoin pour la prise en passant
@@ -73,26 +72,6 @@ public class Game implements Serializable {
 	this.remotePlayer = remotePlayer;
 	currentPlayerColor = null;
         lastMove = null;
-        gridStates = new Stack<GridState>();
-    }
-
-    /**
-     * Saves the current grid's state and the move that will update this state.
-     * @param move The move
-     */
-    public void saveCurrentGridState(Move move) {
-
-        gridStates.push(new GridState(this.getBoard(), move));
-    }
-
-    /**
-     * This method simply returns the last recorded state of the grid.
-     * Be careful, it pops the state, so it will be deleted after calling this method
-     * @return The last recorded grid's state
-     */
-    public GridState popLastGridState()
-    {
-        return gridStates.pop();
     }
 
     public void buildPieces() {

@@ -3,6 +3,7 @@ package lo23.data.managers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.data.ApplicationModel;
@@ -38,9 +39,11 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 public class GameManager extends Manager implements GameManagerInterface {
 
     private Game currentGame;
+    private Stack<GridState> gridStates;
 
     public GameManager(ApplicationModel app) {
 	super(app);
+        gridStates = new Stack<GridState>();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public void playMove(Move move) {
 	try {
-            currentGame.saveCurrentGridState(move);
+            saveGridState(move);
 	    currentGame.playMove(move);
 	    currentGame.swapCurrentPlayerColor();
 	} catch (IllegalMoveException ex) {
@@ -76,8 +79,23 @@ public class GameManager extends Manager implements GameManagerInterface {
 	pushEvent(move);
     }
 
-    public GridState popLastGridState() {
-        return currentGame.popLastGridState();
+    
+    /**
+     * Saves the current grid's state and the move that will update this state.
+     * @param move The move
+     */
+    private void saveGridState(Move move) {
+        gridStates.push(new GridState(currentGame.getBoard(), move));
+    }
+
+    /**
+     * This method simply returns the last recorded state of the grid.
+     * Be careful, it pops the state, so it will be deleted after calling this method
+     * @return The last recorded grid's state
+     */
+    public GridState popLastGridState()
+    {
+        return gridStates.pop();
     }
 
     @Override
