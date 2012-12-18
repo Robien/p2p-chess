@@ -349,10 +349,12 @@ public class GamePanel extends JPanel {
     
     
     private void insertPiece(Position p, String imagePath) {
-        listOfPiece.get(p).setVisible(false);
-        listOfPiece.remove(p);
+       
+   
         
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+             listOfPiece.get(new Position(p.getWX(), p.getWY())).setVisible(false);
+                listOfPiece.remove(new Position(p.getWX(), p.getWY()));
             constraints.gridx = p.getWX();
             constraints.gridy = p.getWY();            
 
@@ -361,6 +363,9 @@ public class GamePanel extends JPanel {
             add(WLabel, constraints, 2);
             listOfPiece.put(p, WLabel);
         } else {
+             listOfPiece.get(new Position(p.getBX(), p.getBY())).setVisible(false);
+           listOfPiece.remove(new Position(p.getBX(), p.getBY()));
+
             constraints.gridx = p.getBX();
             constraints.gridy = p.getBY();            
 
@@ -442,7 +447,7 @@ public class GamePanel extends JPanel {
         }
 
              //is Pawn Top
-        if (tempPiece != null && tempPiece.isPawnTop()) {
+        if (tempPiece != null && tempPiece.isPawnTop() && myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == playerColor) {
             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
            // revalidate();
             try {
