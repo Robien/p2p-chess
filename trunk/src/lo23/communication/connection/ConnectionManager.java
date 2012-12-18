@@ -21,6 +21,7 @@ import lo23.communication.handle.HandleSendMessageUDP;
 import lo23.communication.handle.HandleServerConnection;
 import lo23.communication.message.AnswerMsg;
 import lo23.communication.message.ChatMsg;
+import lo23.communication.message.ConnectionMessage;
 import lo23.communication.message.ConstantMsg;
 import lo23.communication.message.GameEndedMsg;
 import lo23.communication.message.GameStartedMsg;
@@ -74,10 +75,10 @@ public class ConnectionManager implements ConnectionListener {
             multicastSocket.joinGroup(InetAddress.getByName(ConnectionParams.multicastAddress));
             handleMulticast = new HandleReceiveUDPMessage(multicastSocket, this);
             new Thread(handleMulticast).start();
-            
+
             datagramSocket = new DatagramSocket();
             serverSocket = new ServerSocket(ConnectionParams.unicastPort);
-            
+
             serverConnection = new HandleServerConnection(serverSocket, this);
             new Thread(serverConnection).start();
             serverConnection.waitStarted();
@@ -101,15 +102,14 @@ public class ConnectionManager implements ConnectionListener {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Send multicast without publicProfile");
         }
     }
-    
-    public void sendMulticastDisconnection(){
+
+    public void sendMulticastDisconnection() {
         if (comManager.getCurrentUserProfile() != null) {
             PublicProfile profile = comManager.getCurrentUserProfile();
             MulticastDisconnection message = new MulticastDisconnection(profile);
             HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
             handler.sendMulticast(message);
-        }
-        else{
+        } else {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, "Send multicast without publicProfile");
         }
     }
@@ -118,7 +118,7 @@ public class ConnectionManager implements ConnectionListener {
      * Function which answer to sendMultiCast().
      */
     private void replyMulticast(String ipAddress) {
-        if ( comManager.getCurrentUserProfile() != null) {
+        if (comManager.getCurrentUserProfile() != null) {
             PublicProfile profile = comManager.getCurrentUserProfile();
             MulticastAnswer message = new MulticastAnswer(profile);
             HandleSendMessageUDP handler = new HandleSendMessageUDP(datagramSocket);
@@ -165,22 +165,21 @@ public class ConnectionManager implements ConnectionListener {
 
 
     /*public void sendGameStarted(PublicProfile userProfile, boolean started) {
-        try {
-            GameStartedMsg message = new GameStartedMsg(userProfile, started);
-            InetAddress distantIpAddr = InetAddress.getByName(userProfile.getIpAddress());
-            HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
-            handleMessage.send(message);
+    try {
+    GameStartedMsg message = new GameStartedMsg(userProfile, started);
+    InetAddress distantIpAddr = InetAddress.getByName(userProfile.getIpAddress());
+    HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
+    handleMessage.send(message);
 
-            //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
-            readInvitation.set(false);
-            socketSession = socketDirectory.get(distantIpAddr);
-            disconnectOthers();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
+    readInvitation.set(false);
+    socketSession = socketDirectory.get(distantIpAddr);
+    disconnectOthers();
+    } catch (UnknownHostException ex) {
+    Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+    }
 
     }*/
-    
     /**
      * Start a game session with a user.
      * @param invitation the invitation
@@ -306,7 +305,7 @@ public class ConnectionManager implements ConnectionListener {
                 Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
             }
         }
-        
+
         socketDirectory.remove(socket.getInetAddress());
         handleMessageMap.remove(socket);
 
@@ -344,9 +343,9 @@ public class ConnectionManager implements ConnectionListener {
     @Override
     public synchronized void receivedMessage(Socket socket, Message message) {
         System.out.println("Message TCP Received : " + message);
-        
-        correctIpAddress(socket.getInetAddress(), message);
-        
+
+        //correctIpAddress(socket.getInetAddress(), message);
+
         if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
             if (readInvitation.get()) {
@@ -362,8 +361,8 @@ public class ConnectionManager implements ConnectionListener {
             if (!((AnswerMsg) message).isAnswer()) {
                 disconnect(socket);
             } else {
-                if(!readInvitation.get()) {
-                    sendGameStarted(((AnswerMsg)message).getInvitation(), false);
+                if (!readInvitation.get()) {
+                    sendGameStarted(((AnswerMsg) message).getInvitation(), false);
                 }
             }
             notifyMessage(message);
@@ -389,7 +388,7 @@ public class ConnectionManager implements ConnectionListener {
         } else if (message instanceof GameEndedMsg) {
             disconnect(socketSession);
             notifyMessage(message);
-            
+
         }
     }
 
@@ -399,22 +398,32 @@ public class ConnectionManager implements ConnectionListener {
      */
     @Override
     public synchronized void receivedUDPMessage(Message message) {
-        System.out.println("Message UDP Received : "+message);
+        System.out.println("Message UDP Received : " + message);
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
-            if ( comManager.getCurrentUserProfile() != null &&
-                !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress()) ) {
+            if (comManager.getCurrentUserProfile() != null
+                    && !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
                 replyMulticast(ipAddress);
                 notifyMessage(message);
             }
-        }
-        else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
+        } else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
             notifyMessage(message);
         }
     }
-    
+
     private void correctIpAddress(InetAddress remoteAddress, Message message) {
-        
+
+        if (message instanceof MulticastMessage) {
+            ((MulticastMessage) message).getProfile().setIpAddress(remoteAddress.toString());
+        } else if (message instanceof ConnectionMessage) {
+            if (message instanceof InvitMsg) {
+                ((InvitMsg) message).getInvitation().getHost().setIpAddress(remoteAddress.toString());
+            } else if (message instanceof AnswerMsg) {
+                ((AnswerMsg) message).getInvitation().getGuest().setIpAddress(remoteAddress.toString());
+            } else if (message instanceof GameStartedMsg) {
+                ((GameStartedMsg) message).getInvit().getHost().setIpAddress(remoteAddress.toString());
+            }
+        }
     }
 
     /**
@@ -445,7 +454,7 @@ public class ConnectionManager implements ConnectionListener {
             } else if (message instanceof AnswerMsg) {
                 model.getPManager().notifyInvitAnswer(((AnswerMsg) message).getInvitation(), ((AnswerMsg) message).isAnswer());
             } else if (message instanceof GameStartedMsg) {
-                model.getGManager().notifyGameStarted(((GameStartedMsg) message).getInvit(),((GameStartedMsg) message).isStarted());
+                model.getGManager().notifyGameStarted(((GameStartedMsg) message).getInvit(), ((GameStartedMsg) message).isStarted());
             } else if (message instanceof ChatMsg) {
                 model.getGManager().notifyChatMessage(((ChatMsg) message).getMessage());
             } else if (message instanceof MoveMsg) {
@@ -456,10 +465,9 @@ public class ConnectionManager implements ConnectionListener {
                 model.getGManager().notifyGameEnded();
             } else if (message instanceof MulticastAnswer || message instanceof MulticastInvit) {
                 model.getPManager().notifyAddProfile(((MulticastMessage) message).getProfile());
-            } else if(message instanceof MulticastDisconnection) {
+            } else if (message instanceof MulticastDisconnection) {
                 model.getPManager().notifyProfileDisconnection(((MulticastDisconnection) message).getProfile());
             }
         }
-   }
-    
+    }
 }
