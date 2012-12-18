@@ -87,9 +87,11 @@ public class GamePanel extends JPanel {
     boolean is_eat;
     boolean is_move;
     boolean end_party;
+
     
    //playable game
    public boolean isPlayPossible;
+   public boolean heAlreadyLeave;
     
     private PiecesBox localBox;
     private PiecesBox remoteBox;
@@ -970,6 +972,7 @@ public class GamePanel extends JPanel {
     public void surrender(Player leaver) {
         JOptionPane.showMessageDialog(this, " You won ! Because " + leaver.getPublicProfile().getPseudo() + " just surrend.", "End of game", JOptionPane.INFORMATION_MESSAGE);
         isPlayPossible = false;
+        heAlreadyLeave = true;
     }
     
     public void drawRequest(Player requester) {
