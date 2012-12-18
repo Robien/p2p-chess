@@ -19,6 +19,8 @@ import lo23.ui.grid.Menu;
  */
 public abstract class GamePiece implements Serializable {
 
+    static final long serialVersionUID = 1L;
+
     private boolean outOfBorder;
     protected Position position;
     private Player owner;

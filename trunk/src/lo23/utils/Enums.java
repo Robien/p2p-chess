@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Enums implements Serializable
 {
+    static final long serialVersionUID = 1L;
     /**
      * Enumeration containing possible profile's status values
      */

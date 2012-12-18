@@ -3,7 +3,8 @@ package lo23.data;
 import java.io.Serializable;
 
 public abstract class Invitation implements Serializable {
-
+    static final long serialVersionUID = 1L;
+    
     private PublicProfile host;
     private PublicProfile guest;
 

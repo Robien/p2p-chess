@@ -12,6 +12,8 @@ import java.io.Serializable;
  * @author khamidou
  */
 public class Message extends Event implements Serializable {
+    static final long serialVersionUID = 1L;
+    
     private String contents;
     private Player sender;
     private Player receiver;

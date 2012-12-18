@@ -11,7 +11,8 @@ import java.io.Serializable;
  * @author khamidou
  */
 public class Position implements Serializable {
-
+    static final long serialVersionUID = 1L;
+    
     private int x;
     private int y;
 
