@@ -292,7 +292,12 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public ArrayList<Game> getListAllGames() throws IOException, ClassNotFoundException {
+        // Creates the folder if it doesn't exist
 	File games = new File(Constants.GAMES_PATH);
+        if (!games.exists()) {
+            games.mkdirs();
+        }
+
 	String[] fileList = games.list();
 
 	ArrayList<Game> gameList = new ArrayList<Game>();

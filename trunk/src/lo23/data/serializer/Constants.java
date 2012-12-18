@@ -8,7 +8,7 @@ public class Constants {
     // Working directory should be in the netbeans workspace
 
     static public final String PROFILES_PATH = System.getProperty("user.dir") + "/data/profiles/";
-    static public final String GAMES_PATH = "data/games/";
+    static public final String GAMES_PATH = System.getProperty("user.dir") + "/data/games/";
     // File suffixes
     static public final String PROFILE_SUFFIXE = ".profile";
     static public final String GAME_SUFFIXE = ".game";
