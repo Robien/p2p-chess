@@ -89,7 +89,7 @@ public class GamePanel extends JPanel {
     boolean end_party;
     
    //playable game
-    boolean isPlayPossible;
+   public boolean isPlayPossible;
     
     private PiecesBox localBox;
     private PiecesBox remoteBox;
