@@ -151,4 +151,32 @@ public class Player implements Serializable {
     public Game getGame() {
         return getKing().getGame();
     }
+
+       //vérifie si le player peu jouer un coup. Si aucun coup possible, c'est un pat
+    // il faut d'abord vérifier si ce n'est pas un échec et mat en premier :
+    // si le jeu est en echec et mat, la méthode va retourner vrai !
+    //author : romain
+    public boolean isOnPat()
+    {
+
+
+        ArrayList<GamePiece> gamePieces = getPieces();
+
+
+        for (int i = 0; i < gamePieces.size(); ++i) // pour toute les pièces du joueur
+        {
+             GamePiece piece = gamePieces.get(i);
+                if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty()) // si la piece est toujours en jeu et qu'elle peut faire des déplacements
+                {
+                    return false; // ce n'est pas un pat
+                }
+
+
+        }
+
+
+        //sinon on ne peut pas jouer.
+        return true;
+
+    }
 }
