@@ -489,8 +489,7 @@ public class GamePanel extends JPanel {
                  }
             }
         }
-
-        buildBoard();
+  
         repaint();
         revalidate();
     }
