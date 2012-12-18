@@ -220,6 +220,8 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     }
                 });
             }
+            else
+                System.out.println("Object Table Listener : "+o.toString());
         }
     }
 
