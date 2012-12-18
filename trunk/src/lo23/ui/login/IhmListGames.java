@@ -68,11 +68,11 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         this.stopGamesTable.getModel().addTableModelListener(this);
         
         
-        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.INVIT_RECEIVE,this);
-        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
-        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
-        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED, this);
-        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_STARTED, this);
+        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.INVIT_RECEIVE,this);
+        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
+        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
+        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED, this);
+        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_STARTED, this);
         
         //Seulement lorsque l'utilisateur distant est en ligne
         //Implémentation terminé à tester
@@ -170,9 +170,9 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
 
     private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
         this.dispose();
-        this.listPlayers.setEnabled(true);
-        this.listPlayers.setState(java.awt.Frame.ICONIFIED );
-        this.listPlayers.setState(java.awt.Frame.NORMAL);
+        this.listPlayers.setVisible(true);
+        //this.listPlayers.setState(java.awt.Frame.ICONIFIED );
+        //this.listPlayers.setState(java.awt.Frame.NORMAL);
         this.listPlayers.dispatchInvit = false;
     }//GEN-LAST:event_previousBtnActionPerformed
 
@@ -182,7 +182,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             JButton btn = (JButton) evt.getSource();
             idGame = (Long) btn.getClientProperty("id");
             ihmLoginModel.loadEndedGame(idGame);
-            this.setVisible(false);
+            btn.setEnabled(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
