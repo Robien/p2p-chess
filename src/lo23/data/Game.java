@@ -40,6 +40,9 @@ public class Game implements Serializable {
     private ArrayList<Event> events;
     private Enums.COLOR currentPlayerColor;
 
+    //add by Romain
+    private Move lastMove; // dernier coup joué : on en a besoin pour la prise en passant
+
     public COLOR getCurrentPlayerColor() {
 	return currentPlayerColor;
     }
@@ -67,6 +70,7 @@ public class Game implements Serializable {
 	this.localPlayer = localPlayer;
 	this.remotePlayer = remotePlayer;
 	currentPlayerColor = null;
+        lastMove = null;
     }
 
     public void buildPieces() {
@@ -341,6 +345,7 @@ public class Game implements Serializable {
         board[xto][yto] = piece;
 
 	piece.movePiece(move.to);
+        lastMove = move;
 
     }
 
@@ -442,6 +447,12 @@ public class Game implements Serializable {
 //        return true;
 //
 //    }
+
+
+    public Move getLastMove()
+    {
+        return lastMove;
+    }
 
 
 }
