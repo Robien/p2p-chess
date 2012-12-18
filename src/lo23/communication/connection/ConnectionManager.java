@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -48,20 +46,19 @@ import lo23.data.PublicProfile;
  */
 public class ConnectionManager implements ConnectionListener {
 
-    private ComManager comManager;
+    private final ComManager comManager;
     // Multicast Socket
-    private MulticastSocket multicastSocket; //server
-    private HandleReceiveUDPMessage handleMulticast;
-    private DatagramSocket datagramSocket; //client
+    private final MulticastSocket multicastSocket; //server
+    private final HandleReceiveUDPMessage handleMulticast;
+    private final DatagramSocket datagramSocket; //client
     // TCP
-    private ServerSocket serverSocket;
-    private HandleServerConnection serverConnection;
-    private ConcurrentHashMap<Socket, HandleMessage> handleMessageMap;
+    private final ServerSocket serverSocket;
+    private final HandleServerConnection serverConnection;
+    private final HashMap<Socket, HandleMessage> handleMessageMap;
     // Other
-    private ConcurrentHashMap<InetAddress, Socket> socketDirectory;
-    private ConcurrentHashMap<Socket, Invitation> invitationMap;
-    private List<String> myIpAddressList;
-    private AtomicBoolean readInvitation;
+    private final HashMap<InetAddress, Socket> socketDirectory;
+    private final HashMap<Socket, Invitation> invitationMap;
+    private final List<String> myIpAddressList;
     private Socket socketSession;
 
     /**
@@ -71,11 +68,10 @@ public class ConnectionManager implements ConnectionListener {
      */
     public ConnectionManager(ComManager comManager) throws Exception {
         this.comManager = comManager;
-        handleMessageMap = new ConcurrentHashMap<Socket, HandleMessage>();
-        socketDirectory = new ConcurrentHashMap<InetAddress, Socket>();
-        invitationMap = new ConcurrentHashMap<Socket, Invitation>();
+        handleMessageMap = new HashMap<Socket, HandleMessage>();
+        socketDirectory = new HashMap<InetAddress, Socket>();
+        invitationMap = new HashMap<Socket, Invitation>();
         myIpAddressList = new ArrayList<String>();
-        readInvitation = new AtomicBoolean(true);
         socketSession = null;
 
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -199,7 +195,6 @@ public class ConnectionManager implements ConnectionListener {
 
             //Ne pas oublier d'annuler les invitations sur l'app locale.
             if (started) {
-                readInvitation.set(false);
                 socketSession = socketDirectory.get(distantIpAddr);
                 cancelInvitations();
             }
@@ -263,7 +258,6 @@ public class ConnectionManager implements ConnectionListener {
         GameEndedMsg message = new GameEndedMsg();
         HandleMessage handleMessage = handleMessageMap.get(socketSession);
         handleMessage.send(message);
-        readInvitation.set(true);
         socketSession = null;
     }
 
@@ -272,11 +266,13 @@ public class ConnectionManager implements ConnectionListener {
      * @param socket the new client socket
      */
     @Override
-    public synchronized void receivedConnection(Socket socket) {
-        HandleMessage handleMessage = new HandleMessage(socket, this);
-        handleMessage.startHandleReceive();
-        socketDirectory.put(socket.getInetAddress(), socket);
-        handleMessageMap.put(socket, handleMessage);
+    public void receivedConnection(Socket socket) {
+        synchronized (comManager) {
+            HandleMessage handleMessage = new HandleMessage(socket, this);
+            handleMessage.startHandleReceive();
+            socketDirectory.put(socket.getInetAddress(), socket);
+            handleMessageMap.put(socket, handleMessage);
+        }
     }
 
     /**
@@ -284,7 +280,7 @@ public class ConnectionManager implements ConnectionListener {
      * handleMessageMap)
      * @param inetAddress
      */
-    private synchronized void connect(InetAddress inetAddress) {
+    private void connect(InetAddress inetAddress) {
         try {
             Socket socket = new Socket(inetAddress, ConnectionParams.unicastPort);
             HandleMessage handleMessage = new HandleMessage(socket, this);
@@ -302,29 +298,30 @@ public class ConnectionManager implements ConnectionListener {
      * @param socket the closed socket
      */
     @Override
-    public synchronized void closedConnection(Socket socket) {
-        handleMessageMap.get(socket).closeHandle();
-        if (!socket.isClosed()) {
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
+    public void closedConnection(Socket socket) {
+        synchronized (comManager) {
+            handleMessageMap.get(socket).closeHandle();
+            if (!socket.isClosed()) {
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ConnectionManager.class.getName()).log(Level.INFO, "Socket close", ex);
+                }
             }
-        }
 
-        socketDirectory.remove(socket.getInetAddress());
-        handleMessageMap.remove(socket);
+            socketDirectory.remove(socket.getInetAddress());
+            handleMessageMap.remove(socket);
 
-        //Si le joueur est en partie
-        if (socketSession != null && socket.equals(socketSession)) {
-            readInvitation.set(true);
-            socketSession = null;
-            comManager.getApplicationModel().getGManager().notifyGameEnded();
-        } else { // Si le joueur n'est pas en partie (lit les invitations)
-            Invitation invitation = invitationMap.get(socket);
-            if (invitation != null) {
-                invitationMap.remove(socket);
-                comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+            //Si le joueur est en partie
+            if (socketSession != null && socket.equals(socketSession)) {
+                socketSession = null;
+                comManager.getApplicationModel().getGManager().notifyGameEnded();
+            } else { // Si le joueur n'est pas en partie (lit les invitations)
+                Invitation invitation = invitationMap.get(socket);
+                if (invitation != null) {
+                    invitationMap.remove(socket);
+                    comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+                }
             }
         }
     }
@@ -347,54 +344,55 @@ public class ConnectionManager implements ConnectionListener {
      * @param message the received message
      */
     @Override
-    public synchronized void receivedMessage(Socket socket, Message message) {
-        System.out.println("Message TCP Received : " + message);
+    public void receivedMessage(Socket socket, Message message) {
+        synchronized (comManager) {
+            System.out.println("Message TCP Received : " + message);
 
-        correctIpAddress(socket.getInetAddress(), message);
+            correctIpAddress(socket.getInetAddress(), message);
 
-        if (message instanceof InvitMsg) {
-            InvitMsg invitMsg = (InvitMsg) message;
-            if (readInvitation.get()) {
-                invitationMap.put(socket, invitMsg.getInvitation());
-                notifyMessage(message);
-            } else {
-                AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(), false);
-                HandleMessage handleMessage = handleMessageMap.get(socket);
-                handleMessage.send(answerMsg);
-            }
-
-        } else if (message instanceof AnswerMsg) {
-            if (!((AnswerMsg) message).isAnswer()) {
-                disconnect(socket);
-            } else {
-                if (!readInvitation.get()) {
-                    sendGameStarted(((AnswerMsg) message).getInvitation(), false);
+            if (message instanceof InvitMsg) {
+                InvitMsg invitMsg = (InvitMsg) message;
+                if (socketSession == null) {
+                    invitationMap.put(socket, invitMsg.getInvitation());
+                    notifyMessage(message);
+                } else {
+                    AnswerMsg answerMsg = new AnswerMsg(invitMsg.getInvitation(), false);
+                    HandleMessage handleMessage = handleMessageMap.get(socket);
+                    handleMessage.send(answerMsg);
                 }
+
+            } else if (message instanceof AnswerMsg) {
+                if (!((AnswerMsg) message).isAnswer()) {
+                    disconnect(socket);
+                } else {
+                    if (socketSession != null) {
+                        sendGameStarted(((AnswerMsg) message).getInvitation(), false);
+                    }
+                }
+                notifyMessage(message);
+
+            } else if (message instanceof GameStartedMsg) {
+                GameStartedMsg gameStartedMsg = (GameStartedMsg) message;
+                if (gameStartedMsg.isStarted()) {
+                    socketSession = socket;
+                    cancelInvitations();
+                }
+                notifyMessage(message);
+
+            } else if (message instanceof ChatMsg) {
+                notifyMessage(message);
+
+            } else if (message instanceof MoveMsg) {
+                notifyMessage(message);
+
+            } else if (message instanceof ConstantMsg) {
+                notifyMessage(message);
+
+            } else if (message instanceof GameEndedMsg) {
+                disconnect(socketSession);
+                notifyMessage(message);
+
             }
-            notifyMessage(message);
-
-        } else if (message instanceof GameStartedMsg) {
-            GameStartedMsg gameStartedMsg = (GameStartedMsg) message;
-            if (gameStartedMsg.isStarted()) {
-                readInvitation.set(false);
-                socketSession = socket;
-                cancelInvitations();
-            }
-            notifyMessage(message);
-
-        } else if (message instanceof ChatMsg) {
-            notifyMessage(message);
-
-        } else if (message instanceof MoveMsg) {
-            notifyMessage(message);
-
-        } else if (message instanceof ConstantMsg) {
-            notifyMessage(message);
-
-        } else if (message instanceof GameEndedMsg) {
-            disconnect(socketSession);
-            notifyMessage(message);
-
         }
     }
 
@@ -403,24 +401,30 @@ public class ConnectionManager implements ConnectionListener {
      * @param message message received
      */
     @Override
-    public synchronized void receivedUDPMessage(InetAddress remoteAddress, Message message) {
-        System.out.println("Message UDP Received : " + message);
-        
-        correctIpAddress(remoteAddress, message);
+    public void receivedUDPMessage(InetAddress remoteAddress, Message message) {
+        synchronized (comManager) {
+            System.out.println("Message UDP Received : " + message);
 
-        if (message instanceof MulticastInvit) {
-            String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
-            if (!myIpAddressList.contains(ipAddress)) {
-                replyMulticast(ipAddress);
+            correctIpAddress(remoteAddress, message);
+
+            if (message instanceof MulticastInvit) {
+                String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
+                if (!myIpAddressList.contains(ipAddress)) {
+                    replyMulticast(ipAddress);
+                    notifyMessage(message);
+                }
+            } else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
                 notifyMessage(message);
             }
-        } else if (message instanceof MulticastAnswer || message instanceof MulticastDisconnection) {
-            notifyMessage(message);
         }
     }
 
+    /**
+     * Correct the IP Address in the message which contains the remote public profile.
+     * @param remoteAddress the remoteAddress
+     * @param message  the message
+     */
     private void correctIpAddress(InetAddress remoteAddress, Message message) {
-
         if (message instanceof MulticastMessage) {
             ((MulticastMessage) message).getProfile().setIpAddress(remoteAddress.getHostAddress());
         } else if (message instanceof ConnectionMessage) {

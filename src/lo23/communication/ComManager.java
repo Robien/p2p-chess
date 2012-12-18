@@ -18,7 +18,7 @@ public class ComManager extends Manager implements ISender {
     private ApplicationModel applicationModel;
     
     /**
-     * Contructor of the ComManager.
+     * Constructor of the ComManager.
      * @param profile the profile of the current user
      * @param receiveListener the listener who will be notified
      */
@@ -37,47 +37,47 @@ public class ComManager extends Manager implements ISender {
     }
     
     @Override
-    public void sendMulticast() {
+    public synchronized void sendMulticast() {
        connectionManager.sendMulticast();
     }
     
     @Override
-    public void sendMulticastDisconnection(){
+    public synchronized void sendMulticastDisconnection(){
         connectionManager.sendMulticastDisconnection();
     }
 
     @Override
-    public void sendInvitation(Invitation invitation) {
+    public synchronized void sendInvitation(Invitation invitation) {
         connectionManager.sendInvitation(invitation);
     }
 
     @Override
-    public void sendInvitationAnswer(Invitation invitation, boolean answer) {
+    public synchronized void sendInvitationAnswer(Invitation invitation, boolean answer) {
         connectionManager.sendInvitationAnswer(invitation, answer);
     }
 
     @Override
-    public void sendGameStarted(Invitation invit, boolean started) {
+    public synchronized void sendGameStarted(Invitation invit, boolean started) {
         connectionManager.sendGameStarted(invit, started);
     }
 
     @Override
-    public void sendChatMessage(Message message) {
+    public synchronized void sendChatMessage(Message message) {
         connectionManager.sendChatMessage(message);
     }
 
     @Override
-    public void sendMovement(Move move) {
+    public synchronized void sendMovement(Move move) {
         connectionManager.sendMovement(move);
     }
 
     @Override
-    public void sendConstantMessage(Constant constant) {
+    public synchronized void sendConstantMessage(Constant constant) {
         connectionManager.sendConstantMessage(constant);
     }
     
     @Override
-    public void sendGameEnded() {
+    public synchronized void sendGameEnded() {
         connectionManager.sendGameEnded();
     }
     
