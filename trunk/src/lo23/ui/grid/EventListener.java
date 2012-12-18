@@ -127,6 +127,23 @@ public class EventListener implements PropertyChangeListener {
                  }
              }
             
+            if(type == CONSTANT_TYPE.SURRENDER){
+                 if(gamePanel != null){
+                     gamePanel.surrender(cst.getSender());
+                 }
+             }
+            
+            if(type == CONSTANT_TYPE.DRAW_ASKED){
+                 if(gamePanel != null){
+                     gamePanel.drawRequest(cst.getSender());
+                 }
+             }
+            
+              if(type == CONSTANT_TYPE.DRAW_ACCEPTED){
+                 if(gamePanel != null){
+                     gamePanel.drawAccepted(cst.getSender());
+                 }
+             }           
              if(gamePanel != null){
                  if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
