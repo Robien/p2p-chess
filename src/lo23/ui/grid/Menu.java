@@ -23,8 +23,10 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
+import lo23.data.Constant;
 import lo23.utils.ResourceManager;
-
+import lo23.utils.Enums;
 /**
  *
  * @author guigou
@@ -150,9 +152,30 @@ import lo23.utils.ResourceManager;
         @Override
         public void actionPerformed(ActionEvent e)
             {
-                mw.setVisible(false);
-                mw.myModel.getGManager().notifyGameEnded();
-                mw.dispose();
+                    JOptionPane d = new JOptionPane();
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(mw,
+        "Are you sure you want really leave the game ?",
+        "Exit",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
+        choice,
+        choice[1]);
+
+        if(retour == 0){ // oui je sauvegarder avant de quitter
+            Constant cst = mw.myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+             //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+             mw.myModel.getGManager().sendConstant(cst);
+
+            mw.setVisible(false);
+            mw.myModel.getGManager().notifyGameEnded();
+            mw.dispose();
+        }
+
+        // on envoie à l'autre player qu'on abandonne
+
+
             } 
         }  
     
