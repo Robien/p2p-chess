@@ -442,18 +442,18 @@ public class GamePanel extends JPanel {
         }
 
              //is Pawn Top
-        if (currentGamePiece != null && currentGamePiece.isPawnTop()) {
-            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(currentGamePiece);
-            revalidate();
+        if (tempPiece != null && tempPiece.isPawnTop()) {
+            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
+           // revalidate();
             try {
                 //create new Piece
-            	Pawn pawn = (Pawn) currentGamePiece;
+            	Pawn pawn = (Pawn) tempPiece;
                 game.promotePawn(pawn,piece);
             } catch (UndefinedGamePieceException ex) {
                 Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (playerColor == COLOR.BLACK)
+            if (playerColor == COLOR.WHITE)
             {
                  switch(piece)
                  {
