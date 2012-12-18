@@ -958,7 +958,7 @@ public class GamePanel extends JPanel {
 
     public void surrender(Player leaver) {
         JOptionPane.showMessageDialog(this, " You won ! Because " + leaver.getPublicProfile().getPseudo() + " just surrend.", "End of game", JOptionPane.INFORMATION_MESSAGE);
-    
+        isPlayPossible = false;
     }
     
     public void drawRequest(Player requester) {
@@ -966,7 +966,7 @@ public class GamePanel extends JPanel {
         JOptionPane d = new JOptionPane();
         String[] choice = {"Yes", "No"};
         int retour = d.showOptionDialog(this, 
-        requester.getPublicProfile().getPseudo() + " want to propose a draw. Do you want accept it ?",
+        requester.getPublicProfile().getPseudo() + " want to propose a draw. Do you want accept it ? (If you accept, you could use the chat)",
         "Drawing",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
@@ -975,14 +975,28 @@ public class GamePanel extends JPanel {
         choice[1]);
 
         if(retour == 0){ // oui j'accepte le draw
-            // on envoie à l'autre player une demande de nulle
             Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ACCEPTED);
             myModel.getGManager().sendConstant(cst);
-
+            isPlayPossible = false;
+        }
+        else{
+            Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_REFUSED);
+            myModel.getGManager().sendConstant(cst);
+            isPlayPossible = true;
         }
     }
 
+    // on dit au joueur que l'autre a accepté le draw
     void drawAccepted(Player sender) {
-        JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " accept the draw ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " accept the draw ! You can still use the chat, please press quit button to leave this game.", "Drawing accepted", JOptionPane.INFORMATION_MESSAGE);
+        isPlayPossible = false;
+    }
+
+    // le joeur distant a refusé le draw
+    void drawRefused(Player sender) {
+         JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " refuse the draw ! The game keeps going.", "Drawing refused", JOptionPane.INFORMATION_MESSAGE);
+          isPlayPossible = true;
     }
 }
+
+// quand on quitte la game : setStatusdu joueur
