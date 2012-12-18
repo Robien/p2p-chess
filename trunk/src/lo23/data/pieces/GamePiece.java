@@ -206,40 +206,6 @@ public abstract class GamePiece implements Serializable {
     public abstract boolean isResponsableOfCheck(King king, Position from, Position to);
 
 
-//    public boolean isOncheck()
-//    {
-//
-//
-//        Player player = getOwner();
-//        if (player == getGame().getLocalPlayer())
-//        {
-//            player = getGame().getRemotePlayer();
-//        }
-//        else
-//        {
-//            player = getGame().getLocalPlayer();
-//        }
-//
-//        ArrayList<GamePiece> gamePieces = player.getPieces();
-//
-//
-//        for (int i = 0; i < gamePieces.size(); ++i)
-//        {
-//            GamePiece piece = gamePieces.get(i);
-//
-//                //List<Position> pos = piece.getPossibleMoves();
-//             //   System.out.println(piece.getPosition().getX() + " - " + piece.getPosition().getY() + " -> " + piece.getClass().getSimpleName());
-//                if (piece.isResponsableOfCheck(getOwner().getKing(), new Position(10, 10), new Position(10, 10)))
-//                {
-//
-//                    return true;
-//                }
-//
-//
-//        }
-//        return false;
-//
-//    }
     
     public boolean isOnCheckWithAMove(Position from, Position to)
     {
@@ -272,10 +238,6 @@ public abstract class GamePiece implements Serializable {
 
     }
 
-//    public boolean isCheckAndMat()
-//    {
-//        return getOwner().getKing().getPossibleMoves().isEmpty() && isOncheck();
-//    }
 
 
 
