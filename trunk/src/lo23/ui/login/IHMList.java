@@ -113,6 +113,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 model.sendInvitation(id, col);
                 btn.setEnabled(false);
             } catch (Exception ex) {
+                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
         }
