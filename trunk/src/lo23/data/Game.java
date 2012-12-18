@@ -76,6 +76,16 @@ public class Game implements Serializable {
         lastMove = null;
     }
 
+
+    /**
+     * This method simply returns the start date of this game
+     * @return The date this game has been started
+     */
+    public Date getStart()
+    {
+        return start;
+    }
+
     public void buildPieces() {
 	// white are at the bottom.
 	Player whitePlayer, blackPlayer;
