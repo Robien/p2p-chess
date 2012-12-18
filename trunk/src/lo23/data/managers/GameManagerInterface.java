@@ -153,6 +153,11 @@ public interface GameManagerInterface
      * This method is invoked when the current game is finished
      */
     public void notifyGameEnded();
+
+    /**
+     * Notifies the remote player that the current game is ending
+     */
+    public void sendGameEnded();
     
     /**
      * This method is invoked when the remove player, which has been sent an
