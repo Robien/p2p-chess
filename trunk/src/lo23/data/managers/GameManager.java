@@ -9,6 +9,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
+import lo23.data.GridState;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
@@ -19,7 +20,6 @@ import lo23.data.Player;
 
 import lo23.data.Position;
 import lo23.data.Profile;
-import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.IllegalMoveException;
@@ -66,6 +66,7 @@ public class GameManager extends Manager implements GameManagerInterface {
     @Override
     public void playMove(Move move) {
 	try {
+            currentGame.saveCurrentGridState(move);
 	    currentGame.playMove(move);
 	    currentGame.swapCurrentPlayerColor();
 	} catch (IllegalMoveException ex) {
@@ -73,6 +74,10 @@ public class GameManager extends Manager implements GameManagerInterface {
 	}
 
 	pushEvent(move);
+    }
+
+    public GridState popLastGridState() {
+        return currentGame.popLastGridState();
     }
 
     @Override
