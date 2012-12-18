@@ -111,7 +111,7 @@ public class EventListener implements PropertyChangeListener {
          } else if(evt.getNewValue() instanceof lo23.data.Message){
              if(chatPanel != null){
                 try {
-                    System.out.println("j'ai reçu l'evenement");
+
                     chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
                 } catch (BadLocationException ex) {
                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,19 +128,19 @@ public class EventListener implements PropertyChangeListener {
              }
             
             if(type == CONSTANT_TYPE.SURRENDER){
-                 if(gamePanel != null){
+                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.surrender(cst.getSender());
                  }
              }
             
             if(type == CONSTANT_TYPE.DRAW_ASKED){
-                 if(gamePanel != null){
+                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.drawRequest(cst.getSender());
                  }
              }
             
               if(type == CONSTANT_TYPE.DRAW_ACCEPTED){
-                 if(gamePanel != null){
+                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.drawAccepted(cst.getSender());
                  }
              }           
