@@ -31,7 +31,12 @@ public class Enums implements Serializable
         DRAW_ACCEPTED,
 	DRAW_REFUSED,
         SURRENDER,
-        OUT_OF_TIME};
+        OUT_OF_TIME,
+        PROMOTED_TO_QUEEN,
+        PROMOTED_TO_KNIGHT,
+        PROMOTED_TO_BISHOP,
+        PROMOTED_TO_ROOK,
+    };
     
     public enum PLAYER_RESULT{
         WIN,
