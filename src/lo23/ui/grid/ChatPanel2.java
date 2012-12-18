@@ -26,6 +26,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Player;
@@ -237,6 +238,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
         if(retour == 0){ // oui je veux proposer la nulle
             System.out.println("je veux proposer la nulle");
+            // on envoie à l'autre player une demande de nulle
+            Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ASKED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+            myModel.getGManager().sendConstant(cst);
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -293,7 +297,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 StyleConstants.setForeground(gameStyle, color_W);
                 StyleConstants.setFontSize(gameStyle, 12);
             }
-                   doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo()+ "] : " + msg.getContents() + "\n", gameStyle);
+                doc2.insertString(doc2.getLength(), "[" + getHeure() + "][" + sender.getPublicProfile().getPseudo() + "] : " + msg.getContents() + "\n", gameStyle);
           
        }
        else{
@@ -396,8 +400,10 @@ public class ChatPanel2 extends javax.swing.JPanel {
             saveGame();
         }
         
+        // on envoie à l'autre player qu'on abandonne
+        Constant cst = new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+        myModel.getGManager().sendConstant(cst);
         
-        // mettre du code pour quitter
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
