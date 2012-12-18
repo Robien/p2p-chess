@@ -964,7 +964,7 @@ public class GamePanel extends JPanel {
         JOptionPane d = new JOptionPane();
         String[] choice = {"Yes", "No"};
         int retour = d.showOptionDialog(this, 
-        "Do you really want to propose a draw ?",
+        requester.getPublicProfile().getPseudo() + " want to propose a draw. Do you want accept it ?",
         "Drawing",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
