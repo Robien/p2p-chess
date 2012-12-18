@@ -2,13 +2,15 @@ package lo23.data.managers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.ImageIcon;
-import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Invitation;
 import lo23.data.NewInvitation;
@@ -96,8 +98,26 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
             if (!Arrays.equals(p.getPassword(), password)) {
                 return false;
             } else {
+                InetAddress thisIp = null;
+                Enumeration<NetworkInterface> interfaceEnum = NetworkInterface.getNetworkInterfaces();
+                while (interfaceEnum.hasMoreElements() && thisIp == null) {
+                    NetworkInterface ni = interfaceEnum.nextElement();
+                    Enumeration<InetAddress> inetAddressEnum = ni.getInetAddresses();
+                    while (inetAddressEnum.hasMoreElements() && thisIp == null) {
+                        InetAddress a = inetAddressEnum.nextElement();
+                        if (!a.isLoopbackAddress() && !(a instanceof Inet6Address)) {
+                            System.out.println(a.getHostAddress());
+                            if (!a.getHostAddress().contains("10")) {
+                                thisIp = a;
+                            }
+
+                        }
+                    }
+                }
+
+                p.setIpAddress(thisIp.getHostAddress());
                 this.currentProfile = p;
-                System.out.println("fin connection profil ma");
+                System.out.println("fin connection profil ma " + thisIp.getHostAddress());
                 return true;
             }
         }
