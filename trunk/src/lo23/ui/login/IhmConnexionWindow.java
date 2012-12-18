@@ -6,8 +6,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -24,7 +22,6 @@ import lo23.data.exceptions.ProfileIdAlreadyExistException;
 import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
-import lo23.data.managers.ProfileManagerInterface;
 
 /**
  * IhmConnexionWindow : interface de connexion (login) à l'application Première

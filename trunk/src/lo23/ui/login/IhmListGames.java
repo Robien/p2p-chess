@@ -38,16 +38,16 @@ import lo23.utils.JTableButtonRenderer;
 public class IhmListGames extends javax.swing.JFrame implements TableModelListener,PropertyChangeListener{
 
     private IhmLoginModel ihmLoginModel;
-    private IHMList listPlayers;
+    //private IHMList listPlayers;
     private WaitingDialog waitingDialog;
     
     /** 
      * Constructor
      * Creates new form IhmListGames 
      */
-    public IhmListGames(IhmLoginModel ihmLoginModel, IHMList listPlayers) {
+    public IhmListGames(IhmLoginModel ihmLoginModel) {
         this.ihmLoginModel = ihmLoginModel;
-        this.listPlayers = listPlayers;
+        //this.listPlayers = listPlayers;
         
         initComponents();
         
@@ -67,18 +67,13 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         //Add listener when table model change
         this.stopGamesTable.getModel().addTableModelListener(this);
         
-        
-        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.INVIT_RECEIVE,this);
-        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED,this);
-        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
-        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_ENDED, this);
-        //ihmLoginModel.addPropertyChangeListener(IhmLoginModel.GAME_STARTED, this);
+        ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         
         //Seulement lorsque l'utilisateur distant est en ligne
         //Implémentation terminé à tester
         
         // Ajoute un listener sur tous les ContinueGameBtn
-        /*ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
+        ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
             btn.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -86,7 +81,9 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     continueGameBtnActionPerformed(evt);
                 }
             });
-        }*/
+        }
+        
+        this.setAlwaysOnTop(true);
     }
 
     /** This method is called from within the constructor to
@@ -98,7 +95,6 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.JButton previousBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -106,20 +102,17 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         jScrollPane1 = new javax.swing.JScrollPane();
         stopGamesTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("My games");
-
-        previousBtn.setText("Previous");
-        previousBtn.setActionCommand("previousBtn");
-        previousBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previousBtnActionPerformed(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
-        jLabel1.setText("Ended games");
+        jLabel1.setText("Ended Games");
 
-        jLabel2.setText("Started games (and player connected)");
+        jLabel2.setText("Started Games (Only Connected Players)");
 
         endGamesTable.setModel(ihmLoginModel.getEndGameModel());
         endGamesTable.getColumn("").setCellRenderer(new JTableButtonRenderer());
@@ -144,10 +137,9 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                        .addComponent(previousBtn))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,21 +152,17 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(previousBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.setVisible(false);
+        ihmLoginModel.removePropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         this.dispose();
-        this.listPlayers.setEnabled(true);
-        this.listPlayers.setState(java.awt.Frame.ICONIFIED );
-        this.listPlayers.setState(java.awt.Frame.NORMAL);
-        this.listPlayers.dispatchInvit = false;
-    }//GEN-LAST:event_previousBtnActionPerformed
+    }//GEN-LAST:event_formWindowClosing
 
     private void reviewGameBtnActionPerformed(java.awt.event.ActionEvent evt) {
         try {
@@ -182,7 +170,6 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             JButton btn = (JButton) evt.getSource();
             idGame = (Long) btn.getClientProperty("id");
             ihmLoginModel.loadEndedGame(idGame);
-            btn.setEnabled(false);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
@@ -195,6 +182,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         idGame = (Long) btn.getClientProperty("id");
         ihmLoginModel.sendInvitationResumeGame(idGame);
         btn.setEnabled(false);
+        //previousBtn.setEnabled(false);
     }                                        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -221,43 +209,14 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     }
                 });
             }
-            else
-                System.out.println("Object Table Listener : "+o.toString());
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        if(this.isVisible() && this.isEnabled()){
-            if(pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)){
-                Invitation invitation = (Invitation)pce.getNewValue();
-                boolean b = openInvitationDialog(invitation);
-                try {
-                    ihmLoginModel.sendInvitationAnswer(invitation,b);
-                    if(b){
-                       waitingDialog = new WaitingDialog(this,true);
-                       waitingDialog.setVisible(true);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        if(this.isVisible()){
             if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
-                boolean resp = (Boolean)pce.getOldValue();
                 Invitation invitation = (Invitation)pce.getNewValue();
-                if(resp){
-                    try {
-                        ihmLoginModel.loadGame(invitation);
-                        
-                        this.setVisible(false);
-                        this.listPlayers.setVisible(false);
-                        ihmLoginModel.sendGameStarted(invitation);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
                 
                 if(invitation instanceof ResumeGame){
                     Game g = ((ResumeGame)invitation).getGame();
@@ -268,25 +227,6 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
                     }
                 }
             }
-            if(pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED)){
-                Boolean isReady = (Boolean) pce.getOldValue();
-                Invitation invit = (Invitation)pce.getNewValue();
-                if(isReady){
-                    try {
-                        ihmLoginModel.loadGame(invit);
-                       
-                        this.setVisible(false);
-                    } catch (Exception ex){
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                waitingDialog.setVisible(false);
-                waitingDialog.dispose();
-            }
-        }
-        if(pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)){
-            this.setVisible(true);
         }
     }
     

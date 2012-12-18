@@ -9,12 +9,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -24,18 +21,13 @@ import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Invitation;
-import lo23.data.NewInvitation;
 import lo23.data.PublicProfile;
 import lo23.data.ResumeGame;
 import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.exceptions.WrongInvitation;
-import lo23.data.managers.GameManager;
 import lo23.data.managers.GameManagerInterface;
 import lo23.data.managers.Manager;
-import lo23.data.managers.ProfileManager;
 import lo23.data.managers.ProfileManagerInterface;
-import lo23.ui.grid.MainWindow;
-import lo23.ui.login.mockManager.ProfileManagerMock;
 import lo23.utils.Enums;
 import lo23.utils.Enums.STATUS;
 import lo23.utils.ResourceManager;
@@ -142,6 +134,15 @@ public class IhmLoginModel implements PropertyChangeListener{
             pcs.addPropertyChangeListener(evt,l);
     }
     
+    /**
+     * unsubscribe a PropertyChangeListener l to the model on the channel evt
+     * @param evt the channel
+     * @param l the listener
+     */
+    public void removePropertyChangeListener(String evt,PropertyChangeListener l) {
+        if(pcs != null)
+            pcs.removePropertyChangeListener(evt, l);
+    }
     
     /**
      * Accept an Invitation, create the Game and load it
@@ -219,6 +220,17 @@ public class IhmLoginModel implements PropertyChangeListener{
             else{
                 //update info of p
                 listPlayers.updatePlayer(profile.getProfileId(), profile.getPseudo(), profile.getFirstName(), getIconStatus(profile));
+                //Get all games stopped which have the id of the current remote profile
+                ArrayList<Game> gamesContinue = getGamesContinueFromId(profile.getProfileId());
+                for(Game g : gamesContinue){
+                    if(!listIdGame.containsKey(g.getGameId())){
+                        listIdGame.put(g.getGameId(), g);
+                        listStartGames.addGame(g.getStart(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(),profile.getStatus());
+                    }
+                    else {
+                        listStartGames.updateGame(g.getStart(),g.getRemotePlayer().getPublicProfile().toString(),g.getGameId(),profile.getStatus());
+                    }
+                }
                 listProfileDate.remove(p);
                 p = profile;
                 System.out.println("Update Player ");
@@ -546,20 +558,45 @@ public class IhmLoginModel implements PropertyChangeListener{
         public void addGame(Date date, String adversary, Long id,Enums.STATUS status) {
             JButton btn = new JButton("Continue");
             btn.putClientProperty("id", id);
-            if(status.equals(Enums.STATUS.CONNECTED))
-                btn.setEnabled(true);
-            else
-                btn.setEnabled(false);
             listContinueGameBtn.add(btn);
+            if(status.equals(Enums.STATUS.CONNECTED)){
+                btn.setEnabled(true);
+                System.out.println("Button Enabled");
+            }
+            else{
+                btn.setEnabled(false);
+            }
             this.addRow(new Object[]{date, adversary, btn});
+            System.out.println("Game Stopped added");
         }
         
         public void removeGame(Long id) {
             for (int i = 0; i < this.getRowCount(); i++) {
                 if(this.getValueAt(i, 2) instanceof JButton){
                     JButton button = (JButton) this.getValueAt(i, 2);
-                    if (button.getClientProperty("id") == id) {
+                    if (button.getClientProperty("id").equals(id)) {
+                        System.out.println("Game associated found and removed : "+id);
                         this.removeRow(i);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void updateGame(Date start, String profile, long gameId, STATUS status) {
+            for (int i = 0; i < this.getRowCount(); i++) {
+                if(this.getValueAt(i, 2) instanceof JButton){
+                    JButton button = (JButton) this.getValueAt(i, 2);
+                    if (button.getClientProperty("id").equals(gameId)) {
+                        this.setValueAt(start, i, 0);
+                        this.setValueAt(profile, i, 1);
+                        if(status.equals(Enums.STATUS.CONNECTED)){
+                            button.setEnabled(true);
+                        }
+                        else{
+                            button.setEnabled(false);
+                        }
+                        System.out.println("Game associated found and updated : "+gameId);
                         return;
                     }
                 }

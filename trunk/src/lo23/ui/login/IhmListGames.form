@@ -2,12 +2,15 @@
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="0"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="My games"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -30,11 +33,10 @@
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jScrollPane1" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
                       <Component id="jScrollPane3" alignment="0" pref="399" max="32767" attributes="1"/>
-                      <Component id="previousBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel1" alignment="0" min="-2" pref="123" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,35 +51,20 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="105" max="-2" attributes="0"/>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
-              <Component id="previousBtn" min="-2" pref="36" max="-2" attributes="1"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="previousBtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Previous"/>
-        <Property name="actionCommand" type="java.lang.String" value="previousBtn"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="previousBtnActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ended games"/>
+        <Property name="text" type="java.lang.String" value="Ended Games"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Started games (and player connected)"/>
+        <Property name="text" type="java.lang.String" value="Started Games (Only Connected Players)"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
