@@ -226,6 +226,8 @@ public class GameManager extends Manager implements GameManagerInterface {
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
 	publish(IhmLoginModel.GAME_ENDED, null);
     }
+
+    @Override
     public void sendGameEnded(){
         currentGame.setEnd();
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
