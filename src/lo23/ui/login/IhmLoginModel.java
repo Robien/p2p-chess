@@ -345,7 +345,7 @@ public class IhmLoginModel implements PropertyChangeListener{
     private ArrayList<Game> getGamesContinueFromId(String profileId) {
         ArrayList<Game> res = new ArrayList<Game>();
         try {
-            ArrayList<Game> gamesContinue = appModel.getGManager().getListStopGames();
+            ArrayList<Game> gamesContinue = appModel.getGManager().getListStartGames();
             for(Game g : gamesContinue){
                 if(g.getRemotePlayer().getPublicProfile().getProfileId().equals(profileId)){
                     res.add(g);
