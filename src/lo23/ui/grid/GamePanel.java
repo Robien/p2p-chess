@@ -344,48 +344,7 @@ public class GamePanel extends JPanel {
         hidePossibleCase();
        // play_sound(tempPiece);
         
-        //is Pawn Top
-        if (tempPiece != null && tempPiece.isPawnTop() && !tempPiece.isOutOfBorder()) {
-            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
-            try {
-                //create new Piece
-            	Pawn pawn = (Pawn) tempPiece;
-                game.promotePawn(pawn,piece);
-            } catch (UndefinedGamePieceException ex) {
-                Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (playerColor == COLOR.BLACK) 
-            {
-                 switch(piece)
-                 {
-                     case KNIGHT:  insertPiece(newSelection, "KW.png") ;    
-                                    break;
-                     case BISHOP:  insertPiece(newSelection, "BW.png") ;    
-                                    break;
-                     case QUEEN:  insertPiece(newSelection, "QW.png") ;    
-                                    break;
-                     case ROOK:  insertPiece(newSelection, "TW.png") ;    
-                                    break;
-                     default : insertPiece(newSelection, "QW.png"); 
-                 }
-            }
-            else
-            {
-                 switch(piece)
-                 {
-                     case KNIGHT:  insertPiece(newSelection, "KB.png") ;    
-                                    break;
-                     case BISHOP:  insertPiece(newSelection, "BB.png") ;    
-                                    break;
-                     case QUEEN:  insertPiece(newSelection, "QB.png") ;    
-                                    break;
-                     case ROOK:  insertPiece(newSelection, "TB.png") ;    
-                                    break;
-                     default : insertPiece(newSelection, "QB.png"); 
-                 }   
-            } 
-        }
+    
     }
     
     
@@ -395,7 +354,7 @@ public class GamePanel extends JPanel {
         
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             constraints.gridx = p.getWX();
-            constraints.gridy = 7 - p.getWY();            
+            constraints.gridy = p.getWY();            
 
             ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
@@ -403,7 +362,7 @@ public class GamePanel extends JPanel {
             listOfPiece.put(p, WLabel);
         } else {
             constraints.gridx = p.getBX();
-            constraints.gridy = 7 - p.getBY();            
+            constraints.gridy = p.getBY();            
 
             ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
@@ -470,6 +429,10 @@ public class GamePanel extends JPanel {
         System.out.println("CurrentPiece :" + currentPiece);
         add(currentPiece, constraints, 0);
         play_sound(currentGamePiece);
+
+       
+
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
             // End of game
             end_party=true;
@@ -479,6 +442,49 @@ public class GamePanel extends JPanel {
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
 
+             //is Pawn Top
+        if (currentGamePiece != null && currentGamePiece.isPawnTop()) {
+            Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(currentGamePiece);
+            revalidate();
+            try {
+                //create new Piece
+            	Pawn pawn = (Pawn) currentGamePiece;
+                game.promotePawn(pawn,piece);
+            } catch (UndefinedGamePieceException ex) {
+                Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (playerColor == COLOR.BLACK)
+            {
+                 switch(piece)
+                 {
+                     case KNIGHT:  insertPiece(move.getTo(), "KW.png") ;
+                                    break;
+                     case BISHOP:  insertPiece(move.getTo(), "BW.png") ;
+                                    break;
+                     case QUEEN:  insertPiece(move.getTo(), "QW.png") ;
+                                    break;
+                     case ROOK:  insertPiece(move.getTo(), "TW.png") ;
+                                    break;
+                     default : insertPiece(move.getTo(), "QW.png");
+                 }
+            }
+            else
+            {
+                 switch(piece)
+                 {
+                     case KNIGHT:  insertPiece(move.getTo(), "KB.png") ;
+                                    break;
+                     case BISHOP:  insertPiece(move.getTo(), "BB.png") ;
+                                    break;
+                     case QUEEN:  insertPiece(move.getTo(), "QB.png") ;
+                                    break;
+                     case ROOK:  insertPiece(move.getTo(), "TB.png") ;
+                                    break;
+                     default : insertPiece(move.getTo(), "QB.png");
+                 }
+            }
+        }
         	repaint();
         	revalidate();
     }
