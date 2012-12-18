@@ -28,7 +28,7 @@ public class WaitingDialog extends JDialog {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         
         this.setResizable(false);
-        //this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         
         this.setSize(200,100);
     }
