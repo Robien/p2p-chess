@@ -458,7 +458,14 @@ public class IhmLoginModel implements PropertyChangeListener{
                 if (this.getValueAt(i, 0).equals(id)) {
                     this.setValueAt(name, i, 1);
                     this.setValueAt(firstname,i,2);
+                    
                     this.setValueAt(ico, i, 3);
+                    if(ico.equals(IhmLoginModel.this.OFFLINEICON)){
+                        ((JButton)this.getValueAt(i, 4)).setEnabled(false);
+                    }
+                    else{
+                        ((JButton)this.getValueAt(i, 4)).setEnabled(true);
+                    }
                     System.out.println("Player found and updated : "+name);
                     return;
                 }
