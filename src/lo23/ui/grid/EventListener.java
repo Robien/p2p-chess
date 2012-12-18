@@ -15,6 +15,7 @@ import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.managers.Manager;
 import lo23.utils.Enums;
 import lo23.utils.Enums.CONSTANT_TYPE;
@@ -158,6 +159,43 @@ public class EventListener implements PropertyChangeListener {
               if(type == CONSTANT_TYPE.DRAW_ACCEPTED){
                  if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.drawAccepted(cst.getSender());
+                 }
+             }
+
+             if(type == CONSTANT_TYPE.PROMOTED_TO_BISHOP){
+                  if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                    try {
+                        gamePanel.updatePromotedPawn(type);
+                    } catch (UndefinedGamePieceException ex) {
+                        Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                 }
+             }
+               if(type == CONSTANT_TYPE.PROMOTED_TO_QUEEN){
+                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                    try {
+                        gamePanel.updatePromotedPawn(type);
+                    } catch (UndefinedGamePieceException ex) {
+                        Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                 }
+             }
+               if(type == CONSTANT_TYPE.PROMOTED_TO_ROOK){
+                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                    try {
+                        gamePanel.updatePromotedPawn(type);
+                    } catch (UndefinedGamePieceException ex) {
+                        Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                 }
+             }
+               if(type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT){
+                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                    try {
+                        gamePanel.updatePromotedPawn(type);
+                    } catch (UndefinedGamePieceException ex) {
+                        Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                  }
              }
              /*
