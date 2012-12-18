@@ -1,6 +1,7 @@
 package lo23.communication.tests;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -82,8 +83,9 @@ public class MainTestChatServer {
         }
 
         @Override
-        public void receivedUDPMessage(Message message) {
+        public void receivedUDPMessage(InetAddress remoteAddress, Message message) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
     }
 }

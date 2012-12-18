@@ -1,7 +1,7 @@
 package lo23.communication.tests;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -83,7 +83,7 @@ public class MainTestChatClient {
         }
 
         @Override
-        public void receivedUDPMessage(Message message) {
+        public void receivedUDPMessage(InetAddress remoteAddress, Message message) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

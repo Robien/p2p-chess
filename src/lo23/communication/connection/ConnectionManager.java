@@ -2,12 +2,17 @@ package lo23.communication.connection;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -54,12 +59,14 @@ public class ConnectionManager implements ConnectionListener {
     private ConcurrentHashMap<Socket, HandleMessage> handleMessageMap;
     // Other
     private ConcurrentHashMap<InetAddress, Socket> socketDirectory;
+    private ConcurrentHashMap<Socket, Invitation> invitationMap;
+    private List<String> myIpAddressList;
     private AtomicBoolean readInvitation;
     private Socket socketSession;
-    private ConcurrentHashMap<Socket, Invitation> invitationMap;
 
     /**
      * Constructor of ConnectionManager.
+     *
      * @param comManager the comManager
      */
     public ConnectionManager(ComManager comManager) throws Exception {
@@ -67,8 +74,20 @@ public class ConnectionManager implements ConnectionListener {
         handleMessageMap = new ConcurrentHashMap<Socket, HandleMessage>();
         socketDirectory = new ConcurrentHashMap<InetAddress, Socket>();
         invitationMap = new ConcurrentHashMap<Socket, Invitation>();
+        myIpAddressList = new ArrayList<String>();
         readInvitation = new AtomicBoolean(true);
         socketSession = null;
+
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces.hasMoreElements()) {
+            Enumeration<InetAddress> inetAddresses = interfaces.nextElement().getInetAddresses();
+            while (inetAddresses.hasMoreElements()) {
+                InetAddress aInetAddress = inetAddresses.nextElement();
+                if (!aInetAddress.isLoopbackAddress() && !(aInetAddress instanceof Inet6Address)) {
+                    myIpAddressList.add(aInetAddress.getHostAddress());
+                }
+            }
+        }
 
         try {
             multicastSocket = new MulticastSocket(ConnectionParams.multicastPort);
@@ -103,6 +122,9 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
 
+    /**
+     * Send a multicast message which indicates the disconnection.
+     */
     public void sendMulticastDisconnection() {
         if (comManager.getCurrentUserProfile() != null) {
             PublicProfile profile = comManager.getCurrentUserProfile();
@@ -163,23 +185,6 @@ public class ConnectionManager implements ConnectionListener {
         }
     }
 
-
-    /*public void sendGameStarted(PublicProfile userProfile, boolean started) {
-    try {
-    GameStartedMsg message = new GameStartedMsg(userProfile, started);
-    InetAddress distantIpAddr = InetAddress.getByName(userProfile.getIpAddress());
-    HandleMessage handleMessage = handleMessageMap.get(socketDirectory.get(distantIpAddr));
-    handleMessage.send(message);
-
-    //Ne pas oublier de fermer les autres connexions ouvertes sur l'app locale. (la méthode sendInvitationAnswer ferme deja celles ouvertess sur l'app distante)
-    readInvitation.set(false);
-    socketSession = socketDirectory.get(distantIpAddr);
-    disconnectOthers();
-    } catch (UnknownHostException ex) {
-    Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
-    }*/
     /**
      * Start a game session with a user.
      * @param invitation the invitation
@@ -205,7 +210,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Send a negative answer to each invitations excepted the one which has been accepted.
+     * Send a negative answer to each invitations excepted the one which has
+     * been accepted.
      */
     private void cancelInvitations() {
         //Envoie d'une reponse négative à toute les demandes précédement reçues
@@ -250,8 +256,8 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * End the current game session.
-     * (available only when a game session is started)
+     * End the current game session. (available only when a game session is
+     * started)
      */
     public void sendGameEnded() {
         GameEndedMsg message = new GameEndedMsg();
@@ -274,9 +280,9 @@ public class ConnectionManager implements ConnectionListener {
     }
 
     /**
-     * Allow to connect to a distant user. (local)
-     * (Update socketDirectory and handleMessageMap)
-     * @param inetAddress 
+     * Allow to connect to a distant user. (local) (Update socketDirectory and
+     * handleMessageMap)
+     * @param inetAddress
      */
     private synchronized void connect(InetAddress inetAddress) {
         try {
@@ -397,12 +403,14 @@ public class ConnectionManager implements ConnectionListener {
      * @param message message received
      */
     @Override
-    public synchronized void receivedUDPMessage(Message message) {
+    public synchronized void receivedUDPMessage(InetAddress remoteAddress, Message message) {
         System.out.println("Message UDP Received : " + message);
+        
+        //correctIpAddress(remoteAddress, message);
+
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
-            if (comManager.getCurrentUserProfile() != null
-                    && !ipAddress.equals(comManager.getCurrentUserProfile().getIpAddress())) {
+            if (!myIpAddressList.contains(ipAddress)) {
                 replyMulticast(ipAddress);
                 notifyMessage(message);
             }
@@ -414,14 +422,14 @@ public class ConnectionManager implements ConnectionListener {
     private void correctIpAddress(InetAddress remoteAddress, Message message) {
 
         if (message instanceof MulticastMessage) {
-            ((MulticastMessage) message).getProfile().setIpAddress(remoteAddress.toString());
+            ((MulticastMessage) message).getProfile().setIpAddress(remoteAddress.getHostAddress());
         } else if (message instanceof ConnectionMessage) {
             if (message instanceof InvitMsg) {
-                ((InvitMsg) message).getInvitation().getHost().setIpAddress(remoteAddress.toString());
+                ((InvitMsg) message).getInvitation().getHost().setIpAddress(remoteAddress.getHostAddress());
             } else if (message instanceof AnswerMsg) {
-                ((AnswerMsg) message).getInvitation().getGuest().setIpAddress(remoteAddress.toString());
+                ((AnswerMsg) message).getInvitation().getGuest().setIpAddress(remoteAddress.getHostAddress());
             } else if (message instanceof GameStartedMsg) {
-                ((GameStartedMsg) message).getInvit().getHost().setIpAddress(remoteAddress.toString());
+                ((GameStartedMsg) message).getInvit().getHost().setIpAddress(remoteAddress.getHostAddress());
             }
         }
     }
