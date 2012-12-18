@@ -410,7 +410,7 @@ public class GamePanel extends JPanel {
             System.out.println("COLOR : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getColor());
 
             if (listOfPiece.get(new Position(7 - p.getX(),p.getY())) != null) {
-                updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
+                updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
             }
 
         }
