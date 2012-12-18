@@ -342,7 +342,7 @@ public class GamePanel extends JPanel {
 	        }
         }
         hidePossibleCase();
-        play_sound(tempPiece);
+       // play_sound(tempPiece);
         
         //is Pawn Top
         if (tempPiece != null && tempPiece.isPawnTop()) {
@@ -432,19 +432,24 @@ public class GamePanel extends JPanel {
         }
 
         JLabel currentPiece = listOfPiece.get(positionFrom);
+        GamePiece currentGamePiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getFrom().getX(), move.getFrom().getY());
         GamePiece tempPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getTo().getX(), move.getTo().getY());
         
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
-                	System.out.println("mang�");
+
+                	System.out.println("mange");
+
                     updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
                 }
             }
         } else {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
-                	System.out.println("mang�");
+
+                	System.out.println("mange");
+
                     updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
                 }
             }
@@ -462,7 +467,7 @@ public class GamePanel extends JPanel {
         
         System.out.println("CurrentPiece :" + currentPiece);
         add(currentPiece, constraints, 0);
-
+        play_sound(currentGamePiece);
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().isCheckAndMat()) {
             // End of game
             end_party=true;
@@ -471,6 +476,7 @@ public class GamePanel extends JPanel {
         	end_party=true;
             endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
         }
+
         	repaint();
         	revalidate();
     }
