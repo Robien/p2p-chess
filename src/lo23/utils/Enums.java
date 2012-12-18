@@ -28,6 +28,7 @@ public class Enums implements Serializable
     public enum CONSTANT_TYPE {
         DRAW_ASKED,
         DRAW_ACCEPTED,
+	DRAW_REFUSED,
         SURRENDER,
         OUT_OF_TIME};
     
