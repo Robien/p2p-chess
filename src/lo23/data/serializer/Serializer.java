@@ -27,12 +27,11 @@ public class Serializer {
      * @return the profile IDs
      */
     static public ArrayList<String> getProfileIds() {
-        // Creates the folder if it doesn't
+        // Creates the folder if it doesn't exist
         File folder = new File(Constants.PROFILES_PATH);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-
 
         ArrayList<String> profileIds = new ArrayList<String>();
         File[] listOfFiles = folder.listFiles(new FilenameFilter() {
@@ -107,7 +106,7 @@ public class Serializer {
      * can't have access to an expected file
      */
     static public Profile readProfile2(String filePath) throws FileNotFoundException, IOException, ClassNotFoundException {
-        // Creates the folder if it doesn't
+        // Creates the folder if it doesn't exist
         File folder = new File(Constants.PROFILES_PATH);
         if (!folder.exists()) {
             folder.mkdirs();
@@ -154,6 +153,12 @@ public class Serializer {
         // Checks the profileId attribute validity
         if (game.getGameId() < 0 || game.getGameId() > (new Date()).getTime()) {
             throw new NoIdException("The object you're trying to serialize handle an invalid gameId attribute.");
+        }
+
+        // Creates the folder if it doesn't exist
+        File folder = new File(Constants.GAMES_PATH);
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
 
         ObjectOutputStream out;
