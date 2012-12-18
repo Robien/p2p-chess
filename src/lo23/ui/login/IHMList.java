@@ -335,13 +335,13 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                 waitingDialog.setVisible(false);
                 waitingDialog.dispose();
                 
-                PublicProfile guest = invit.getGuest();
+                /*PublicProfile guest = invit.getGuest();
                 String idGuest = guest.getProfileId();
                 for(JButton btn : model.getListLaunchGameBtn()){
                     if(btn.getClientProperty("id").equals(idGuest)){
                         btn.setEnabled(true);
                     }
-                }
+                }*/
             }
         }
         if(pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)){
