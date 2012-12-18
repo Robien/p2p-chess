@@ -222,10 +222,15 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyGameEnded() {
+        currentGame.setEnd();
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
 	publish(IhmLoginModel.GAME_ENDED, null);
     }
-
+    public void sendGameEnded(){
+        currentGame.setEnd();
+        this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+        getApplicationModel().getComManager().sendGameEnded();
+    }
     @Override
     @Deprecated
     public Game notifyGameStarted(Invitation invitation) {
