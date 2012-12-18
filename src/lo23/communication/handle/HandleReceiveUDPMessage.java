@@ -60,7 +60,7 @@ public class HandleReceiveUDPMessage extends HandleRunnable {
             try {
                 objectInput.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                 Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, null, e);
             }
         }
     }
