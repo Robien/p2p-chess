@@ -171,6 +171,8 @@ import lo23.utils.Enums;
             mw.setVisible(false);
             mw.myModel.getGManager().notifyGameEnded();
             mw.dispose();
+
+            
         }
 
         // on envoie à l'autre player qu'on abandonne

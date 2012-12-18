@@ -114,7 +114,6 @@ public class MainWindow extends JFrame implements ActionListener {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                    setVisible(false);
                    myModel.getPManager().disconnect();
-
                    dispose();
             }
         });
