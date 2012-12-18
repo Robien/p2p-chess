@@ -164,9 +164,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
             }
         });
 
-        jTextPane1.setEditable(false);
         jTextPane1.setBorder(null);
-        jTextPane1.setFont(new java.awt.Font("Tw Cen MT", 0, 11)); // NOI18N
+        jTextPane1.setEditable(false);
+        jTextPane1.setFont(new java.awt.Font("Tw Cen MT", 0, 11));
         jTextPane1.setForeground(new java.awt.Color(102, 102, 102));
         jTextPane1.setToolTipText("");
         jTextPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -192,14 +192,14 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                         .addGap(11, 11, 11)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addGap(26, 26, 26)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,7 +219,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -239,10 +239,10 @@ public class ChatPanel2 extends javax.swing.JPanel {
         if(retour == 0){ // oui je veux proposer la nulle
             System.out.println("je veux proposer la nulle");
             // on envoie à l'autre player une demande de nulle
-           // Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ASKED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
-           
             Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ASKED);
             myModel.getGManager().sendConstant(cst);
+
+
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -368,10 +368,10 @@ public class ChatPanel2 extends javax.swing.JPanel {
         new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
         choice,
         choice[1]);
-      //  int retour = d.showConfirmDialog(this,"Do you want to save the game in order to resume it next ?","Saving",JOptionPane.YES_NO_OPTION);
 
         if(retour == 0){ // oui je veux proposer la sauvegarde
             saveGame();
+
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -384,13 +384,15 @@ public class ChatPanel2 extends javax.swing.JPanel {
             } catch (IOException ex) {
                 Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
             }
+            JOptionPane.showMessageDialog(this, " The game have been saved.", "Saving", JOptionPane.INFORMATION_MESSAGE);
+
     }
     // quitter
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JOptionPane d = new JOptionPane();
         String[] choice = {"Yes", "No"};
         int retour = d.showOptionDialog(this, 
-        "Do you want to save the game before leaving ?",
+        "Do you want to save the game before surrending ?",
         "Exit",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
@@ -411,6 +413,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // quitter
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
