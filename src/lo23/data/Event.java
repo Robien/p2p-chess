@@ -13,6 +13,7 @@ import java.util.Date;
  * @author khamidou
  */
 public abstract class Event implements Serializable {
+    static final long serialVersionUID = 1L;
     private Date date;
 
     public Event() {

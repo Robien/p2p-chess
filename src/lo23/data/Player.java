@@ -17,6 +17,8 @@ import lo23.utils.Enums.COLOR;
  */
 public class Player implements Serializable {
 
+    static final long serialVersionUID = 1L;
+    
     private COLOR playerColor;
     private long time = 0; // Temps de jeu déjà utilisé par le joueur
     private long startTime = 0; // Temps début du tour

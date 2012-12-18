@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @author khamidou
  */
 public class Move extends Event implements Serializable {
+    static final long serialVersionUID = 1L;
     Position from;
     Position to;
     GamePiece piece;

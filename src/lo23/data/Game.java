@@ -30,6 +30,8 @@ import lo23.utils.Enums.COLOR;
  */
 public class Game implements Serializable {
 
+    static final long serialVersionUID = 1L;
+    
     private long gameId;
     private Date start;
     private Date end;

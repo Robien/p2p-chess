@@ -11,6 +11,8 @@ import lo23.utils.Enums.STATUS;
  */
 public class Profile implements Serializable {
 
+    static final long serialVersionUID = 1L;
+    
     private String profileId;
     private String pseudo;
     private char[] password;
