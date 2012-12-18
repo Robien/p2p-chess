@@ -164,13 +164,24 @@ import lo23.utils.Enums;
         choice[1]);
 
         if(retour == 0){ // oui je sauvegarder avant de quitter
-          //  Constant cst = mw.myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+
+           /* si la partie est terminé
+                 on ferme la fenetre simplement
+            * sinon
+                si il est pret à abadonner
+            *       on envoie le message surender( finir la partie)
+            *   
+            *
+
+
+
+            */
+            Constant cst = mw.myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
              //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
-           //  mw.myModel.getGManager().sendConstant(cst);
+             mw.myModel.getGManager().sendConstant(cst);
 
             mw.setVisible(false);
             mw.myModel.getGManager().notifyGameEnded();
-            mw.myModel.getPManager().disconnect();
             mw.dispose();
 
             
