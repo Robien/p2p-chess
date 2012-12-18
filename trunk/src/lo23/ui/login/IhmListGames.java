@@ -171,6 +171,8 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
         this.dispose();
         this.listPlayers.setEnabled(true);
+        this.listPlayers.setState(java.awt.Frame.ICONIFIED );
+        this.listPlayers.setState(java.awt.Frame.NORMAL);
         this.listPlayers.dispatchInvit = false;
     }//GEN-LAST:event_previousBtnActionPerformed
 
