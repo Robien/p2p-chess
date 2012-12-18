@@ -170,9 +170,9 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
 
     private void previousBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousBtnActionPerformed
         this.dispose();
-        this.listPlayers.setVisible(true);
-        //this.listPlayers.setState(java.awt.Frame.ICONIFIED );
-        //this.listPlayers.setState(java.awt.Frame.NORMAL);
+        this.listPlayers.setEnabled(true);
+        this.listPlayers.setState(java.awt.Frame.ICONIFIED );
+        this.listPlayers.setState(java.awt.Frame.NORMAL);
         this.listPlayers.dispatchInvit = false;
     }//GEN-LAST:event_previousBtnActionPerformed
 
@@ -212,6 +212,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             TableModel tm = (TableModel)tme.getSource();
             Object o = tm.getValueAt(row,tm.getColumnCount()-1);
             if(o instanceof JButton){
+                System.out.print("Button Action");
                 ((JButton)o).addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent ae) {
