@@ -84,6 +84,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 try {
                     appModel.setComManager(new ComManager(appModel));
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception Game already running", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -235,6 +236,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                  */
             }
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -265,6 +267,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             } catch (ProfilePseudoAlreadyExistException ex) {
                 importProfileWithPseudoUnicity(ex.getProfileWithExistingPseudo());
             } catch (Exception ex) {
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             } finally {
                 ihmLoginModel.refreshProfileList();
@@ -288,6 +291,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         } catch (ProfilePseudoAlreadyExistException ex) {
             importProfileWithPseudoUnicity(p);
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -347,6 +351,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                     profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
                     loginCombo.setModel(new DefaultComboBoxModel(profilesList));
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
 

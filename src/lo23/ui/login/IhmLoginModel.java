@@ -397,7 +397,8 @@ public class IhmLoginModel implements PropertyChangeListener{
         try {
             endGames = appModel.getGManager().getListStopGames();
         } catch (Exception ex) {
-              JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
         }
         for (Game game : endGames ) {
             listIdGame.put(game.getGameId(), game);

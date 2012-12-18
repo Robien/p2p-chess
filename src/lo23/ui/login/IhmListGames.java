@@ -184,6 +184,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             ihmLoginModel.loadEndedGame(idGame);
             btn.setEnabled(false);
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
     }    
