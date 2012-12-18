@@ -571,6 +571,7 @@ public class GamePanel extends JPanel {
             }
          }
 
+         isPlayPossible = true;
     }
     public void majDataBoard(Move move) throws IllegalMoveException {
         game.playMove(move);
