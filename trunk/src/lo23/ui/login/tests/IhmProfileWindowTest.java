@@ -57,7 +57,7 @@ public class IhmProfileWindowTest extends UISpecTestCase {
         //Instantiate IhmLoginModel
         IhmLoginModel ihmLoginModel = new IhmLoginModel(appModel);
         IHMList listplayers = new IHMList(ihmLoginModel);
-        listFrame = new IhmListGames(ihmLoginModel, listplayers);
+        listFrame = new IhmListGames(ihmLoginModel);
 
         new IhmProfileWindow(ihmLoginModel,IhmProfileWindow.MODIFY,null).setVisible(true);
     }

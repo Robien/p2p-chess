@@ -53,7 +53,7 @@ public class IhmListPlayersTest extends UISpecTestCase {
         ihmLoginModel = new IhmLoginModel(appModel);
         IHMList listplayers = new IHMList(ihmLoginModel);
 
-        listFrame = new IhmListGames(ihmLoginModel, listplayers);
+        listFrame = new IhmListGames(ihmLoginModel);
     }
     
     
