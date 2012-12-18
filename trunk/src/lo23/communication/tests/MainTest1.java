@@ -249,6 +249,11 @@ public class MainTest1 {
         public void sendGameStarted(Invitation invit, boolean ans) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        @Override
+        public void sendGameEnded() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
     
     private class MyProfileManagerMock extends Manager implements ProfileManagerInterface {
