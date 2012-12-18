@@ -239,7 +239,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
         if(retour == 0){ // oui je veux proposer la nulle
             System.out.println("je veux proposer la nulle");
             // on envoie à l'autre player une demande de nulle
-            Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ASKED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+           // Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ASKED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+           
+            Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ASKED);
             myModel.getGManager().sendConstant(cst);
 
         }
@@ -401,7 +403,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
         }
         
         // on envoie à l'autre player qu'on abandonne
-        Constant cst = new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+
+        Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+        //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
         myModel.getGManager().sendConstant(cst);
         
 
