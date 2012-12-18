@@ -1,5 +1,6 @@
 package lo23.communication.handle;
 
+import java.net.InetAddress;
 import java.net.Socket;
 import lo23.communication.message.Message;
 
@@ -30,8 +31,8 @@ public interface ConnectionListener {
     
     /**
      * Method which notifies the reception of a UDP message.
-     * @param socket the socket which receives the message
+     * @param remoteAddress the remote address which sends the message
      * @param message the message
      */
-    public void receivedUDPMessage(Message message);
+    public void receivedUDPMessage(InetAddress remoteAddress, Message message);
 }

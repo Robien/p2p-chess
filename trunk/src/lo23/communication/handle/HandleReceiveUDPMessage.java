@@ -42,12 +42,13 @@ public class HandleReceiveUDPMessage extends HandleRunnable {
             notifyStart();
             while (getStart()) {
                 DatagramPacket dgram = new DatagramPacket(b, b.length);
-                this.socket.receive(dgram); // blocks
+                socket.receive(dgram); // blocks
                 ObjectInputStream o_in = new ObjectInputStream(b_in);
                 ConnectionMessage message = (ConnectionMessage) o_in.readObject();
                 dgram.setLength(b.length); // must reset length field!
                 b_in.reset(); // reset so next read is from start of byte[] again
-                connListener.receivedUDPMessage(message);
+                
+                connListener.receivedUDPMessage(dgram.getAddress(), message);
             }
         } catch (SocketException se) {
             Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);
