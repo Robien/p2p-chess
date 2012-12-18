@@ -350,6 +350,9 @@ public class IhmLoginModel implements PropertyChangeListener{
                 if(g.getRemotePlayer().getPublicProfile().getProfileId().equals(profileId)){
                     res.add(g);
                 }
+                else if(g.getLocalPlayer().getPublicProfile().getProfileId().equals(profileId)){
+                    res.add(g);
+                }
             }
             
         } catch (IOException ex) {
