@@ -43,9 +43,11 @@ public class HandleReceiveMessage extends HandleRunnable {
                 connListener.receivedMessage(socket, message);
             }
         } catch (SocketException se) {
-            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);
+            //Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed locally", se);
+            System.out.println("The socket was closed locally : " + socket.getInetAddress().getHostAddress());
         } catch (EOFException ee) {
-            Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed afar", ee);
+            //Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.INFO, "The socket was closed afar", ee);
+            System.out.println("The socket was closed afar : " + socket.getInetAddress().getHostAddress());
         } catch (Exception e) {
             Logger.getLogger(HandleReceiveMessage.class.getName()).log(Level.SEVERE, "Error for the reception of a message", e);
         } finally {
