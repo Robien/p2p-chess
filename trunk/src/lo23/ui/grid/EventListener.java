@@ -158,14 +158,15 @@ public class EventListener implements PropertyChangeListener {
                  if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.drawAccepted(cst.getSender());
                  }
-             }           
+             }
+             /*
              if(gamePanel != null){
                  if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
                      gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
                  } else {
                      gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
                  }     
-             }
+             }*/
          } else {
              System.out.println("EVENT DETECTED BUT INSTANCE FAILED");
          }
