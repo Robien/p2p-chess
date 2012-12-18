@@ -350,7 +350,7 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedMessage(Socket socket, Message message) {
         System.out.println("Message TCP Received : " + message);
 
-        //correctIpAddress(socket.getInetAddress(), message);
+        correctIpAddress(socket.getInetAddress(), message);
 
         if (message instanceof InvitMsg) {
             InvitMsg invitMsg = (InvitMsg) message;
@@ -406,7 +406,7 @@ public class ConnectionManager implements ConnectionListener {
     public synchronized void receivedUDPMessage(InetAddress remoteAddress, Message message) {
         System.out.println("Message UDP Received : " + message);
         
-        //correctIpAddress(remoteAddress, message);
+        correctIpAddress(remoteAddress, message);
 
         if (message instanceof MulticastInvit) {
             String ipAddress = ((MulticastInvit) message).getProfile().getIpAddress();
