@@ -489,8 +489,10 @@ public class GamePanel extends JPanel {
                  }
             }
         }
-        	repaint();
-        	revalidate();
+
+        buildBoard();
+        repaint();
+        revalidate();
     }
 
     public void majDataBoard(Move move) throws IllegalMoveException
