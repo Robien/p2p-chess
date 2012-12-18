@@ -128,14 +128,29 @@ public class EventListener implements PropertyChangeListener {
              }
             
             if(type == CONSTANT_TYPE.SURRENDER){
-                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
-                     gamePanel.surrender(cst.getSender());
-                 }
+                 if(gamePanel != null)
+                    if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
+                        gamePanel.surrender(cst.getSender());
+                    }
+                    else{ // c'est moi qui est demandé de surrender
+                        gamePanel.isPlayPossible = false;
+                    }
              }
             
             if(type == CONSTANT_TYPE.DRAW_ASKED){
-                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
-                     gamePanel.drawRequest(cst.getSender());
+                 if(gamePanel != null){
+                     if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer())
+                        gamePanel.drawRequest(cst.getSender());
+                     else // c'est moi qui est proposé
+                         gamePanel.isPlayPossible = false;
+                 }
+             }
+
+             if(type == CONSTANT_TYPE.DRAW_REFUSED){
+                 if(gamePanel != null){
+                     if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
+                        gamePanel.drawRefused(cst.getSender());
+                     }
                  }
              }
             
