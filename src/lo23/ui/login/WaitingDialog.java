@@ -6,11 +6,8 @@ package lo23.ui.login;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import javax.swing.Box;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  *

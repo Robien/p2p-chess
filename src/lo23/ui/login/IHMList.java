@@ -10,20 +10,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import lo23.data.Invitation;
 import lo23.data.PublicProfile;
-import lo23.data.exceptions.FileNotFoundException;
-import lo23.data.exceptions.WrongInvitation;
-import lo23.ui.grid.MainWindow;
 import lo23.utils.Enums;
 import lo23.utils.JTableButtonMouseListener;
 import lo23.utils.ResourceManager;
@@ -203,12 +201,12 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     .addComponent(panelTablePlayers, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelTable)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 409, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(manageProfileBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(reviewGamesBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
                         .addComponent(disconnectBtn)))
                 .addContainerGap())
         );
@@ -246,9 +244,8 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     }//GEN-LAST:event_manageProfileBtnActionPerformed
 
     private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
-        this.setEnabled(false);
         this.dispatchInvit = true;
-        new IhmListGames(model, this).setVisible(true);
+        new IhmListGames(model).setVisible(true);
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -343,7 +340,18 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
             }
         }
         if (pce.getPropertyName().equals(IhmLoginModel.GAME_ENDED)) {
-            this.setVisible(true);
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                this.setVisible(true);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(IHMList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(IHMList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(IHMList.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(IHMList.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
