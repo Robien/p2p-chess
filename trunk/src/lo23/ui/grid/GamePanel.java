@@ -437,14 +437,14 @@ public class GamePanel extends JPanel {
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
-                	System.out.println("mangé");
+                	System.out.println("mangï¿½");
                     updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
                 }
             }
         } else {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
-                	System.out.println("mangé");
+                	System.out.println("mangï¿½");
                     updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
                 }
             }
@@ -968,7 +968,7 @@ public class GamePanel extends JPanel {
 
         if(retour == 0){ // oui j'accepte le draw
             // on envoie Ã  l'autre player une demande de nulle
-            Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ACCEPTED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+            Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ACCEPTED);
             myModel.getGManager().sendConstant(cst);
 
         }
