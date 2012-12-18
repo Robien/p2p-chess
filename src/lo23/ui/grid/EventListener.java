@@ -131,6 +131,7 @@ public class EventListener implements PropertyChangeListener {
                  if(gamePanel != null)
                     if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
                         gamePanel.surrender(cst.getSender());
+                        
                     }
                     else{ // c'est moi qui est demandé de surrender
                         gamePanel.isPlayPossible = false;
