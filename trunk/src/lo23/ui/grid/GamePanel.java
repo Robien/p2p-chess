@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
 import lo23.data.Game;
 import lo23.data.Move;
 import lo23.data.Player;
@@ -944,6 +945,36 @@ public class GamePanel extends JPanel {
     }
      
     public void endOfGame(Player winner) {
-      JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void surrender(Player leaver) {
+        JOptionPane.showMessageDialog(this, " You won ! Because " + leaver.getPublicProfile().getPseudo() + " just surrend.", "End of game", JOptionPane.INFORMATION_MESSAGE);
+    
+    }
+    
+    public void drawRequest(Player requester) {
+        
+        JOptionPane d = new JOptionPane();
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(this, 
+        "Do you really want to propose a draw ?",
+        "Drawing",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(ResourceManager.getInstance().getResource("time_chess.png")),
+        choice,
+        choice[1]);
+
+        if(retour == 0){ // oui j'accepte le draw
+            // on envoie à l'autre player une demande de nulle
+            Constant cst = new Constant(Enums.CONSTANT_TYPE.DRAW_ACCEPTED, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+            myModel.getGManager().sendConstant(cst);
+
+        }
+    }
+
+    void drawAccepted(Player sender) {
+        JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " accept the draw ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
     }
 }
