@@ -501,9 +501,7 @@ public class IhmProfileWindow extends JFrame{
                                 InetAddress a = inetAddressEnum.nextElement();
                                 if (!a.isLoopbackAddress() && !(a instanceof Inet6Address)) {
                                    System.out.println(a.getHostAddress());
-                                   if(!a.getHostAddress().contains("10"))
-                                    thisIp = a;
-                                   
+                                   thisIp = a;
                                 }
                             }
                         }
