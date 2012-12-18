@@ -396,52 +396,52 @@ public class Game implements Serializable {
 	return board;
     }
 
-    //vérifie si une partie est un pat
-    //author : romain
-    public boolean isOnPat()
-    {
-
-        //test du 1er joueur
-        Player player = getLocalPlayer();
-
-        ArrayList<GamePiece> gamePieces = player.getPieces();
-
-
-        for (int i = 0; i < gamePieces.size(); ++i) // pour toute les pièces du joueur
-        {
-             GamePiece piece = gamePieces.get(i);
-                if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty()) // si la piece est toujours en jeu et qu'elle peut faire des déplacements
-                {
-                    return false; // ce n'est pas un pat
-                }
-
-
-        }
-
-        // la même chose avec l'autre player
-                player = getRemotePlayer();
-
-        gamePieces = player.getPieces();
-
-
-        for (int i = 0; i < gamePieces.size(); ++i)
-        {
-            GamePiece piece = gamePieces.get(i);
-
-            if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty())
-                {
-
-                    return false;
-                }
-
-
-        }
-
-
-        //sinon, plus personne peu jouer.
-        return true;
-
-    }
+//    //vérifie si une partie est un pat
+//    //author : romain
+//    public boolean isOnPat()
+//    {
+//
+//        //test du 1er joueur
+//        Player player = getLocalPlayer();
+//
+//        ArrayList<GamePiece> gamePieces = player.getPieces();
+//
+//
+//        for (int i = 0; i < gamePieces.size(); ++i) // pour toute les pièces du joueur
+//        {
+//             GamePiece piece = gamePieces.get(i);
+//                if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty()) // si la piece est toujours en jeu et qu'elle peut faire des déplacements
+//                {
+//                    return false; // ce n'est pas un pat
+//                }
+//
+//
+//        }
+//
+//        // la même chose avec l'autre player
+//                player = getRemotePlayer();
+//
+//        gamePieces = player.getPieces();
+//
+//
+//        for (int i = 0; i < gamePieces.size(); ++i)
+//        {
+//            GamePiece piece = gamePieces.get(i);
+//
+//            if (!piece.isOutOfBorder() && !piece.getPossibleMovesWithCheck().isEmpty())
+//                {
+//
+//                    return false;
+//                }
+//
+//
+//        }
+//
+//
+//        //sinon, plus personne peut jouer.
+//        return true;
+//
+//    }
 
 
 }
