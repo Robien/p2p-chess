@@ -345,7 +345,7 @@ public class GamePanel extends JPanel {
        // play_sound(tempPiece);
         
         //is Pawn Top
-        if (tempPiece != null && tempPiece.isPawnTop()) {
+        if (tempPiece != null && tempPiece.isPawnTop() && !tempPiece.isOutOfBorder()) {
             Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
             try {
                 //create new Piece
@@ -434,7 +434,9 @@ public class GamePanel extends JPanel {
         JLabel currentPiece = listOfPiece.get(positionFrom);
         GamePiece currentGamePiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getFrom().getX(), move.getFrom().getY());
         GamePiece tempPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getTo().getX(), move.getTo().getY());
-        
+
+        System.out.println("TEMPIECE : " + tempPiece.toString());
+
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             if(tempPiece != null){
                 if (tempPiece.getOwner().getColor() != playerColor) {
