@@ -353,15 +353,15 @@ public class GamePanel extends JPanel {
    
         
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
-             listOfPiece.get(new Position(p.getWX(), p.getWY())).setVisible(false);
-                listOfPiece.remove(new Position(p.getWX(), p.getWY()));
+            listOfPiece.get(new Position(p.getWX(), p.getWY())).setVisible(false);
+            listOfPiece.remove(new Position(p.getWX(), p.getWY()));
             constraints.gridx = p.getWX();
             constraints.gridy = p.getWY();            
 
             ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
             add(WLabel, constraints, 2);
-            listOfPiece.put(p, WLabel);
+            listOfPiece.put(new Position(p.getWX(), p.getWY()), WLabel);
         } else {
              listOfPiece.get(new Position(p.getBX(), p.getBY())).setVisible(false);
            listOfPiece.remove(new Position(p.getBX(), p.getBY()));
@@ -372,7 +372,7 @@ public class GamePanel extends JPanel {
             ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource(imagePath));
             JLabel WLabel = new JLabel("", image, JLabel.CENTER);
             add(WLabel, constraints, 2);
-            listOfPiece.put(p, WLabel);
+            listOfPiece.put(new Position(p.getBX(), p.getBY()), WLabel);
         }
     }
 
