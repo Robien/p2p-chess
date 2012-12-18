@@ -164,6 +164,10 @@ public class PublicProfile implements Serializable {
         return lostGames;
     }
 
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
     public int getDrawGames() {
         return drawGames;
     }
