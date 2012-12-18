@@ -222,6 +222,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 
     @Override
     public void notifyGameEnded() {
+        this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
 	publish(IhmLoginModel.GAME_ENDED, null);
     }
 
