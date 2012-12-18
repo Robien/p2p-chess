@@ -393,27 +393,26 @@ public class GamePanel extends JPanel {
         JLabel currentPiece = listOfPiece.get(positionFrom);
         GamePiece currentGamePiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getFrom().getX(), move.getFrom().getY());
         GamePiece tempPiece = myModel.getGManager().getCurrentGame().getPieceAtXY(move.getTo().getX(), move.getTo().getY());
+        Position p = tempPiece.getPosition();
 
         System.out.println("TEMPIECE : " + tempPiece.toString());
+        System.out.println("TEMPIECE : " + p.getX() + "  " + p.getY());
+        System.out.println("TEMPIECE2 : " + p.getX() + "  " + (7-p.getY()));
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
-            if(tempPiece != null){
-                if (tempPiece.getOwner().getColor() != playerColor) {
+            System.out.println("COLOR : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getColor());
 
-                	System.out.println("mange");
-
-                    updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
-                }
+            if (listOfPiece.get(new Position(p.getX(),7 - p.getY())) != null) {
+                updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));  
             }
+
         } else {
-            if(tempPiece != null){
-                if (tempPiece.getOwner().getColor() != playerColor) {
+            System.out.println("COLOR : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getColor());
 
-                	System.out.println("mange");
-
-                    updateEatPiece(new Position(7 - move.getTo().getX(), move.getTo().getY()));
-                }
+            if (listOfPiece.get(new Position(7 - p.getX(),p.getY())) != null) {
+                updateEatPiece(new Position(move.getTo().getX(), 7 - move.getTo().getY()));
             }
+
         }
         
 
