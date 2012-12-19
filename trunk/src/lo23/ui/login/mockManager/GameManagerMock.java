@@ -23,6 +23,7 @@ import lo23.data.managers.Manager;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
+import lo23.utils.Enums.PLAYER_RESULT;
 import lo23.utils.Enums.STATUS;
 
 /**
@@ -206,4 +207,16 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
     public void sendGameStarted(Invitation invit, boolean ans) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+	@Override
+	public void notifyGameEnded(PLAYER_RESULT gameResult) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendGameEnded() {
+		// TODO Auto-generated method stub
+		
+	}
 }

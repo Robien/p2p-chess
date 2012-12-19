@@ -41,6 +41,7 @@ import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
+import lo23.utils.Enums.PLAYER_RESULT;
 import lo23.utils.Enums.STATUS;
 
 
@@ -207,7 +208,7 @@ public class MainTestImage {
         }
 
         @Override
-        public void notifyGameEnded() {
+        public void notifyGameEnded(PLAYER_RESULT gameResult) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -255,6 +256,12 @@ public class MainTestImage {
         public void sendGameEnded() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+		@Override
+		public void notifyGameEnded() {
+			// TODO Auto-generated method stub
+			
+		}
     }
 
     private class MyProfileManagerMock extends Manager implements ProfileManagerInterface {

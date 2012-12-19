@@ -9,9 +9,6 @@ import lo23.utils.Enums.STATUS;
  * PublicProfile is a copy of a Profile without the password attribute.
  * Instances of PublicProfiles SHOULD BE generated using the
  * Profile.getPublicProfile() method.
- *
- * TODO : utilité des setteurs dans cette version non modifiable normalement ?
- *
  */
 public class PublicProfile implements Serializable {
 

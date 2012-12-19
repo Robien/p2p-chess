@@ -35,6 +35,7 @@ import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.Enums.CONSTANT_TYPE;
+import lo23.utils.Enums.PLAYER_RESULT;
 
 public class GameManager extends Manager implements GameManagerInterface {
 
@@ -221,10 +222,46 @@ public class GameManager extends Manager implements GameManagerInterface {
     }
 
     @Override
+    public void notifyGameEnded(PLAYER_RESULT gameResult) {
+        currentGame.setEnd();
+        this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+        updateProfileStatistics(gameResult);
+        publish(IhmLoginModel.GAME_ENDED, null);
+    }
+    
+    @Override
     public void notifyGameEnded() {
         currentGame.setEnd();
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
-	publish(IhmLoginModel.GAME_ENDED, null);
+        // updateProfileStatistics(gameResult);
+        publish(IhmLoginModel.GAME_ENDED, null);
+    }
+    
+    
+    
+    /**
+     * Updates the local player's profile's statistics considering a game's result
+     * @param gameResult The concerned game's result
+     */
+    private void updateProfileStatistics(PLAYER_RESULT gameResult)
+    {
+    	switch(gameResult)
+    	{
+    	case DRAW:
+    		this.getApplicationModel().getPManager().getCurrentProfile().incrementDrawGames();
+    		break;
+    		
+    	case WIN:
+    		this.getApplicationModel().getPManager().getCurrentProfile().incrementWonGames();
+    		break;
+    		
+    	case LOST:
+    		this.getApplicationModel().getPManager().getCurrentProfile().incrementLostGames();
+    		break;
+    		
+    		default:
+    			break;
+    	}
     }
 
     @Override

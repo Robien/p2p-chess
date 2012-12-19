@@ -15,6 +15,7 @@ import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
+import lo23.utils.Enums.PLAYER_RESULT;
 
 /**
  * This interface is the one through each module should go for getting
@@ -151,6 +152,12 @@ public interface GameManagerInterface
     
     /**
      * This method is invoked when the current game is finished
+     * @param gameIssue It tells what has been the current's game's result.
+     */
+    public void notifyGameEnded(PLAYER_RESULT gameResult);
+    /**
+     * This method is the same as the one above, but in a previous version.
+     * It aims to be deleted when other module's refraction will have been completed.
      */
     public void notifyGameEnded();
 
