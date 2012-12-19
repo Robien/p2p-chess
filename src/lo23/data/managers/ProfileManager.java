@@ -31,8 +31,6 @@ import org.apache.commons.io.FileUtils;
 public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     private Profile currentProfile;
-    private Timer timer;
-    private boolean disconnect;
 
     public ProfileManager(ApplicationModel app) {
         super(app);
@@ -56,34 +54,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public void startProfilesDiscovery() {
-        // internal class needed to use timer.schedule()
-        class Discoverer extends TimerTask {
-
-            private ApplicationModel am;
-
-            Discoverer(ApplicationModel am) {
-                this.am = am;
-                disconnect = false;
-            }
-
-            @Override
-            public void run() {
-                if(!disconnect)
-                    this.am.getComManager().sendMulticast();
-                else{
-                    this.cancel();
-                    timer.cancel();
-                    timer.purge();
-                }
-            }
-        }
-
-        this.timer = new Timer();
-        this.timer.schedule(new Discoverer(this.getApplicationModel()), 0, Configuration.PROFILES_DISCOVERY_REFRESH_RATE);
+        getApplicationModel().getComManager().sendMulticast();
     }
     
     public void disconnect(){
-        disconnect = true;
         this.getApplicationModel().getComManager().sendMulticastDisconnection();
         this.currentProfile = null;
     }
