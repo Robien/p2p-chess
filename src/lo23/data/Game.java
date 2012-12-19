@@ -17,6 +17,7 @@ import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.pieces.Bishop;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
+import lo23.utils.Enums.PLAYER_RESULT;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.King;
 import lo23.data.pieces.Knight;
@@ -43,38 +44,38 @@ public class Game implements Serializable {
     private ArrayList<Event> events;
     private Enums.COLOR currentPlayerColor;
 
-    //add by Romain
-    private Move lastMove; // dernier coup joué : on en a besoin pour la prise en passant
+    // Needed for a piece's taking
+    private Move lastMove;
 
-    public COLOR getCurrentPlayerColor() {
-	return currentPlayerColor;
-    }
-
-    public void setCurrentPlayerColor(COLOR currentPlayerColor) {
-	this.currentPlayerColor = currentPlayerColor;
-    }
-
-    public void swapCurrentPlayerColor() {
-	if (currentPlayerColor == Enums.COLOR.BLACK) {
-	    currentPlayerColor=Enums.COLOR.WHITE;
-	} else {
-	    currentPlayerColor=Enums.COLOR.BLACK;
+	public COLOR getCurrentPlayerColor() {
+		return currentPlayerColor;
 	}
-    }
 
-    public Game(Player localPlayer, Player remotePlayer) {
-	gameId = (new Date()).getTime();
-	start = new Date();
-	end = null;
-	duration = 0;
-	board = new GamePiece[8][8];
-	pieces = new ArrayList<GamePiece>();
-	events = new ArrayList<Event>();
-	this.localPlayer = localPlayer;
-	this.remotePlayer = remotePlayer;
-	currentPlayerColor = null;
-        lastMove = null;
-    }
+	public void setCurrentPlayerColor(COLOR currentPlayerColor) {
+		this.currentPlayerColor = currentPlayerColor;
+	}
+
+	public void swapCurrentPlayerColor() {
+		if (currentPlayerColor == Enums.COLOR.BLACK) {
+			currentPlayerColor = Enums.COLOR.WHITE;
+		} else {
+			currentPlayerColor = Enums.COLOR.BLACK;
+		}
+	}
+
+	public Game(Player localPlayer, Player remotePlayer) {
+		gameId = (new Date()).getTime();
+		start = new Date();
+		end = null;
+		duration = 0;
+		board = new GamePiece[8][8];
+		pieces = new ArrayList<GamePiece>();
+		events = new ArrayList<Event>();
+		this.localPlayer = localPlayer;
+		this.remotePlayer = remotePlayer;
+		currentPlayerColor = null;
+		lastMove = null;
+	}
 
 
     /**
@@ -223,46 +224,46 @@ public class Game implements Serializable {
 
     public void dumpBoard() {
 
-	for (int y = 0; y < 8; y++) {
-	    for (int x = 0; x < 8; x++) {
-		GamePiece p = getPieceAtXY(x, y);
-		if (p != null) {
-		    System.out.print(p.toString().charAt(0));
-		} else {
-		    System.out.print("-");
-		}
-	    }
+    	for (int y = 0; y < 8; y++) {
+    		for (int x = 0; x < 8; x++) {
+    			GamePiece p = getPieceAtXY(x, y);
+    			if (p != null) {
+    				System.out.print(p.toString().charAt(0));
+    			} else {
+    				System.out.print("-");
+    			}
+    		}
 
-	    System.out.println();
-	}
+    		System.out.println();
+    	}
     }
 
     public GamePiece promotePawn(Pawn pawn, Enums.PROMOTED_PIECES_TYPES piece) throws UndefinedGamePieceException {
-	Position p = pawn.getPosition();
-	int px = p.getX();
-	int py = p.getY();
+    	Position p = pawn.getPosition();
+    	int px = p.getX();
+    	int py = p.getY();
 
-	GamePiece np;
+    	GamePiece np;
 
-	switch (piece) {
-	    case BISHOP:
-		np = new Bishop(new Position(px, py), pawn.getOwner(), this);
-		break;
+    	switch (piece) {
+    	case BISHOP:
+    		np = new Bishop(new Position(px, py), pawn.getOwner(), this);
+    		break;
 
-	    case QUEEN:
-		np = new Queen(new Position(px, py), pawn.getOwner(), this);
-		break;
+    	case QUEEN:
+    		np = new Queen(new Position(px, py), pawn.getOwner(), this);
+    		break;
 
-	    case ROOK:
-		np = new Rook(new Position(px, py), pawn.getOwner(), this);
-		break;
+    	case ROOK:
+    		np = new Rook(new Position(px, py), pawn.getOwner(), this);
+    		break;
 
-	    case KNIGHT:
-		np = new Knight(new Position(px, py), pawn.getOwner(), this);
-		break;
-	    default:
-		throw new UndefinedGamePieceException();
-	}
+    	case KNIGHT:
+    		np = new Knight(new Position(px, py), pawn.getOwner(), this);
+    		break;
+    	default:
+    		throw new UndefinedGamePieceException();
+    	}
 
 	board[px][py] = np;
 	pawn.getOwner().addPiece(np);
@@ -272,31 +273,15 @@ public class Game implements Serializable {
 
     /**
      * Getter for the gameId attribute
-     *
      * @return The gameId attribute
      */
-    public long getGameId() {
-	return gameId;
+    public long getGameId()
+    {
+    	return gameId;
     }
-
-    /**
-     * start game
-     */
-    public void start() {
-    }
-
-    /**
-     * stop game
-     */
-    public void stop() {
-    }
-
-    /**
-     * resume game
-     */
-    public void resume() {
-    }
-
+    
+    
+    
     /**
      *
      * @param x x position on the board
@@ -371,43 +356,47 @@ public class Game implements Serializable {
     }
 
     public void setEnd() {
-	this.end = new Date();
+    	this.end = new Date();
+    	this.duration = this.end.getTime() - this.start.getTime();
     }
 
-    public void swapPlayer() {
-	Player tmp = localPlayer;
-	localPlayer = remotePlayer;
-	remotePlayer = localPlayer;
-    }
-
-    public Enums.PLAYER_RESULT isWinner(String profileid) throws Exception {
-	if (!(localPlayer.getPublicProfile().getProfileId().equals(profileid))
-		&& !(remotePlayer.getPublicProfile().getProfileId().equals(profileid))) {
-	    throw new Exception("Data.game.isWinner : Mauvais Profileid!");
+	public void swapPlayer() {
+		Player tmp = localPlayer;
+		localPlayer = remotePlayer;
+		remotePlayer = localPlayer;
 	}
-	if (end == null) {
-	    return Enums.PLAYER_RESULT.NOT_FINISH;
-	} else {
-	    for (int i = events.size() - 1; i >= 0; i--) {
-		if (events.get(i) instanceof Constant) {
-		    Constant C = (Constant) events.get(i);
-		    switch (C.getConstant()) {
-			case DRAW_ACCEPTED:
-			    return Enums.PLAYER_RESULT.DRAW;
-			case DRAW_ASKED:
-			    throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
-			default: // OUT_OF_TIME ou SURRENDER
-			    if (C.getSender().getPublicProfile().getProfileId().equals(profileid)) {
-				return Enums.PLAYER_RESULT.LOST;
-			    } else {
-				return Enums.PLAYER_RESULT.WIN;
-			    }
 
-		    }
-		}
-	    }
-	    throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
-	}
+    
+    
+    public Enums.PLAYER_RESULT isWinner(String profileid) throws Exception
+    {
+    	if(!(localPlayer.getPublicProfile().getProfileId().equals(profileid))
+    			&& !(remotePlayer.getPublicProfile().getProfileId().equals(profileid))) {
+    		throw new Exception("Data.game.isWinner : Mauvais Profileid!");
+    	}
+    	if (end == null) {
+    		return Enums.PLAYER_RESULT.NOT_FINISH;
+    	} else {
+    		for (int i = events.size() - 1; i >= 0; i--) {
+    			if (events.get(i) instanceof Constant) {
+    				Constant C = (Constant) events.get(i);
+    				switch (C.getConstant()) {
+    				case DRAW_ACCEPTED:
+    					return Enums.PLAYER_RESULT.DRAW;
+    				case DRAW_ASKED:
+    					throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
+    				default: // OUT_OF_TIME or SURRENDER
+    					if (C.getSender().getPublicProfile().getProfileId().equals(profileid)) {
+    						return Enums.PLAYER_RESULT.LOST;
+    					} else {
+    						return Enums.PLAYER_RESULT.WIN;
+    					}
+
+    				}
+    			}
+    		}
+    		throw new Exception("Data.game.isWinner : La partie a une date de fin mais pas d'évenement de fin de jeu.");
+    	}
     }
 
     public GamePiece[][] getBoard() {
