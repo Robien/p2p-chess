@@ -53,9 +53,14 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         
         setResizable(false);
         setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+        
+        ihmLoginModel.updateEndGames();
+        
         // Ajoute un listener sur tous les ReviewGameBtn
         ArrayList<JButton> listReviewBtn = ihmLoginModel.getListReviewGameBtn();
         for (JButton btn : listReviewBtn) {
+            for(ActionListener l : btn.getActionListeners())
+                btn.removeActionListener(l);
             btn.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,12 +74,12 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         
         ihmLoginModel.addPropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         
-        //Seulement lorsque l'utilisateur distant est en ligne
-        //Implémentation terminé à tester
-        
+        ihmLoginModel.updateStopGames();
         // Ajoute un listener sur tous les ContinueGameBtn
         ArrayList<JButton> listContinueBtn = ihmLoginModel.getListContinueGameBtn();
         for (JButton btn : listContinueBtn) {
+            for(ActionListener l : btn.getActionListeners())
+                btn.removeActionListener(l);
             btn.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {

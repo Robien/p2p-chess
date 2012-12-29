@@ -37,7 +37,6 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     private final ImageIcon pawnBlack = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
     public static String TITLE = "Players list";
     private WaitingDialog waitingDialog;
-    public boolean dispatchInvit = false;
 
     /**
      * Creates new form IHMList
@@ -244,7 +243,6 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     }//GEN-LAST:event_manageProfileBtnActionPerformed
 
     private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
-        this.dispatchInvit = true;
         new IhmListGames(model).setVisible(true);
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
@@ -273,7 +271,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
      */
     public void propertyChange(PropertyChangeEvent pce) {
         if (this.isVisible()) {
-            if (pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE) && !dispatchInvit) {
+            if (pce.getPropertyName().equals(IhmLoginModel.INVIT_RECEIVE)) {
                 Invitation invitation = (Invitation) pce.getNewValue();
                 boolean b = openInvitationDialog(invitation);
                 try {
@@ -287,7 +285,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            if (pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE) && !dispatchInvit) {
+            if (pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)) {
                 boolean resp = (Boolean) pce.getOldValue();
                 Invitation invitation = (Invitation) pce.getNewValue();
                 if (resp) {
@@ -312,9 +310,13 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                     }
                 }
             }
-            if (pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED) && !dispatchInvit) {
+            if (pce.getPropertyName().equals(IhmLoginModel.GAME_STARTED)) {
                 Boolean isReady = (Boolean) pce.getOldValue();
                 Invitation invit = (Invitation) pce.getNewValue();
+                
+                waitingDialog.setVisible(false);
+                waitingDialog.dispose();
+                
                 if (isReady) {
                     try {
                         model.loadGame(invit);
@@ -327,8 +329,7 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                waitingDialog.setVisible(false);
-                waitingDialog.dispose();
+               
 
                 /*PublicProfile guest = invit.getGuest();
                 String idGuest = guest.getProfileId();

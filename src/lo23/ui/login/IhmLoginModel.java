@@ -19,6 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lo23.data.ApplicationModel;
+import lo23.data.Constant;
+import lo23.data.Event;
 import lo23.data.Game;
 import lo23.data.Invitation;
 import lo23.data.PublicProfile;
@@ -398,13 +400,14 @@ public class IhmLoginModel implements PropertyChangeListener{
             ((Manager)pmi).subscribe(this, DELETE_PLAYER_DISCONNECTED);
             ((Manager)gmi).subscribe(this, GAME_STARTED);
             ((Manager)gmi).subscribe(this, GAME_ENDED);
-            initEndGames();
+            this.updateEndGames();
             pmi.startProfilesDiscovery();            
         }
         return ret;
     }
     
-    private void initEndGames(){
+    
+    public void updateEndGames(){
         ArrayList<Game> endGames = new ArrayList<Game>();
         try {
             endGames = appModel.getGManager().getListStopGames();
@@ -413,9 +416,30 @@ public class IhmLoginModel implements PropertyChangeListener{
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
         }
         for (Game game : endGames ) {
-            listIdGame.put(game.getGameId(), game);
-            listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),"result", game.getGameId());
+            if(!listIdGame.containsKey(game.getGameId())){
+                listIdGame.put(game.getGameId(), game);
+                listEndGames.addGame(game.getEndDate(), game.getRemotePlayer().getPublicProfile().toString(),game.getRes(), game.getGameId());
+            }
         }
+    }
+    
+    public void updateStopGames(){
+        ArrayList<Game> stopGames;
+        try {
+            for (PublicProfile remoteP : listProfileDate.keySet()) {
+                stopGames = this.getGamesContinueFromId(remoteP.getProfileId());
+                for (Game g : stopGames) {
+                    if (!listIdGame.containsKey(g.getGameId())) {
+                        listIdGame.put(g.getGameId(), g);
+                        listStartGames.addGame(g.getStart(), g.getRemotePlayer().getPublicProfile().toString(), g.getGameId(), remoteP.getStatus());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception EndGame", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     
@@ -576,6 +600,7 @@ public class IhmLoginModel implements PropertyChangeListener{
                     JButton button = (JButton) this.getValueAt(i, 2);
                     if (button.getClientProperty("id").equals(id)) {
                         System.out.println("Game associated found and removed : "+id);
+                        listContinueGameBtn.remove(button);
                         this.removeRow(i);
                         return;
                     }
