@@ -20,194 +20,192 @@ import lo23.data.managers.Manager;
 import lo23.utils.Enums;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
-
-
 /**
  *
  * @author Karim
  */
 public class EventListener implements PropertyChangeListener {
+
     private ApplicationModel myModel;
     public static final String NEW_EVENT_ADDED = "new_event_added";
-    
     private GamePanel gamePanel;
     private ChatPanel2 chatPanel;
     private TimerPanel timerPanel;
-    
-    public EventListener(GamePanel panel, ApplicationModel model){
+
+    public EventListener(GamePanel panel, ApplicationModel model) {
         gamePanel = panel;
         myModel = model;
-       ((Manager)myModel.getGManager()).subscribe(this,NEW_EVENT_ADDED);
+        ((Manager) myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
-    
-    public EventListener(ChatPanel2 panel, ApplicationModel model){
+
+    public EventListener(ChatPanel2 panel, ApplicationModel model) {
         chatPanel = panel;
         myModel = model;
-        ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
+        ((Manager) myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
-    
-    public EventListener(TimerPanel panel, ApplicationModel model){
+
+    public EventListener(TimerPanel panel, ApplicationModel model) {
         timerPanel = panel;
         myModel = model;
-        ((Manager)myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
+        ((Manager) myModel.getGManager()).subscribe(this, NEW_EVENT_ADDED);
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("EVENT DETECTED ; " + evt.getOldValue() + " ; " + evt.getNewValue());
-        
-         if(evt.getNewValue() instanceof Move) {
-             System.out.println("EVENT DETECTED 3");
-             if(gamePanel != null){
-                 System.out.println("EVENT DETECTED 4");
+
+        if (evt.getNewValue() instanceof Move) {
+            System.out.println("EVENT DETECTED 3");
+            if (gamePanel != null) {
+                System.out.println("EVENT DETECTED 4");
 
 
-                 if (((Move)evt.getNewValue()).getPiece().haveDoneARook())
-                 {
+                if (((Move) evt.getNewValue()).getPiece().haveDoneARook()) {
                     System.out.println("EVENT DETECTED 4 => rook");
-                    if (((Move)evt.getNewValue()).getTo().getX() == 1)
-                    {
-                        Move move = new Move(new Position(0,((Move)evt.getNewValue()).getTo().getY()), new Position(2,((Move)evt.getNewValue()).getTo().getY()), null );
-                        try
-                        {
+                    if (((Move) evt.getNewValue()).getTo().getX() == 1) {
+                        Move move = new Move(new Position(0, ((Move) evt.getNewValue()).getTo().getY()), new Position(2, ((Move) evt.getNewValue()).getTo().getY()), null);
+                        try {
                             gamePanel.majDataBoard(move);
-                        } catch (IllegalMoveException ex)
-                        {
+                        } catch (IllegalMoveException ex) {
                             Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         gamePanel.updateBoardWithoutChangeColor(move);
 
-                    }
-                    else
-                    {
-                        Move move = new Move(new Position(7,((Move)evt.getNewValue()).getTo().getY()), new Position(5,((Move)evt.getNewValue()).getTo().getY()), null );
-                        try
-                        {
+                    } else {
+                        Move move = new Move(new Position(7, ((Move) evt.getNewValue()).getTo().getY()), new Position(5, ((Move) evt.getNewValue()).getTo().getY()), null);
+                        try {
                             gamePanel.majDataBoard(move);
-                        } catch (IllegalMoveException ex)
-                        {
+                        } catch (IllegalMoveException ex) {
                             Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         gamePanel.updateBoardWithoutChangeColor(move);
                     }
-                 }
-               gamePanel.updateBoard((Move)evt.getNewValue());
-                 
-             } else if(chatPanel != null){
-                     try {
-                         chatPanel.gameMsg((Move) evt.getNewValue());
-                     } catch (BadLocationException ex) {
-                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-             } else if(timerPanel != null){
-                 if(timerPanel.playerTimer.isRunning()){
-                     timerPanel.playerTimer.pauseTimer();
-                     timerPanel.player.stopTime();
-                 } else {
-                     timerPanel.playerTimer.startTimer();
-                     timerPanel.player.startTime();
-                 }
-             }
-             
-         } else if(evt.getNewValue() instanceof lo23.data.Message){
-             if(chatPanel != null){
+                }
+                gamePanel.updateBoard((Move) evt.getNewValue());
+
+            } else if (chatPanel != null) {
                 try {
-
-                    chatPanel.receivedMsg((lo23.data.Message)evt.getNewValue());
+                    chatPanel.gameMsg((Move) evt.getNewValue());
                 } catch (BadLocationException ex) {
                     Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
-             }
-         } else if(evt.getNewValue() instanceof Constant){
-             Constant cst = (Constant)evt.getNewValue();
-             CONSTANT_TYPE type = cst.getConstant();
-             
-             if(type == CONSTANT_TYPE.OUT_OF_TIME){
-                 if(gamePanel != null){
-                     gamePanel.endOfGame(cst.getSender());
-                 }
-             }
-            
-            if(type == CONSTANT_TYPE.SURRENDER){
-                 if(gamePanel != null)
-                    if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
+            } else if (timerPanel != null) {
+                if (timerPanel.playerTimer.isRunning()) {
+                    timerPanel.playerTimer.pauseTimer();
+                    timerPanel.player.stopTime();
+                } else {
+                    timerPanel.playerTimer.startTimer();
+                    timerPanel.player.startTime();
+                }
+            }
+
+        } else if (evt.getNewValue() instanceof lo23.data.Message) {
+            if (chatPanel != null) {
+                try {
+
+                    chatPanel.receivedMsg((lo23.data.Message) evt.getNewValue());
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else if (evt.getNewValue() instanceof Constant) {
+            Constant cst = (Constant) evt.getNewValue();
+            CONSTANT_TYPE type = cst.getConstant();
+
+            if (type == CONSTANT_TYPE.OUT_OF_TIME) {
+                if (gamePanel != null) {
+                    //OUT_OF_TIME is such as a DRAW, nobody WINs
+                    //gamePanel.endOfGame(cst.getSender());
+                }
+            }
+
+            if (type == CONSTANT_TYPE.SURRENDER) {
+                if (gamePanel != null) {
+                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
                         gamePanel.surrender(cst.getSender());
-                        
-                    }
-                    else{ // c'est moi qui est demandé de surrender
+
+                    } else { // c'est moi qui est demandé de surrender
                         gamePanel.isPlayPossible = false;
                     }
-             }
-            
-            if(type == CONSTANT_TYPE.DRAW_ASKED){
-                 if(gamePanel != null){
-                     if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer())
+                }
+            }
+
+            if (type == CONSTANT_TYPE.DRAW_ASKED) {
+                if (gamePanel != null) {
+                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
                         gamePanel.drawRequest(cst.getSender());
-                     else // c'est moi qui est proposé
-                         gamePanel.isPlayPossible = false;
-                 }
-             }
+                    } else // c'est moi qui est proposé
+                    {
+                        gamePanel.isPlayPossible = false;
+                    }
+                }
+            }
 
-             if(type == CONSTANT_TYPE.DRAW_REFUSED){
-                 if(gamePanel != null){
-                     if(cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
+            if (type == CONSTANT_TYPE.DRAW_REFUSED) {
+                if (gamePanel != null) {
+                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
                         gamePanel.drawRefused(cst.getSender());
-                     }
-                 }
-             }
-            
-              if(type == CONSTANT_TYPE.DRAW_ACCEPTED){
-                 if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()){
-                     gamePanel.drawAccepted(cst.getSender());
-                 }
-             }
+                    }
+                }
+            }
 
-             if(type == CONSTANT_TYPE.PROMOTED_TO_BISHOP){
-                  if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+            if (type == CONSTANT_TYPE.DRAW_ACCEPTED) {
+                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
+                    gamePanel.drawAccepted(cst.getSender());
+                }
+            }
+
+            if (type == CONSTANT_TYPE.PROMOTED_TO_BISHOP) {
+                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                 }
-             }
-               if(type == CONSTANT_TYPE.PROMOTED_TO_QUEEN){
-                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                }
+            }
+            if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
+                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                 }
-             }
-               if(type == CONSTANT_TYPE.PROMOTED_TO_ROOK){
-                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                }
+            }
+            if (type == CONSTANT_TYPE.PROMOTED_TO_ROOK) {
+                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                 }
-             }
-               if(type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT){
-                      if(gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()){
+                }
+            }
+            if (type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
+                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                 }
-             }
-             /*
+                }
+            }
+            if(type == CONSTANT_TYPE.GAME_ENDED){
+                if (gamePanel != null && cst.getSender().getPublicProfile() != myModel.getPManager().getCurrentProfile().getPublicProfile()) {
+                    gamePanel.gameEndedRemotely(cst.getSender());
+                }
+            }
+            /*
              if(gamePanel != null){
-                 if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
-                     gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
-                 } else {
-                     gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
-                 }     
+             if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
+             gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getRemotePlayer());
+             } else {
+             gamePanel.endOfGame(myModel.getGManager().getCurrentGame().getLocalPlayer());
+             }     
              }*/
-         } else {
-             System.out.println("EVENT DETECTED BUT INSTANCE FAILED");
-         }
+        } else {
+            System.out.println("EVENT DETECTED BUT INSTANCE FAILED");
         }
+    }
 }
