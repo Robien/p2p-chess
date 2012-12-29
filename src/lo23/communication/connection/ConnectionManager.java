@@ -255,10 +255,12 @@ public class ConnectionManager implements ConnectionListener {
      * started)
      */
     public void sendGameEnded() {
-        GameEndedMsg message = new GameEndedMsg();
-        HandleMessage handleMessage = handleMessageMap.get(socketSession);
-        handleMessage.send(message);
-        socketSession = null;
+        if(socketSession != null){//Socket already closed by remote user
+            GameEndedMsg message = new GameEndedMsg();
+            HandleMessage handleMessage = handleMessageMap.get(socketSession);
+            handleMessage.send(message);
+            socketSession = null;
+        }
     }
 
     /**
@@ -369,6 +371,7 @@ public class ConnectionManager implements ConnectionListener {
                         sendGameStarted(((AnswerMsg) message).getInvitation(), false);
                     }
                 }
+                System.out.println("Notify from Com");
                 notifyMessage(message);
 
             } else if (message instanceof GameStartedMsg) {
@@ -404,7 +407,7 @@ public class ConnectionManager implements ConnectionListener {
     public void receivedUDPMessage(InetAddress remoteAddress, Message message) {
         synchronized (comManager) {
             System.out.println("Message UDP Received : " + message);
-
+             
             correctIpAddress(remoteAddress, message);
 
             if (message instanceof MulticastInvit) {
