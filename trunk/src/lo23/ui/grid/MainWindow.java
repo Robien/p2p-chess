@@ -45,7 +45,10 @@ import javax.swing.border.LineBorder;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.Player;
+import lo23.data.managers.Manager;
 import lo23.ui.grid.PlayerPanel;
+import lo23.ui.login.IhmLoginModel;
+import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.ResourceManager;
 
@@ -60,6 +63,7 @@ public class MainWindow extends JFrame implements ActionListener {
     boolean isReviewGame;
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
     //new javax.swing.ImageIcon(getClass().getResource("/lo23/ui/resources/gamer1.png")))
+    private Menu menu;
 
     public MainWindow(ApplicationModel m) {
         super();
@@ -112,11 +116,26 @@ public class MainWindow extends JFrame implements ActionListener {
         
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
-                   setVisible(false);
-                   myModel.getPManager().disconnect();
-
-                   
-                   dispose();
+                   try {
+                    if(menu.during_party != null){
+                        menu.during_party.pause();
+                        menu.during_party.interrupt();
+                    }
+                    menu.set_noise_on(false);
+                    setVisible(false);
+                    if(!isReviewGame){
+                        Enums.PLAYER_RESULT res = myModel.getGManager().getCurrentGame().isWinner(myModel.getPManager().getCurrentProfile().getProfileId());
+                        myModel.getGManager().sendGameEnded();
+                        myModel.getGManager().notifyGameEnded(res);
+                    }
+                    else{
+                        myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+                        ((Manager)myModel.getGManager()).publish(IhmLoginModel.GAME_ENDED, null);
+                    }
+                    dispose();
+                } catch (Exception ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -131,7 +150,7 @@ public class MainWindow extends JFrame implements ActionListener {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
-        Menu menu = new Menu(this);
+        this.menu = new Menu(this);
 
     }
 
