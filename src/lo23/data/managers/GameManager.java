@@ -173,7 +173,9 @@ public class GameManager extends Manager implements GameManagerInterface {
 		//Il s'agit d'un resume game
 		ResumeGame I = (ResumeGame) invitation;
 		currentGame = I.getGame();
-		currentGame.swapPlayer(); // Il faut inverser local et remote player
+                String idLocalPlayer = currentGame.getLocalPlayer().getPublicProfile().getProfileId();
+                if(!idLocalPlayer.equals(curr_pofileId))
+                    currentGame.swapPlayer(); // Il faut inverser local et remote player
 		if (currentGame.getEndDate()==null){
 		    // Partie non finie
                     MainWindow fenetre = new MainWindow(this.getApplicationModel(), false);
@@ -185,7 +187,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 		}
 	    }
 	} else {
-	    throw new WrongInvitation("L'invitation n'est pas pour le profile connecté.");
+	    throw new WrongInvitation("L'invitation n'est pas pour le profil connecté.");
 	}
 	//MainWindow fenetre = new MainWindow(this.getApplicationModel(), currentGame);
 	//fenetre.setVisible(true);
@@ -220,21 +222,36 @@ public class GameManager extends Manager implements GameManagerInterface {
 	    currentGame.setEnd();
 	}
     }
+    
+    /**
+     * Notification use when local user quit the game
+     * Set Status to Connected
+     * Update Profile Stats
+     * Notify to IHM Login the game is ended
+     * @param gameResult 
+     */
 
     @Override
     public void notifyGameEnded(PLAYER_RESULT gameResult) {
-        currentGame.setEnd();
+        if(gameResult != Enums.PLAYER_RESULT.NOT_FINISH) {
+            currentGame.setRes(gameResult);
+        }
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
         updateProfileStatistics(gameResult);
         publish(IhmLoginModel.GAME_ENDED, null);
     }
     
+    
+    
+    /**
+     * Notify local user when the remote user quit the game
+     * Notification send to Grid
+     */
+    
     @Override
     public void notifyGameEnded() {
-        currentGame.setEnd();
-        this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
-        // updateProfileStatistics(gameResult);
-        publish(IhmLoginModel.GAME_ENDED, null);
+        Event e = this.createConstant(CONSTANT_TYPE.GAME_ENDED);
+        publish(GridConstants.NEW_EVENT_ADDED,e);
     }
     
     
@@ -245,29 +262,37 @@ public class GameManager extends Manager implements GameManagerInterface {
      */
     private void updateProfileStatistics(PLAYER_RESULT gameResult)
     {
-    	switch(gameResult)
-    	{
-    	case DRAW:
-    		this.getApplicationModel().getPManager().getCurrentProfile().incrementDrawGames();
-    		break;
-    		
-    	case WIN:
-    		this.getApplicationModel().getPManager().getCurrentProfile().incrementWonGames();
-    		break;
-    		
-    	case LOST:
-    		this.getApplicationModel().getPManager().getCurrentProfile().incrementLostGames();
-    		break;
-    		
-    		default:
-    			break;
-    	}
+        try {
+            switch(gameResult)
+            {
+            case DRAW:
+                    this.getApplicationModel().getPManager().getCurrentProfile().incrementDrawGames();
+                    this.save();
+                    break;
+
+            case WIN:
+                    this.getApplicationModel().getPManager().getCurrentProfile().incrementWonGames();
+                    this.save();
+                    break;
+
+            case LOST:
+                    this.getApplicationModel().getPManager().getCurrentProfile().incrementLostGames();
+                    this.save();
+                    break;
+
+            default:
+                    break;
+            }
+            this.getApplicationModel().getPManager().saveProfile();
+        }
+        catch (Exception ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
     public void sendGameEnded(){
-        currentGame.setEnd();
-        this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
         getApplicationModel().getComManager().sendGameEnded();
     }
     @Override
