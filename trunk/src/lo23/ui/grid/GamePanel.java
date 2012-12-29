@@ -13,6 +13,7 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
+import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
@@ -1025,6 +1027,7 @@ public class GamePanel extends JPanel {
 
     public void endOfGame(Player winner) {
         JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
+        myModel.getPManager().getCurrentProfile().incrementLostGames();
     }
 
     public void surrender(Player leaver) {
@@ -1046,7 +1049,8 @@ public class GamePanel extends JPanel {
                 choice,
                 choice[1]);
 
-        if (retour == 0) { // oui j'accepte le draw
+        if (retour == 0) {
+            // oui j'accepte le draw
             Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ACCEPTED);
             myModel.getGManager().sendConstant(cst);
             isPlayPossible = false;
@@ -1059,14 +1063,24 @@ public class GamePanel extends JPanel {
 
     // on dit au joueur que l'autre a accepté le draw
     void drawAccepted(Player sender) {
-        JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " accept the draw ! You can still use the chat, please press quit button to leave this game.", "Drawing accepted", JOptionPane.INFORMATION_MESSAGE);
-        isPlayPossible = false;
+        try {
+            JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " accept the draw ! You can still use the chat, please press quit button to leave this game.", "Drawing accepted", JOptionPane.INFORMATION_MESSAGE);
+            isPlayPossible = false;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // le joeur distant a refusé le draw
     void drawRefused(Player sender) {
         JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " refuse the draw ! The game keeps going.", "Drawing refused", JOptionPane.INFORMATION_MESSAGE);
         isPlayPossible = true;
+    }
+
+    void gameEndedRemotely(Player sender) {
+        JOptionPane.showMessageDialog(this, sender.getPublicProfile().getPseudo() + " quits the game.", "Game Ended Remotely", JOptionPane.INFORMATION_MESSAGE);
+        isPlayPossible = false;
     }
 }
 
