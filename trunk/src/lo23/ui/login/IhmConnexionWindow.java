@@ -210,7 +210,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
             boolean ret = ihmLoginModel.connect(selectedProfile, getPasswordField().getPassword());
             if (ret == false) {
-                JOptionPane.showMessageDialog(this, "Please make sur login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please make sure login and password are correct.", "Login error", JOptionPane.ERROR_MESSAGE);
             } else {
                 IHMList listWindow = new IHMList(ihmLoginModel);
                 this.setVisible(false);
