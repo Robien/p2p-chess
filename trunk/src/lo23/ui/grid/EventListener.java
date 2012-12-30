@@ -191,11 +191,13 @@ public class EventListener implements PropertyChangeListener {
                     }
                 }
             }
+            /*
             if(type == CONSTANT_TYPE.GAME_ENDED){
                 if (gamePanel != null && cst.getSender().getPublicProfile() != myModel.getPManager().getCurrentProfile().getPublicProfile()) {
                     gamePanel.gameEndedRemotely(cst.getSender());
                 }
             }
+            */
             /*
              if(gamePanel != null){
              if(evt.getNewValue() == myModel.getGManager().getCurrentGame().getLocalPlayer()){
