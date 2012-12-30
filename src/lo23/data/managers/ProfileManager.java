@@ -92,7 +92,8 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException {
-        System.out.println("connection profil ma");
+        if (profileId == null || password == null ) { return false; }
+        System.out.println("PM::connection : profileID : "+profileId+"| password : "+password);
         Profile p = Serializer.readProfile(profileId);
         if (p == null) {
             return false;

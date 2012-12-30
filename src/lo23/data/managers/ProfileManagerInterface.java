@@ -51,7 +51,7 @@ public interface ProfileManagerInterface {
      * @param profileId the profile's unique identifier
      * {@link Profile#getProfileId}
      * @param password the profile's password
-     * @return true if the connection succeeded
+     * @return true if the connection succeeded, false otherwise
      */
     public boolean connection(String profileId, char[] password) throws FileNotFoundException, IOException, ClassNotFoundException;
     /**
