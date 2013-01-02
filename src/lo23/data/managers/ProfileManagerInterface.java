@@ -137,4 +137,6 @@ public interface ProfileManagerInterface {
      * @param filePath path to the local file
      */
     public void importProfile(String filePath) throws FileNotFoundException, ProfileIdAlreadyExistException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException ;
+
+    public boolean removeProfile(PublicProfile p, char[] pass)  throws FileNotFoundException, IOException, ClassNotFoundException;
 }
