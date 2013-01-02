@@ -4,6 +4,7 @@
  */
 
 package lo23.ui.login.mockManager;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import lo23.data.Invitation;
 import lo23.data.NewInvitation;
 import lo23.data.Profile;
 import lo23.data.PublicProfile;
+import lo23.data.exceptions.FileNotFoundException;
 import lo23.data.managers.Manager;
 import lo23.data.managers.ProfileManagerInterface;
 import lo23.utils.Enums;
@@ -196,6 +198,11 @@ public class ProfileManagerMock extends Manager implements ProfileManagerInterfa
     }
 
     public void sendInvitationAnswer(Invitation invitation, boolean answer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeProfile(PublicProfile p, char[] pass) throws FileNotFoundException, IOException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

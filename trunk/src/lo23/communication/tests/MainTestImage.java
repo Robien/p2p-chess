@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -353,6 +354,11 @@ public class MainTestImage {
 
         @Override
         public void sendInvitationAnswer(Invitation invitation, boolean answer) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public boolean removeProfile(PublicProfile p, char[] pass) throws FileNotFoundException, IOException, ClassNotFoundException {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
