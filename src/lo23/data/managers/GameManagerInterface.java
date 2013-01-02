@@ -159,7 +159,7 @@ public interface GameManagerInterface
      * This method is the same as the one above, but in a previous version.
      * It aims to be deleted when other module's refraction will have been completed.
      */
-    @Deprecated
+    
     public void notifyGameEnded();
 
     /**

@@ -250,8 +250,8 @@ public class GameManager extends Manager implements GameManagerInterface {
     
     @Override
     public void notifyGameEnded() {
-        //Event e = this.createConstant(CONSTANT_TYPE.GAME_ENDED);
-        //publish(GridConstants.NEW_EVENT_ADDED,e);
+        Event e = this.createConstant(CONSTANT_TYPE.GAME_ENDED);
+        publish(GridConstants.NEW_EVENT_ADDED,e);
     }
     
     
