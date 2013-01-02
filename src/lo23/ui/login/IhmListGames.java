@@ -38,18 +38,15 @@ import lo23.utils.JTableButtonRenderer;
 public class IhmListGames extends javax.swing.JFrame implements TableModelListener,PropertyChangeListener{
 
     private IhmLoginModel ihmLoginModel;
-    private JFrame listPlayers;
     private WaitingDialog waitingDialog;
     
     /** 
      * Constructor
      * Creates new form IhmListGames 
      */
-    public IhmListGames(JFrame frame, IhmLoginModel ihmLoginModel) {
+    public IhmListGames(IhmLoginModel ihmLoginModel) {
         this.ihmLoginModel = ihmLoginModel;
-        this.listPlayers = frame;
-        frame.setFocusable(false);
-        frame.setFocusableWindowState(false);
+        
         initComponents();
         
         setResizable(false);
@@ -165,8 +162,7 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.listPlayers.setFocusable(true);
-        this.listPlayers.setFocusableWindowState(true);
+
         this.setVisible(false);
         ihmLoginModel.removePropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         this.dispose();
