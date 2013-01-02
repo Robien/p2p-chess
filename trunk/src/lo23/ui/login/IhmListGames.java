@@ -38,17 +38,18 @@ import lo23.utils.JTableButtonRenderer;
 public class IhmListGames extends javax.swing.JFrame implements TableModelListener,PropertyChangeListener{
 
     private IhmLoginModel ihmLoginModel;
-    //private IHMList listPlayers;
+    private JFrame listPlayers;
     private WaitingDialog waitingDialog;
     
     /** 
      * Constructor
      * Creates new form IhmListGames 
      */
-    public IhmListGames(IhmLoginModel ihmLoginModel) {
+    public IhmListGames(JFrame frame, IhmLoginModel ihmLoginModel) {
         this.ihmLoginModel = ihmLoginModel;
-        //this.listPlayers = listPlayers;
-        
+        this.listPlayers = frame;
+        frame.setFocusable(false);
+        frame.setFocusableWindowState(false);
         initComponents();
         
         setResizable(false);
@@ -164,6 +165,8 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.listPlayers.setFocusable(true);
+        this.listPlayers.setFocusableWindowState(true);
         this.setVisible(false);
         ihmLoginModel.removePropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
         this.dispose();
@@ -222,7 +225,12 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
         if(this.isVisible()){
             if(pce.getPropertyName().equals(IhmLoginModel.REQUEST_GAME_RESPONSE)){
                 Invitation invitation = (Invitation)pce.getNewValue();
-                
+                boolean resp = (Boolean) pce.getOldValue();
+                if(resp){
+                    this.setVisible(false);
+                    ihmLoginModel.removePropertyChangeListener(IhmLoginModel.REQUEST_GAME_RESPONSE,this);
+                    this.dispose();
+                }
                 if(invitation instanceof ResumeGame){
                     Game g = ((ResumeGame)invitation).getGame();
                     for(JButton btn : ihmLoginModel.getListContinueGameBtn()){
@@ -234,16 +242,4 @@ public class IhmListGames extends javax.swing.JFrame implements TableModelListen
             }
         }
     }
-    
-    private boolean openInvitationDialog(Invitation invit){ 
-        int response = -1;
-        PublicProfile profile = invit.getHost();
-        response = JOptionPane.showConfirmDialog(null,"Accept/deny invitation from " + profile.getPseudo() + " ?", "Accept/deny invitation from " + profile.getPseudo() + " ?", JOptionPane.YES_NO_OPTION);
-        System.out.println("Invitation : "+response);
-        if(response == 0)
-               return true; 
-        else
-               return false; 
-    }
-
 }

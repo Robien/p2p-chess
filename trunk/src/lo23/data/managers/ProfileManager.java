@@ -46,10 +46,10 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
 
     @Override
     public Profile createProfile(String profileId, String pseudo, char[] password, STATUS status, String ipAddress, ImageIcon avatar, String name, String firstName, int age) throws FileNotFoundException, ProfilePseudoAlreadyExistException, IOException, ClassNotFoundException, NoIdException {
-        if (isPseudoAlreadyExist(pseudo)) {
-            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !");
-        }
         Profile p = new Profile(profileId, pseudo, password, status, ipAddress, avatar, name, firstName, age);
+        if (isPseudoAlreadyExist(pseudo)) {
+            throw new ProfilePseudoAlreadyExistException("A profile with pseudo " + pseudo + " already exists !",p);
+        }
         Serializer.saveProfile(p);
         return p;
     }
@@ -218,5 +218,24 @@ public class ProfileManager extends Manager implements ProfileManagerInterface {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean removeProfile(PublicProfile p,char[] pass) throws FileNotFoundException, IOException, ClassNotFoundException {
+        Profile pReal = Serializer.readProfile(p.getProfileId());
+        if (!Arrays.equals(pReal.getPassword(),pass)) {
+            return false;
+        } else {
+            removeProfile(pReal.getProfileId());
+            return true;
+        }
+    }
+    
+    private void removeProfile(String profileId){
+        String filePath = Constants.PROFILES_PATH + profileId + Constants.PROFILE_SUFFIXE;
+        File profileFile = new File(filePath);
+        if(profileFile.exists()){
+            profileFile.delete();
+        }
     }
 }

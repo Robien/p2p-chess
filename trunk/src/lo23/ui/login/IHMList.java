@@ -243,14 +243,16 @@ public class IHMList extends javax.swing.JFrame implements PropertyChangeListene
     }//GEN-LAST:event_manageProfileBtnActionPerformed
 
     private void reviewGamesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewGamesBtnActionPerformed
-        new IhmListGames(model).setVisible(true);
+        new IhmListGames(this,model).setVisible(true);
     }//GEN-LAST:event_reviewGamesBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
         this.setVisible(false);
         model.disconnect();
 
         this.dispose();
+
     }//GEN-LAST:event_formWindowClosing
     /**
      * @param args the command line arguments

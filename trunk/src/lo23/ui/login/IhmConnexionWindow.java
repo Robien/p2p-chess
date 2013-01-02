@@ -1,6 +1,8 @@
 package lo23.ui.login;
 
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,9 +13,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Profile;
@@ -46,6 +51,7 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     private javax.swing.JButton registerBtn;
     static String TITLE = "Chess-P2P";
     // End of variables declaration
+    private javax.swing.JButton deleteBtn;
 
     /**
      * Creation du formulaire IhmConnexionWindow
@@ -142,12 +148,15 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
 
         // Buttons
         connectBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         loadProfileBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JButton();
 
         // Styles
         connectBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14));
         connectBtn.setText("Connect");
+        deleteBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 14));
+        deleteBtn.setText("Delete");
         loadProfileBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 13));
         loadProfileBtn.setText("Load Profile");
         registerBtn.setFont(new java.awt.Font("Comic Sans MS", 0, 13));
@@ -164,6 +173,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
             }
         });
 
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteProfileBtnActionPerformed(evt);
+            }           
+        });
+        
         registerBtn.addActionListener(new java.awt.event.ActionListener() {
 
             @Override
@@ -185,16 +202,52 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup().add(15, 15, 15).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING).add(jPanel1Layout.createSequentialGroup().add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(jPanel1Layout.createSequentialGroup().add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 101, Short.MAX_VALUE).add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))).add(20, 20, 20)).add(jPanel1Layout.createSequentialGroup().add(128, 128, 128).add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 132, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(108, Short.MAX_VALUE)));
+                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .add(15, 15, 15)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 165, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 162, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 101, Short.MAX_VALUE)
+                                .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(20, 20, 20))
+                 .add(jPanel1Layout.createSequentialGroup()
+                     .add(128, 128, 128)
+                     .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 132, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                     .addContainerGap(108, Short.MAX_VALUE))
+                 .add(jPanel1Layout.createSequentialGroup()
+                     .add(128, 128, 128)
+                     .add(deleteBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 132, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                     .addContainerGap(108, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(jPanel1Layout.createSequentialGroup().add(25, 25, 25).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 311, Short.MAX_VALUE).add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(24, 24, 24)));
+                jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(25, 25, 25)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(loginCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(passwordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(connectBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(deleteBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 311, Short.MAX_VALUE)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(loadProfileBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(registerBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 37, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                         .add(24, 24, 24)));
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-
+                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        
         return jPanel1;
     }
 
@@ -204,7 +257,6 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // debug
         //System.out.println("Login=" + getLoginCombo().getSelectedItem() + " / Password= " + new String(getPasswordField().getPassword()));
-
         // Appel de la methode de connexion
         try {
             PublicProfile selectedProfile = (PublicProfile) getLoginCombo().getSelectedItem();
@@ -216,23 +268,38 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 this.setVisible(false);
                 this.dispose();
                 listWindow.setVisible(true);
-
-
-                /**
-                 * Only model must subscribe to Manager, not the view
-                 * See Method IhmLoginModel.connect(...)
-                 */
-                /*
-                ProfileManager pm = (ProfileManager) pmi;
-                // TODO unsuscribe on deconnect
-                // ((ProfileManager)pmi)
-                // suscribe to notification from data manager on channel UpdateListPlayers
-                pm.subscribe(listWindow, IhmLoginModel.ADD_PLAYER_CONNECTED);
-                pm.subscribe(listWindow, IhmLoginModel.DELETE_PLAYER_DISCONNECTED);
-                pm.startProfilesDiscovery();
-                 */
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void deleteProfileBtnActionPerformed(ActionEvent evt) {
+        try {
+            PublicProfile p = (PublicProfile) getLoginCombo().getSelectedItem();
+            JLabel label = new JLabel("Please enter your password:");
+            JPasswordField jpf = new JPasswordField();
+            int ret = JOptionPane.showConfirmDialog(this,
+                    new Object[]{label, jpf}, "Password:",
+                    JOptionPane.OK_CANCEL_OPTION);
+            //res = JOptionPane.showInputDialog(this, "Enter your password :", "Deleting " + p.getPseudo(), JOptionPane.OK_CANCEL_OPTION);
+            if (ret != 0) {
+                return;
+            }
+            while (!ihmLoginModel.getApplicationModel().getPManager().removeProfile(p, jpf.getPassword())) {
+                
+                jpf = new JPasswordField();
+                ret = JOptionPane.showConfirmDialog(this,
+                        new Object[]{label, jpf}, "Wrong password !!!",
+                        JOptionPane.OK_CANCEL_OPTION);
+                if(ret != 0){
+                    return;
+                }
+            }
+            ihmLoginModel.refreshProfileList();
+        }
+        catch(Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
@@ -250,7 +317,10 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
      */
     private void loadProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
         //open explorer to select the location
+        FileFilter profileFilter = new FileNameExtensionFilter("Profiles", "profile");
         final JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setFileFilter(profileFilter);
         int n = fc.showOpenDialog(this);
 
         //Si valide appele le modèle
@@ -347,6 +417,14 @@ public class IhmConnexionWindow extends javax.swing.JFrame implements PropertyCh
                 try {
                     profilesList = ihmLoginModel.getApplicationModel().getPManager().getLocalPublicProfiles().toArray(new PublicProfile[]{});
                     loginCombo.setModel(new DefaultComboBoxModel(profilesList));
+                    if(loginCombo.getModel().getSize() == 0){
+                        this.connectBtn.setEnabled(false);
+                        this.deleteBtn.setEnabled(false);
+                    }
+                    else{
+                        this.connectBtn.setEnabled(true);
+                        this.deleteBtn.setEnabled(true);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
