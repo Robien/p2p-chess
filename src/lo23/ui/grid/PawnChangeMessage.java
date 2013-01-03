@@ -41,7 +41,7 @@ public class PawnChangeMessage{
       
     // Message creation
     JOptionPane jop = new JOptionPane();
-    int rang = jop.showOptionDialog(null, "Transformer le pion en : ", "Pawn", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+    int rang = jop.showOptionDialog(null, "Transform the pawn into : ", "Pawn", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
       null, pieces, pieces[3]);
     
         switch(rang)
