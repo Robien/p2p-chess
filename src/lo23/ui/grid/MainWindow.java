@@ -230,7 +230,7 @@ public class MainWindow extends JFrame implements ActionListener {
         panel.add(chatPanel, constraints, 1);
 
         //remote player
-        constraints.insets = new Insets(-435, -850, 0, 0);
+        constraints.insets = new Insets(-435, -900, 0, 0);
         constraints.gridwidth = 10;
         constraints.gridheight = 10;
         constraints.gridx = 0;
@@ -241,7 +241,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
         //local player
-        constraints.insets = new Insets(435, -850, 0, 0);
+        constraints.insets = new Insets(435, -900, 0, 0);
         constraints.gridwidth = 10;
         constraints.gridheight = 10;
         constraints.gridx = 0;
