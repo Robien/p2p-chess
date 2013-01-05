@@ -1,8 +1,6 @@
 
 package lo23.ui.grid;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lo23.utils.ResourceManager;

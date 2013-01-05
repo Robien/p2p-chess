@@ -1,6 +1,5 @@
 package lo23.ui.grid;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.AudioFormat;
@@ -11,18 +10,29 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+
+/*
+*read the audio file for the noise
+* @author guigou
+*/
 public class Noise {
 
     static SourceDataLine source;
     static boolean boucle = true;
     static boolean lancer = false;
 
+    
+    /*
+     * read an audio file with string file
+     */
     public void readAudioFile(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         URL url = new URL(fileName);
         readAudioFile(url);
     }
     
-    
+    /*
+     * read an audio file with url file
+     */
     public void readAudioFile(URL url) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 
 
@@ -32,7 +42,7 @@ public class Noise {
         Info info = new Info(SourceDataLine.class, format);
         source = (SourceDataLine) AudioSystem.getLine(info);
         source.open(format);
-        source.start();
+        source.start(); //read just one time the noise
 
 
         int read = 0;

@@ -1,6 +1,5 @@
 package lo23.ui.grid;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.AudioFormat;
@@ -12,7 +11,7 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
  
 /*
-*read the audio file
+*read the audio file for the music game
 * @author guigou
 */
 public class Sound

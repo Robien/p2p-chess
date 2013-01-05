@@ -987,6 +987,10 @@ public class GamePanel extends JPanel {
         System.out.println("ListOfPiece Black :" + listOfPiece);
     }
 
+    
+    /*
+     * play the sound regarding the situation
+     */
     void play_sound(GamePiece currentPiece) {
 
 
@@ -1025,6 +1029,10 @@ public class GamePanel extends JPanel {
 
     }
 
+    
+    /*
+     * the end game function, display a pop up message
+     */
     public void endOfGame(Player winner) {
         JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
         myModel.getPManager().getCurrentProfile().incrementLostGames();
