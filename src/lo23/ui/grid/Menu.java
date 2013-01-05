@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package lo23.ui.grid;
 
 import java.awt.Dimension;
@@ -28,7 +25,7 @@ import lo23.utils.ResourceManager;
 import lo23.utils.Enums;
 
 /**
- *
+ *Create the menu bar with some options
  * @author guigou
  */
 public class Menu {
@@ -39,8 +36,8 @@ public class Menu {
 
     public Menu(MainWindow mw) {
         //launch sound
-        during_party = new Launch_Sound("chess.wav");
-        during_party.play();
+        during_party = new Launch_Sound("chess.wav");   //game music
+        during_party.play();                            //play the music
 
         is_full_screen = false;
         noise_on = true;
@@ -52,7 +49,6 @@ public class Menu {
         JMenu options = new JMenu("Options");
         JMenu son = new JMenu("Sound");
         JMenu other = new JMenu("?");
-        JMenuItem new_game = new JMenuItem("New Game");
         JMenuItem full_screen = new JMenuItem("Full screen");
         JMenuItem rules = new JMenuItem("Rules of chess");
         JMenuItem about = new JMenuItem("About");
@@ -61,9 +57,15 @@ public class Menu {
         JRadioButtonMenuItem stop_noise = new JRadioButtonMenuItem("Stop sound effects");
         JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises");
 
+        
+        file.setIcon(new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")));
+        
+        
+        
         JMenuItem close = new JMenuItem("Quit");
-        //fichier 
-        file.add(new_game);
+        
+        
+        //file
         file.addSeparator();
         file.add(close);
         //options
@@ -90,7 +92,8 @@ public class Menu {
 
         //other
         other.add(about);
-        //accelerator
+        
+        //accelerator to simplify the use
         file.setMnemonic('F');
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK));
         options.setMnemonic('O');
@@ -137,7 +140,9 @@ public class Menu {
 
 
     }
-
+    /*
+     * Quit the menu
+     */
     private class Quit implements ActionListener {
 
         MainWindow mw;
@@ -183,7 +188,9 @@ public class Menu {
             }
         }
     }
-
+/*
+ * Stop the music
+ */
     private class Stop_music implements ActionListener {
 
         @Override
@@ -192,7 +199,9 @@ public class Menu {
             during_party.pause();
         }
     }
-
+/*
+ * Play the music
+ */
     private class Play_music implements ActionListener {
 
         @Override
@@ -201,7 +210,9 @@ public class Menu {
             during_party.play();
         }
     }
-
+/*
+ * Play the noise 
+ */
     private class Play_noise implements ActionListener {
 
         @Override
@@ -210,7 +221,9 @@ public class Menu {
             set_noise_on(true);
         }
     }
-
+/*
+ * Stop the noise
+ */
     private class Stop_noise implements ActionListener {
 
         @Override
@@ -219,7 +232,9 @@ public class Menu {
             set_noise_on(false);
         }
     }
-
+/*
+ * Full screen mode, start or stop
+ */
     private class Full implements ActionListener {
 
         MainWindow mw;
@@ -242,7 +257,9 @@ public class Menu {
             }
         }
     }
-
+/*
+ * Display the chess rules
+ */
     private class Rules extends JFrame implements ActionListener {
 
         @Override
@@ -278,6 +295,9 @@ public class Menu {
         }
     }
 
+    /*
+     * Display the about
+     */
     private class About extends JFrame implements ActionListener {
 
         @Override
@@ -289,6 +309,9 @@ public class Menu {
         }
     }
 
+    /*
+     * Change the style windows
+     */
     private static void setWindowsLook() {
         LookAndFeel lf = UIManager.getLookAndFeel();
 
@@ -307,10 +330,15 @@ public class Menu {
 
     }
 
+    /*
+     * get the noise
+     */
     public static boolean get_noise_on() {
         return noise_on;
     }
-
+    /*
+     * set the noise
+     */
     public void set_noise_on(boolean t) {
         noise_on = t;
 
