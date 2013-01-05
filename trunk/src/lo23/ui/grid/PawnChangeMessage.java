@@ -1,24 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package lo23.ui.grid;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import lo23.data.pieces.Bishop;
 import lo23.data.pieces.GamePiece;
-import lo23.data.pieces.Knight;
 import lo23.data.pieces.Pawn;
-import lo23.data.pieces.Queen;
-import lo23.data.pieces.Rook;
 import lo23.utils.Enums.PROMOTED_PIECES_TYPES;
 
 /** Message Box for paw tranformation
  * this class provides a personnal managment of the paw tranformation.
  * 
- * @author Laura
+ * @author Laura, guigou
  */
 
 public class PawnChangeMessage{
@@ -30,7 +21,7 @@ public class PawnChangeMessage{
     }
     
     /**
-     * Affichage de la fenêtre de message personnalisée
+     * Display the window with the different pieces
      * @return GamePiece the piece that will replace our pawn
      */
     
@@ -46,6 +37,7 @@ public class PawnChangeMessage{
     
         switch(rang)
         {
+            //return an Enum value
             case 0 : return PROMOTED_PIECES_TYPES.KNIGHT;
             case 1 : return PROMOTED_PIECES_TYPES.BISHOP;
             case 2 : return PROMOTED_PIECES_TYPES.ROOK;
@@ -56,9 +48,3 @@ public class PawnChangeMessage{
     
   
 }
-
-/*
- Pour afficher la fenêtre :
- PawChangeMessage pcm = new PawChangeMessage();
- pcm.display(); 
- */

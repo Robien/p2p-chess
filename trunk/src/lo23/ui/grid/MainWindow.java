@@ -58,8 +58,8 @@ public class MainWindow extends JFrame implements ActionListener {
     Game game;
     PiecesBox remotePlayerLostPieces;
     PiecesBox localPlayerLostPieces;
-    public static JLabel chess_king;
-    public static JLabel chess_king_crown;
+    public static JLabel chess_king;                //picture when there is chess
+    public static JLabel chess_king_crown;          //picture when a person win
     boolean isReviewGame;
     public static final java.awt.Color fond = new java.awt.Color(153, 51, 0); // background color
     //new javax.swing.ImageIcon(getClass().getResource("/lo23/ui/resources/gamer1.png")))

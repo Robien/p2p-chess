@@ -5,26 +5,20 @@
 package lo23.ui.grid;
 
 //import ui.grid.TMP_GameManager;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-import lo23.communication.ComManager;
 import lo23.data.ApplicationModel;
 import lo23.data.Game;
 import lo23.data.NewInvitation;
-import lo23.data.Player;
 import lo23.data.Profile;
-import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.ProfilePseudoAlreadyExistException;
 import lo23.data.exceptions.WrongInvitation;
 import lo23.data.managers.GameManager;
 import lo23.data.managers.ProfileManager;
 import lo23.data.tests.GameManagerTest;
 import lo23.utils.Enums;
-import lo23.utils.Enums.COLOR;
-import lo23.utils.Enums.STATUS;
 
 /**
  *
