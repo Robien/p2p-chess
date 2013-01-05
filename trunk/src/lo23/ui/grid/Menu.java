@@ -56,11 +56,8 @@ public class Menu {
         JRadioButtonMenuItem play_music = new JRadioButtonMenuItem("Play music");
         JRadioButtonMenuItem stop_noise = new JRadioButtonMenuItem("Stop sound effects");
         JRadioButtonMenuItem play_noise = new JRadioButtonMenuItem("Make some noises");
+  
 
-        
-        file.setIcon(new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")));
-        
-        
         
         JMenuItem close = new JMenuItem("Quit");
         
