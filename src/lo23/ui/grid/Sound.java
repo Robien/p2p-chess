@@ -11,26 +11,37 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
  
- 
+/*
+*read the audio file
+* @author guigou
+*/
 public class Sound
 {
     static SourceDataLine source;
     static boolean boucle = true;
     static boolean lancer = false;
    
-    
+    /*
+     * read an audio file with string file
+     */
     public  void readAudioFile(String fileName) throws IOException, UnsupportedAudioFileException, LineUnavailableException
     {
         URL url = new URL(fileName);
         readAudioFile(url);
     }
     
-    
+    /*
+     * read an audio file with url file
+     */
     public  void readAudioFile(URL url) throws IOException, UnsupportedAudioFileException, LineUnavailableException
     {
      
          lancer = true;
       
+         
+         /*
+         *never stop the read audio file
+         */
             while(boucle)
             {
                 AudioInputStream ais = AudioSystem.getAudioInputStream(url);
@@ -57,7 +68,9 @@ public class Sound
             }
       }
     
-     
+         /*
+         *stop the sound definitely
+         */
     public void stop_sound()
     {
         if(lancer == true)
