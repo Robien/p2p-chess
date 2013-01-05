@@ -63,7 +63,7 @@ public class Menu {
         
         
         //file
-        file.addSeparator();
+       
         file.add(close);
         //options
         options.add(rules);
