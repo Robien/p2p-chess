@@ -34,20 +34,17 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="end" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="previous" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="init" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="next" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="begin" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="init" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
               <Component id="begin" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               <Component id="previous" min="-2" max="-2" attributes="0"/>
@@ -61,14 +58,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="init">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Init"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="initActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="previous">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Going to the previous move"/>
