@@ -221,6 +221,7 @@ public class EventListener implements PropertyChangeListener {
             }
             
             if(type == CONSTANT_TYPE.GAME_ENDED){
+                                System.out.println("------------ SURRENDER -------------");
                 System.out.println("mon pseudo : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo());
                  System.out.println("pseudo distant : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo());
                 System.out.println("cst sender " + cst.getSender().getPublicProfile().getPseudo());
