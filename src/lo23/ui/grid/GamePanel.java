@@ -526,7 +526,8 @@ public class GamePanel extends JPanel {
     }
 
     public void updatePromotedPawn(Enums.CONSTANT_TYPE constant) throws UndefinedGamePieceException{
-         Pawn tempPiece = (Pawn)myModel.getGManager().getCurrentGame().getPieceAtXY(currentPawnToPromotePosition.getX(), currentPawnToPromotePosition.getY());
+         isPlayPossible = true;
+        Pawn tempPiece = (Pawn)myModel.getGManager().getCurrentGame().getPieceAtXY(currentPawnToPromotePosition.getX(), currentPawnToPromotePosition.getY());
 
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
@@ -575,7 +576,7 @@ public class GamePanel extends JPanel {
             }
          }
 
-         isPlayPossible = true;
+        
     }
     public void majDataBoard(Move move) throws IllegalMoveException {
         game.playMove(move);
