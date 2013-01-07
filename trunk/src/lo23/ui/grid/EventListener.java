@@ -17,6 +17,7 @@ import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.UndefinedGamePieceException;
 import lo23.data.managers.Manager;
+import lo23.data.pieces.GamePiece;
 import lo23.utils.Enums;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
@@ -159,6 +160,7 @@ public class EventListener implements PropertyChangeListener {
                 if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
+                          gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -168,6 +170,7 @@ public class EventListener implements PropertyChangeListener {
                 if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
+                        gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -177,6 +180,7 @@ public class EventListener implements PropertyChangeListener {
                 if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
+                          gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -186,6 +190,7 @@ public class EventListener implements PropertyChangeListener {
                 if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
                     try {
                         gamePanel.updatePromotedPawn(type);
+                          gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }

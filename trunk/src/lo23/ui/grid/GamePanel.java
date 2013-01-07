@@ -88,7 +88,7 @@ public class GamePanel extends JPanel {
     
     private PiecesBox localBox;
     private PiecesBox remoteBox;
-    private GamePiece currentPawnToPromote;
+    public GamePiece currentPawnToPromote;
 
     public GamePanel(ApplicationModel model) {
         super();
@@ -444,9 +444,10 @@ public class GamePanel extends JPanel {
             if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == playerColor) {
                 Enums.PROMOTED_PIECES_TYPES piece = PawnChangeMessage.display(tempPiece);
                 // revalidate();
+                Pawn pawn = null;
                 try {
                     //create new Piece
-                    Pawn pawn = (Pawn) tempPiece;
+                   pawn = (Pawn) tempPiece;
                     game.promotePawn(pawn, piece);
                 } catch (UndefinedGamePieceException ex) {
                     Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -457,25 +458,25 @@ public class GamePanel extends JPanel {
                         case KNIGHT:
                             insertPiece(move.getTo(), "KW.png");
                             c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_KNIGHT,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case BISHOP:
                             insertPiece(move.getTo(), "BW.png");
                               c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_BISHOP,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case QUEEN:
                             insertPiece(move.getTo(), "QW.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_QUEEN,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case ROOK:
                             insertPiece(move.getTo(), "TW.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_ROOK,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         default:
@@ -486,25 +487,25 @@ public class GamePanel extends JPanel {
                         case KNIGHT:
                             insertPiece(move.getTo(), "KB.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_KNIGHT,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case BISHOP:
                             insertPiece(move.getTo(), "BB.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_BISHOP,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case QUEEN:
                             insertPiece(move.getTo(), "QB.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_QUEEN,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         case ROOK:
                             insertPiece(move.getTo(), "TB.png");
                              c = new Constant(Enums.CONSTANT_TYPE.PROMOTED_TO_ROOK,
-                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer());
+                                    myModel.getGManager().getCurrentGame().getLocalPlayer(), myModel.getGManager().getCurrentGame().getRemotePlayer(), pawn);
                             myModel.getGManager().sendConstant(c);
                             break;
                         default:
