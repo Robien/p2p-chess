@@ -2,9 +2,11 @@ package lo23.data.managers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
+import lo23.data.GridState;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
@@ -223,4 +225,6 @@ public interface GameManagerInterface
      * @param move the movement of a piece
      */
     public void notifyMovement(Move move);
+
+    public Stack<GridState> getGridStates();
 }
