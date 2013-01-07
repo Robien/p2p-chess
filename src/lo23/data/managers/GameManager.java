@@ -255,8 +255,15 @@ public class GameManager extends Manager implements GameManagerInterface {
     
     @Override
     public void notifyGameEnded() {
-        Event e = this.createConstant(CONSTANT_TYPE.GAME_ENDED);
-        publish(GridConstants.NEW_EVENT_ADDED,e);
+        Constant constant = this.createConstant(CONSTANT_TYPE.GAME_ENDED);
+        
+        // Switch receiver and sender because this constant was created locally
+        Player receiver = constant.getSender();
+        Player sender = constant.getReceiver();
+        constant.setReceiver(receiver);
+        constant.setSender(sender);
+
+        publish(GridConstants.NEW_EVENT_ADDED, sender);
     }
     
     
