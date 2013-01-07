@@ -245,8 +245,6 @@ public class ChatPanel2 extends javax.swing.JPanel {
             Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ASKED);
             myModel.getGManager().sendConstant(cst);
 
-
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
