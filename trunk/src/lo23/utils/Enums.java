@@ -36,6 +36,7 @@ public class Enums implements Serializable
         PROMOTED_TO_KNIGHT,
         PROMOTED_TO_BISHOP,
         PROMOTED_TO_ROOK,
+        GAME_ENDED
     };
     
     public enum PLAYER_RESULT{
