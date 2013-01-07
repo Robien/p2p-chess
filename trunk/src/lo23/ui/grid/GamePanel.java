@@ -578,6 +578,7 @@ public class GamePanel extends JPanel {
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_ROOK) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.ROOK);
                 insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "RB.png");
+
             }
          }
     }
@@ -1353,6 +1354,7 @@ public class GamePanel extends JPanel {
     public void endOfGame(Player winner) {
         JOptionPane.showMessageDialog(this, winner.getPublicProfile().getPseudo() + " won ! You can still use the chat, please press quit button to leave this game.", "Enf of game", JOptionPane.INFORMATION_MESSAGE);
         myModel.getPManager().getCurrentProfile().incrementLostGames();
+        isPlayPossible = false;
     }
 
     public void surrender(Player leaver) {
