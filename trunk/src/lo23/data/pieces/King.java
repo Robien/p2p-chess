@@ -43,7 +43,7 @@ public class King extends GamePiece {
             }
             else
             {
-                 getGame().getPieceAtXY(7, to.getY()).movePiece(new Position(5, to.getY()));
+                getGame().getPieceAtXY(7, to.getY()).movePiece(new Position(5, to.getY()));
             }
         }
         else
@@ -346,7 +346,15 @@ public class King extends GamePiece {
 @Override
 public boolean isDoingARook(Position to)
 {
-   // System.out.println("non !!");
+    System.out.println("ISDOINGAROOK detect ?");
+    if (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1)
+    {
+        System.out.println("ISDOINGAROOK detect OUI");
+    }
+    else
+    {
+     System.out.println("ISDOINGAROOK detect NON");
+    }
     return (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1);   
 }
 
