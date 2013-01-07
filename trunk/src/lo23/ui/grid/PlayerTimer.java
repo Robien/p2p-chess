@@ -46,7 +46,7 @@ public class PlayerTimer {
                 currentTimer--;
                 timerPanel.getLabel().setText(getText());
                 
-                if(currentTimer == 0){
+                if(currentTimer <= 0 || (int) p.getRemainingTime() <= 0){
                     if(myModel.getGManager().getCurrentGame().getLocalPlayer() == p){
                          Constant out_of_time = new Constant(CONSTANT_TYPE.OUT_OF_TIME, myModel.getGManager().getCurrentGame().getLocalPlayer(), p);
                    ((Manager)myModel.getGManager()).publish(NEW_EVENT_ADDED, out_of_time);
@@ -96,7 +96,12 @@ public class PlayerTimer {
     public String getText(){
 
     	if (currentTimer <= 0) return "No more time!";
-    	
+
+        if ((int) p.getRemainingTime() <= 0) {
+
+            return "No more time!";
+        }
+        
         int hour = 0;
         int minute = 0;
         int second = 0;
