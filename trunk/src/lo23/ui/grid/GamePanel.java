@@ -524,66 +524,57 @@ public class GamePanel extends JPanel {
                 } else  {
                // isPlayPossible = false;
                 //this.currentPawnToPromotePosition = tempPiece.getPosition();
-
             }
         }
-
         repaint();
         revalidate();
     }
 
     public void updatePromotedPawn(Enums.CONSTANT_TYPE constant) throws UndefinedGamePieceException{
-         isPlayPossible = true;
+        isPlayPossible = true;
         Pawn tempPiece = (Pawn)myModel.getGManager().getCurrentGame().getPieceAtXY(currentPawnToPromotePosition.getX(), currentPawnToPromotePosition.getY());
-
+        Position tempPos = tempPiece.getPosition();
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_BISHOP) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.BISHOP);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "BW.png");
+                insertPiecePawn(tempPos, "BW.png");
             }
-
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.KNIGHT);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "KW.png");
-
+                insertPiecePawn(tempPos, "KW.png");
             }
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.QUEEN);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "QW.png");
-
+                insertPiecePawn(tempPos, "QW.png");
             }
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_ROOK) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.ROOK);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "RW.png");
-
+                insertPiecePawn(tempPos, "RW.png");
             }
          } else {
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_BISHOP) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.BISHOP);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "BB.png");
-
+                insertPiecePawn(tempPos, "BB.png");
             }
-
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.KNIGHT);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "KB.png");
-
+                insertPiecePawn(tempPos, "KB.png");
             }
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.QUEEN);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "QB.png");
-
+                insertPiecePawn(tempPos, "QB.png");
             }
             if (constant == Enums.CONSTANT_TYPE.PROMOTED_TO_ROOK) {
                 game.promotePawn(tempPiece, Enums.PROMOTED_PIECES_TYPES.ROOK);
-                insertPiecePawn(new Position(tempPiece.getPosition().getX(), tempPiece.getPosition().getY()), "RB.png");
-
+                insertPiecePawn(tempPos, "RB.png");
             }
          }
     }
 
     private void insertPiecePawn(Position p, String imagePath) {
+
+        System.out.println(" X : " + p.getWX() + " Y : " + p.getWY());
 
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
             listOfPiece.get(new Position(p.getWX(), p.getWY())).setVisible(false);
