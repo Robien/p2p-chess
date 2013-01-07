@@ -30,7 +30,7 @@ import lo23.utils.Enums;
  */
 public class Menu {
 
-    Launch_Sound during_party;    //the game music
+    public static Launch_Sound during_party;    //the game music
     boolean is_full_screen;      //control if the screen is in full screen
     static boolean noise_on;       //sound effect
 
