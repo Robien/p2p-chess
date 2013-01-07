@@ -35,7 +35,6 @@ public class King extends GamePiece {
     public void movePiece(Position to) throws IllegalMoveException {
         if (isDoingARook(to))
         {
-            System.out.println("en rook 1");
             justHaveRook = true;
             if (to.getX() == 1)
             {
@@ -48,7 +47,6 @@ public class King extends GamePiece {
         }
         else
         {
-             System.out.println("en non rook");
             justHaveRook = false;
         }         
     
@@ -360,15 +358,6 @@ public class King extends GamePiece {
 @Override
 public boolean isDoingARook(Position to)
 {
-    System.out.println("ISDOINGAROOK detect ?");
-    if (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1)
-    {
-        System.out.println("ISDOINGAROOK detect OUI");
-    }
-    else
-    {
-     System.out.println("ISDOINGAROOK detect NON");
-    }
     return (to.getX() - position.getX() > 1 || to.getX() - position.getX() < -1);   
 }
 
@@ -376,7 +365,6 @@ public boolean isDoingARook(Position to)
     @Override
 public boolean haveDoneARook()
 {
-    System.out.println("en have rook" + justHaveRook);
     return justHaveRook;
 }
 
