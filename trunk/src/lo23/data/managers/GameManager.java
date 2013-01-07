@@ -241,6 +241,7 @@ public class GameManager extends Manager implements GameManagerInterface {
             currentGame.setRes(gameResult);
         }
         this.getApplicationModel().getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+        this.getApplicationModel().getComManager().sendMulticast();
         updateProfileStatistics(gameResult);
         publish(IhmLoginModel.GAME_ENDED, null);
     }
