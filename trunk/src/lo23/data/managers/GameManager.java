@@ -178,6 +178,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 		//Il s'agit d'un resume game
 		ResumeGame I = (ResumeGame) invitation;
 		currentGame = I.getGame();
+                currentGame.swapCurrentPlayerColor();
                 String idLocalPlayer = currentGame.getLocalPlayer().getPublicProfile().getProfileId();
                 if(!idLocalPlayer.equals(curr_pofileId))
                     currentGame.swapPlayer(); // Il faut inverser local et remote player
@@ -186,7 +187,7 @@ public class GameManager extends Manager implements GameManagerInterface {
                     MainWindow fenetre = new MainWindow(this.getApplicationModel(), false);
                     fenetre.setVisible(true);
 		}else{
-		    //Partie finir -> visionnage
+		    //Partie finie -> visionnage
                     MainWindow fenetre = new MainWindow(this.getApplicationModel(), true);
                     fenetre.setVisible(true);
 		}

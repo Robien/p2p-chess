@@ -109,14 +109,102 @@ public class GamePanel extends JPanel {
         board = gm.getBoard();
         //playerColor = COLOR.WHITE;
 
-        playerColor = myModel.getGManager().getCurrentGame().getCurrentPlayerColor();
-        if (playerColor == null)
+        playerColor = COLOR.WHITE;
+        if (myModel.getGManager().getCurrentGame().getLastMove() != null)
         {
-            playerColor = COLOR.WHITE;
+            playerColor = myModel.getGManager().getCurrentGame().getLastMove().getPiece().getOwner().getColor();
+            changeColor();
         }
-        
+        System.out.println("PlayerColor mega cool de romain : " + playerColor);
+//        if (playerColor == null)
+//        {
+//            playerColor = COLOR.WHITE;
+//        }
+System.out.println(myModel.getGManager().getCurrentGame().getPieces().size());
+
+        for (int i = 0; i < myModel.getGManager().getCurrentGame().getPieces().size(); ++i)
+        {
+            GamePiece piece = myModel.getGManager().getCurrentGame().getPieces().get(i);
+            String tempName2 = piece.getClass().getName();
+            System.out.println("?" + tempName2);
+            if (piece.isOutOfBorder())
+            {
+
+
+               
+
+            String tempName = piece.getClass().getName();
+            System.out.println(tempName);
+            //System.out.println("TempName = "+tempName);
+            COLOR tempColor = piece.getOwner().getColor();
+            ImageIcon image = null;
+            if (tempColor == COLOR.WHITE) {
+
+                if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.WHITE) {
+
+                    image = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
+
+                } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.WHITE) {
+
+                image = new ImageIcon(ResourceManager.getInstance().getResource("TW.png"));
+
+                } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.WHITE) {
+
+            image = new ImageIcon(ResourceManager.getInstance().getResource("KW.png"));
+
+                } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.WHITE) {
+
+            image = new ImageIcon(ResourceManager.getInstance().getResource("BW.png"));
+
+                } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.WHITE) {
+
+                  image = new ImageIcon(ResourceManager.getInstance().getResource("QW.png"));
+                } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.WHITE) {
+
+            image = new ImageIcon(ResourceManager.getInstance().getResource("KKW.png"));
+
+                }
+                JLabel label = new JLabel("", image, JLabel.CENTER);
+                  whiteAtePieces.add(label);
+                
+            }
+            else
+            {
+                if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.BLACK) {
+
+                  image = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
+                } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.BLACK) {
+
+                    image = new ImageIcon(ResourceManager.getInstance().getResource("TB.png"));
+                } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.BLACK) {
+
+                  image = new ImageIcon(ResourceManager.getInstance().getResource("KB.png"));
+                } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.BLACK) {
+
+                    image = new ImageIcon(ResourceManager.getInstance().getResource("BB.png"));
+                } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.BLACK) {
+
+                   image = new ImageIcon(ResourceManager.getInstance().getResource("QB.png"));
+                } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.BLACK) {
+
+                image = new ImageIcon(ResourceManager.getInstance().getResource("KKB.png"));
+                }
+
+                 JLabel label = new JLabel("", image, JLabel.CENTER);
+                  blackAtePieces.add(label);
+            }
+
+            }
+        }
+
+
+
         localBox = local;
         remoteBox = remote;
+
+        localBox.updateBox(this);
+        remoteBox.updateBox(this);
+
 
         build();
     }
@@ -138,6 +226,13 @@ public class GamePanel extends JPanel {
         buildBoard();
         isPlayPossible = true;
         playerColor = myModel.getGManager().getCurrentGame().getCurrentPlayerColor();
+        if (myModel.getGManager().getCurrentGame().getLastMove() != null)
+        {
+            playerColor = myModel.getGManager().getCurrentGame().getLastMove().getPiece().getOwner().getColor();
+            //myModel.getGManager().getCurrentGame().
+            changeColor();
+        }
+        System.out.println("PlayerColor mega cool de romain le retour : " + playerColor);
     }
 
     public void launchReviewGame() {
@@ -294,7 +389,6 @@ public class GamePanel extends JPanel {
         isFormerSelectionExist = true;
 
         GamePiece tempPiece = currentPiece;
-
         if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
 
             for (Position p : listOfPossibleMove) {
