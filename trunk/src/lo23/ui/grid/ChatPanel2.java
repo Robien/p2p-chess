@@ -417,6 +417,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                         Enums.PLAYER_RESULT res = mw.myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
                         mw.myModel.getGManager().sendGameEnded();
                         mw.myModel.getGManager().notifyGameEnded(res);
+
                     }
                     else{
                         mw.myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
@@ -441,7 +442,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                         Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
         //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
                         mw.myModel.getGManager().sendConstant(cst);
-
+                        
                         
                         Enums.PLAYER_RESULT res = myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
                         mw.myModel.getGManager().sendGameEnded();
