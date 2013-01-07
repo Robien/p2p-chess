@@ -107,8 +107,14 @@ public class GamePanel extends JPanel {
         eventListener = new EventListener(this, myModel);
         game = gm;
         board = gm.getBoard();
-        playerColor = COLOR.WHITE;
+        //playerColor = COLOR.WHITE;
 
+        playerColor = myModel.getGManager().getCurrentGame().getCurrentPlayerColor();
+        if (playerColor == null)
+        {
+            playerColor = COLOR.WHITE;
+        }
+        
         localBox = local;
         remoteBox = remote;
 
