@@ -36,6 +36,7 @@ import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
 import lo23.data.exceptions.NoIdException;
 import lo23.data.exceptions.UndefinedGamePieceException;
+import lo23.data.managers.GameManager;
 import lo23.data.pieces.GamePiece;
 import lo23.data.pieces.Pawn;
 import lo23.utils.Enums;
@@ -586,12 +587,24 @@ public class GamePanel extends JPanel {
 
         updateBoardWithoutChangeColor(move);
 
-        if (playerColor == COLOR.WHITE) {
-            playerColor = COLOR.BLACK;
-//            System.out.println("1" + playerColor);
-        } else if (playerColor == COLOR.BLACK) {
-            playerColor = COLOR.WHITE;
-//            System.out.println("2" + playerColor);
+        changeColor();
+
+        }
+
+    public Game getGame()
+    {
+        return game;
+    }
+
+
+        public void changeColor()
+        {
+            if (playerColor == COLOR.WHITE) {
+                playerColor = COLOR.BLACK;
+    //            System.out.println("1" + playerColor);
+            } else if (playerColor == COLOR.BLACK) {
+                playerColor = COLOR.WHITE;
+        //            System.out.println("2" + playerColor);
         }
 
         myModel.getGManager().getCurrentGame().dumpBoard();
