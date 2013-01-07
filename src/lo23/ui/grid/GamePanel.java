@@ -515,8 +515,8 @@ public class GamePanel extends JPanel {
                 }
 
                 } else  {
-//                isPlayPossible = false;
-//                this.currentPawnToPromote = tempPiece;
+                isPlayPossible = false;
+                this.currentPawnToPromotePosition = tempPiece.getPosition();
 
             }
         }
