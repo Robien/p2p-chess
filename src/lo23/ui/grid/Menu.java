@@ -150,29 +150,34 @@ public class Menu {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane d = new JOptionPane();
-            String[] choice = {"Yes", "No"};
-            int retour = d.showOptionDialog(mw,
-                    "Are you sure you really want quit the game ?",
-                    "Exit",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
-                    choice,
-                    choice[1]);
+  JOptionPane d = new JOptionPane();
+        String[] choice = {"Yes", "No"};
+        int retour = d.showOptionDialog(mw,
+        "Do you really want to quit the game ?",
+        "Exit",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        new ImageIcon(ResourceManager.getInstance().getResource("chess_icon.png")),
+        choice,
+        choice[1]);
 
-            if (retour == 0) { 
-                try {
-                    if(during_party != null){
-                        during_party.pause();
-                        during_party.interrupt();
+
+        if(retour == 0){ // oui je veux enregistrer pour reprendre
+
+
+            try {
+                    if(Menu.during_party != null){
+                        Menu.during_party.pause();
+                        Menu.during_party.interrupt();
                     }
-                    set_noise_on(false);
+                    Menu.noise_on = false;
+
                     mw.setVisible(false);
                     if(!mw.isReviewGame){
                         Enums.PLAYER_RESULT res = mw.myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
                         mw.myModel.getGManager().sendGameEnded();
                         mw.myModel.getGManager().notifyGameEnded(res);
+
                     }
                     else{
                         mw.myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
@@ -182,7 +187,21 @@ public class Menu {
                 } catch (Exception ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+        }
+        else{ // ici on abandonne complétement
+ 
+        }
+
+        // on envoie à l'autre player qu'on abandonne
+
+
+
+
+      //  Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+        //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+      //  myModel.getGManager().sendConstant(cst);
+
+     
         }
     }
 /*
