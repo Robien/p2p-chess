@@ -226,7 +226,7 @@ public class MainWindow extends JFrame implements ActionListener {
         constraints.gridx = 0;
         constraints.gridy = 0;
 
-        ChatPanel2 chatPanel = new ChatPanel2(myModel);
+        ChatPanel2 chatPanel = new ChatPanel2(myModel,this);
         panel.add(chatPanel, constraints, 1);
 
         //remote player
