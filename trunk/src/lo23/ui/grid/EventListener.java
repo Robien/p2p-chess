@@ -208,7 +208,7 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
-           if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
+            if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
              try {
                         gamePanel.currentPawnToPromotePosition = (Position)cst.getArgument();
                         gamePanel.updatePromotedPawn(type);  
