@@ -395,7 +395,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         JOptionPane d = new JOptionPane();
         String[] choice = {"Yes", "No"};
         int retour = d.showOptionDialog(this, 
-        "Do you want to save the game before surrending ?",
+        "Do you want to save the game ?\n (if you don't save the game, it will be considered that you wanna surrend.)",
         "Exit",
         JOptionPane.YES_NO_OPTION,
         JOptionPane.QUESTION_MESSAGE,
@@ -403,11 +403,33 @@ public class ChatPanel2 extends javax.swing.JPanel {
         choice,
         choice[1]);
 
-        if(retour == 0){ // oui je sauvegarder avant de quitter
+
+        if(retour == 0){ // oui je veux enregistrer pour reprendre
             saveGame();
+
+            try {
+                    if(Menu.during_party != null){
+                        Menu.during_party.pause();
+                        Menu.during_party.interrupt();
+                    }
+                    Menu.noise_on = false;
+
+                    mw.setVisible(false);
+                    if(!mw.isReviewGame){
+                        Enums.PLAYER_RESULT res = mw.myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
+                        mw.myModel.getGManager().sendGameEnded();
+                        mw.myModel.getGManager().notifyGameEnded(res);
+                    }
+                    else{
+                        mw.myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+                        ((Manager)mw.myModel.getGManager()).publish(IhmLoginModel.GAME_ENDED, null);
+                    }
+                    mw.dispose();
+                } catch (Exception ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
-        
-        // on envoie à l'autre player qu'on abandonne
+        else{ // ici on abandonne complétement
                 try {
                     if(Menu.during_party != null){
                         Menu.during_party.pause();
@@ -420,6 +442,11 @@ public class ChatPanel2 extends javax.swing.JPanel {
                         Enums.PLAYER_RESULT res = myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
                         mw.myModel.getGManager().sendGameEnded();
                         mw.myModel.getGManager().notifyGameEnded(res);
+
+                        Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+        //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
+                        mw.myModel.getGManager().sendConstant(cst);
+
                     }
                     else{
                         mw.myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
@@ -429,6 +456,10 @@ public class ChatPanel2 extends javax.swing.JPanel {
                 } catch (Exception ex) {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
+        }
+
+        // on envoie à l'autre player qu'on abandonne
+
 
 
 
@@ -436,7 +467,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
       //  myModel.getGManager().sendConstant(cst);
         
-
+     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // quitter
