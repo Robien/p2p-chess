@@ -47,4 +47,8 @@ public class Constant extends Event
     public Player getSender() {
         return sender;
     }
+
+    public Object getArgument() {
+        return argument;
+    }
 }
