@@ -29,6 +29,7 @@ public class PlayerTimer {
     private int endOfTimer;
     private ApplicationModel myModel;
     Player p;
+    boolean isTimerEnd = false;
     
     public static final String NEW_EVENT_ADDED = "new_event_added";
 
@@ -46,7 +47,7 @@ public class PlayerTimer {
                 currentTimer--;
                 timerPanel.getLabel().setText(getText());
                 
-                if(currentTimer <= 0 || (int) p.getRemainingTime() <= 0){
+                if(currentTimer == 0 && isTimerEnd == false){
                     if(myModel.getGManager().getCurrentGame().getLocalPlayer() == p){
                          Constant out_of_time = new Constant(CONSTANT_TYPE.OUT_OF_TIME, myModel.getGManager().getCurrentGame().getLocalPlayer(), p);
                    ((Manager)myModel.getGManager()).publish(NEW_EVENT_ADDED, out_of_time);
@@ -95,12 +96,16 @@ public class PlayerTimer {
 
     public String getText(){
 
-    	if (currentTimer <= 0) return "No more time!";
-
-        if ((int) p.getRemainingTime() <= 0) {
-
-            return "No more time!";
+    	if (currentTimer < 0)
+        {
+            isTimerEnd = true;
+            return "00:00:00";
         }
+
+//        if ((int) p.getRemainingTime() <= 0) {
+//            this.stopTimer();
+//            return "No more time!";
+//        }
         
         int hour = 0;
         int minute = 0;
