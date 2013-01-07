@@ -51,4 +51,12 @@ public class Constant extends Event
     public Object getArgument() {
         return argument;
     }
+
+    public void setReceiver(Player receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setSender(Player sender) {
+        this.sender = sender;
+    }
 }
