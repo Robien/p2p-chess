@@ -188,7 +188,7 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
-             //   if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
              try {
                         gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                         gamePanel.updatePromotedPawn(type);  
@@ -196,7 +196,7 @@ public class EventListener implements PropertyChangeListener {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            //}
+            }
             if (type == CONSTANT_TYPE.PROMOTED_TO_ROOK) {
                 if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
               try {
