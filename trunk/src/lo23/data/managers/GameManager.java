@@ -169,6 +169,7 @@ public class GameManager extends Manager implements GameManagerInterface {
 		    currentGame = new Game(local, remote);
 		    currentGame.buildPieces();
 		}
+
                 currentGame.setCurrentPlayerColor(COLOR.WHITE);
                  MainWindow fenetre = new MainWindow(this.getApplicationModel(), false);
                  fenetre.setVisible(true);
