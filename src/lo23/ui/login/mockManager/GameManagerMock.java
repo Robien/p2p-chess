@@ -6,10 +6,12 @@
 package lo23.ui.login.mockManager;
 
 import java.util.ArrayList;
+import java.util.Stack;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
+import lo23.data.GridState;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
@@ -219,4 +221,8 @@ public class GameManagerMock extends Manager implements GameManagerInterface{
 		// TODO Auto-generated method stub
 		
 	}
+
+    public Stack<GridState> getGridStates() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
