@@ -171,7 +171,7 @@ public class EventListener implements PropertyChangeListener {
             }
 
             if (type == CONSTANT_TYPE.PROMOTED_TO_BISHOP) {
-                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                     try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
@@ -181,7 +181,7 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
-                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
              try {
                         gamePanel.updatePromotedPawn(type);
                         gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
@@ -191,7 +191,7 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_ROOK) {
-                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
               try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
@@ -201,7 +201,7 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
-                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
               try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
