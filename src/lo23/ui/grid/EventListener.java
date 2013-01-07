@@ -140,7 +140,7 @@ public class EventListener implements PropertyChangeListener {
 
             if (type == CONSTANT_TYPE.DRAW_ASKED) {
 
-                                System.out.println("mon pseudo : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo());
+                System.out.println("mon pseudo : " + myModel.getGManager().getCurrentGame().getLocalPlayer().getPublicProfile().getPseudo());
                  System.out.println("pseudo distant : " + myModel.getGManager().getCurrentGame().getRemotePlayer().getPublicProfile().getPseudo());
                 System.out.println("cst sender " + cst.getSender().getPublicProfile().getPseudo());
                 System.out.println("cst receiver " + cst.getReceiver().getPublicProfile().getPseudo());
