@@ -181,26 +181,26 @@ public class EventListener implements PropertyChangeListener {
                 if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                     try {
                         gamePanel.updatePromotedPawn(type);
-                          gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
+                          gamePanel.currentPawnToPromotePosition = (Position)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
-                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
+          // if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
              try {
-                        gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
+                        gamePanel.currentPawnToPromotePosition = (Position)cst.getArgument();
                         gamePanel.updatePromotedPawn(type);  
                     } catch (UndefinedGamePieceException ex) {
                         Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }
+        //    }
             if (type == CONSTANT_TYPE.PROMOTED_TO_ROOK) {
                 if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
               try {
-                  gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
+                  gamePanel.currentPawnToPromotePosition = (Position)cst.getArgument();
                   gamePanel.updatePromotedPawn(type);
                           
                     } catch (UndefinedGamePieceException ex) {
@@ -211,7 +211,7 @@ public class EventListener implements PropertyChangeListener {
             if (type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
                 if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
               try {
-                  gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
+                 gamePanel.currentPawnToPromotePosition = (Position)cst.getArgument();
                   gamePanel.updatePromotedPawn(type);
                           
                     } catch (UndefinedGamePieceException ex) {
