@@ -146,8 +146,21 @@ public class ReviewPanel extends javax.swing.JPanel {
 
 
     private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
-        if(currentEvent < listGridState.size()){
-            myGamePanel.updateReviewBoard(listGridState.get(++currentEvent));
+        if(currentEvent < listGridState.size() - 1){
+            
+            currentEvent++;
+            
+            // on mets à jour le board
+            myGamePanel.updateReviewBoard(listGridState.get(currentEvent));
+            
+            // on affiche le mouvement
+            try {
+                myChatPanel.gameMsg(listGridState.get(currentEvent).getMove());
+            } catch (BadLocationException ex) {
+                Logger.getLogger(ReviewPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+
         }
     }//GEN-LAST:event_nextActionPerformed
 
@@ -156,8 +169,11 @@ public class ReviewPanel extends javax.swing.JPanel {
      * @param evt 
      */
     private void previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousActionPerformed
-        if(currentEvent >= 0){
-            myGamePanel.updateReviewBoard(listGridState.get(--currentEvent));
+        if(currentEvent > 0){
+            
+            currentEvent--;
+            
+            myGamePanel.updateReviewBoard(listGridState.get(currentEvent));
         }
 
     }//GEN-LAST:event_previousActionPerformed
