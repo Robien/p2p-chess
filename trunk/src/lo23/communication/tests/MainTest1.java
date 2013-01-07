@@ -12,6 +12,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -26,6 +27,7 @@ import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Event;
 import lo23.data.Game;
+import lo23.data.GridState;
 import lo23.data.Invitation;
 import lo23.data.Message;
 import lo23.data.Move;
@@ -262,6 +264,10 @@ public class MainTest1 {
 			// TODO Auto-generated method stub
 			
 		}
+
+        public Stack<GridState> getGridStates() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
     
     private class MyProfileManagerMock extends Manager implements ProfileManagerInterface {
