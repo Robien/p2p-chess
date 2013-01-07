@@ -78,8 +78,28 @@ public class EventListener implements PropertyChangeListener {
                         }
                         gamePanel.updateBoardWithoutChangeColor(move);
 
-                    } else {
+                    } else if (((Move) evt.getNewValue()).getTo().getX() == 6)
+                    {
                         Move move = new Move(new Position(7, ((Move) evt.getNewValue()).getTo().getY()), new Position(5, ((Move) evt.getNewValue()).getTo().getY()), null);
+                        try {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex) {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        gamePanel.updateBoardWithoutChangeColor(move);
+                    }
+                    else if (((Move) evt.getNewValue()).getTo().getX() == 2) {
+                        Move move = new Move(new Position(0, ((Move) evt.getNewValue()).getTo().getY()), new Position(3, ((Move) evt.getNewValue()).getTo().getY()), null);
+                        try {
+                            gamePanel.majDataBoard(move);
+                        } catch (IllegalMoveException ex) {
+                            Logger.getLogger(EventListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        gamePanel.updateBoardWithoutChangeColor(move);
+
+                    } else if (((Move) evt.getNewValue()).getTo().getX() == 5)
+                    {
+                        Move move = new Move(new Position(7, ((Move) evt.getNewValue()).getTo().getY()), new Position(4, ((Move) evt.getNewValue()).getTo().getY()), null);
                         try {
                             gamePanel.majDataBoard(move);
                         } catch (IllegalMoveException ex) {

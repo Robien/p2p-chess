@@ -152,7 +152,14 @@ public class King extends GamePiece {
                     //TODO utiliser firstMove de Rook
                     if (isPossible)
                     {
-                        positions.add(new Position(6, y));
+                        if (getPosition().getX() == 4 )
+                        {
+                            positions.add(new Position(6, y));
+                        }
+                        else
+                        {
+                            positions.add(new Position(5, y));
+                        }
                     }
 
                 }
@@ -187,7 +194,14 @@ public class King extends GamePiece {
                     //TODO utiliser firstMove de Rook
                     if (isPossible)
                     {
-                        positions.add(new Position(1, y));
+                        if (getPosition().getX() == 3 )
+                        {
+                            positions.add(new Position(1, y));
+                        }
+                        else
+                        {
+                            positions.add(new Position(2, y));
+                        }
                     }
                 }
             }
