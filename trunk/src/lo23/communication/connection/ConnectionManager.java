@@ -317,12 +317,13 @@ public class ConnectionManager implements ConnectionListener {
             //Si le joueur est en partie
             if (socketSession != null && socket.equals(socketSession)) {
                 socketSession = null;
-                comManager.getApplicationModel().getGManager().notifyGameEnded();
+                notifyMessage(new GameEndedMsg());
             } else { // Si le joueur n'est pas en partie (lit les invitations)
                 Invitation invitation = invitationMap.get(socket);
                 if (invitation != null) {
                     invitationMap.remove(socket);
-                    comManager.getApplicationModel().getPManager().notifyInvitAnswer(invitation, false);
+                    AnswerMsg invitAnswerMsg = new AnswerMsg(invitation, false);
+                    notifyMessage(invitAnswerMsg);
                 }
             }
         }
@@ -393,8 +394,6 @@ public class ConnectionManager implements ConnectionListener {
 
             } else if (message instanceof GameEndedMsg) {
                 disconnect(socketSession);
-                notifyMessage(message);
-
             }
         }
     }
