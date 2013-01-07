@@ -22,7 +22,7 @@ public class NewInvitation extends Invitation {
     public NewInvitation(COLOR color, long duration, PublicProfile host, PublicProfile guest) {
         super(host, guest);
         this.color = color;
-        this.duration = duration;
+        this.duration = 30*60;
         this.date = new Date();
     }
 
