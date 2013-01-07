@@ -31,6 +31,8 @@ import lo23.data.Message;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.exceptions.NoIdException;
+import lo23.data.managers.Manager;
+import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.ResourceManager;
 //import lo23.ui.grid.EventListener;
@@ -48,7 +50,8 @@ public class ChatPanel2 extends javax.swing.JPanel {
     Style gameStyle;
     final DefaultStyledDocument doc;
     ApplicationModel myModel;
-    EventListener eventListener; 
+    EventListener eventListener;
+    MainWindow mw;
 
 //       private EventListener eventListener;
 
@@ -56,9 +59,9 @@ public class ChatPanel2 extends javax.swing.JPanel {
      * Creates new form ChatPanel2
      */
 
-        public ChatPanel2(ApplicationModel model) {
+        public ChatPanel2(ApplicationModel model, MainWindow mw) {
         myModel = model;
-
+        this.mw = mw;
        eventListener = new EventListener(this, myModel);
 
         initComponents();
@@ -405,10 +408,33 @@ public class ChatPanel2 extends javax.swing.JPanel {
         }
         
         // on envoie à l'autre player qu'on abandonne
+                try {
+                    if(Menu.during_party != null){
+                        Menu.during_party.pause();
+                        Menu.during_party.interrupt();
+                    }
+                    Menu.noise_on = false;
 
-        Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
+                    mw.setVisible(false);
+                    if(!mw.isReviewGame){
+                        Enums.PLAYER_RESULT res = myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
+                        mw.myModel.getGManager().sendGameEnded();
+                        mw.myModel.getGManager().notifyGameEnded(res);
+                    }
+                    else{
+                        mw.myModel.getPManager().getCurrentProfile().setStatus(Enums.STATUS.CONNECTED);
+                        ((Manager)mw.myModel.getGManager()).publish(IhmLoginModel.GAME_ENDED, null);
+                    }
+                    mw.dispose();
+                } catch (Exception ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+
+
+      //  Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.SURRENDER);
         //new Constant(Enums.CONSTANT_TYPE.SURRENDER, myModel.getGManager().getCurrentGame().getRemotePlayer(),myModel.getGManager().getCurrentGame().getLocalPlayer());
-        myModel.getGManager().sendConstant(cst);
+      //  myModel.getGManager().sendConstant(cst);
         
 
     }//GEN-LAST:event_jButton2ActionPerformed
