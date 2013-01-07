@@ -415,7 +415,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
                     mw.setVisible(false);
                     if(!mw.isReviewGame){
                         Enums.PLAYER_RESULT res = mw.myModel.getGManager().getCurrentGame().isWinner(mw.myModel.getPManager().getCurrentProfile().getProfileId());
-                        mw.myModel.getGManager().sendGameEnded();
+                       // mw.myModel.getGManager().sendGameEnded();
                         mw.myModel.getGManager().notifyGameEnded(res);
 
                     }
