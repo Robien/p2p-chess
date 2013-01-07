@@ -98,6 +98,10 @@ public class GameManager extends Manager implements GameManagerInterface {
     {
         return gridStates.pop();
     }
+    
+    public Stack<GridState> getGridStates(){
+        return gridStates;
+    }
 
     @Override
     public Message createMessage(String content) {
