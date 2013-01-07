@@ -33,6 +33,12 @@ public class EventListener implements PropertyChangeListener {
     private ChatPanel2 chatPanel;
     private TimerPanel timerPanel;
 
+    private boolean checkPlayerIsDifferent(Player player1, Player player2){
+
+        return player1.getPublicProfile().getProfileId().equals(player2.getPublicProfile().getProfileId());
+
+    }
+
     public EventListener(GamePanel panel, ApplicationModel model) {
         gamePanel = panel;
         myModel = model;
@@ -122,7 +128,8 @@ public class EventListener implements PropertyChangeListener {
 
             if (type == CONSTANT_TYPE.SURRENDER) {
                 if (gamePanel != null) {
-                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
+
+                    if(checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                         gamePanel.surrender(cst.getSender());
 
                     } else { // c'est moi qui est demandé de surrender
@@ -133,7 +140,7 @@ public class EventListener implements PropertyChangeListener {
 
             if (type == CONSTANT_TYPE.DRAW_ASKED) {
                 if (gamePanel != null) {
-                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
+                    if(checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                         gamePanel.drawRequest(cst.getSender());
                     } else // c'est moi qui est proposé
                     {
@@ -144,20 +151,20 @@ public class EventListener implements PropertyChangeListener {
 
             if (type == CONSTANT_TYPE.DRAW_REFUSED) {
                 if (gamePanel != null) {
-                    if (cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
+                    if(checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                         gamePanel.drawRefused(cst.getSender());
                     }
                 }
             }
 
             if (type == CONSTANT_TYPE.DRAW_ACCEPTED) {
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
                     gamePanel.drawAccepted(cst.getSender());
                 }
             }
 
             if (type == CONSTANT_TYPE.PROMOTED_TO_BISHOP) {
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
                     try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
@@ -167,8 +174,8 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_QUEEN) {
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
-                    try {
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+             try {
                         gamePanel.updatePromotedPawn(type);
                         gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
@@ -177,8 +184,8 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_ROOK) {
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
-                    try {
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+              try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
@@ -187,8 +194,8 @@ public class EventListener implements PropertyChangeListener {
                 }
             }
             if (type == CONSTANT_TYPE.PROMOTED_TO_KNIGHT) {
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getRemotePlayer()) {
-                    try {
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getRemotePlayer())){
+              try {
                         gamePanel.updatePromotedPawn(type);
                           gamePanel.currentPawnToPromote = (GamePiece)cst.getArgument();
                     } catch (UndefinedGamePieceException ex) {
@@ -198,8 +205,13 @@ public class EventListener implements PropertyChangeListener {
             }
             
             if(type == CONSTANT_TYPE.GAME_ENDED){
-                if (gamePanel != null && cst.getSender() != myModel.getGManager().getCurrentGame().getLocalPlayer()) {
-                          gamePanel.gameEndedRemotely(cst.getSender());
+                System.out.println("mon pseudo : " + myModel.getGManager().getCurrentGame().getLocalPlayer());
+                 System.out.println("pseudo distant : " + myModel.getGManager().getCurrentGame().getLocalPlayer());
+                System.out.println("cst sender " + cst.getSender().getPublicProfile().getPseudo());
+                System.out.println("cst receiver " + cst.getReceiver().getPublicProfile().getPseudo());
+
+                if (gamePanel != null && checkPlayerIsDifferent(cst.getSender(), myModel.getGManager().getCurrentGame().getLocalPlayer())){
+                  gamePanel.gameEndedRemotely(cst.getSender());
                 }
             }
             
