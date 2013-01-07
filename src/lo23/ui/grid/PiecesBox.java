@@ -51,9 +51,9 @@ public class PiecesBox extends JPanel{
         c = new GridBagConstraints(); //Create the constraints for the GridBagLayout
         
         // Set the display parameter
-        this.setMaximumSize(new Dimension(256, 64));
-        this.setMinimumSize(new Dimension(256, 64));
-        this.setPreferredSize(new Dimension(256, 64));
+        this.setMaximumSize(new Dimension(256, 84));
+        this.setMinimumSize(new Dimension(256, 84));
+        this.setPreferredSize(new Dimension(256, 84));
         this.setBackground(new java.awt.Color(217,191,143)); //setBackground(new java.awt.Color(255, 255, 204))
         this.setOpaque(false);
         this.setBorder(BorderFactory.createTitledBorder("Eaten Pieces"));

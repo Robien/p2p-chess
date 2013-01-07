@@ -142,8 +142,7 @@ public class EventListener implements PropertyChangeListener {
 
             if (type == CONSTANT_TYPE.OUT_OF_TIME) {
                 if (gamePanel != null) {
-                    //OUT_OF_TIME is such as a DRAW, nobody WINs
-                    //gamePanel.endOfGame(cst.getSender());
+                    gamePanel.endOfGame(cst.getSender());
                 }
             }
 
