@@ -263,7 +263,7 @@ public class GameManager extends Manager implements GameManagerInterface {
         constant.setReceiver(receiver);
         constant.setSender(sender);
 
-        publish(GridConstants.NEW_EVENT_ADDED, sender);
+        publish(GridConstants.NEW_EVENT_ADDED, constant);
     }
     
     
