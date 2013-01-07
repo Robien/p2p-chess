@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import lo23.data.ApplicationModel;
 import lo23.data.Constant;
 import lo23.data.Game;
+import lo23.data.GridState;
 import lo23.data.Move;
 import lo23.data.Player;
 import lo23.data.Position;
@@ -718,6 +719,277 @@ public class GamePanel extends JPanel {
 
     public ArrayList<JLabel> getBlackAtePieces() {
         return blackAtePieces;
+    }
+    
+        public void updateReviewBoard(GridState gridState) {
+            GamePiece[][] reviewBoard = gridState.getGrid();
+            listOfPiece.clear();
+            listOfPreSelection.clear();
+            
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+
+                constraints.gridx = i;
+                constraints.gridy = j;
+
+                JLabel preSelectionLabel = new JLabel("", preSelection, JLabel.CENTER);
+                add(preSelectionLabel, constraints, 0);
+                listOfPreSelection.put(new Position(i, j), preSelectionLabel);
+                preSelectionLabel.setVisible(false);
+
+                JLabel currentSelection = new JLabel("", squareBorder, JLabel.CENTER);
+                add(currentSelection, constraints, 1);
+                listOfSelection.put(new Position(i, j), currentSelection);
+                currentSelection.setVisible(false);
+
+                JLabel possibleCase = new JLabel("", filledSquare, JLabel.CENTER);
+                add(possibleCase, constraints, 1);
+                listOfSquare.put(new Position(i, j), possibleCase);
+                possibleCase.setVisible(false);
+
+                if ((i + j) % 2 != 0) {
+                    JLabel labelCaseN = new JLabel("", imageCaseN, JLabel.CENTER);
+                    add(labelCaseN, constraints, -1);
+                } else {
+                    JLabel labelCaseB = new JLabel("", imageCaseB, JLabel.CENTER);
+                    add(labelCaseB, constraints, -1);
+                }
+
+                GamePiece tempPiece = reviewBoard[i][j];
+                if (tempPiece != null) {
+
+                    Position tempPosition = tempPiece.getPosition();
+                    String tempName = tempPiece.getClass().getName();
+                    //System.out.println("TempName = "+tempName);
+                    COLOR tempColor = tempPiece.getOwner().getColor();
+
+                    if (myModel.getGManager().getCurrentGame().getLocalPlayer().getColor() == COLOR.WHITE) {
+
+                        if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
+                            JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
+                            add(pawnLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), pawnLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TW.png"));
+                            JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
+                            add(towerLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), towerLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KW.png"));
+                            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
+                            add(knightLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), knightLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BW.png"));
+                            JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
+                            add(bishopLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), bishopLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QW.png"));
+                            JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
+                            add(queenLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), queenLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKW.png"));
+                            JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
+                            add(kingLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), kingLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
+                            JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
+                            add(pawnLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), pawnLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TB.png"));
+                            JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
+                            add(towerLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), towerLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KB.png"));
+                            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
+                            add(knightLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), knightLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BB.png"));
+                            JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
+                            add(bishopLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), bishopLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QB.png"));
+                            JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
+                            add(queenLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), queenLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = tempPosition.getX();
+                            constraints.gridy = 7 - tempPosition.getY();
+                            ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKB.png"));
+                            JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
+                            add(kingLabel, constraints, 2);
+                            listOfPiece.put(new Position(tempPosition.getX(), 7 - tempPosition.getY()), kingLabel);
+
+                        }
+                    } else {
+
+                        if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PW.png"));
+                            JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
+                            add(pawnLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), pawnLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TW.png"));
+                            JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
+                            add(towerLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), towerLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KW.png"));
+                            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
+                            add(knightLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), knightLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BW.png"));
+                            JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
+                            add(bishopLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), bishopLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QW.png"));
+                            JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
+                            add(queenLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), queenLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.WHITE) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKW.png"));
+                            JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
+                            add(kingLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), kingLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Pawn") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon image = new ImageIcon(ResourceManager.getInstance().getResource("PB.png"));
+                            JLabel pawnLabel = new JLabel("", image, JLabel.CENTER);
+                            add(pawnLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), pawnLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Rook") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon tower = new ImageIcon(ResourceManager.getInstance().getResource("TB.png"));
+                            JLabel towerLabel = new JLabel("", tower, JLabel.CENTER);
+                            add(towerLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), towerLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Knight") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon knight = new ImageIcon(ResourceManager.getInstance().getResource("KB.png"));
+                            JLabel knightLabel = new JLabel("", knight, JLabel.CENTER);
+                            add(knightLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), knightLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Bishop") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon bishop = new ImageIcon(ResourceManager.getInstance().getResource("BB.png"));
+                            JLabel bishopLabel = new JLabel("", bishop, JLabel.CENTER);
+                            add(bishopLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), bishopLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.Queen") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon queen = new ImageIcon(ResourceManager.getInstance().getResource("QB.png"));
+                            JLabel queenLabel = new JLabel("", queen, JLabel.CENTER);
+                            add(queenLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), queenLabel);
+
+                        } else if (tempName.equals("lo23.data.pieces.King") && tempColor == COLOR.BLACK) {
+
+                            constraints.gridx = 7 - tempPosition.getX();
+                            constraints.gridy = tempPosition.getY();
+                            ImageIcon king = new ImageIcon(ResourceManager.getInstance().getResource("KKB.png"));
+                            JLabel kingLabel = new JLabel("", king, JLabel.CENTER);
+                            add(kingLabel, constraints, 2);
+                            listOfPiece.put(new Position(7 - tempPosition.getX(), tempPosition.getY()), kingLabel);
+
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("ListOfPiece Black :" + listOfPiece);
     }
 
     public void buildBoard() {
