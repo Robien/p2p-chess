@@ -1,13 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/*
- * PlayerPanel.java
- *
- * Created on 13 nov. 2012, 15:14:55
- */
 
 package lo23.ui.grid;
 
@@ -22,7 +13,7 @@ import lo23.data.PublicProfile;
 import lo23.utils.Enums.STATUS;
 
 /**
- *
+ * Create box with the name, age and avatar
  * @author lopicave
  */
 public class PlayerPanel extends javax.swing.JPanel {

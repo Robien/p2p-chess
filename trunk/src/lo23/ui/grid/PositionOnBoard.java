@@ -1,5 +1,9 @@
 package lo23.ui.grid;
 
+/**
+ * Create all the position on the board
+ * @author all in IHM Grille
+ */
 public class PositionOnBoard {
 
 	private int x;

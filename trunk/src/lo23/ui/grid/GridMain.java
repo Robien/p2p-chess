@@ -21,7 +21,7 @@ import lo23.data.tests.GameManagerTest;
 import lo23.utils.Enums;
 
 /**
- *
+ * Grid main local, without connection, just for local use
  * @author Karim
  */
 public class GridMain

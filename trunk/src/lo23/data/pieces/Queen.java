@@ -13,8 +13,8 @@ import lo23.data.Player;
 import lo23.data.Position;
 
 /**
- *
- * @author Guilhem
+ * Create the queen possible moves
+ * @author romain et guilhem
  */
 public class Queen extends GamePiece {
     

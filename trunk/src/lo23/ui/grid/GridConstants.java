@@ -1,5 +1,12 @@
 package lo23.ui.grid;
 
+
+
+/**
+ * All the constants for the grid
+ * @author all Ihm Grid
+ */
+
 public class GridConstants {
 
 	//Constants for the grid

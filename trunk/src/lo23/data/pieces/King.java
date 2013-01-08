@@ -9,8 +9,8 @@ import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
 
 /**
- *
- * @author Guilhem
+ * Create the king possible moves
+ * @author romain et guilhem
  */
 public class King extends GamePiece {
     

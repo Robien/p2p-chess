@@ -7,8 +7,8 @@ import lo23.data.Player;
 import lo23.data.Position;
 
 /**
- *
- * @author khamidou
+ * Create the bishop possible moves
+ * @author romain et guigou
  */
 public class Bishop extends GamePiece
 {

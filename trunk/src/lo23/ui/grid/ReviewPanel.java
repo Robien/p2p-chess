@@ -27,8 +27,8 @@ import lo23.data.pieces.GamePiece;
 import lo23.utils.ResourceManager;
 
 /**
- *
- * @author PEP
+ * Create the review panel
+ * @author loic
  */
 public class ReviewPanel extends javax.swing.JPanel {
     private ApplicationModel myModel;

@@ -24,7 +24,7 @@ import lo23.data.Player;
 import lo23.utils.Enums;
 
 /**
- *
+ * Create the timer panel
  * @author mantonel
  */
 @SuppressWarnings("serial")

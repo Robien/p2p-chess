@@ -11,11 +11,12 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 
-/*
-*read the audio file for the noise
+/**
+* Read the audio file for the noise
 * @author guigou
 */
-public class Noise {
+public class Noise 
+{
 
     static SourceDataLine source;
     static boolean boucle = true;

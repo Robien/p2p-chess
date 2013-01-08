@@ -22,7 +22,7 @@ import lo23.utils.Enums;
 import lo23.utils.Enums.CONSTANT_TYPE;
 
 /**
- *
+ * Create the event Listener
  * @author Karim
  */
 public class EventListener implements PropertyChangeListener {

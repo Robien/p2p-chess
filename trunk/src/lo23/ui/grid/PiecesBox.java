@@ -21,10 +21,7 @@ import lo23.data.ApplicationModel;
 import lo23.utils.Enums.COLOR;
 
 /**
- * Cette classe gère la création de deux types de boîtes, l'une contenant les pièces
- * gagnées par un joueur (celles qu'ils a prise à l'adversaire) et l'autre contenant
- * les pièces que l'adversaire nous a prises.
- * 
+ * Create 2 differents box with eaten pieces
  * @author Laura BRIZARD
  */
 public class PiecesBox extends JPanel{
@@ -57,7 +54,7 @@ public class PiecesBox extends JPanel{
         this.setBackground(new java.awt.Color(217,191,143)); //setBackground(new java.awt.Color(255, 255, 204))
         this.setOpaque(false);
         this.setBorder(BorderFactory.createTitledBorder("Eaten Pieces"));
-        
+      
     }
     
     /** Mise à jour 
