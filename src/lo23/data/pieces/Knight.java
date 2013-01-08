@@ -7,8 +7,8 @@ import lo23.data.Player;
 import lo23.data.Position;
 
 /**
- *
- * @author khamidou
+ * Create the knight possible moves
+ * @author romain et guilhem
  */
 public class Knight extends GamePiece {
     

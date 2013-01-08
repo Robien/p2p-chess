@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package lo23.ui.grid;
 import java.awt.event.ActionEvent;
@@ -17,7 +14,7 @@ import lo23.utils.Enums.CONSTANT_TYPE;
 
 
 /**
- *
+ * Create the timer for the both players
  * @author mantonel
  */
 public class PlayerTimer {

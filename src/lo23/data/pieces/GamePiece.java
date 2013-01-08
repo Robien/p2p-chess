@@ -14,8 +14,8 @@ import lo23.ui.grid.Launch_Sound;
 import lo23.ui.grid.Menu;
 
 /**
- *
- * @author khamidou
+ * use for all the pieces
+ * @author khamidou, romain et guigou
  */
 public abstract class GamePiece implements Serializable {
 

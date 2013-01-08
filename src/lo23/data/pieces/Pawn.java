@@ -10,8 +10,8 @@ import lo23.data.exceptions.IllegalMoveException;
 import lo23.utils.Enums.COLOR;
 
 /**
- *
- * @author  Guilhem
+ * Create the pawn possible moves
+ * @author  romain et guilhem
  */
 public class Pawn extends GamePiece {
 

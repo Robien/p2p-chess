@@ -14,8 +14,8 @@ import lo23.data.Position;
 import lo23.data.exceptions.IllegalMoveException;
 
 /**
- *
- * @author Guilhem
+ * Create the rook possible moves
+ * @author romain et guilhem
  */
 public class Rook extends GamePiece {
 

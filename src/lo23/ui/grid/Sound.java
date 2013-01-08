@@ -10,8 +10,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
  
-/*
-*read the audio file for the music game
+/**
+*  Read the audio file for the music game
 * @author guigou
 */
 public class Sound

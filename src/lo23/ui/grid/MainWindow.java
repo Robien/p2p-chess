@@ -4,10 +4,8 @@
  */
 package lo23.ui.grid;
 
-/**
- *
- * @author Karim
- */
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,6 +49,12 @@ import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.ResourceManager;
+
+
+/**
+ * Create the main window with all the elements
+ * @author Karim
+ */
 
 public class MainWindow extends JFrame implements ActionListener {
 

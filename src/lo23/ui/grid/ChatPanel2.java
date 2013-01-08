@@ -1,7 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package lo23.ui.grid;
 
 import java.awt.Color;
@@ -11,12 +10,10 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
@@ -35,13 +32,15 @@ import lo23.data.managers.Manager;
 import lo23.ui.login.IhmLoginModel;
 import lo23.utils.Enums;
 import lo23.utils.ResourceManager;
-//import lo23.ui.grid.EventListener;
+
 
 /** 
- *
- * @author PEP
+ * Create the chat panel design
+ * @author lopicave
  */
-public class ChatPanel2 extends javax.swing.JPanel {
+
+public class ChatPanel2 extends javax.swing.JPanel 
+{
 
     StyleContext sc;
     Style defaultStyle;
@@ -53,21 +52,22 @@ public class ChatPanel2 extends javax.swing.JPanel {
     EventListener eventListener;
     MainWindow mw;
 
-//       private EventListener eventListener;
 
     /**
      * Creates new form ChatPanel2
      */
 
-        public ChatPanel2(ApplicationModel model, MainWindow mw) {
+    public ChatPanel2(ApplicationModel model, MainWindow mw)
+    {
         myModel = model;
         this.mw = mw;
-       eventListener = new EventListener(this, myModel);
+        eventListener = new EventListener(this, myModel);
 
         initComponents();
         sc = new StyleContext();
         doc = new DefaultStyledDocument(sc);
-        // style pour le joueur local
+       
+        // style for the local gamer
         defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
         localStyle = sc.addStyle("localStyle", defaultStyle);
         StyleConstants.setLeftIndent(localStyle, 16);
@@ -76,25 +76,30 @@ public class ChatPanel2 extends javax.swing.JPanel {
         StyleConstants.setFontFamily(localStyle, "serif");
         StyleConstants.setFontSize(localStyle, 12);
 
-
+        
         remoteStyle = jTextPane1.addStyle("remoteStyle", defaultStyle);
         StyleConstants.setFontFamily(remoteStyle, "serif");
         StyleConstants.setForeground(remoteStyle, Color.BLUE);
       
 
-     this.setOpaque(false);
-     this.setBorder(BorderFactory.createTitledBorder(""));
+        this.setOpaque(false);
+        this.setBorder(BorderFactory.createTitledBorder(""));
 
-                // ajout d'un ecouteur de frappe du clavier sur le textField
-        jTextField1.addKeyListener(new KeyAdapter() {
+        // add listener on the textField
+        jTextField1.addKeyListener(new KeyAdapter()
+        {
             @Override
-            public void keyPressed(KeyEvent e) {
-                // teste si la touche pressé correspond à la touche entrée
-                if (e.getKeyCode() == 10) {
-                    try {
-                        // sur le bouton lui meme
+            public void keyPressed(KeyEvent e) 
+            {
+                // test if the press touch is the enter touch
+                if (e.getKeyCode() == 10) 
+                {
+                    try 
+                    {
+                        // on the button directly 
                         sendMsg(jTextField1.getText());
-                    } catch (BadLocationException ex) {
+                    } catch (BadLocationException ex) 
+                    {
                         Logger.getLogger(ChatPanel2.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -103,16 +108,21 @@ public class ChatPanel2 extends javax.swing.JPanel {
         });
         
         
-           try {
-    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
-        }
-    }
-    } catch (Exception e) {
-        // If Nimbus is not available, you can set the GUI to another look and feel.
-    }
+           try 
+           {
+                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) 
+                 {
+                    if ("Nimbus".equals(info.getName())) 
+                    {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                 }
+           }
+           catch (Exception e)
+           {
+                    // If Nimbus is not available, you can set the GUI to another look and feel.
+           }
 
         addPropertyChangeListener(eventListener);
 
@@ -239,7 +249,7 @@ public class ChatPanel2 extends javax.swing.JPanel {
         choice,
         choice[1]);
 
-        if(retour == 0){ // oui je veux proposer la nulle
+        if(retour == 0){ // yes I want a draw
             System.out.println("je veux proposer la nulle");
             // on envoie à l'autre player une demande de nulle
             Constant cst = myModel.getGManager().createConstant(Enums.CONSTANT_TYPE.DRAW_ASKED);

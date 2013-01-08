@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package lo23.ui.grid;
 
@@ -10,25 +6,27 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 /**
- * Cette classe permet de créer le Layout contenant le module de chat
+ * This class create the Layout for the chat module
  * @author lopicave
  */
-public class ChatPanel extends JPanel{
+public class ChatPanel extends JPanel
+{
     JButton saveBtn;
     JButton drawBtn;
     JButton giveUpBtn;
 
-    public ChatPanel() {
+    public ChatPanel() 
+    {
         super();
         build();
     }
 
-    private void build(){
+    private void build()
+    {
         setSize(250, 760);
         setBackground(Color.red);
         GridBagLayout chatBag = new GridBagLayout();
@@ -41,9 +39,11 @@ public class ChatPanel extends JPanel{
 
         
 
-        saveBtn.addActionListener(new ActionListener() {
+        saveBtn.addActionListener(new ActionListener() 
+        {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae)
+            {
                 //connectBtnActionPerformed(ae);
             }
         });
@@ -58,7 +58,8 @@ public class ChatPanel extends JPanel{
         add(giveUpBtn);
     }
 
-    private GridBagConstraints modifyConstraint(int width, float weightx, float weighty, int height) {
+    private GridBagConstraints modifyConstraint(int width, float weightx, float weighty, int height) 
+    {
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = width;
         c.weightx = weightx;

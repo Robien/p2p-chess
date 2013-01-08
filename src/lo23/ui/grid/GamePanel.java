@@ -43,6 +43,12 @@ import lo23.utils.Enums;
 import lo23.utils.Enums.COLOR;
 import lo23.utils.ResourceManager;
 
+
+
+/**
+ * Create the Game Panel
+ * @author all Ihm Grille
+ */
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 
